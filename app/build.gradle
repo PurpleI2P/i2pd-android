@@ -9,6 +9,7 @@ dependencies {
 android {
     compileSdkVersion 29
     buildToolsVersion "28.0.3"
+
     defaultConfig {
         applicationId "org.purplei2p.i2pd"
         targetSdkVersion 29
@@ -16,37 +17,33 @@ android {
         versionCode 2321
         versionName "2.32.1"
         setProperty("archivesBaseName", archivesBaseName + "-" + versionName)
+
         ndk {
             abiFilters 'armeabi-v7a'
             abiFilters 'x86'
-            //abiFilters 'arm64-v8a'
-            //abiFilters 'x86_64'
+            abiFilters 'arm64-v8a'
+            abiFilters 'x86_64'
         }
+
         externalNativeBuild {
             ndkBuild {
+                arguments "NDK_MODULE_PATH:=${rootProject.projectDir}/app/jni"
                 arguments "-j3"
             }
         }
     }
-    sourceSets {
-        main {
-            manifest.srcFile 'AndroidManifest.xml'
-            java.srcDirs = ['src']
-            res.srcDirs = ['res']
-            jniLibs.srcDirs = ['libs']
-            assets.srcDirs = ['assets']
-        }
-    }
+
     splits {
         abi {
             // change that to true if you need splitted apk
             enable true
             reset()
-            //include "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
-            include "armeabi-v7a", "x86"
+            include "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+            //include "armeabi-v7a", "x86"
             universalApk true
         }
     }
+
     signingConfigs {
         orignal {
             storeFile file("i2pdapk.jks")
@@ -55,6 +52,7 @@ android {
             keyPassword "android"
         }
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -62,11 +60,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
         }
     }
+
     externalNativeBuild {
         ndkBuild {
             path './jni/Android.mk'
         }
     }
+
     compileOptions {
         sourceCompatibility = '1.8'
         targetCompatibility = '1.8'

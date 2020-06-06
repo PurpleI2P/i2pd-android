@@ -2,3 +2,16 @@
 	path = app/jni/i2pd
 	url = https://github.com/PurpleI2P/i2pd.git
 	branch = openssl
+[submodule "app/jni/boost"]
+	path = app/jni/boost
+	url = https://github.com/PurpleI2P/Boost-for-Android-Prebuilt.git
+	branch = boost-1_72_0
+[submodule "app/jni/openssl"]
+	path = app/jni/openssl
+	url = https://github.com/PurpleI2P/OpenSSL-for-Android-Prebuilt.git
+[submodule "app/jni/miniupnp"]
+	path = app/jni/miniupnp
+	url = https://github.com/PurpleI2P/MiniUPnP-for-Android-Prebuilt.git
+[submodule "app/jni/android-ifaddrs"]
+	path = app/jni/android-ifaddrs
+	url = https://github.com/PurpleI2P/android-ifaddrs.git
