@@ -1,0 +1,4 @@
+[submodule "i2pd"]
+	path = app/jni/i2pd
+	url = https://github.com/PurpleI2P/i2pd.git
+	branch = openssl
