@@ -1,19 +1,17 @@
-# how to compile?
-## Install the gradle + NDK or use android-studio
-[https://gradle.org/install/](https://gradle.org/install/)
+# i2pd android
 
-## Install the depencies
-```
-git clone https://github.com/PurpleI2P/Boost-for-Android-Prebuilt.git -b boost-1_72_0
-git clone https://github.com/PurpleI2P/android-ifaddrs.git
-git clone https://github.com/PurpleI2P/OpenSSL-for-Android-Prebuilt.git
-git clone https://github.com/PurpleI2P/MiniUPnP-for-Android-Prebuilt.git
-```
-## Set libs in jni/Application.mk on 24 line:
-```
-# change to your own
-I2PD_LIBS_PATH = /home/user/i2pd/android/
-```
+### Install OpenJDK, gradle, download Android SDK and NDK r19c
+https://gradle.org/install/
+https://developer.android.com/studio#downloads
+https://developer.android.com/ndk/
 
-## compile apk file
-gradle clean assembleRelease
+### Clone repository with submodules
+    git clone --recurse-submodules https://github.com/r4sas/i2pd-android.git
+
+### Compile application
+    export ANDROID_SDK_ROOT=/opt/android-sdk
+    export ANDROID_NDK_HOME=/opt/android-ndk-r19c
+    
+    gradle clean assembleDebug
+
+You will find APKs in app/build/outputs/apk
