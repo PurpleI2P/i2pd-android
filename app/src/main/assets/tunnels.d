@@ -1,1 +1,1 @@
-../../contrib/tunnels.d
+../../../jni/i2pd/contrib/tunnels.d
