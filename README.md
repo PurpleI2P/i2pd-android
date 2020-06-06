@@ -2,7 +2,9 @@
 
 ### Install OpenJDK, gradle, download Android SDK and NDK r19c
 https://gradle.org/install/
+
 https://developer.android.com/studio#downloads
+
 https://developer.android.com/ndk/
 
 ### Clone repository with submodules
@@ -14,4 +16,4 @@ https://developer.android.com/ndk/
     
     gradle clean assembleDebug
 
-You will find APKs in app/build/outputs/apk
+You will find APKs in `app/build/outputs/apk`
