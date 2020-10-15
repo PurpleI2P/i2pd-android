@@ -19,7 +19,7 @@ jobs:
         packages: |
           build-tools;28.0.3
           platforms;android-29
-          ndk;19.2.5345600
+          ndk;20.0.5594570
         cache: true
     - name: Build with Gradle
       run: ./gradlew --no-daemon assembleDebug
