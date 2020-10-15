@@ -20,7 +20,7 @@
     <string name="startFailed">Start failed</string>
     <string name="stopped">Application stopped</string>
     <string name="remaining">remaining</string>
-    <string name="ok">OK</string>
+    <string name="ok" translatable="false">OK</string>
 
     <string name="title_activity_i2_pdperms_asker_prompt">Prompt</string>
     <string name="permDenied">SD card write permission denied, you need to allow this to continue</string>

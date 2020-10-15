@@ -1,1 +1,2 @@
 include ':app'
+project(":app").name = "i2pd"
