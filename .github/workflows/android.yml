@@ -17,9 +17,7 @@ jobs:
       uses: maxim-lobanov/setup-android-tools@v1
       with:
         packages: |
-          tools
-          platform-tools
-          build-tools-28.0.3
+          build-tools;28.0.3
           android-29
         cache: true
     - name: Setup Android NDK
