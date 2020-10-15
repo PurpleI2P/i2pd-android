@@ -18,7 +18,7 @@ jobs:
       with:
         packages: |
           build-tools;28.0.3
-          android-29
+          platforms;android-29
         cache: true
     - name: Setup Android NDK
       run: |
