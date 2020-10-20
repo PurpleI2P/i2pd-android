@@ -637,12 +637,12 @@ public class I2PDActivity extends Activity {
 
     @TargetApi(Build.VERSION_CODES.M)
     private void registerNetworkCallback() {
-    ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-    NetworkRequest request = new NetworkRequest.Builder()
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkRequest request = new NetworkRequest.Builder()
             .addCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
             .build();
-    networkCallback = new NetworkStateCallback();
-    connectivityManager.registerNetworkCallback(request, networkCallback);
+        networkCallback = new NetworkStateCallback();
+        connectivityManager.registerNetworkCallback(request, networkCallback);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
