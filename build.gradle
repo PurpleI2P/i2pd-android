@@ -1,18 +1,20 @@
 buildscript {
     repositories {
-        mavenCentral()
         jcenter()
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.6.1'
+        classpath 'com.android.tools.build:gradle:4.1.0'
     }
 }
 
 allprojects {
     repositories {
-        mavenCentral()
         google()
         jcenter()
     }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
 }
