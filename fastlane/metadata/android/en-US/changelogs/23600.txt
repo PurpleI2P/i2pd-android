@@ -1,0 +1,2 @@
+* Updated codebase to 2.36.0
+* Add webconsole page reload by swipe
