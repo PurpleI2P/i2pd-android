@@ -8,7 +8,7 @@ https://developer.android.com/studio#downloads
 https://developer.android.com/ndk/
 
 ### Clone repository with submodules
-    git clone --recurse-submodules https://github.com/r4sas/i2pd-android.git
+    git clone --recurse-submodules https://github.com/PurpleI2P/i2pd-android.git
 
 ### Compile application
     export ANDROID_SDK_ROOT=/opt/android-sdk
