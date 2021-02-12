@@ -9,6 +9,7 @@
 #include <jni.h>
 #include "org_purplei2p_i2pd_I2PD_JNI.h"
 #include "DaemonAndroid.h"
+#include "Config.h"
 #include "RouterContext.h"
 #include "ClientContext.h"
 #include "Transports.h"
@@ -111,4 +112,12 @@ JNIEXPORT void JNICALL Java_org_purplei2p_i2pd_I2PD_1JNI_setDataDir
 JNIEXPORT jint JNICALL Java_org_purplei2p_i2pd_I2PD_1JNI_GetTransitTunnelsCount
 	(JNIEnv *env, jclass clazz) {
 	return i2p::tunnel::tunnels.CountTransitTunnels();
+}
+
+JNIEXPORT jstring JNICALL Java_org_purplei2p_i2pd_I2PD_1JNI_getWebConsAddr
+	(JNIEnv *env, jclass clazz) {
+	std::string httpAddr; i2p::config::GetOption("http.address", httpAddr);
+	uint16_t    httpPort; i2p::config::GetOption("http.port", httpPort);
+	std::string result = "http://" + httpAddr + ":" + std::to_string(httpPort) + "/";
+	return env->NewStringUTF(result.c_str());
 }

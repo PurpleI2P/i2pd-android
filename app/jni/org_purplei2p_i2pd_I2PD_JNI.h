@@ -47,6 +47,9 @@ JNIEXPORT void JNICALL Java_org_purplei2p_i2pd_I2PD_1JNI_setDataDir
 JNIEXPORT jint JNICALL Java_org_purplei2p_i2pd_I2PD_1JNI_GetTransitTunnelsCount
 	(JNIEnv *, jclass);
 
+JNIEXPORT jstring JNICALL Java_org_purplei2p_i2pd_I2PD_1JNI_getWebConsAddr
+	(JNIEnv *, jclass);
+
 #ifdef __cplusplus
 }
 #endif

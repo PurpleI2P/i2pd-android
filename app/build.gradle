@@ -15,7 +15,7 @@ android {
         targetSdkVersion 29
         minSdkVersion 14
         versionCode 23500
-        versionName "2.35.0-113-g01df1647"
+        versionName "2.35.0-121-gaa206d03"
         setProperty("archivesBaseName", archivesBaseName + "-" + versionName)
 
         ndk {
