@@ -14,8 +14,8 @@ android {
         applicationId "org.purplei2p.i2pd"
         targetSdkVersion 29
         minSdkVersion 14
-        versionCode 23500
-        versionName "2.35.0-121-gaa206d03"
+        versionCode 23600
+        versionName "2.36.0"
         setProperty("archivesBaseName", archivesBaseName + "-" + versionName)
 
         ndk {
