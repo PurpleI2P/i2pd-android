@@ -35,13 +35,13 @@ public class WebConsoleActivity extends Activity {
             @Override
             public void onRefresh() {
                 swipeRefreshLayout.setRefreshing(true);
-                new Handler().postDelayed(new Runnable() {
+                new Handler().post(new Runnable() {
                     @Override
                     public void run() {
                         swipeRefreshLayout.setRefreshing(false);
                         webView.reload();
                     }
-                }, 1000);
+                });
             }
         });
     }

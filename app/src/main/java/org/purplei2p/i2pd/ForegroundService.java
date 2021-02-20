@@ -92,7 +92,7 @@ public class ForegroundService extends Service {
     public void onDestroy() {
         cancelNotification();
         deinitCheck();
-        instance=null;
+        instance = null;
     }
 
     public static void deinit() {
@@ -148,7 +148,7 @@ public class ForegroundService extends Service {
                 // Set the info for the views that show in the notification panel.
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId)
                         .setOngoing(true)
-                        .setSmallIcon(R.drawable.itoopie_notification_icon); // the status icon
+                        .setSmallIcon(R.drawable.ic_notification_icon); // the status icon
                 if (Build.VERSION.SDK_INT >= 16)
                     builder = builder.setPriority(Notification.PRIORITY_DEFAULT);
                 if (Build.VERSION.SDK_INT >= 21)

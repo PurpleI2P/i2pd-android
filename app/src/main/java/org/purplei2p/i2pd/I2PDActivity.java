@@ -34,13 +34,6 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-// For future package update checking
-
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-
-
 import static android.provider.Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS;
 
 public class I2PDActivity extends Activity {
@@ -66,7 +59,7 @@ public class I2PDActivity extends Activity {
                 if (textView == null)
                     return;
                 Throwable tr = daemon.getLastThrowable();
-                if (tr!=null) {
+                if (tr != null) {
                     textView.setText(throwableToString(tr));
                     return;
                 }
@@ -98,15 +91,16 @@ public class I2PDActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "onCreate");
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-        if (daemon==null) {
+        textView = (TextView) findViewById(R.id.textView);
+
+        if (daemon == null) {
             ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             daemon = new DaemonWrapper(getAssets(), connectivityManager);
         }
         ForegroundService.init(daemon);
 
-        textView = new TextView(this);
-        setContentView(textView);
         daemon.addStateChangeListener(daemonStateUpdatedListener);
         daemonStateUpdatedListener.daemonStateUpdate(DaemonWrapper.State.uninitialized, daemon.getState());
 
@@ -119,7 +113,6 @@ public class I2PDActivity extends Activity {
             }
         }
 
-        // set the app be foreground
         doBindService();
 
         final Timer gracefulQuitTimer = getGracefulQuitTimer();
@@ -478,6 +471,6 @@ public class I2PDActivity extends Activity {
         } catch (Throwable tr) {
             Log.e(TAG, "", tr);
         }
-        System.exit(0);
+        //System.exit(0);
     }
 }
