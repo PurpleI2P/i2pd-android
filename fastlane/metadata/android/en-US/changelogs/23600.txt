@@ -1,2 +1,2 @@
-* Updated codebase to 2.36.0
+* Updated codebase to 2.36.0/0.9.49
 * Add webconsole page reload by swipe
