@@ -1,6 +1,6 @@
 # i2pd android
 
-### Install OpenJDK, gradle 6.8.3, download Android SDK and NDK r21e
+### Install OpenJDK, gradle 5.1+ (6.8.3 have been tested and is working ok), download Android SDK and NDK r21e
 https://gradle.org/install/
 
 https://developer.android.com/studio#downloads
