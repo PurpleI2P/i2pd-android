@@ -27,6 +27,8 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,12 +37,17 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import static android.provider.Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS;
+import static org.purplei2p.i2pd.DaemonWrapper.State.startedOkay;
+import static org.purplei2p.i2pd.DaemonWrapper.State.starting;
+import static org.purplei2p.i2pd.DaemonWrapper.State.stopped;
 
 public class I2PDActivity extends Activity {
     private static final String TAG = "i2pdActvt";
     private static final int MY_PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
     public static final int GRACEFUL_DELAY_MILLIS = 10 * 60 * 1000;
     public static final String PACKAGE_URI_SCHEME = "package:";
+    private Button enableButton;
+    private Button disableButton;
 
     private TextView textView;
 
@@ -64,6 +71,9 @@ public class I2PDActivity extends Activity {
                     return;
                 }
                 DaemonWrapper.State state = daemon.getState();
+                if(state == startedOkay){
+                    disableButton.setVisibility(View.VISIBLE);
+                }
                 String startResultStr = DaemonWrapper.State.startFailed.equals(state) ? String.format(": %s", daemon.getDaemonStartResult()) : "";
                 String graceStr = DaemonWrapper.State.gracefulShutdownInProgress.equals(state) ? String.format(": %s %s", formatGraceTimeRemaining(), getText(R.string.remaining)) : "";
                 textView.setText(String.format("%s%s%s", getText(state.getStatusStringResourceId()), startResultStr, graceStr));
@@ -92,9 +102,9 @@ public class I2PDActivity extends Activity {
         Log.i(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        enableButton = findViewById(R.id.enableButton);
+        disableButton = findViewById(R.id.disableButton);
         textView = (TextView) findViewById(R.id.textView);
-
         if (daemon == null) {
             ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             daemon = new DaemonWrapper(getAssets(), connectivityManager);
@@ -103,7 +113,25 @@ public class I2PDActivity extends Activity {
 
         daemon.addStateChangeListener(daemonStateUpdatedListener);
         daemonStateUpdatedListener.daemonStateUpdate(DaemonWrapper.State.uninitialized, daemon.getState());
-
+        enableButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if( daemon.getState() != startedOkay && daemon.getState() != starting ){
+                    daemon.stopDaemon();
+                    daemon.startDaemon();
+                    disableButton.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        disableButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if( daemon.getState() != stopped ){
+                    daemon.stopDaemon();
+                    disableButton.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
         // request permissions
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -266,7 +294,10 @@ public class I2PDActivity extends Activity {
                 return true;
 
             case R.id.action_start_webview:
-                startActivity(new Intent(getApplicationContext(), WebConsoleActivity.class));
+                if( daemon.getState() == startedOkay)
+                    startActivity(new Intent(getApplicationContext(), WebConsoleActivity.class));
+                else
+                    Toast.makeText(this,"I2Pd not was started!", Toast.LENGTH_SHORT).show();
                 return true;
         }
 

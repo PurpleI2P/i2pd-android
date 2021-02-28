@@ -24,6 +24,7 @@ import android.util.Log;
 import androidx.annotation.RequiresApi;
 
 public class DaemonWrapper {
+
     private static final String TAG = "i2pd";
     private final AssetManager assetManager;
     private final ConnectivityManager connectivityManager;
@@ -118,31 +119,7 @@ public class DaemonWrapper {
         this.assetManager = assetManager;
         this.connectivityManager = connectivityManager;
         setState(State.starting);
-        new Thread(() -> {
-            try {
-                processAssets();
-                I2PD_JNI.loadLibraries();
-                setState(State.jniLibraryLoaded);
-                registerNetworkCallback();
-            } catch (Throwable tr) {
-                lastThrowable = tr;
-                setState(State.startFailed);
-                return;
-            }
-            try {
-                synchronized (DaemonWrapper.this) {
-                    I2PD_JNI.setDataDir(Environment.getExternalStorageDirectory().getAbsolutePath() + "/i2pd");
-                    daemonStartResult = I2PD_JNI.startDaemon();
-                    if ("ok".equals(daemonStartResult)) {
-                        setState(State.startedOkay);
-                    } else
-                        setState(State.startFailed);
-                }
-            } catch (Throwable tr) {
-                lastThrowable = tr;
-                setState(State.startFailed);
-            }
-        }, "i2pdDaemonStart").start();
+        startDaemon();
     }
 
     private Throwable lastThrowable;
@@ -167,6 +144,16 @@ public class DaemonWrapper {
         return daemonStartResult;
     }
 
+    public String getDataDir() { // for settings iniEditor
+        return I2PD_JNI.getDataDir();
+    }
+
+    public void changeDataDir(String dataDir, Boolean updateAssets) {
+        I2PD_JNI.setDataDir(dataDir);
+	if( updateAssets ) processAssets();
+	//ToDo: move old dir to new dir?
+    }
+
     public boolean isStartedOkay() {
         return getState().isStartedOkay();
     }
@@ -181,6 +168,34 @@ public class DaemonWrapper {
 
             setState(State.stopped);
         }
+    }
+    public synchronized void startDaemon() {
+        if( getState() != State.stopped && getState() != State.starting ) return;
+        new Thread(() -> {
+            try {
+                processAssets();
+                I2PD_JNI.loadLibraries();
+                setState(State.jniLibraryLoaded);
+                registerNetworkCallback();
+            } catch (Throwable tr) {
+                lastThrowable = tr;
+                setState(State.startFailed);
+                return;
+            }
+            try {
+                synchronized (DaemonWrapper.this) {
+                    I2PD_JNI.setDataDir(i2pdpath);//(Environment.getExternalStorageDirectory().getAbsolutePath() + "/i2pd");
+                    daemonStartResult = I2PD_JNI.startDaemon();
+                    if ("ok".equals(daemonStartResult)) {
+                        setState(State.startedOkay);
+                    } else
+                        setState(State.startFailed);
+                }
+            } catch (Throwable tr) {
+                lastThrowable = tr;
+                setState(State.startFailed);
+            }
+        }, "i2pdDaemonStart").start();
     }
 
     private void processAssets() {

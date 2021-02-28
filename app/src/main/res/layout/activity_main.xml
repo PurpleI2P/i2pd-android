@@ -5,11 +5,29 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:background="#9C27B0"
     android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="org.purplei2p.i2pd.I2PDActivity">
+
+    <Button
+        android:id="@+id/enableButton"
+        style="@android:style/Widget.Button.Inset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@android:drawable/presence_offline" />
+
+    <Button
+        android:id="@+id/disableButton"
+        style="@android:style/Widget.Button.Inset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@android:drawable/presence_online"
+        android:visibility="invisible" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,6 +49,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 

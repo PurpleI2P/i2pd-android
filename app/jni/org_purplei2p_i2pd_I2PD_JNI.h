@@ -26,6 +26,9 @@ JNIEXPORT jstring JNICALL Java_org_purplei2p_i2pd_I2PD_1JNI_getABICompiledWith
 JNIEXPORT jstring JNICALL Java_org_purplei2p_i2pd_I2PD_1JNI_startDaemon
 	(JNIEnv *, jclass);
 
+JNIEXPORT jstring JNICALL Java_org_purplei2p_i2pd_I2PD_1JNI_getDataDir
+	(JNIEnv *, jclass);
+
 JNIEXPORT void JNICALL Java_org_purplei2p_i2pd_I2PD_1JNI_stopDaemon
 	(JNIEnv *, jclass);
 

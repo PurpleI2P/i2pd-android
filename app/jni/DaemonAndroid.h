@@ -52,6 +52,8 @@ namespace android
 
 	// set datadir received from jni
 	void SetDataDir(std::string jdataDir);
+	// get datadir
+	std::string GetDataDir(void);
 	/*
 	class Worker : public QObject
 	{
