@@ -1,6 +1,6 @@
 # i2pd android
 
-### Install OpenJDK, gradle, download Android SDK and NDK r19c
+### Install OpenJDK, gradle 5.1+ (6.8.3 has been tested and is working ok), download Android SDK and NDK r21e
 https://gradle.org/install/
 
 https://developer.android.com/studio#downloads
@@ -12,7 +12,7 @@ https://developer.android.com/ndk/
 
 ### Compile application
     export ANDROID_SDK_ROOT=/opt/android-sdk
-    export ANDROID_NDK_HOME=/opt/android-ndk-r19c
+    export ANDROID_NDK_HOME=/opt/android-ndk-r21e
     
     gradle clean assembleDebug
 
