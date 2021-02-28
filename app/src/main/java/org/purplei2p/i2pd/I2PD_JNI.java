@@ -30,4 +30,6 @@ public class I2PD_JNI {
         //System.loadLibrary("c++_shared");
         System.loadLibrary("i2pd");
     }
+
+    public static native String getDataDir();
 }

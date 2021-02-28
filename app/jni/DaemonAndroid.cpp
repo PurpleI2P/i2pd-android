@@ -218,5 +218,11 @@ namespace android
 	{
 		dataDir = jdataDir;
 	}
+
+	std::string
+	GetDataDir(void)
+	{
+		return dataDir;
+	}	
 }
 }
