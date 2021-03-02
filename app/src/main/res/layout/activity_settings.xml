@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/settings_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/settings_section0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autoText="true"
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:text="@string/settings_section0"
+        android:textColor="#282528"
+        android:textStyle="bold|italic"
+        android:verticalScrollbarPosition="defaultPosition" />
+
+    <Switch
+        android:id="@+id/autostart_enable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/autostart_enabled" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider" />
+<!--
+    <TextView
+        android:id="@+id/settings_section2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autoText="true"
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:text="@string/settings_section_tunnels"
+        android:textColor="#282528"
+        android:textStyle="bold|italic"
+        android:verticalScrollbarPosition="defaultPosition" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/add_tunnel" />
+
+        <Button
+            android:id="@+id/add_tunnel_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_tunnel_button" />
+    </LinearLayout>
+-->
+</LinearLayout>

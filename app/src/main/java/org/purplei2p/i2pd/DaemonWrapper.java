@@ -144,7 +144,7 @@ public class DaemonWrapper {
         return daemonStartResult;
     }
 
-    public String getDataDir() { // for settings iniEditor
+    public static String getDataDir() { // for settings iniEditor
         return I2PD_JNI.getDataDir();
     }
 

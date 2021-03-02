@@ -21,7 +21,10 @@
         android:theme="@android:style/Theme.Holo.Light.DarkActionBar"
         android:usesCleartextTraffic="true">
 
-        <receiver android:enabled="true" android:name=".receivers.BootUpReceiver"
+        <receiver
+            android:enabled="true"
+            android:name="org.purplei2p.i2pd.receivers.BootUpReceiver"
+            android:exported="true"
             android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -33,6 +36,7 @@
             android:value="true" />
 
         <activity android:name=".WebConsoleActivity" />
+        <activity android:name=".SettingsActivity" />
 
         <receiver
             android:name=".NetworkStateChangeReceiver"
