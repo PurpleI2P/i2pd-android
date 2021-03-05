@@ -299,6 +299,9 @@ public class I2PDActivity extends Activity {
                 else
                     Toast.makeText(this,"I2Pd not was started!", Toast.LENGTH_SHORT).show();
                 return true;
+            case R.id.action_settings:
+                startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
+                return true;
         }
 
         return super.onOptionsItemSelected(item);

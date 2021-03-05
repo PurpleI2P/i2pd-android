@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">i2pd</string>
+    <string name="app_description">Invisible Internet Protocol:</string>
+    <string name="app_description2">Сеть без границ</string>
 
+    <string name="action_start">Запустить</string>
     <string name="action_stop">Остановить</string>
     <string name="action_graceful_stop">Корректная остановка</string>
     <string name="action_cancel_graceful_stop">Отменить корректную остановку</string>
     <string name="action_reload_tunnels_config">Перезагрузить туннели</string>
     <string name="action_start_webview">Открыть Веб Консоль</string>
+    <string name="action_settings">Настройки</string>
 
     <string name="graceful_stop_is_already_in_progress">Корректная остановка уже запущена</string>
     <string name="graceful_stop_is_in_progress">Корректная остановка запущена</string>
@@ -37,7 +41,14 @@
     <string name="shutdown_canceled">Плановая остановка отменена</string>
 
     <string name="tunnels_reloading">Перезагрузка конфигурации туннелей...</string>
-    <string name="app_description">Invisible Internet Protocol:</string>
-    <string name="action_start">Запустить</string>
-    <string name="app_description2">Сеть без границ</string>
+
+    <string name="autostart_enabled">Автозагрузка при запуске телефона</string>
+
+    <string name="settings_section0">Основные настройки</string>
+    <string name="settings_section_tunnels">Туннели</string>
+
+    <string name="add_tunnel_button">Добавить</string>
+    <string name="add_tunnel">Добавление туннелей</string>
+
+    <string name="del_tunnel_button">Удалить</string>
 </resources>
