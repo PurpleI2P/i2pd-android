@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">i2pd</string>
+    <string name="app_description">Invisible Internet Protocol:</string>
+    <string name="app_description2">Сеть без границ</string>
 
+    <string name="action_start">Запустить</string>
     <string name="action_stop">Остановить</string>
     <string name="action_graceful_stop">Корректная остановка</string>
     <string name="action_cancel_graceful_stop">Отменить корректную остановку</string>
