@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">i2pd</string>
     <string name="app_description">Invisible Internet Protocol:</string>
     <string name="app_description2">Сеть без границ</string>
 
@@ -42,13 +41,15 @@
 
     <string name="tunnels_reloading">Перезагрузка конфигурации туннелей...</string>
 
-    <string name="autostart_enabled">Автозагрузка при запуске телефона</string>
+    <string name="autostart_enabled">Запуск после загрузки телефона</string>
 
     <string name="settings_section0">Основные настройки</string>
     <string name="settings_section_tunnels">Туннели</string>
 
     <string name="add_tunnel_button">Добавить</string>
-    <string name="add_tunnel">Добавление туннелей</string>
+    <string name="add_tunnel">Управление туннелями</string>
 
     <string name="del_tunnel_button">Удалить</string>
+    <string name="enabled">Вкл</string>
+    <string name="disabled">Выкл</string>
 </resources>

@@ -1,30 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/settings_layout"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:padding="@dimen/margin_medium"
+    android:orientation="vertical"
+    tools:context=".SettingsActivity">
 
     <TextView
-        android:id="@+id/settings_section0"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:autoText="true"
+        android:layout_marginBottom="@dimen/margin_tiny"
         android:clickable="false"
-        android:cursorVisible="false"
         android:text="@string/settings_section0"
-        android:textColor="#282528"
-        android:textStyle="bold|italic"
+        android:textSize="24sp"
         android:verticalScrollbarPosition="defaultPosition" />
 
     <Switch
         android:id="@+id/autostart_enable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="left"
+        android:textOff="@string/disabled"
+        android:textOn="@string/enabled"
         android:text="@string/autostart_enabled" />
 
     <View
-        android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="?android:attr/listDivider" />

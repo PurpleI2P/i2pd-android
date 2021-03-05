@@ -46,10 +46,12 @@
     <string name="settings_section0">Common settings</string>
     <string name="settings_section_tunnels">Tunnels</string>
 
-    <string name="autostart_enabled">AutoStart on boot</string>
+    <string name="autostart_enabled">Start at boot</string>
     <string name="add_tunnel_button">Add tunnel</string>
-    <string name="add_tunnel">Tunnels adding</string>
+    <string name="add_tunnel">Tunnels management</string>
 
-    <string name="del_tunnel_button">Del tunnel</string>
+    <string name="del_tunnel_button">Delete tunnel</string>
+    <string name="enabled">On</string>
+    <string name="disabled">Off</string>
 
 </resources>
