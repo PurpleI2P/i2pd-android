@@ -37,4 +37,7 @@
     <string name="shutdown_canceled">Плановая остановка отменена</string>
 
     <string name="tunnels_reloading">Перезагрузка конфигурации туннелей...</string>
+    <string name="app_description">Invisible Internet Protocol:</string>
+    <string name="action_start">Запустить</string>
+    <string name="app_description2">Сеть без границ</string>
 </resources>
