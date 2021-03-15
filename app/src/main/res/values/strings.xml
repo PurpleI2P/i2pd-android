@@ -6,6 +6,7 @@
 
     <string name="action_start">Start</string>
     <string name="action_stop">Stop</string>
+    <string name="action_exit">Exit</string>
     <string name="action_graceful_stop">Graceful Stop</string>
     <string name="action_cancel_graceful_stop">Cancel Graceful Stop</string>
     <string name="action_reload_tunnels_config">Reload tunnels</string>

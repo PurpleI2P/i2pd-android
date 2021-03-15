@@ -5,6 +5,7 @@
 
     <string name="action_start">Запустить</string>
     <string name="action_stop">Остановить</string>
+    <string name="action_exit">Выход</string>
     <string name="action_graceful_stop">Корректная остановка</string>
     <string name="action_cancel_graceful_stop">Отменить корректную остановку</string>
     <string name="action_reload_tunnels_config">Перезагрузить туннели</string>

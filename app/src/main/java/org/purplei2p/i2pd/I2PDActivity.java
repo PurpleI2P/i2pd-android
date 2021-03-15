@@ -505,6 +505,6 @@ public class I2PDActivity extends Activity {
         } catch (Throwable tr) {
             Log.e(TAG, "", tr);
         }
-        //System.exit(0);
+        System.exit(0);
     }
 }
