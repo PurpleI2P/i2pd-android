@@ -104,7 +104,7 @@ public class I2PDActivity extends Activity {
         setContentView(R.layout.activity_main);
         enableButton = findViewById(R.id.enableButton);
         disableButton = findViewById(R.id.disableButton);
-        textView = (TextView) findViewById(R.id.textView);
+        textView = (TextView) findViewById(R.id.appStatusText);
         if (daemon == null) {
             ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             daemon = new DaemonWrapper(getAssets(), connectivityManager);

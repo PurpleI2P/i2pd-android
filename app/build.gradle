@@ -18,8 +18,6 @@ android {
         versionName "2.37.0"
         setProperty("archivesBaseName", archivesBaseName + "-" + versionName)
 
-        vectorDrawables.useSupportLibrary = true
-
         ndk {
             abiFilters "armeabi-v7a"
             abiFilters "x86"
