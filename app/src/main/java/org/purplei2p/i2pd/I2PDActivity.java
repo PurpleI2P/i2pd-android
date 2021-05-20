@@ -165,7 +165,7 @@ public class I2PDActivity extends Activity {
         try {
             doUnbindService();
         } catch (Throwable tr) {
-            Log.e(TAG, "", tr);
+            Log.e(TAG, "throwable caught and ignored, all is safe, not a bug, dumped here for debugging only.", tr);
         }
     }
 
