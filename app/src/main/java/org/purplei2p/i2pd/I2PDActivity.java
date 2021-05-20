@@ -164,8 +164,13 @@ public class I2PDActivity extends Activity {
         //cancelGracefulStop0();
         try {
             doUnbindService();
+        } catch (IllegalArgumentException ex) {
+            Log.e(TAG, "throwable caught and ignored", tr);
+            if (ex.getMessage().startsWith("Service not registered: "+org.purplei2p.i2pd.I2PDActivity.class.getName())) {
+                Log.i(TAG, "Service not registered exception seems to be normal, not a bug it seems.");
+            }
         } catch (Throwable tr) {
-            Log.e(TAG, "", tr);
+            Log.e(TAG, "throwable caught and ignored", tr);
         }
     }
 
