@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Locale;
 
 import android.annotation.TargetApi;
 import android.content.res.AssetManager;
@@ -30,6 +31,8 @@ public class DaemonWrapper {
     private final ConnectivityManager connectivityManager;
     private String i2pdpath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/i2pd/";
     private boolean assetsCopied;
+
+    private static final String appLocale = Locale.getDefault().getDisplayLanguage(Locale.ENGLISH).toLowerCase(); // lower-case system language (like "english")
 
     public interface StateUpdateListener {
         void daemonStateUpdate(State oldValue, State newValue);
@@ -184,7 +187,11 @@ public class DaemonWrapper {
             }
             try {
                 synchronized (DaemonWrapper.this) {
-                    I2PD_JNI.setDataDir(i2pdpath);//(Environment.getExternalStorageDirectory().getAbsolutePath() + "/i2pd");
+                    I2PD_JNI.setDataDir(i2pdpath); // (Environment.getExternalStorageDirectory().getAbsolutePath() + "/i2pd");
+
+                    Log.d(TAG, "setting webconsole language to " + appLocale);
+                    I2PD_JNI.setLanguage(appLocale);
+
                     daemonStartResult = I2PD_JNI.startDaemon();
                     if ("ok".equals(daemonStartResult)) {
                         setState(State.startedOkay);

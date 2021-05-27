@@ -26,6 +26,8 @@ public class I2PD_JNI {
 
     public static native String getWebConsAddr();
 
+    public static native void setLanguage(String jlanguage);
+
     public static void loadLibraries() {
         //System.loadLibrary("c++_shared");
         System.loadLibrary("i2pd");

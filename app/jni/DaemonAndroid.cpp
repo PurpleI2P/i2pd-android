@@ -16,6 +16,7 @@
 #include "FS.h"
 #include "DaemonAndroid.h"
 #include "Daemon.h"
+#include "I18N.h"
 
 namespace i2p
 {
@@ -74,6 +75,7 @@ namespace android
 	}
 */
 	std::string dataDir = "";
+	std::string language = "";
 
 	DaemonAndroidImpl::DaemonAndroidImpl ()
 		//:
@@ -104,7 +106,7 @@ namespace android
 			std::this_thread::sleep_for (std::chrono::seconds(1)); // otherwise wait for 1 more second
 		}
 		while (numAttempts <= 10); // 10 seconds max
-		return Daemon.init(argc,argv);
+		return Daemon.init(argc, argv);
 	}
 
 	void DaemonAndroidImpl::start()
@@ -163,12 +165,16 @@ namespace android
 
 			{
 				//Log.d(TAG"Initialising the daemon...");
-				bool daemonInitSuccess = daemon.init(1,argv);
+				bool daemonInitSuccess = daemon.init(1, argv);
 				if(!daemonInitSuccess)
 				{
 					//QMessageBox::critical(0, "Error", "Daemon init failed");
 					return "Daemon init failed";
 				}
+
+				// Set webconsole language from application
+				i2p::i18n::SetLanguage(language);
+
 				//Log.d(TAG"Initialised, creating the main window...");
 				//MainWindow w;
 				//Log.d(TAG"Before main window.show()...");
@@ -219,10 +225,14 @@ namespace android
 		dataDir = jdataDir;
 	}
 
-	std::string
-	GetDataDir(void)
+	std::string GetDataDir(void)
 	{
 		return dataDir;
-	}	
+	}
+
+	void SetLanguage(std::string jlanguage)
+	{
+		language = jlanguage;
+	}
 }
 }

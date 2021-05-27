@@ -2,7 +2,7 @@ LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 LOCAL_MODULE := i2pd
 LOCAL_CPP_FEATURES := rtti exceptions
-LOCAL_C_INCLUDES += $(IFADDRS_PATH) $(LIB_SRC_PATH) $(LIB_CLIENT_SRC_PATH) $(DAEMON_SRC_PATH)
+LOCAL_C_INCLUDES += $(IFADDRS_PATH) $(LIB_SRC_PATH) $(LIB_CLIENT_SRC_PATH) $(LANG_SRC_PATH) $(DAEMON_SRC_PATH)
 LOCAL_STATIC_LIBRARIES := \
 	boost_system \
 	boost_date_time \
@@ -19,6 +19,7 @@ LOCAL_SRC_FILES := \
 	$(IFADDRS_PATH)/ifaddrs.c \
 	$(wildcard $(LIB_SRC_PATH)/*.cpp) \
 	$(wildcard $(LIB_CLIENT_SRC_PATH)/*.cpp) \
+	$(wildcard $(LANG_SRC_PATH)/*.cpp) \
 	$(DAEMON_SRC_PATH)/Daemon.cpp \
 	$(DAEMON_SRC_PATH)/UPnP.cpp \
 	$(DAEMON_SRC_PATH)/HTTPServer.cpp \

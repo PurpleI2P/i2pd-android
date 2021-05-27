@@ -54,6 +54,8 @@ namespace android
 	void SetDataDir(std::string jdataDir);
 	// get datadir
 	std::string GetDataDir(void);
+	// set webconsole language
+	void SetLanguage(std::string jlanguage);
 	/*
 	class Worker : public QObject
 	{

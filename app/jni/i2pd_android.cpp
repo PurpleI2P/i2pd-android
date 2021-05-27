@@ -56,6 +56,7 @@ JNIEXPORT jstring JNICALL Java_org_purplei2p_i2pd_I2PD_1JNI_startDaemon
 	(JNIEnv *env, jclass clazz) {
 	return env->NewStringUTF(i2p::android::start().c_str());
 }
+
 JNIEXPORT jstring JNICALL Java_org_purplei2p_i2pd_I2PD_1JNI_getDataDir
 	(JNIEnv *env, jclass clazz) {
 	return env->NewStringUTF( i2p::android::GetDataDir().c_str() );
@@ -124,4 +125,11 @@ JNIEXPORT jstring JNICALL Java_org_purplei2p_i2pd_I2PD_1JNI_getWebConsAddr
 	uint16_t    httpPort; i2p::config::GetOption("http.port", httpPort);
 	std::string result = "http://" + httpAddr + ":" + std::to_string(httpPort) + "/";
 	return env->NewStringUTF(result.c_str());
+}
+
+JNIEXPORT void JNICALL Java_org_purplei2p_i2pd_I2PD_1JNI_setLanguage
+	(JNIEnv *env, jclass clazz, jstring jlanguage) {
+	auto language = env->GetStringUTFChars(jlanguage, NULL);
+	env->ReleaseStringUTFChars(jlanguage, language);
+	i2p::android::SetLanguage(language);
 }
