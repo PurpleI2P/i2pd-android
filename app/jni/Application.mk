@@ -17,7 +17,7 @@ IFADDRS_PATH  = $(NDK_MODULE_PATH)/android-ifaddrs
 # don't change me
 I2PD_SRC_PATH = $(NDK_MODULE_PATH)/i2pd
 
-LIB_SRC_PATH = $(I2PD_SRC_PATH)/libi2pd
+LIB_SRC_PATH        = $(I2PD_SRC_PATH)/libi2pd
 LIB_CLIENT_SRC_PATH = $(I2PD_SRC_PATH)/libi2pd_client
-LANG_SRC_PATH = $(I2PD_SRC_PATH)/i18n
-DAEMON_SRC_PATH = $(I2PD_SRC_PATH)/daemon
+LANG_SRC_PATH       = $(I2PD_SRC_PATH)/i18n
+DAEMON_SRC_PATH     = $(I2PD_SRC_PATH)/daemon
