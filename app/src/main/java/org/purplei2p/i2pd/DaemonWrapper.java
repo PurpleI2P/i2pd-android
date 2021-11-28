@@ -179,7 +179,7 @@ public class DaemonWrapper {
                 processAssets();
                 I2PD_JNI.loadLibraries();
                 setState(State.jniLibraryLoaded);
-                registerNetworkCallback();
+                //registerNetworkCallback();
             } catch (Throwable tr) {
                 lastThrowable = tr;
                 setState(State.startFailed);
