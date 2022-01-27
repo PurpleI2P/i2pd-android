@@ -13,7 +13,7 @@ android {
     defaultConfig {
         applicationId "org.purplei2p.i2pd"
         targetSdkVersion 29
-        minSdkVersion 14
+        minSdkVersion 16
         versionCode 24000
         versionName "2.40.0"
         setProperty("archivesBaseName", archivesBaseName + "-" + versionName)
@@ -28,7 +28,7 @@ android {
         externalNativeBuild {
             ndkBuild {
                 arguments "NDK_MODULE_PATH:=${rootProject.projectDir}/app/jni"
-                arguments "-j3"
+                arguments "-j${Runtime.getRuntime().availableProcessors()}"
             }
         }
     }
