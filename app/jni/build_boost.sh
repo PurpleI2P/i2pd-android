@@ -2,13 +2,14 @@
 
 set -e
 
-BOOST_VERSION=1.78.0
+BOOST_VERSION=1.74.0
+BOOST_VERSION_SUFFIX=1_74
 BOOST_LIBS=date_time,filesystem,program_options,system
 
-REMOVE_BOOST_LIBS_SUFFIX_x86_64=-clang-mt-x64-1_78
-REMOVE_BOOST_LIBS_SUFFIX_ARM64=-clang-mt-a64-1_78
-REMOVE_BOOST_LIBS_SUFFIX_x86=-clang-mt-x32-1_78
-REMOVE_BOOST_LIBS_SUFFIX_ARM=-clang-mt-a32-1_78
+REMOVE_BOOST_LIBS_SUFFIX_x86_64=-clang-mt-x64-${BOOST_VERSION_SUFFIX}
+REMOVE_BOOST_LIBS_SUFFIX_ARM64=-clang-mt-a64-${BOOST_VERSION_SUFFIX}
+REMOVE_BOOST_LIBS_SUFFIX_x86=-clang-mt-x32-${BOOST_VERSION_SUFFIX}
+REMOVE_BOOST_LIBS_SUFFIX_ARM=-clang-mt-a32-${BOOST_VERSION_SUFFIX}
 
 function build_one {
 	echo "Configuring and building..."
@@ -26,26 +27,26 @@ function build_one {
 			mkdir -p out/{x86_64,include}
 			cp build/out/x86_64/lib/*.a out/${CPU}
 			rename 's/'${REMOVE_BOOST_LIBS_SUFFIX_x86_64}'//' out/x86_64/*.a
-			cp -r build/out/x86_64/include/boost-1_78/boost out/include
+			cp -r build/out/x86_64/include/boost-${BOOST_VERSION_SUFFIX}/boost out/include
 
 		;;
 		arm64-v8a)
 			mkdir -p out/{arm64-v8a,include}
 			cp build/out/arm64-v8a/lib/*.a out/${CPU}
 			rename 's/'${REMOVE_BOOST_LIBS_SUFFIX_ARM64}'//' out/arm64-v8a/*.a
-			cp -r build/out/arm64-v8a/include/boost-1_78/boost out/include
+			cp -r build/out/arm64-v8a/include/boost-${BOOST_VERSION_SUFFIX}/boost out/include
 		;;
 		x86)
 			mkdir -p out/{x86,include}
 			cp build/out/x86/lib/*.a out/${CPU}
 			rename 's/'${REMOVE_BOOST_LIBS_SUFFIX_x86}'//' out/x86/*.a
-			cp -r build/out/x86/include/boost-1_78/boost out/include
+			cp -r build/out/x86/include/boost-${BOOST_VERSION_SUFFIX}/boost out/include
 		;;
 		armeabi-v7a)
 			mkdir -p out/{armeabi-v7a,include}
 			cp build/out/armeabi-v7a/lib/*.a out/${CPU}
 			rename 's/'${REMOVE_BOOST_LIBS_SUFFIX_ARM}'//' out/armeabi-v7a/*.a
-			cp -r build/out/armeabi-v7a/include/boost-1_78/boost out/include
+			cp -r build/out/armeabi-v7a/include/boost-${BOOST_VERSION_SUFFIX}/boost out/include
 		;;
 		*)
 			mkdir -p out/{x86_64,arm64-v8a,x86,armeabi-v7a,include}
@@ -62,7 +63,7 @@ function build_one {
 			cp build/out/armeabi-v7a/lib/*.a out/armeabi-v7a
 			rename 's/'${REMOVE_BOOST_LIBS_SUFFIX_ARM}'//' out/armeabi-v7a/*.a
 
-			cp -r build/out/arm64-v8a/include/boost-1_78/boost out/include
+			cp -r build/out/arm64-v8a/include/boost-${BOOST_VERSION_SUFFIX}/boost out/include
 		;;
 	esac
 }
