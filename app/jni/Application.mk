@@ -9,10 +9,10 @@ ifeq ($(TARGET_ARCH_ABI),armeabi-v7a)
 APP_CPPFLAGS += -DANDROID_ARM7A
 endif
 
-BOOST_PATH    = $(NDK_MODULE_PATH)/boost
-OPENSSL_PATH  = $(NDK_MODULE_PATH)/openssl
-MINIUPNP_PATH = $(NDK_MODULE_PATH)/miniupnp
 IFADDRS_PATH  = $(NDK_MODULE_PATH)/android-ifaddrs
+BOOST_PATH    = $(NDK_MODULE_PATH)/boost
+MINIUPNP_PATH = $(NDK_MODULE_PATH)/miniupnp
+OPENSSL_PATH  = $(NDK_MODULE_PATH)/openssl
 
 # don't change me
 I2PD_SRC_PATH = $(NDK_MODULE_PATH)/i2pd
