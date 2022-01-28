@@ -2,23 +2,18 @@
 
 set -e
 
-
 function build_one {
 	mkdir -p out/${CPU}
 
-	echo "Configuring..."
+	echo "Configuring OpenSSL for ${CPU}..."
 	./Configure \
 	${TARGET} \
 	no-shared \
-	no-ssl3 \
-	no-comp \
-	no-hw \
-	no-engine \
 	no-tests \
 	--prefix="$PWD/output" \
 	-D__ANDROID_API__=${API}
 
-	echo "Building..."
+	echo "Building OpenSSL for ${CPU}..."
 	make -j $(nproc)
 
 	make install_sw

@@ -2,8 +2,8 @@
 
 set -e
 
-BOOST_VERSION=1.74.0
-BOOST_VERSION_SUFFIX=1_74
+BOOST_VERSION=1.78.0
+BOOST_VERSION_SUFFIX=1_78
 BOOST_LIBS=date_time,filesystem,program_options,system
 
 REMOVE_BOOST_LIBS_SUFFIX_x86_64=-clang-mt-x64-${BOOST_VERSION_SUFFIX}
@@ -13,7 +13,7 @@ REMOVE_BOOST_LIBS_SUFFIX_ARM=-clang-mt-a32-${BOOST_VERSION_SUFFIX}
 
 function build_one {
 	echo "Configuring and building..."
-	CXXFLAGS="-std=c++14" \
+	CXXFLAGS="-std=c++17" \
 	NCPU=$(nproc) \
 	./build-android.sh \
 	--boost=${BOOST_VERSION} \

@@ -2,7 +2,6 @@
 
 set -e
 
-
 function build_one {
 	mkdir -p out/${CPU}
 	cd out/${CPU}

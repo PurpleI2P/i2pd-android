@@ -8,11 +8,11 @@ dependencies {
 }
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 31
 
     defaultConfig {
         applicationId "org.purplei2p.i2pd"
-        targetSdkVersion 29
+        targetSdkVersion 31
         minSdkVersion 16
         versionCode 24000
         versionName "2.40.0"
