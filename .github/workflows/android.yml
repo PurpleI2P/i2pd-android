@@ -12,7 +12,7 @@ jobs:
     - name: Install rename tool
       run: |
         sudo apt-get update
-        sudo apt-get install rename
+        sudo apt-get install -y g++ rename
     - name: Setup JDK 1.8
       uses: actions/setup-java@v1
       with:
@@ -21,8 +21,8 @@ jobs:
       uses: maxim-lobanov/setup-android-tools@v1
       with:
         packages: |
-          build-tools;29.0.3
-          platforms;android-29
+          build-tools;31.0.0
+          platforms;android-31
           ndk;23.1.7779620
         cache: true
     - name: Build required modules
@@ -30,6 +30,7 @@ jobs:
         export ANDROID_SDK_ROOT=$ANDROID_HOME
         export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/23.1.7779620
         pushd app/jni
+        sed -i -e 's/d+2/d+0/' boost/build-android.sh
         ./build_boost.sh
         ./build_openssl.sh
         ./build_miniupnpc.sh
