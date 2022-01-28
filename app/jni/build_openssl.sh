@@ -4,6 +4,7 @@ set -e
 
 function build_one {
 	mkdir -p out/${CPU}
+	mkdir output
 
 	echo "Configuring OpenSSL for ${CPU}..."
 	./Configure \
@@ -15,9 +16,9 @@ function build_one {
 	-Wno-macro-redefined
 
 	echo "Building OpenSSL for ${CPU}..."
-	make -j $(nproc)
+	make -j $(nproc) > output/build.log
 
-	make install_sw
+	make install_sw >> output/build.log
 
 	cp output/lib/*.a out/${CPU}
 
