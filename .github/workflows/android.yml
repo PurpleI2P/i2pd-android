@@ -23,12 +23,12 @@ jobs:
         packages: |
           build-tools;29.0.3
           platforms;android-29
-          ndk;21.4.7075529
+          ndk;23.1.7779620
         cache: true
     - name: Build required modules
       run: |
         export ANDROID_SDK_ROOT=$ANDROID_HOME
-        export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/21.4.7075529
+        export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/23.1.7779620
         pushd app/jni
         ./build_boost.sh
         ./build_openssl.sh
