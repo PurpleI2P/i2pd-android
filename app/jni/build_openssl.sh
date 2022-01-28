@@ -7,11 +7,12 @@ function build_one {
 
 	echo "Configuring OpenSSL for ${CPU}..."
 	./Configure \
+	--prefix="$PWD/output" \
 	${TARGET} \
 	no-shared \
 	no-tests \
-	--prefix="$PWD/output" \
-	-D__ANDROID_API__=${API}
+	-D__ANDROID_API__=${API} \
+	-Wno-macro-redefined
 
 	echo "Building OpenSSL for ${CPU}..."
 	make -j $(nproc)

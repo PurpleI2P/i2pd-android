@@ -13,7 +13,7 @@ REMOVE_BOOST_LIBS_SUFFIX_ARM=-clang-mt-a32-${BOOST_VERSION_SUFFIX}
 
 function build_one {
 	echo "Configuring and building..."
-	CXXFLAGS="-std=c++17" \
+	CXXFLAGS="-std=c++14" \
 	NCPU=$(nproc) \
 	./build-android.sh \
 	--boost=${BOOST_VERSION} \
