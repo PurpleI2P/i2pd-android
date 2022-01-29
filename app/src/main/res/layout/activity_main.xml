@@ -17,7 +17,7 @@
             android:id="@+id/mainLogo"
             android:layout_width="match_parent"
             android:layout_height="140dp"
-            android:src="@drawable/ic_logo" />
+            android:src="@mipmap/ic_logo" />
 
         <TextView
             style="@android:style/Widget.Holo.Light.TextView.SpinnerItem"
