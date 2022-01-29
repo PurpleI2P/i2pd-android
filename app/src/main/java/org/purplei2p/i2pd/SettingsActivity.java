@@ -54,7 +54,7 @@ public class SettingsActivity extends Activity {
             }
 
             List<ResolveInfo> list = getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
-            if  (list.size() > 0) {
+            if (list.size() > 0) {
                 startActivity(intent);
             }
         } catch (Exception e) {
@@ -82,27 +82,29 @@ public class SettingsActivity extends Activity {
         cacheDir = getApplicationContext().getCacheDir();
         setContentView(R.layout.activity_settings);
         Switch autostart_switch = findViewById(R.id.autostart_enable);
-        File onBoot= new File( cacheDir.getAbsolutePath()+onBootFileName);
+        File onBoot = new File(cacheDir.getAbsolutePath() + onBootFileName);
         autostart_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // do something, the isChecked will be
                 // true if the switch is in the On position
-                if(isChecked){
-                    if( !onBoot.exists() ) {
+                if (isChecked) {
+                    if (!onBoot.exists()) {
                         requestPermission();
                         addAutoStartupswitch();
                         try {
-                            if( !onBoot.createNewFile()) Log.d(TAG, "Cant create new wile on: "+onBoot.getAbsolutePath());
+                            if (!onBoot.createNewFile())
+                                Log.d(TAG, "Cant create new wile on: "+onBoot.getAbsolutePath());
                         } catch (Exception e) {
                             Log.d(TAG, "error: " + e.toString());
                         }
                     }
-                }else{
-                    if( onBoot.exists() )
+                } else {
+                    if (onBoot.exists())
                         onBoot.delete();
                 }
             }
         });
-        if(onBoot.exists()) autostart_switch.setChecked(true);
+        if(onBoot.exists())
+            autostart_switch.setChecked(true);
     }
 }
