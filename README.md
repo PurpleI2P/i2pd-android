@@ -6,6 +6,10 @@
 
 This repository contains Android application sources of i2pd
 
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
+     alt="Get it on F-Droid"
+     height="80">](https://f-droid.org/packages/org.purplei2p.i2pd/)
+
 ## How to build
 
 ### Install OpenJDK, g++, rename (used for building modules), gradle 5.1+, download Android SDK
