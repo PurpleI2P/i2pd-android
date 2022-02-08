@@ -17,7 +17,7 @@ LOCAL_SRC_FILES := \
 	DaemonAndroid.cpp \
 	i2pd_android.cpp \
 	$(IFADDRS_PATH)/ifaddrs.cpp \
-	$(IFADDRS_PATH)/boinic_netlink.cpp \
+	$(IFADDRS_PATH)/bionic_netlink.cpp \
 	$(wildcard $(LIB_SRC_PATH)/*.cpp) \
 	$(wildcard $(LIB_CLIENT_SRC_PATH)/*.cpp) \
 	$(wildcard $(LANG_SRC_PATH)/*.cpp) \
