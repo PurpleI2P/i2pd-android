@@ -14,19 +14,19 @@ LOCAL_STATIC_LIBRARIES := \
 LOCAL_LDLIBS := -lz
 
 LOCAL_SRC_FILES := \
-	DaemonAndroid.cpp \
-	i2pd_android.cpp \
 	$(IFADDRS_PATH)/ifaddrs.cpp \
-	$(IFADDRS_PATH)/boinic_netlink.cpp \
+	$(IFADDRS_PATH)/bionic_netlink.cpp \
 	$(wildcard $(LIB_SRC_PATH)/*.cpp) \
 	$(wildcard $(LIB_CLIENT_SRC_PATH)/*.cpp) \
 	$(wildcard $(LANG_SRC_PATH)/*.cpp) \
+	$(DAEMON_SRC_PATH)/UnixDaemon.cpp \
 	$(DAEMON_SRC_PATH)/Daemon.cpp \
 	$(DAEMON_SRC_PATH)/UPnP.cpp \
 	$(DAEMON_SRC_PATH)/HTTPServer.cpp \
-	$(DAEMON_SRC_PATH)/I2PControl.cpp
+	$(DAEMON_SRC_PATH)/I2PControl.cpp \
+	$(DAEMON_SRC_PATH)/i2pd.cpp \
 
-include $(BUILD_SHARED_LIBRARY)
+include $(BUILD_EXECUTABLE)
 
 LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)

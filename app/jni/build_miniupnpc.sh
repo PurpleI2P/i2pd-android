@@ -2,27 +2,32 @@
 
 set -e
 
+CMAKE_VERSION=3.18.1
+
 function build_one {
 	mkdir -p out/${CPU}
 	cd out/${CPU}
 
-        cmake \
-        -DANDROID_NATIVE_API_LEVEL=${API} \
-        -DANDROID_ABI=${CPU} \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DANDROID_NDK=${ANDROID_NDK_HOME} \
-        -DCMAKE_TOOLCHAIN_FILE=${ANDROID_NDK_HOME}/build/cmake/android.toolchain.cmake \
-        ../..
+	cmake \
+	-DUPNPC_BUILD_SHARED=False \
+	-DUPNPC_BUILD_TESTS=False \
+	-DUPNPC_BUILD_SAMPLE=False \
+	-DANDROID_NATIVE_API_LEVEL=${API} \
+	-DANDROID_ABI=${CPU} \
+	-DCMAKE_BUILD_TYPE=Release \
+	-DANDROID_NDK=${ANDROID_NDK_HOME} \
+	-DCMAKE_TOOLCHAIN_FILE=${ANDROID_NDK_HOME}/build/cmake/android.toolchain.cmake \
+	../..
 
-        echo "Building..."
-        cmake --build . -- libminiupnpc-static
+	echo "Building..."
+	cmake --build . -- libminiupnpc-static
 
-        cd ../..
+	cd ../..
 
-        if [[ -n 'out/include' ]]; then
-                mkdir -p out/include/miniupnpc
-                cp include/* out/include/miniupnpc
-        fi
+	if [[ -n 'out/include' ]]; then
+		mkdir -p out/include/miniupnpc
+		cp include/* out/include/miniupnpc
+	fi
 }
 
 function checkPreRequisites {
@@ -50,7 +55,7 @@ cd miniupnp/miniupnpc
 rm -rf out
 
 # add cmake from Android SDK to PATH
-PATH=$ANDROID_SDK_ROOT/cmake/3.10.2.4988404/bin:$PATH
+PATH=$ANDROID_SDK_ROOT/cmake/${CMAKE_VERSION}/bin:$PATH
 
 function build {
 	for arg in "$@"; do

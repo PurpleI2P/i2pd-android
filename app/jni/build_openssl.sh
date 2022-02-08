@@ -18,6 +18,7 @@ function build_one {
 	echo "Building OpenSSL for ${CPU}..."
 	make -j $(nproc) > output/build.log
 
+	echo "Installing to temporary directory..."
 	make install_sw >> output/build.log
 
 	cp output/lib/*.a out/${CPU}
@@ -48,7 +49,12 @@ function checkPreRequisites {
 checkPreRequisites
 
 cd openssl
-rm -rf out
+rm -rf out output
+
+if [[ -f 'Makefile' ]]; then
+	make clean
+fi
+
 
 PATH=$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin:$PATH
 
