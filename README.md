@@ -34,7 +34,7 @@ cd /opt/android-sdk
 wget https://dl.google.com/android/repository/commandlinetools-linux-8092744_latest.zip
 unzip commandlinetools-linux-8092744_latest.zip
 # install required tools
-./cmdline-tools/bin/sdkmanager --sdk_root=/opt/android-sdk "build-tools;29.0.3" "cmake;3.10.2.4988404" "ndk;23.1.7779620"
+./cmdline-tools/bin/sdkmanager --sdk_root=/opt/android-sdk "build-tools;29.0.3" "cmake;3.18.1" "ndk;23.1.7779620"
 ```
 
 ### Clone repository with submodules
