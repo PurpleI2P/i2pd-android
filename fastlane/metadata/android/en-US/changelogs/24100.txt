@@ -1,0 +1,6 @@
+* Updated codebase to 2.41.0
+* Switch to minSdkVersion 16, ndk 23.1.7779620, gradlew 6.9.2
+* Build required modules from source instead of using prebuilt
+* Add mipmap icon for compatability with old Android
+* Fix crash on start when ifaddrs was called (with meshnets.yggdrasil=true for example)
+* Use TCP/IP socket for I2CP instead unix socket
