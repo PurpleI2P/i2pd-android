@@ -17,6 +17,7 @@ android {
         versionCode 24100
         versionName "2.41.0"
         setProperty("archivesBaseName", archivesBaseName + "-" + versionName)
+        ndkVersion "23.1.7779620"
 
         ndk {
             abiFilters "armeabi-v7a"
