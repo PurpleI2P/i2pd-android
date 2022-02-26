@@ -1,0 +1,9 @@
+<b>I2P</b> (Invisible Internet Protocol) evrensel bir anonim ağ katmanıdır.
+I2P üzerinden yapılan tüm haberleşmeler anonimdir ve uçtan uca şifrelenir, katılımcılar gerçek IP adreslerini ifşa etmez.
+
+<b>I2P istemcisi</b> anonim I2P ağları oluşturmak ve kullanmak için bir yazılımdır.
+Bu tür ağlar genellikle anonim eşler arası uygulamalar (dosya paylaşımı, kripto paralar) ve anonim istemci-sunucu uygulamaları (web siteleri, anlık mesajlaşma programları, sohbet sunucuları) için kullanılır.
+
+<b>I2P</b> dünyanın her yerinden insanların kısıtlama olmaksızın iletişim kurmasına ve bilgi paylaşmasına olanak tanır.
+
+<b>I2P</b> hakkında daha fazla bilgi için <a href="https://en.m.wikipedia.org/wiki/I2P">Wikipedia makalesini</a> okuyabilirsiniz.
