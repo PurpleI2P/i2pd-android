@@ -14,10 +14,10 @@ android {
         applicationId "org.purplei2p.i2pd"
         targetSdkVersion 29
         minSdkVersion 16
-        versionCode 24100
-        versionName "2.41.0"
+        versionCode 24101
+        versionName "2.41.0.1"
         setProperty("archivesBaseName", archivesBaseName + "-" + versionName)
-        ndkVersion "23.1.7779620"
+        ndkVersion "21.4.7075529"
 
         ndk {
             abiFilters "armeabi-v7a"
