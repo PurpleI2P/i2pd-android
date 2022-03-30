@@ -25,6 +25,7 @@
             android:title="@string/action_graceful_stop" />
         <item
             android:id="@+id/action_settings"
+            android:orderInCategory="95"
             android:title="@string/action_settings" />
         <item
             android:id="@+id/action_stop"

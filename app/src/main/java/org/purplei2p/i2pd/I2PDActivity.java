@@ -27,8 +27,7 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,19 +36,20 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import static android.provider.Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS;
-import static org.purplei2p.i2pd.DaemonWrapper.State.startedOkay;
-import static org.purplei2p.i2pd.DaemonWrapper.State.starting;
-import static org.purplei2p.i2pd.DaemonWrapper.State.stopped;
 
 public class I2PDActivity extends Activity {
     private static final String TAG = "i2pdActvt";
     private static final int MY_PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
     public static final int GRACEFUL_DELAY_MILLIS = 10 * 60 * 1000;
     public static final String PACKAGE_URI_SCHEME = "package:";
-    private Button enableButton;
-    private Button disableButton;
 
     private TextView textView;
+    private CheckBox HTTPProxyState;
+    private CheckBox SOCKSProxyState;
+    private CheckBox BOBState;
+    private CheckBox SAMState;
+    private CheckBox I2CPState;
+
 
     private static volatile DaemonWrapper daemon;
 
@@ -65,15 +65,23 @@ public class I2PDActivity extends Activity {
             try {
                 if (textView == null)
                     return;
+
                 Throwable tr = daemon.getLastThrowable();
                 if (tr != null) {
                     textView.setText(throwableToString(tr));
                     return;
                 }
+
                 DaemonWrapper.State state = daemon.getState();
-                if(state == startedOkay){
-                    disableButton.setVisibility(View.VISIBLE);
+
+                if (daemon.isStartedOkay()) {
+                    HTTPProxyState.setChecked(I2PD_JNI.getHTTPProxyState());
+                    SOCKSProxyState.setChecked(I2PD_JNI.getSOCKSProxyState());
+                    BOBState.setChecked(I2PD_JNI.getBOBState());
+                    SAMState.setChecked(I2PD_JNI.getSAMState());
+                    I2CPState.setChecked(I2PD_JNI.getI2CPState());
                 }
+
                 String startResultStr = DaemonWrapper.State.startFailed.equals(state) ? String.format(": %s", daemon.getDaemonStartResult()) : "";
                 String graceStr = DaemonWrapper.State.gracefulShutdownInProgress.equals(state) ? String.format(": %s %s", formatGraceTimeRemaining(), getText(R.string.remaining)) : "";
                 textView.setText(String.format("%s%s%s", getText(state.getStatusStringResourceId()), startResultStr, graceStr));
@@ -102,9 +110,14 @@ public class I2PDActivity extends Activity {
         Log.i(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        enableButton = findViewById(R.id.enableButton);
-        disableButton = findViewById(R.id.disableButton);
+
         textView = (TextView) findViewById(R.id.appStatusText);
+        HTTPProxyState = (CheckBox) findViewById(R.id.service_httpproxy_box);
+        SOCKSProxyState = (CheckBox) findViewById(R.id.service_socksproxy_box);
+        BOBState = (CheckBox) findViewById(R.id.service_bob_box);
+        SAMState = (CheckBox) findViewById(R.id.service_sam_box);
+        I2CPState = (CheckBox) findViewById(R.id.service_i2cp_box);
+
         if (daemon == null) {
             ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             daemon = new DaemonWrapper(getAssets(), connectivityManager);
@@ -113,25 +126,6 @@ public class I2PDActivity extends Activity {
 
         daemon.addStateChangeListener(daemonStateUpdatedListener);
         daemonStateUpdatedListener.daemonStateUpdate(DaemonWrapper.State.uninitialized, daemon.getState());
-        enableButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if( daemon.getState() != startedOkay && daemon.getState() != starting ){
-                    daemon.stopDaemon();
-                    daemon.startDaemon();
-                    disableButton.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-        disableButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if( daemon.getState() != stopped ){
-                    daemon.stopDaemon();
-                    disableButton.setVisibility(View.INVISIBLE);
-                }
-            }
-        });
         // request permissions
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -299,7 +293,7 @@ public class I2PDActivity extends Activity {
                 return true;
 
             case R.id.action_start_webview:
-                if( daemon.getState() == startedOkay)
+                if(daemon.isStartedOkay())
                     startActivity(new Intent(getApplicationContext(), WebConsoleActivity.class));
                 else
                     Toast.makeText(this,"I2Pd not was started!", Toast.LENGTH_SHORT).show();
@@ -334,11 +328,12 @@ public class I2PDActivity extends Activity {
         new Thread(() -> {
             Log.d(TAG, "stopping");
             try {
+                textView.setText(getText(R.string.stopping));
                 daemon.stopDaemon();
             } catch (Throwable tr) {
                 Log.e(TAG, "", tr);
             }
-            quit(); //TODO make menu items for starting i2pd. On my Android, I need to reboot the OS to restart i2pd.
+            quit();
         }, "stop").start();
     }
 

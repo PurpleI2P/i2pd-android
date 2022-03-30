@@ -90,31 +90,12 @@ JNIEXPORT void JNICALL Java_org_purplei2p_i2pd_I2PD_1JNI_onNetworkStateChanged
 
 JNIEXPORT void JNICALL Java_org_purplei2p_i2pd_I2PD_1JNI_setDataDir
 	(JNIEnv *env, jclass clazz, jstring jdataDir) {
-
-	/*
-	// Method 1: convert UTF-16 jstring to std::string (https://stackoverflow.com/a/41820336)
-	const jclass stringClass = env->GetObjectClass(jdataDir);
-	const jmethodID getBytes = env->GetMethodID(stringClass, "getBytes", "(Ljava/lang/String;)[B");
-	const jbyteArray stringJbytes = (jbyteArray) env->CallObjectMethod(jdataDir, getBytes, env->NewStringUTF("UTF-8"));
-
-	size_t length = (size_t) env->GetArrayLength(stringJbytes);
-	jbyte* pBytes = env->GetByteArrayElements(stringJbytes, NULL);
-
-	std::string dataDir = std::string((char *)pBytes, length);
-	env->ReleaseByteArrayElements(stringJbytes, pBytes, JNI_ABORT);
-
-	env->DeleteLocalRef(stringJbytes);
-	env->DeleteLocalRef(stringClass); */
-
-	// Method 2: get string chars and make char array.
 	auto dataDir = env->GetStringUTFChars(jdataDir, NULL);
 	env->ReleaseStringUTFChars(jdataDir, dataDir);
-
-	// Set DataDir
 	i2p::android::SetDataDir(dataDir);
 }
 
-JNIEXPORT jint JNICALL Java_org_purplei2p_i2pd_I2PD_1JNI_GetTransitTunnelsCount
+JNIEXPORT jint JNICALL Java_org_purplei2p_i2pd_I2PD_1JNI_getTransitTunnelsCount
 	(JNIEnv *env, jclass clazz) {
 	return i2p::tunnel::tunnels.CountTransitTunnels();
 }
@@ -132,4 +113,29 @@ JNIEXPORT void JNICALL Java_org_purplei2p_i2pd_I2PD_1JNI_setLanguage
 	auto language = env->GetStringUTFChars(jlanguage, NULL);
 	env->ReleaseStringUTFChars(jlanguage, language);
 	i2p::android::SetLanguage(language);
+}
+
+JNIEXPORT jboolean JNICALL Java_org_purplei2p_i2pd_I2PD_1JNI_getHTTPProxyState
+	(JNIEnv *, jclass) {
+	return i2p::client::context.GetHttpProxy () ? true : false;
+}
+
+JNIEXPORT jboolean JNICALL Java_org_purplei2p_i2pd_I2PD_1JNI_getSOCKSProxyState
+	(JNIEnv *, jclass) {
+	return i2p::client::context.GetSocksProxy() ? true : false;
+}
+
+JNIEXPORT jboolean JNICALL Java_org_purplei2p_i2pd_I2PD_1JNI_getBOBState
+	(JNIEnv *, jclass) {
+	return i2p::client::context.GetBOBCommandChannel() ? true : false;
+}
+
+JNIEXPORT jboolean JNICALL Java_org_purplei2p_i2pd_I2PD_1JNI_getSAMState
+	(JNIEnv *, jclass) {
+	return i2p::client::context.GetSAMBridge() ? true : false;
+}
+
+JNIEXPORT jboolean JNICALL Java_org_purplei2p_i2pd_I2PD_1JNI_getI2CPState
+	(JNIEnv *, jclass) {
+	return i2p::client::context.GetI2CPServer() ? true : false;
 }

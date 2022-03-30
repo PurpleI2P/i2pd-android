@@ -10,14 +10,16 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
-import android.view.View;
+import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import java.io.File;
 import java.util.List;
+import java.util.Objects;
 
 
 import org.purplei2p.i2pd.iniedotr.IniEditor;
+
 public class SettingsActivity extends Activity {
     protected IniEditor iniedit = new IniEditor();
     private String dataDir = DaemonWrapper.getDataDir();//for inieditor
@@ -62,6 +64,7 @@ public class SettingsActivity extends Activity {
         }
 
     }
+
     //@Override
     private void requestPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -76,11 +79,15 @@ public class SettingsActivity extends Activity {
             }
         }
     }
+
     public void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "onCreate");
         super.onCreate(savedInstanceState);
-        cacheDir = getApplicationContext().getCacheDir();
         setContentView(R.layout.activity_settings);
+
+        Objects.requireNonNull(getActionBar()).setDisplayHomeAsUpEnabled(true);
+
+        cacheDir = getApplicationContext().getCacheDir();
         Switch autostart_switch = findViewById(R.id.autostart_enable);
         File onBoot = new File(cacheDir.getAbsolutePath() + onBootFileName);
         autostart_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -106,5 +113,15 @@ public class SettingsActivity extends Activity {
         });
         if(onBoot.exists())
             autostart_switch.setChecked(true);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return false;
     }
 }

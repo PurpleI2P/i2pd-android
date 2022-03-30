@@ -85,13 +85,12 @@ public class DaemonWrapper {
     }
 
     public int getTransitTunnelsCount() {
-        return I2PD_JNI.GetTransitTunnelsCount();
+        return I2PD_JNI.getTransitTunnelsCount();
     }
 
     public enum State {
         uninitialized(R.string.uninitialized),
         starting(R.string.starting),
-        jniLibraryLoaded(R.string.jniLibraryLoaded),
         startedOkay(R.string.startedOkay),
         startFailed(R.string.startFailed),
         gracefulShutdownInProgress(R.string.gracefulShutdownInProgress),
@@ -168,7 +167,6 @@ public class DaemonWrapper {
             } catch (Throwable tr) {
                 Log.e(TAG, "", tr);
             }
-
             setState(State.stopped);
         }
     }
@@ -178,7 +176,6 @@ public class DaemonWrapper {
             try {
                 processAssets();
                 I2PD_JNI.loadLibraries();
-                setState(State.jniLibraryLoaded);
                 //registerNetworkCallback();
             } catch (Throwable tr) {
                 lastThrowable = tr;

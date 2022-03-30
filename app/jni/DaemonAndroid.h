@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013-2020, The PurpleI2P Project
+* Copyright (c) 2013-2022, The PurpleI2P Project
 *
 * This file is part of Purple i2pd project and licensed under BSD3
 *
@@ -22,8 +22,6 @@ namespace android
 		DaemonAndroidImpl ();
 		~DaemonAndroidImpl ();
 
-		//typedef void (*runningChangedCallback)();
-
 		/**
 		 * @return success
 		 */
@@ -31,14 +29,6 @@ namespace android
 		void start();
 		void stop();
 		void restart();
-		//void setRunningCallback(runningChangedCallback cb);
-		//bool isRunning();
-	private:
-		//void setRunning(bool running);
-	private:
-		//QMutex* mutex;
-		//bool m_IsRunning;
-		//runningChangedCallback m_RunningChangedCallback;
 	};
 
 	/**
@@ -47,7 +37,6 @@ namespace android
 	 */
 	std::string start();
 
-	// stops the daemon
 	void stop();
 
 	// set datadir received from jni
@@ -56,45 +45,6 @@ namespace android
 	std::string GetDataDir(void);
 	// set webconsole language
 	void SetLanguage(std::string jlanguage);
-	/*
-	class Worker : public QObject
-	{
-		Q_OBJECT
-	public:
-
-		Worker (DaemonAndroidImpl& daemon);
-
-	private:
-
-		DaemonAndroidImpl& m_Daemon;
-
-	public slots:
-		void startDaemon();
-		void restartDaemon();
-		void stopDaemon();
-
-	signals:
-		void resultReady();
-	};
-
-	class Controller : public QObject
-	{
-		Q_OBJECT
-		QThread workerThread;
-	public:
-		Controller(DaemonAndroidImpl& daemon);
-		~Controller();
-	private:
-		DaemonAndroidImpl& m_Daemon;
-
-	public slots:
-		void handleResults(){}
-	signals:
-		void startDaemon();
-		void stopDaemon();
-		void restartDaemon();
-	};
-	*/
 }
 }
 

@@ -17,8 +17,8 @@
     <string name="gracefulShutdownInProgress">Корректная остановка запущена</string>
 
     <string name="already_stopped">Уже остановлено</string>
-    <string name="uninitialized">Приложение инициализируется</string>
-    <string name="starting">Приложение запускается</string>
+    <string name="uninitialized">Приложение инициализируется...</string>
+    <string name="starting">Приложение запускается...</string>
     <string name="jniLibraryLoaded">Загружены JNI библиотеки</string>
     <string name="startedOkay">Приложение запущено</string>
     <string name="startFailed">Запуск не удался</string>
@@ -53,4 +53,8 @@
     <string name="del_tunnel_button">Удалить</string>
     <string name="enabled">Вкл</string>
     <string name="disabled">Выкл</string>
+    <string name="services">Внутренние сервисы</string>
+    <string name="services_http_proxy">HTTP Прокси</string>
+    <string name="services_socks_proxy">SOCKS5 Прокси</string>
+    <string name="stopping">Остановка приложения</string>
 </resources>
