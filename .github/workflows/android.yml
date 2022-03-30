@@ -40,6 +40,7 @@ jobs:
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
       with:
+        name: android-apks
         path: app/build/outputs/apk/debug/*.apk
 
   build-binary:
@@ -80,4 +81,5 @@ jobs:
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
       with:
+        name: android-binaries
         path: binary/libs/*
