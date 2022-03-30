@@ -28,7 +28,7 @@ public class SettingsActivity extends Activity {
     public static String onBootFileName="/onBoot"; // just file, empty, if exist the do autostart, if not then no.
 
     //https://gist.github.com/chandruark/3165a5ee3452f2b9ec7736cf1b4c5ea6
-    private void addAutoStartupswitch() {
+    private void addAutoStartupSwitch() {
 
         try {
             Intent intent = new Intent();
@@ -97,7 +97,7 @@ public class SettingsActivity extends Activity {
                 if (isChecked) {
                     if (!onBoot.exists()) {
                         requestPermission();
-                        addAutoStartupswitch();
+                        addAutoStartupSwitch();
                         try {
                             if (!onBoot.createNewFile())
                                 Log.d(TAG, "Cant create new wile on: "+onBoot.getAbsolutePath());

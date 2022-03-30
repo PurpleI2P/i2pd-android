@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_bandwidth_limit_flags">
+        <item>L</item>
+        <item>O</item>
+        <item>P</item>
+        <item>X</item>
+    </string-array>
+
+    <string-array name="pref_loglevel">
+        <item>none</item>
+        <item>error</item>
+        <item>warn</item>
+        <item>info</item>
+        <item>debug</item>
+    </string-array>
+</resources>
