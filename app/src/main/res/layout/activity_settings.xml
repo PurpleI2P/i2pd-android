@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/widget_edittext_dark"
     android:orientation="vertical"
     android:padding="@dimen/margin_medium"
     tools:context=".SettingsActivity">
@@ -24,7 +23,8 @@
         android:gravity="left"
         android:text="@string/autostart_enabled"
         android:textOff="@string/disabled"
-        android:textOn="@string/enabled" />
+        android:textOn="@string/enabled"
+        tools:ignore="TouchTargetSizeCheck" />
 
     <View
         android:layout_width="match_parent"

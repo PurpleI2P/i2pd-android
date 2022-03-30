@@ -18,11 +18,10 @@ import java.util.List;
 import java.util.Objects;
 
 
-import org.purplei2p.i2pd.iniedotr.IniEditor;
+//import org.purplei2p.i2pd.iniedotr.IniEditor;
 
 public class SettingsActivity extends Activity {
-    protected IniEditor iniedit = new IniEditor();
-    private String dataDir = DaemonWrapper.getDataDir();//for inieditor
+    //protected IniEditor iniedit = new IniEditor();
     private String TAG = "i2pdSrvcSettings";
     private File cacheDir;
     public static String onBootFileName="/onBoot"; // just file, empty, if exist the do autostart, if not then no.
@@ -74,8 +73,6 @@ public class SettingsActivity extends Activity {
                         Uri.parse("package:" + getPackageName())
                 );
                 startActivityForResult(intent, 232);
-            } else {
-                //Permission Granted-System will work
             }
         }
     }
@@ -98,6 +95,7 @@ public class SettingsActivity extends Activity {
                     if (!onBoot.exists()) {
                         requestPermission();
                         addAutoStartupSwitch();
+
                         try {
                             if (!onBoot.createNewFile())
                                 Log.d(TAG, "Cant create new wile on: "+onBoot.getAbsolutePath());

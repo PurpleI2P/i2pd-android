@@ -152,7 +152,7 @@ public class DaemonWrapper {
 
     public void changeDataDir(String dataDir, Boolean updateAssets) {
         I2PD_JNI.setDataDir(dataDir);
-        if( updateAssets ) processAssets();
+        if (updateAssets) processAssets();
         //ToDo: move old dir to new dir?
     }
 

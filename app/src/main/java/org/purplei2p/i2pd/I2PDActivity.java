@@ -325,10 +325,10 @@ public class I2PDActivity extends Activity {
 
     private void i2pdStop() {
         cancelGracefulStop0();
+        Log.d(TAG, "stopping");
+        textView.setText(getText(R.string.stopping));
         new Thread(() -> {
-            Log.d(TAG, "stopping");
             try {
-                textView.setText(getText(R.string.stopping));
                 daemon.stopDaemon();
             } catch (Throwable tr) {
                 Log.e(TAG, "", tr);
