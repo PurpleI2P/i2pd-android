@@ -203,58 +203,51 @@ public class DaemonWrapper {
     }
 
     private void processAssets() {
-        if (!assetsCopied) {
-            try {
-                assetsCopied = true;
+        File holderFile = new File(i2pdpath, "assets.ready");
+        String versionName = BuildConfig.VERSION_NAME; // here will be app version, like 2.XX.XX
+        StringBuilder text = new StringBuilder();
+        Log.d(TAG, "checking assets");
 
-                File holderFile = new File(i2pdpath, "assets.ready");
-                String versionName = BuildConfig.VERSION_NAME; // here will be app version, like 2.XX.XX
-                StringBuilder text = new StringBuilder();
+        if (holderFile.exists()) {
+            try { // if holder file exists, read assets version string
+                FileReader fileReader = new FileReader(holderFile);
 
-                if (holderFile.exists()) {
-                    try { // if holder file exists, read assets version string
-                        FileReader fileReader = new FileReader(holderFile);
+                try {
+                    BufferedReader br = new BufferedReader(fileReader);
 
-                        try {
-                            BufferedReader br = new BufferedReader(fileReader);
+                    try {
+                        String line;
 
-                            try {
-                                String line;
-
-                                while ((line = br.readLine()) != null) {
-                                    text.append(line);
-                                }
-                            }finally {
-                                try {
-                                    br.close();
-                                } catch (IOException e) {
-                                    Log.e(TAG, "", e);
-                                }
-                            }
-                        } finally {
-                            try {
-                                fileReader.close();
-                            } catch (IOException e) {
-                                Log.e(TAG, "", e);
-                            }
+                        while ((line = br.readLine()) != null) {
+                            text.append(line);
                         }
+                    }finally {
+                        try {
+                            br.close();
+                        } catch (IOException e) {
+                            Log.e(TAG, "", e);
+                        }
+                    }
+                } finally {
+                    try {
+                        fileReader.close();
                     } catch (IOException e) {
                         Log.e(TAG, "", e);
                     }
                 }
+            } catch (IOException e) {
+                Log.e(TAG, "", e);
+            }
+        }
 
-                // if version differs from current app version or null, try to delete certificates folder
-                if (!text.toString().contains(versionName))
-                    try {
-                        boolean deleteResult = holderFile.delete();
-                        if (!deleteResult)
-                            Log.e(TAG, "holderFile.delete() returned " + deleteResult + ", absolute path='" + holderFile.getAbsolutePath() + "'");
-                        File certPath = new File(i2pdpath, "certificates");
-                        deleteRecursive(certPath);
-                    }
-                    catch (Throwable tr) {
-                        Log.e(TAG, "", tr);
-                    }
+        // if version differs from current app version or null, try to delete certificates folder
+        if (!text.toString().contains(versionName)) {
+            try {
+                boolean deleteResult = holderFile.delete();
+                if (!deleteResult)
+                    Log.e(TAG, "holderFile.delete() returned " + deleteResult + ", absolute path='" + holderFile.getAbsolutePath() + "'");
+                File certPath = new File(i2pdpath, "certificates");
+                deleteRecursive(certPath);
 
                 // copy assets. If processed file exists, it won't be overwritten
                 copyAsset("addressbook");
@@ -309,7 +302,7 @@ public class DaemonWrapper {
             // Make the directory.
             File dir = new File(i2pdpath, path);
             boolean result = dir.mkdirs();
-            Log.d(TAG, "dir.mkdirs() returned " + result);
+            Log.d(TAG, "dir.mkdirs() returned " + result + " for " + dir);
 
             // Recurse on the contents.
             for (String entry : contents) {
