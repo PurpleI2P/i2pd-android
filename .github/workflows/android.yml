@@ -23,12 +23,13 @@ jobs:
         packages: |
           build-tools;31.0.0
           platforms;android-31
-          ndk;23.1.7779620
+          ndk;21.4.7075529
+          cmake;3.18.1
         cache: true
     - name: Build required modules
       run: |
         export ANDROID_SDK_ROOT=$ANDROID_HOME
-        export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/23.1.7779620
+        export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/21.4.7075529
         pushd app/jni
         sed -i -e 's/d+2/d+0/' boost/build-android.sh
         ./build_boost.sh
@@ -61,12 +62,13 @@ jobs:
       uses: maxim-lobanov/setup-android-tools@v1
       with:
         packages: |
-          ndk;23.1.7779620
+          ndk;21.4.7075529
+          cmake;3.18.1
         cache: true
     - name: Build required modules
       run: |
         export ANDROID_SDK_ROOT=$ANDROID_HOME
-        export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/23.1.7779620
+        export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/21.4.7075529
         pushd binary/jni
         sed -i -e 's/d+2/d+0/' boost/build-android.sh
         ./build_boost.sh
