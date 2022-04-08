@@ -91,8 +91,8 @@ JNIEXPORT void JNICALL Java_org_purplei2p_i2pd_I2PD_1JNI_onNetworkStateChanged
 JNIEXPORT void JNICALL Java_org_purplei2p_i2pd_I2PD_1JNI_setDataDir
 	(JNIEnv *env, jclass clazz, jstring jdataDir) {
 	auto dataDir = env->GetStringUTFChars(jdataDir, NULL);
-	env->ReleaseStringUTFChars(jdataDir, dataDir);
 	i2p::android::SetDataDir(dataDir);
+	env->ReleaseStringUTFChars(jdataDir, dataDir);
 }
 
 JNIEXPORT jint JNICALL Java_org_purplei2p_i2pd_I2PD_1JNI_getTransitTunnelsCount
@@ -111,8 +111,8 @@ JNIEXPORT jstring JNICALL Java_org_purplei2p_i2pd_I2PD_1JNI_getWebConsAddr
 JNIEXPORT void JNICALL Java_org_purplei2p_i2pd_I2PD_1JNI_setLanguage
 	(JNIEnv *env, jclass clazz, jstring jlanguage) {
 	auto language = env->GetStringUTFChars(jlanguage, NULL);
-	env->ReleaseStringUTFChars(jlanguage, language);
 	i2p::android::SetLanguage(language);
+	env->ReleaseStringUTFChars(jlanguage, language);
 }
 
 JNIEXPORT jboolean JNICALL Java_org_purplei2p_i2pd_I2PD_1JNI_getHTTPProxyState

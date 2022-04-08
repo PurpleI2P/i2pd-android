@@ -29,7 +29,7 @@ public class DaemonWrapper {
     private static final String TAG = "i2pd";
     private final AssetManager assetManager;
     private final ConnectivityManager connectivityManager;
-    private String i2pdpath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/i2pd/";
+    private String i2pdpath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/i2pd";
     private boolean assetsCopied;
 
     private static final String appLocale = Locale.getDefault().getDisplayLanguage(Locale.ENGLISH).toLowerCase(); // lower-case system language (like "english")
