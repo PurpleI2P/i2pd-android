@@ -347,10 +347,10 @@ public class I2PDActivity extends Activity {
             Toast.makeText(this, R.string.graceful_stop_is_already_in_progress, Toast.LENGTH_SHORT).show();
             return;
         }
+        Log.i(TAG, "graceful stopping");
         Toast.makeText(this, R.string.graceful_stop_is_in_progress, Toast.LENGTH_SHORT).show();
         new Thread(() -> {
             try {
-                Log.i(TAG, "graceful stopping");
                 if (daemon.isStartedOkay()) {
                     daemon.stopAcceptingTunnels();
                     long gracefulStopAtMillis;
@@ -370,9 +370,9 @@ public class I2PDActivity extends Activity {
     private void cancelGracefulStop()
     {
         cancelGracefulStop0();
+        Log.i(TAG, "canceling graceful stop");
         new Thread(() -> {
             try {
-                Log.i(TAG, "canceling graceful stop");
                 if (daemon.isStartedOkay()) {
                     daemon.startAcceptingTunnels();
                     runOnUiThread(() -> Toast.makeText(this, R.string.shutdown_canceled, Toast.LENGTH_SHORT).show());

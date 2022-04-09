@@ -1,0 +1,11 @@
+* Updated codebase to 2.41.0-85-g2f10decf
+* Revert to ndk 21.4.7075529, boost 1.74.0
+* Switch to androidx.core 1.6.0, gradle 7.1.3, gradlew 7.2
+* Add internal services (not user-defined tunnels) status on main page
+* Add return button on settings page
+* Add turkish translation
+* Fix datadir and locale detection and passing of them to daemon
+* Fix getting datadir from daemon
+* Fix assets overwriting when they already extracted
+* Removed Start/Stop button on main page
+* Change application theme to Default (from Holo)
