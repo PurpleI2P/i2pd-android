@@ -21,7 +21,7 @@ public class NetworkStateChangeReceiver extends BroadcastReceiver {
 
             I2PD_JNI.onNetworkStateChanged(isConnected);
         } catch (Throwable tr) {
-            Log.d(TAG, "", tr);
+            Log.e(TAG, "", tr);
         }
     }
 }

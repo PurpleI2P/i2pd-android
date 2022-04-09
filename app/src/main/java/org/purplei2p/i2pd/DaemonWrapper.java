@@ -128,7 +128,7 @@ public class DaemonWrapper {
     private String daemonStartResult = "N/A";
 
     private void fireStateUpdate1(State oldValue, State newValue) {
-        Log.i(TAG, "daemon state change: " + state);
+        Log.d(TAG, "daemon state change: " + state);
         for (StateUpdateListener listener : stateUpdateListeners) {
             try {
                 listener.daemonStateUpdate(oldValue, newValue);
@@ -186,7 +186,7 @@ public class DaemonWrapper {
                 synchronized (DaemonWrapper.this) {
                     I2PD_JNI.setDataDir(i2pdpath); // (Environment.getExternalStorageDirectory().getAbsolutePath() + "/i2pd");
 
-                    Log.d(TAG, "setting webconsole language to " + appLocale);
+                    Log.i(TAG, "setting webconsole language to " + appLocale);
                     I2PD_JNI.setLanguage(appLocale);
 
                     daemonStartResult = I2PD_JNI.startDaemon();
@@ -351,7 +351,7 @@ public class DaemonWrapper {
         }
         boolean deleteResult = fileOrDirectory.delete();
         if (!deleteResult)
-            Log.e(TAG, "fileOrDirectory.delete() returned " + deleteResult + ", absolute path='" + fileOrDirectory.getAbsolutePath() + "'");
+            Log.d(TAG, "fileOrDirectory.delete() returned " + deleteResult + ", absolute path='" + fileOrDirectory.getAbsolutePath() + "'");
     }
 
     private void registerNetworkCallback(){
@@ -373,14 +373,14 @@ public class DaemonWrapper {
         public void onAvailable(Network network) {
             super.onAvailable(network);
             I2PD_JNI.onNetworkStateChanged(true);
-            Log.i(TAG, "NetworkCallback.onAvailable");
+            Log.d(TAG, "NetworkCallback.onAvailable");
         }
 
         @Override
         public void onLost(Network network) {
             super.onLost(network);
             I2PD_JNI.onNetworkStateChanged(false);
-            Log.i(TAG, " NetworkCallback.onLost");
+            Log.d(TAG, " NetworkCallback.onLost");
         }
     }
 }

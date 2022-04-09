@@ -24,7 +24,7 @@
     <string name="startedOkay">Application started</string>
     <string name="startFailed">Start failed</string>
     <string name="stopped">Application stopped</string>
-    <string name="stopping">Application stopping</string>
+    <string name="stopping">Application stopping...</string>
     <string name="remaining">remaining</string>
     <string name="ok" translatable="false">OK</string>
 

@@ -56,5 +56,5 @@
     <string name="services">Внутренние сервисы</string>
     <string name="services_http_proxy">HTTP Прокси</string>
     <string name="services_socks_proxy">SOCKS5 Прокси</string>
-    <string name="stopping">Остановка приложения</string>
+    <string name="stopping">Остановка приложения...</string>
 </resources>

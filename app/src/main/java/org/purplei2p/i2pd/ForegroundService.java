@@ -84,7 +84,7 @@ public class ForegroundService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.i("ForegroundService", "Received start id " + startId + ": " + intent);
+        Log.d("ForegroundService", "Received start id " + startId + ": " + intent);
         return START_STICKY;
     }
 

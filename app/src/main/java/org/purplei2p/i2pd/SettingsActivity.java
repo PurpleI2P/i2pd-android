@@ -78,7 +78,7 @@ public class SettingsActivity extends Activity {
     }
 
     public void onCreate(Bundle savedInstanceState) {
-        Log.i(TAG, "onCreate");
+        Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         Objects.requireNonNull(getActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -99,7 +99,7 @@ public class SettingsActivity extends Activity {
                             if (!onBoot.createNewFile())
                                 Log.d(TAG, "Cant create new wile on: "+onBoot.getAbsolutePath());
                         } catch (Exception e) {
-                            Log.d(TAG, "error: " + e.toString());
+                            Log.e(TAG, "error: " + e.toString());
                         }
                     }
                 } else {

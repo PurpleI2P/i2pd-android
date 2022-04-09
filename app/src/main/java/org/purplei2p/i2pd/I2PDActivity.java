@@ -107,7 +107,7 @@ public class I2PDActivity extends Activity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.i(TAG, "onCreate");
+        Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -173,11 +173,10 @@ public class I2PDActivity extends Activity {
     {
         if (requestCode == MY_PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                Log.e(TAG, "WR_EXT_STORAGE perm granted");
+                Log.w(TAG, "WR_EXT_STORAGE perm granted");
             else {
                 Log.e(TAG, "WR_EXT_STORAGE perm declined, stopping i2pd");
                 i2pdStop();
-                //TODO must work w/o this perm, ask orignal
             }
         }
     }
@@ -318,14 +317,14 @@ public class I2PDActivity extends Activity {
     }
 
     private void onReloadTunnelsConfig() {
-        Log.d(TAG, "reloading tunnels");
+        Log.i(TAG, "reloading tunnels");
         daemon.reloadTunnelsConfigs();
         Toast.makeText(this, R.string.tunnels_reloading, Toast.LENGTH_SHORT).show();
     }
 
     private void i2pdStop() {
         cancelGracefulStop0();
-        Log.d(TAG, "stopping");
+        Log.i(TAG, "stopping");
         textView.setText(getText(R.string.stopping));
         new Thread(() -> {
             try {
@@ -351,7 +350,7 @@ public class I2PDActivity extends Activity {
         Toast.makeText(this, R.string.graceful_stop_is_in_progress, Toast.LENGTH_SHORT).show();
         new Thread(() -> {
             try {
-                Log.d(TAG, "graceful stopping");
+                Log.i(TAG, "graceful stopping");
                 if (daemon.isStartedOkay()) {
                     daemon.stopAcceptingTunnels();
                     long gracefulStopAtMillis;
@@ -373,7 +372,7 @@ public class I2PDActivity extends Activity {
         cancelGracefulStop0();
         new Thread(() -> {
             try {
-                Log.d(TAG, "canceling graceful stop");
+                Log.i(TAG, "canceling graceful stop");
                 if (daemon.isStartedOkay()) {
                     daemon.startAcceptingTunnels();
                     runOnUiThread(() -> Toast.makeText(this, R.string.shutdown_canceled, Toast.LENGTH_SHORT).show());
@@ -390,7 +389,7 @@ public class I2PDActivity extends Activity {
             gracefulQuitTimerOld.cancel();
 
         if (daemon.getTransitTunnelsCount() <= 0) { // no tunnels left
-            Log.d(TAG, "no transit tunnels left, stopping");
+            Log.i(TAG, "no transit tunnels left, stopping");
             i2pdStop();
             return;
         }
@@ -436,7 +435,7 @@ public class I2PDActivity extends Activity {
     @SuppressLint("BatteryLife")
     private void openBatteryOptimizationDialogIfNeeded() {
         boolean questionEnabled = getPreferences().getBoolean(getBatteryOptimizationPreferenceKey(), true);
-        Log.i(TAG, "BATT_OPTIM_questionEnabled==" + questionEnabled);
+        Log.d(TAG, "BATT_OPTIM_questionEnabled==" + questionEnabled);
         if (!isKnownIgnoringBatteryOptimizations()
                 && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M
                 && questionEnabled) {
@@ -466,14 +465,14 @@ public class I2PDActivity extends Activity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             final PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
             if (pm == null) {
-                Log.i(TAG, "BATT_OPTIM: POWER_SERVICE==null");
+                Log.d(TAG, "BATT_OPTIM: POWER_SERVICE==null");
                 return false;
             }
             boolean ignoring = pm.isIgnoringBatteryOptimizations(getPackageName());
-            Log.i(TAG, "BATT_OPTIM: ignoring==" + ignoring);
+            Log.d(TAG, "BATT_OPTIM: ignoring==" + ignoring);
             return ignoring;
         } else {
-            Log.i(TAG, "BATT_OPTIM: old SDK version==" + Build.VERSION.SDK_INT);
+            Log.d(TAG, "BATT_OPTIM: old SDK version==" + Build.VERSION.SDK_INT);
             return false;
         }
     }
