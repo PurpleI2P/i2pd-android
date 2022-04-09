@@ -24,7 +24,7 @@ public class SettingsActivity extends Activity {
     //protected IniEditor iniedit = new IniEditor();
     private String TAG = "i2pdSrvcSettings";
     private File cacheDir;
-    public static String onBootFileName="/onBoot"; // just file, empty, if exist the do autostart, if not then no.
+    public static String onBootFileName = "/onBoot"; // just file, empty, if exist the do autostart, if not then no.
 
     //https://gist.github.com/chandruark/3165a5ee3452f2b9ec7736cf1b4c5ea6
     private void addAutoStartupSwitch() {
@@ -81,11 +81,10 @@ public class SettingsActivity extends Activity {
         Log.i(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-
         Objects.requireNonNull(getActionBar()).setDisplayHomeAsUpEnabled(true);
+        Switch autostart_switch = findViewById(R.id.autostart_enable);
 
         cacheDir = getApplicationContext().getCacheDir();
-        Switch autostart_switch = findViewById(R.id.autostart_enable);
         File onBoot = new File(cacheDir.getAbsolutePath() + onBootFileName);
         autostart_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

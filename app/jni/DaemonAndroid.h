@@ -25,26 +25,28 @@ namespace android
 		/**
 		 * @return success
 		 */
-		bool init(int argc, char* argv[]);
-		void start();
-		void stop();
-		void restart();
+		bool init (int argc, char* argv[]);
+		void start ();
+		void stop ();
+		void restart ();
+
+		void setDataDir (std::string path);
 	};
 
 	/**
 	 * returns "ok" if daemon init failed
 	 * returns errinfo if daemon initialized and started okay
 	 */
-	std::string start();
+	std::string start ();
 
-	void stop();
+	void stop ();
 
 	// set datadir received from jni
-	void SetDataDir(std::string jdataDir);
+	void SetDataDir (std::string jdataDir);
 	// get datadir
-	std::string GetDataDir(void);
+	std::string GetDataDir (void);
 	// set webconsole language
-	void SetLanguage(std::string jlanguage);
+	void SetLanguage (std::string jlanguage);
 }
 }
 

@@ -35,38 +35,28 @@ namespace android
 
 	bool DaemonAndroidImpl::init(int argc, char* argv[])
 	{
-		// make sure assets are ready before proceed
-		i2p::fs::DetectDataDir(dataDir, false);
-		int numAttempts = 0;
-		do
-		{
-			if (i2p::fs::Exists (i2p::fs::DataDirPath("assets.ready"))) break; // assets ready
-			numAttempts++;
-			std::this_thread::sleep_for (std::chrono::seconds(1)); // otherwise wait for 1 more second
-		}
-		while (numAttempts <= 10); // 10 seconds max
 		return Daemon.init(argc, argv);
 	}
 
 	void DaemonAndroidImpl::start()
 	{
-		//QMutexLocker locker(mutex);
-		//setRunning(true);
 		Daemon.start();
 	}
 
 	void DaemonAndroidImpl::stop()
 	{
-		//QMutexLocker locker(mutex);
 		Daemon.stop();
-		//setRunning(false);
 	}
 
 	void DaemonAndroidImpl::restart()
 	{
-		//QMutexLocker locker(mutex);
 		stop();
 		start();
+	}
+
+	void DaemonAndroidImpl::setDataDir(std::string path)
+	{
+		Daemon.setDataDir(path);
 	}
 
 	static DaemonAndroidImpl daemon;
@@ -80,7 +70,20 @@ namespace android
 		try
 		{
 			{
-				//Log.d(TAG"Initialising the daemon...");
+				// make sure assets are ready before proceed
+				i2p::fs::DetectDataDir(dataDir, false);
+				int numAttempts = 0;
+				do
+				{
+					if (i2p::fs::Exists (i2p::fs::DataDirPath("assets.ready"))) break; // assets ready
+					numAttempts++;
+					std::this_thread::sleep_for (std::chrono::seconds(1)); // otherwise wait for 1 more second
+				}
+				while (numAttempts <= 10); // 10 seconds max
+
+				// Set application directory
+				daemon.setDataDir(dataDir);
+
 				bool daemonInitSuccess = daemon.init(1, argv);
 				if(!daemonInitSuccess)
 				{
