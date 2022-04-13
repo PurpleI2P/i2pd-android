@@ -50,7 +50,5 @@
     <string name="add_tunnel">Tünel yönetimi</string>
 
     <string name="del_tunnel_button">Tünelis is</string>
-    <string name="enabled">Açık</string>
-    <string name="disabled">Kapalı</string>
 
 </resources>

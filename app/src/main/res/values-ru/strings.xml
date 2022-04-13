@@ -47,12 +47,10 @@
     <string name="settings_section0">Основные настройки</string>
     <string name="settings_section_tunnels">Туннели</string>
 
-    <string name="add_tunnel_button">Добавить</string>
+    <string name="add_tunnel_button">Добавить туннель</string>
     <string name="add_tunnel">Управление туннелями</string>
 
-    <string name="del_tunnel_button">Удалить</string>
-    <string name="enabled">Вкл</string>
-    <string name="disabled">Выкл</string>
+    <string name="del_tunnel_button">Удалить туннель</string>
     <string name="services">Внутренние сервисы</string>
     <string name="services_http_proxy">HTTP Прокси</string>
     <string name="services_socks_proxy">SOCKS5 Прокси</string>

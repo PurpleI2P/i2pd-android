@@ -22,8 +22,6 @@
         android:layout_height="wrap_content"
         android:gravity="left"
         android:text="@string/autostart_enabled"
-        android:textOff="@string/disabled"
-        android:textOn="@string/enabled"
         tools:ignore="TouchTargetSizeCheck" />
 
     <View
