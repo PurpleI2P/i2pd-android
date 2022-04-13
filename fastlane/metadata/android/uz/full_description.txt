@@ -1,0 +1,9 @@
+<b>I2P</b> (Invisible Internet Protocol) universal anonim tarmoq qatlami bo'lib hisoblanadi.
+I2P orqali barcha aloqalar anonim va oxirigacha shifrlangan, ishtirokchilar haqiqiy IP manzillarini oshkor qilmaydi.
+
+<b>I2P mijozi</b> anonim I2P tarmoqlarini yaratish va ulardan foydalanish uchun foydalaniladigan dasturdir.
+Bunday tarmoqlar odatda anonim peer-to-peer ilovalari (fayl almashish, kriptovalyutalar) va anonim mijoz-server ilovalari (veb-saytlar, messenjerlar, chat-serverlar) uchun ishlatiladi.
+
+<b>I2P</b> butun dunyo bo'ylab odamlarga cheklovlarsiz muloqot qilish va ma'lumot almashish imkonini beradi.
+
+<b>I2P</b> haqida qoʻshimcha maʼlumot olish uchun <a href="https://en.m.wikipedia.org/wiki/I2P">Vikipediyadagi maqolani</a> oʻqishingiz mumkin.

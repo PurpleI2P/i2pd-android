@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_description">Invisible Internet Protocol:</string>
     <string name="remaining">qoldi</string>
     <string name="app_description2">Chegarasiz tarmoq</string>
     <string name="action_start">Boshlash</string>
@@ -37,7 +36,7 @@
     <string name="menu_item_battery_optimizations_str">Batareyani optimallashtirish</string>
     <string name="battery_optimizations_enabled">Batareya optimallashtirishi yoqilgan</string>
     <string name="shutdown_canceled">Rejalashtirilgan yumshoq o\'chirish bekor qilindi</string>
-    <string name="retryPermRequest">Endi sizdan ularni o\'chirishga ruxsat berish so\'raladi.</string>
+    <string name="retryPermRequest">Endi sizdan ularni o\'chirishga ruxsat berish so\'raladi</string>
     <string name="permDenied">SD kartaga yozish ruxsati rad etildi, buni davom ettirishga ruxsat berishingiz kerak</string>
     <string name="permRequired">Kalitlarni va boshqa fayllarni SD-kartadagi I2PD jildiga yozish uchun SD kartaga yozish huquqi talab qilinadi.</string>
     <string name="battery_optimizations_enabled_explained">Sizning Androidingiz I2PD-da batareyani kuchli optimallashtirishni amalga oshirmoqda, bu boshqa sababsiz demonning yopilishiga olib kelishi mumkin.\nUshbu batareyani optimallashtirishni o\'chirishga ruxsat berish tavsiya etiladi.</string>
