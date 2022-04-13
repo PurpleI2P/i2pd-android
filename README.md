@@ -12,29 +12,28 @@ This repository contains Android application sources of i2pd
 
 ## How to build
 
-### Install OpenJDK, g++, rename (used for building modules), gradle 5.1+, download Android SDK
-
+### Install OpenJDK 11+, g++, rename (used for building modules), gradle 5.1+
 ```bash
-sudo apt-get install g++ rename gradle
+sudo apt-get install g++ rename openjdk-11-jdk gradle
 ```
-
-Android SDK Available here:
-
-https://developer.android.com/studio#downloads
 
 If your system provides gradle with version < 5.1, download it from gradle homepage:
 
 https://gradle.org/install/
 
-### Prepare Android SDK for building
-Download Android SDK, unpack it to any directory (`/opt/anrdoid-sdk` for example) and install required packages
+### Download and prepare Android SDK for building
+Android SDK Available here:
+
+https://developer.android.com/studio#downloads
+
+Download Android SDK, unpack it to temporary directory `/tmp/anrdoid-sdk` and install it (in `/opt/android-sdk` for example) with required packages
 ```bash
-mkdir /opt/android-sdk
-cd /opt/android-sdk
+mkdir /tmp/android-sdk
+cd /tmp/android-sdk
 wget https://dl.google.com/android/repository/commandlinetools-linux-8092744_latest.zip
 unzip commandlinetools-linux-8092744_latest.zip
 # install required tools
-./cmdline-tools/bin/sdkmanager --sdk_root=/opt/android-sdk "build-tools;29.0.3" "cmake;3.18.1" "ndk;23.1.7779620"
+./cmdline-tools/bin/sdkmanager --sdk_root=/opt/android-sdk "build-tools;31.0.0" "cmake;3.18.1" "ndk;21.4.7075529"
 ```
 
 ### Clone repository with submodules
@@ -45,7 +44,7 @@ git clone --recurse-submodules https://github.com/PurpleI2P/i2pd-android.git
 ### Compile application
 ```bash
 export ANDROID_SDK_ROOT=/opt/android-sdk
-export ANDROID_NDK_HOME=$ANDROID_SDK_ROOT/ndk/23.1.7779620
+export ANDROID_NDK_HOME=$ANDROID_SDK_ROOT/ndk/21.4.7075529
 
 pushd app/jni
 ./build_boost.sh
