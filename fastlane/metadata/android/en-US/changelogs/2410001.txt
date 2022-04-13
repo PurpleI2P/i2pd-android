@@ -4,6 +4,7 @@
 * Add internal services (not user-defined tunnels) status on main page
 * Add return button on settings page
 * Add turkish translation
+* Add uzbek translation
 * Fix datadir and locale detection and passing of them to daemon
 * Fix getting datadir from daemon
 * Fix assets overwriting when they already extracted
