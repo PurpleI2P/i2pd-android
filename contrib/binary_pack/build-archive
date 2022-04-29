@@ -40,7 +40,7 @@ done
 
 cp i2pd archive/i2pd
 cp -rH ../../app/src/main/assets/certificates archive/
-cp -rH ../../app/src/main/assets/tunnels.conf.d archive/
+cp -rH ../../app/src/main/assets/tunnels.d archive/
 cp -H ../../app/src/main/assets/i2pd.conf archive/
 cp -H ../../app/src/main/assets/tunnels.conf archive/
 

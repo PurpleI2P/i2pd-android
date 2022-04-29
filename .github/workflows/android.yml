@@ -94,4 +94,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: android-binaries-pack.zip
-        path: contrib/i2pd_*_android_binary.zip
+        path: contrib/binary_pack/i2pd_*_android_binary.zip
