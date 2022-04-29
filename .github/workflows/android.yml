@@ -41,7 +41,7 @@ jobs:
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: android-apks
+        name: android-apks.zip
         path: app/build/outputs/apk/debug/*.apk
 
   build-binary:
@@ -80,8 +80,18 @@ jobs:
         pushd binary/jni
         $ANDROID_NDK_HOME/ndk-build -j2 NDK_MODULE_PATH=$PWD
         popd
-    - name: Upload artifacts
+    - name: Create package with built binaries
+      run: |
+        pushd contrib/binary_pack
+        ./build-archive
+        popd
+    - name: Upload binaries archive
       uses: actions/upload-artifact@v2
       with:
-        name: android-binaries
+        name: android-binaries.zip
         path: binary/libs/*
+    - name: Upload binaries package
+      uses: actions/upload-artifact@v2
+      with:
+        name: android-binaries-pack.zip
+        path: contrib/i2pd_*_android_binary.zip
