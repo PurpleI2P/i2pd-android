@@ -27,22 +27,22 @@ fi
 # Prepare files for package
 mkdir archive
 
-if [ ! -d "../binary/libs/" ]; then
+if [ ! -d "../../binary/libs/" ]; then
   echo "Prebuilt binaries folder is not found. Have you built them?"
   exit 1
 fi
 
 for ABI in "${!ABILIST[@]}"; do
-  if [ -f "../binary/libs/${ABI}/i2pd" ]; then
-    cp ../binary/libs/${ABI}/i2pd archive/i2pd-${ABILIST[$ABI]}
+  if [ -f "../../binary/libs/${ABI}/i2pd" ]; then
+    cp ../../binary/libs/${ABI}/i2pd archive/i2pd-${ABILIST[$ABI]}
   fi
 done
 
 cp i2pd archive/i2pd
-cp -rH ../app/src/main/assets/certificates archive/
-cp -rH ../app/src/main/assets/tunnels.conf.d archive/
-cp -H ../app/src/main/assets/i2pd.conf archive/
-cp -H ../app/src/main/assets/tunnels.conf archive/
+cp -rH ../../app/src/main/assets/certificates archive/
+cp -rH ../../app/src/main/assets/tunnels.conf.d archive/
+cp -H ../../app/src/main/assets/i2pd.conf archive/
+cp -H ../../app/src/main/assets/tunnels.conf archive/
 
 # Compress files
 cd archive
