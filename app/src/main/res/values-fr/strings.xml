@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="app_description2">Réseau sans frontières</string>
+    <string name="action_start">Démarrer</string>
+    <string name="action_stop">Arrêter</string>
+    <string name="action_exit">Quitter</string>
+    <string name="action_reload_tunnels_config">Actualiser les tunnels</string>
+    <string name="action_start_webview">Ouvrir console web</string>
+    <string name="action_settings">Paramètres</string>
+    <string name="graceful_stop_is_already_in_progress">Arrêt gracieux déjà en cours</string>
+    <string name="graceful_stop_is_in_progress">Arrêt gracieux en cours</string>
+    <string name="gracefulShutdownInProgress">Fermeture gracieuse en cours</string>
+    <string name="already_stopped">Déjà arrêté</string>
+    <string name="jniLibraryLoaded">Librairies JNI chargées</string>
+    <string name="startFailed">Démarrage échoué</string>
+    <string name="stopped">Application arrêtée</string>
+    <string name="remaining">restant</string>
+    <string name="permDenied">Permission d\'écrire sur la carte SD refusée, vous devez autoriser pour continuer</string>
+    <string name="permRequired">La permission d\'écrire sur la carte SD est requise pour écrire les clés et autres fichiers dans le dossier I2PD sur la carte SD.</string>
+    <string name="retryPermRequest">Réessayer de demander la permission d\'écrire sur la carte SD</string>
+    <string name="menu_item_battery_optimizations_str">Optimisations de la pile</string>
+    <string name="battery_optimizations_enabled">Optimisations de la pile activées</string>
+    <string name="battery_optimizations_enabled_explained">Votre Android fait de l\'optimisation de pile importante pour I2PD et ceci peut mener à l\'arrêt du daemon sans aucune autre raison.\nIl est recommandé d\'autoriser la désactivation de cette optimisation de pile.</string>
+    <string name="battery_optimizations_enabled_dialog">Votre Android fait de l\'optimisation de pile importante pour I2PD et ceci peut mener à l\'arrêt du daemon sans aucune autre raison.\n\nVous allez maintenant vous faire demander d\'autoriser la désactivation de cette optimisation.</string>
+    <string name="continue_str">Continuer</string>
+    <string name="device_does_not_support_disabling_battery_optimizations">Votre version d\'Android ne supporte pas la désactivation de l\'optimisation de pile</string>
+    <string name="os_version_does_not_support_battery_optimizations_show_os_dialog_api">Votre version d\'Android ne supporte pas l\'affichage du dialogue de l\'optimisation de pile pour les applications.</string>
+    <string name="shutdown_canceled">Fermeture planifiée annulée</string>
+    <string name="tunnels_reloading">Actualisation de la configuration des tunnels...</string>
+    <string name="settings_section0">Paramètres généraux</string>
+    <string name="settings_section_tunnels">Tunnels</string>
+    <string name="autostart_enabled">Lancer au démarrage</string>
+    <string name="add_tunnel_button">Ajouter tunnel</string>
+    <string name="add_tunnel">Gestion des tunnels</string>
+    <string name="del_tunnel_button">Supprimer tunnel</string>
+</resources>
