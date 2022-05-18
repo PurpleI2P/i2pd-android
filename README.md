@@ -12,9 +12,9 @@ This repository contains Android application sources of i2pd
 
 ## How to build
 
-### Install OpenJDK 11+, g++, rename (used for building modules), gradle 5.1+
+### Install g++, OpenJDK 11+, gradle 5.1+
 ```bash
-sudo apt-get install g++ rename openjdk-11-jdk gradle
+sudo apt-get install g++ openjdk-11-jdk gradle
 ```
 
 If your system provides gradle with version < 5.1, download it from gradle homepage:

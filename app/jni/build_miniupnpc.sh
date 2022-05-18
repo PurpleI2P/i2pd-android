@@ -5,29 +5,27 @@ set -e
 CMAKE_VERSION=3.18.1
 
 function build_one {
-	mkdir -p out/${CPU}
-	cd out/${CPU}
+	mkdir -p build out/$CPU
+	cd build
 
 	cmake \
 	-DUPNPC_BUILD_SHARED=False \
 	-DUPNPC_BUILD_TESTS=False \
 	-DUPNPC_BUILD_SAMPLE=False \
-	-DANDROID_NATIVE_API_LEVEL=${API} \
-	-DANDROID_ABI=${CPU} \
+	-DANDROID_NATIVE_API_LEVEL=$API \
+	-DANDROID_ABI=$CPU \
 	-DCMAKE_BUILD_TYPE=Release \
-	-DANDROID_NDK=${ANDROID_NDK_HOME} \
-	-DCMAKE_TOOLCHAIN_FILE=${ANDROID_NDK_HOME}/build/cmake/android.toolchain.cmake \
-	../..
+	-DANDROID_NDK=$ANDROID_NDK_HOME \
+	-DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake \
+	-DCMAKE_INSTALL_PREFIX=../out/$CPU \
+	..
 
 	echo "Building..."
 	cmake --build . -- libminiupnpc-static
+	make install
 
-	cd ../..
-
-	if [[ -n 'out/include' ]]; then
-		mkdir -p out/include/miniupnpc
-		cp include/* out/include/miniupnpc
-	fi
+	cd ..
+	rm -rf build
 }
 
 function checkPreRequisites {
@@ -49,17 +47,9 @@ function checkPreRequisites {
 	fi
 }
 
-checkPreRequisites
-
-cd miniupnp/miniupnpc
-rm -rf out
-
-# add cmake from Android SDK to PATH
-PATH=$ANDROID_SDK_ROOT/cmake/${CMAKE_VERSION}/bin:$PATH
-
 function build {
 	for arg in "$@"; do
-		case "${arg}" in
+		case "$arg" in
 			x86_64)
 				API=21
 				CPU=x86_64
@@ -85,6 +75,14 @@ function build {
 		esac
 	done
 }
+
+checkPreRequisites
+
+cd miniupnp/miniupnpc
+rm -rf build out
+
+# add cmake from Android SDK to PATH
+PATH=$ANDROID_SDK_ROOT/cmake/$CMAKE_VERSION/bin:$PATH
 
 if (( $# == 0 )); then
 	build x86_64 arm64 arm x86
