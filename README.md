@@ -65,6 +65,10 @@ You will find APKs in `app/build/outputs/apk`
 
 For building on Windows you must use MSYS2 with `mingw64` or `ucrt64` shell and preinstalled `gcc` ( package `mingw-w64-x86_64-gcc` or `mingw-w64-ucrt-x86_64-gcc`).
 
-Download Android SDK command line tools for Windows, unpack and isntall replacing `--sdk_root=` path.
+Java 11 can be downloaded from [jdk.java.com](https://jdk.java.net/java-se-ri/11)
+
+Download Android SDK command line tools for Windows, unpack and install it replacing `--sdk_root=` path.
 
 `ANDROID_SDK_ROOT` variable must point to SDK using linux-way path, like `/c/dev/android-sdk` when SDK installed to `C:\dev\android-sdk`.
+
+Gradle can be called with `./gradlew` command inside project root, or you can install it using `pacman` and call `gradle` like on linux.
