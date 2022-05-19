@@ -2,6 +2,8 @@
 
 set -e
 
+HOST_OS=`uname -a`
+
 function build_one {
 	mkdir -p out/$CPU
 
@@ -74,7 +76,11 @@ checkPreRequisites
 cd openssl
 rm -rf out
 
-PATH=$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin:$PATH
+if [[ "$HOST_OS" == *"_NT-"* ]]; then
+  PATH=$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/windows-x86_64/bin:$PATH
+else
+  PATH=$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin:$PATH
+fi
 
 if [[ -f 'Makefile' ]]; then
 	make clean

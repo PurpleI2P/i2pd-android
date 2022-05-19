@@ -9,6 +9,7 @@ function build_one {
 	cd build
 
 	cmake \
+	-G "Unix Makefiles" \
 	-DUPNPC_BUILD_SHARED=False \
 	-DUPNPC_BUILD_TESTS=False \
 	-DUPNPC_BUILD_SAMPLE=False \

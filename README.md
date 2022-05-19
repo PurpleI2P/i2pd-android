@@ -13,6 +13,7 @@ This repository contains Android application sources of i2pd
 ## How to build
 
 ### Install g++, OpenJDK 11+, gradle 5.1+
+
 ```bash
 sudo apt-get install g++ openjdk-11-jdk gradle
 ```
@@ -22,6 +23,7 @@ If your system provides gradle with version < 5.1, download it from gradle homep
 https://gradle.org/install/
 
 ### Download and prepare Android SDK for building
+
 Android SDK Available here:
 
 https://developer.android.com/studio#downloads
@@ -37,11 +39,13 @@ unzip commandlinetools-linux-8092744_latest.zip
 ```
 
 ### Clone repository with submodules
+
 ```bash
 git clone --recurse-submodules https://github.com/PurpleI2P/i2pd-android.git
 ```
 
 ### Compile application
+
 ```bash
 export ANDROID_SDK_ROOT=/opt/android-sdk
 export ANDROID_NDK_HOME=$ANDROID_SDK_ROOT/ndk/21.4.7075529
@@ -56,3 +60,11 @@ gradle clean assembleDebug
 ```
 
 You will find APKs in `app/build/outputs/apk`
+
+### Building on Windows
+
+For building on Windows you must use MSYS2 with `mingw64` or `ucrt64` shell and preinstalled `gcc` ( package `mingw-w64-x86_64-gcc` or `mingw-w64-ucrt-x86_64-gcc`).
+
+Download Android SDK command line tools for Windows, unpack and isntall replacing `--sdk_root=` path.
+
+`ANDROID_SDK_ROOT` variable must point to SDK using linux-way path, like `/c/dev/android-sdk` when SDK installed to `C:\dev\android-sdk`.
