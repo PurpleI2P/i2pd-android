@@ -17,7 +17,6 @@ function build_one {
 	--target-version=$API \
 	--with-libraries=$BOOST_LIBS \
 	--layout=system \
-	--prefix=out \
 	$ANDROID_NDK_HOME
 }
 
