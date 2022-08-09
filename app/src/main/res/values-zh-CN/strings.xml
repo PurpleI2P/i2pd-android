@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="app_description2">网络无国界</string>
+    <string name="action_start">开始运行</string>
+    <string name="action_stop">停止运行</string>
+    <string name="action_exit">退出</string>
+    <string name="action_graceful_stop">待他人断线后停止</string>
+    <string name="action_cancel_graceful_stop">取消计划的停止</string>
+    <string name="action_reload_tunnels_config">重新加载隧道</string>
+    <string name="action_start_webview">打开网页控制台</string>
+    <string name="action_settings">设置</string>
+    <string name="graceful_stop_is_already_in_progress">计划停止已经开始</string>
+    <string name="graceful_stop_is_in_progress">正在等待他人断线</string>
+    <string name="gracefulShutdownInProgress">正在等待他人断线。剩余：</string>
+    <string name="already_stopped">I2Pd 已停止</string>
+    <string name="uninitialized">I2Pd 正在初始化...</string>
+    <string name="starting">I2Pd 正在启动...</string>
+    <string name="jniLibraryLoaded">已读取的Java本地接口库</string>
+    <string name="startedOkay">I2Pd 已启动</string>
+    <string name="startFailed">I2Pd 启动失败</string>
+    <string name="stopped">I2Pd 已停止运行</string>
+    <string name="stopping">I2Pd 正在停止运行...</string>
+    <string name="remaining">分钟</string>
+    <string name="services">内部服务</string>
+    <string name="services_http_proxy">HTTP 代理</string>
+    <string name="services_socks_proxy">SOCKS5 代理</string>
+    <string name="title_activity_i2_pdperms_asker_prompt">需要权限</string>
+    <string name="permDenied">无法获得存储权限。请允许 I2Pd获取此权限。</string>
+    <string name="permRequired">I2Pd 需要储存权限才能将密钥等文件写入储存介质中的 I2PD 文件夹。</string>
+    <string name="retryPermRequest">尝试重新获取储存权限</string>
+    <string name="menu_item_battery_optimizations_str">优化电池用量</string>
+    <string name="battery_optimizations_enabled">已启用电池优化</string>
+    <string name="battery_optimizations_enabled_explained">您的设备正在对 I2Pd 进行严格的电池优化，这可能导致守护进程无缘无故停止运行。\n建议关闭这些电池优化。</string>
+    <string name="battery_optimizations_enabled_dialog">您的设备正在对 I2Pd 进行严格的电池优化，这可能导致守护进程无缘无故停止运行。\n\n请点击继续以关闭电池优化。</string>
+    <string name="continue_str">继续</string>
+    <string name="device_does_not_support_disabling_battery_optimizations">您设备的 Android 版本不支持关闭电池优化</string>
+    <string name="os_version_does_not_support_battery_optimizations_show_os_dialog_api">您设备的 Android 版本不支持打开电池优化的界面。</string>
+    <string name="shutdown_canceled">计划关闭已取消</string>
+    <string name="tunnels_reloading">正在重新加载隧道配置...</string>
+    <string name="settings_section0">通用设置</string>
+    <string name="settings_section_tunnels">隧道</string>
+    <string name="autostart_enabled">开机启动</string>
+    <string name="add_tunnel_button">添加隧道</string>
+    <string name="add_tunnel">隧道管理</string>
+    <string name="del_tunnel_button">删除隧道</string>
+</resources>
