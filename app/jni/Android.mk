@@ -24,7 +24,7 @@ LOCAL_SRC_FILES := \
 	$(DAEMON_SRC_PATH)/Daemon.cpp \
 	$(DAEMON_SRC_PATH)/UPnP.cpp \
 	$(DAEMON_SRC_PATH)/HTTPServer.cpp \
-	$(DAEMON_SRC_PATH)/I2PControl.cpp
+	$(DAEMON_SRC_PATH)/I2PControl.cpp \
 	$(DAEMON_SRC_PATH)/I2PControlHandlers.cpp
 
 include $(BUILD_SHARED_LIBRARY)
