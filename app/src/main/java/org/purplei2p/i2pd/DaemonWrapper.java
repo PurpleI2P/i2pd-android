@@ -30,9 +30,9 @@ public class DaemonWrapper {
     private final AssetManager assetManager;
     private final ConnectivityManager connectivityManager;
     private String i2pdpath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/i2pd";
-    private boolean assetsCopied;
 
-    private static final String appLocale = Locale.getDefault().getDisplayLanguage(Locale.ENGLISH).toLowerCase(); // lower-case system language (like "english")
+    /** lower-case system language at app start time (like "english") */
+    private static final String appLocale = Locale.getDefault().getDisplayLanguage(Locale.ENGLISH).toLowerCase();
 
     public interface StateUpdateListener {
         void daemonStateUpdate(State oldValue, State newValue);
@@ -107,7 +107,10 @@ public class DaemonWrapper {
         }
 
         public boolean isStartedOkay() {
-            return equals(State.startedOkay) || equals(State.gracefulShutdownInProgress);
+            return this == startedOkay || this == gracefulShutdownInProgress;
+        }
+        public boolean needsToBeAlive() {
+            return this == uninitialized || this == starting || this == startedOkay || this == gracefulShutdownInProgress;
         }
     }
 
@@ -150,6 +153,7 @@ public class DaemonWrapper {
         return I2PD_JNI.getDataDir();
     }
 
+    // TODO unused func
     public void changeDataDir(String dataDir, Boolean updateAssets) {
         I2PD_JNI.setDataDir(dataDir);
         if (updateAssets) processAssets();
@@ -209,9 +213,8 @@ public class DaemonWrapper {
         Log.d(TAG, "checking assets");
 
         if (holderFile.exists()) {
-            try { // if holder file exists, read assets version string
-                FileReader fileReader = new FileReader(holderFile);
-
+            // if holder file exists, read assets version string
+            try (FileReader fileReader = new FileReader(holderFile)) {
                 try {
                     BufferedReader br = new BufferedReader(fileReader);
 

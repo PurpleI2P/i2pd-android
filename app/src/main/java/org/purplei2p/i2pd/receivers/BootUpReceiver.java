@@ -18,7 +18,7 @@ public class BootUpReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         /* todo: disable the autostart? */
-        /*
+        /* TODO
             Warning: This broadcast receiver declares an intent-filter for a protected broadcast action string,
             which can only be sent by the system, not third-party applications. However, the receiver's `onReceive`
             method does not appear to call `getAction` to ensure that the received Intent's action string matches

@@ -29,6 +29,15 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
+        <receiver
+            android:enabled="true"
+            android:name="org.purplei2p.i2pd.receivers.MakeMeAJobReceiver"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE">
+            <intent-filter>
+                <action android:name="org.purplei2p.i2pd.MAKEMEAJOB_ACTION" />
+            </intent-filter>
+        </receiver>
         <meta-data
             android:name="android.webkit.WebView.MetricsOptOut"
             android:value="true" />
@@ -58,6 +67,11 @@
         <service
             android:name=".ForegroundService"
             android:enabled="true" />
+
+        <service
+            android:name=".MyJobService"
+            android:enabled="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
 
         <activity
             android:name=".I2PDPermsExplanationActivity"

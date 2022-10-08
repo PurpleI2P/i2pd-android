@@ -13,6 +13,7 @@ import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -37,11 +38,16 @@ import androidx.core.content.ContextCompat;
 
 import static android.provider.Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS;
 
+import org.purplei2p.i2pd.receivers.MakeMeAJobReceiver;
+
 public class I2PDActivity extends Activity {
     private static final String TAG = "i2pdActvt";
     private static final int MY_PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
     public static final int GRACEFUL_DELAY_MILLIS = 10 * 60 * 1000;
     public static final String PACKAGE_URI_SCHEME = "package:";
+
+    private final MakeMeAJobReceiver jobReceiver = isJobServiceApiAvailable() ?
+            new MakeMeAJobReceiver() : null;
 
     private TextView textView;
     private CheckBox HTTPProxyState;
@@ -50,15 +56,11 @@ public class I2PDActivity extends Activity {
     private CheckBox SAMState;
     private CheckBox I2CPState;
 
-
     private static volatile DaemonWrapper daemon;
 
-    private final DaemonWrapper.StateUpdateListener daemonStateUpdatedListener = new DaemonWrapper.StateUpdateListener() {
-        @Override
-        public void daemonStateUpdate(DaemonWrapper.State oldValue, DaemonWrapper.State newValue) {
-            updateStatusText();
-        }
-    };
+    public static DaemonWrapper getDaemon() { return daemon; }
+
+    private final DaemonWrapper.StateUpdateListener daemonStateUpdatedListener = (oldValue, newValue) -> updateStatusText();
 
     private void updateStatusText() {
         runOnUiThread(() -> {
@@ -86,7 +88,7 @@ public class I2PDActivity extends Activity {
                 String graceStr = DaemonWrapper.State.gracefulShutdownInProgress.equals(state) ? String.format(": %s %s", formatGraceTimeRemaining(), getText(R.string.remaining)) : "";
                 textView.setText(String.format("%s%s%s", getText(state.getStatusStringResourceId()), startResultStr, graceStr));
             } catch (Throwable tr) {
-                Log.e(TAG,"error ignored",tr);
+                Log.e(TAG,"exc",tr);
             }
         });
     }
@@ -135,7 +137,32 @@ public class I2PDActivity extends Activity {
             }
         }
 
-        doBindService();
+        doBindServices();
+
+        if(isJobServiceApiAvailable()) {
+            IntentFilter filter = new IntentFilter();
+            filter.addAction(MakeMeAJobReceiver.MAKEMEAJOB_ACTION);
+            registerReceiver(jobReceiver, filter);
+
+            new Thread(() -> {
+                try {
+                    while (getDaemon().getState().needsToBeAlive()) {
+                        runOnUiThread(() -> {
+                            try {
+                                sendBroadcast(new Intent(MakeMeAJobReceiver.MAKEMEAJOB_ACTION));
+                            } catch (Throwable tr) {
+                                Log.e(TAG, "", tr);
+                            }
+                        });
+                        Thread.sleep(60*1000);
+                    }
+                } catch(InterruptedException ex) {
+                    Log.d(TAG, "JOB_ACTION pinger thread interrupted");
+                } catch(Throwable tr) {
+                    Log.e(TAG, "", tr);
+                }
+            }, "JOB_ACTION pinger").start();
+        }
 
         final Timer gracefulQuitTimer = getGracefulQuitTimer();
         if (gracefulQuitTimer != null) {
@@ -157,14 +184,17 @@ public class I2PDActivity extends Activity {
         daemon.removeStateChangeListener(daemonStateUpdatedListener);
         //cancelGracefulStop0();
         try {
-            doUnbindService();
+            doUnbindServices();
         } catch (IllegalArgumentException ex) {
             Log.e(TAG, "throwable caught and ignored", ex);
-            if (ex.getMessage().startsWith("Service not registered: " + org.purplei2p.i2pd.I2PDActivity.class.getName())) {
+            if (ex.getMessage().startsWith("Service not registered: " + I2PDActivity.class.getName())) {
                 Log.i(TAG, "Service not registered exception seems to be normal, not a bug it seems.");
             }
         } catch (Throwable tr) {
             Log.e(TAG, "throwable caught and ignored", tr);
+        }
+        if (isJobServiceApiAvailable()) {
+            unregisterReceiver(jobReceiver);
         }
     }
 
@@ -199,7 +229,7 @@ public class I2PDActivity extends Activity {
 
     // private LocalService mBoundService;
 
-    private ServiceConnection mConnection = new ServiceConnection() {
+    private ServiceConnection foregroundServiceConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder service) {
             /* This is called when the connection with the service has been
                established, giving us the service object we can use to
@@ -224,27 +254,46 @@ public class I2PDActivity extends Activity {
         }
     };
 
-    private static volatile boolean mIsBound;
+    private ServiceConnection jobServiceConnection = new ServiceConnection() {
+        public void onServiceConnected(ComponentName className, IBinder service) {}
+        public void onServiceDisconnected(ComponentName className) {}
+    };
 
-    private void doBindService() {
+    private static volatile boolean foregroundServiceBound;
+    private static volatile boolean jobServiceBound;
+
+    private void doBindServices() {
         synchronized (I2PDActivity.class) {
-            if (mIsBound)
-                return;
-            // Establish a connection with the service.  We use an explicit
-            // class name because we want a specific service implementation that
-            // we know will be running in our own process (and thus won't be
-            // supporting component replacement by other applications).
-            bindService(new Intent(this, ForegroundService.class), mConnection, Context.BIND_AUTO_CREATE);
-            mIsBound = true;
+            if (!foregroundServiceBound) {
+                // Establish a connection with the service.  We use an explicit
+                // class name because we want a specific service implementation that
+                // we know will be running in our own process (and thus won't be
+                // supporting component replacement by other applications).
+                bindService(new Intent(this, ForegroundService.class), foregroundServiceConnection, Context.BIND_AUTO_CREATE);
+                foregroundServiceBound = true;
+            }
+        }
+        synchronized (I2PDActivity.class) {
+            if (!jobServiceBound && org.purplei2p.i2pd.I2PDActivity.isJobServiceApiAvailable()) {
+                bindService(new Intent(this, MyJobService.class), jobServiceConnection, Context.BIND_AUTO_CREATE);
+                jobServiceBound = true;
+            }
         }
     }
 
-    private void doUnbindService() {
+    private void doUnbindServices() {
         synchronized (I2PDActivity.class) {
-            if (mIsBound) {
+            if (foregroundServiceBound) {
                 // Detach our existing connection.
-                unbindService(mConnection);
-                mIsBound = false;
+                unbindService(foregroundServiceConnection);
+                foregroundServiceBound = false;
+            }
+        }
+        synchronized (I2PDActivity.class) {
+            if (jobServiceBound) {
+                // Detach our existing connection.
+                unbindService(jobServiceConnection);
+                jobServiceBound = false;
             }
         }
     }
@@ -258,8 +307,12 @@ public class I2PDActivity extends Activity {
         return true;
     }
 
-    private boolean isBatteryOptimizationsOpenOsDialogApiAvailable() {
+    private static boolean isBatteryOptimizationsOpenOsDialogApiAvailable() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
+    }
+
+    public static boolean isJobServiceApiAvailable() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     }
 
     @Override

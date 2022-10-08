@@ -9,7 +9,7 @@ obj
 .idea
 .externalNativeBuild
 ant.properties
-local.properties
+local*
 build.sh
 android.iml
 build
