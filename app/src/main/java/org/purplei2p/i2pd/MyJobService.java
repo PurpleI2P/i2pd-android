@@ -11,22 +11,21 @@ import androidx.annotation.RequiresApi;
 public class MyJobService extends JobService {
     private static final String TAG = "i2pdJobSrvc";
 
-    private final DaemonWrapper.StateUpdateListener listener = new DaemonWrapper.StateUpdateListener() {
-        @Override
-        public void daemonStateUpdate(DaemonWrapper.State oldValue, DaemonWrapper.State newValue) {
+    private DaemonWrapper.StateUpdateListener listener;
+
+    @Override
+    public boolean onStartJob(final JobParameters params) {
+        Log.d(TAG,"onStartJob entered");
+        listener = (oldValue, newValue) -> {
             if(!newValue.needsToBeAlive()) {
-                /*synchronized (MyJobService.this) {
-                    MyJobService.this.notifyAll(); //wakeup
-                }*/
+            /*synchronized (MyJobService.this) {
+                MyJobService.this.notifyAll(); //wakeup
+            }*/
 
                 removeDaemonStateChangeListener();
-                jobFinished(null, false);
+                jobFinished(params, false);
             }
-        }
-    };
-    @Override
-    public boolean onStartJob(JobParameters params) {
-        Log.d(TAG,"onStartJob entered");
+        };
         I2PDActivity.getDaemon().addStateChangeListener(listener);
 
         /*
