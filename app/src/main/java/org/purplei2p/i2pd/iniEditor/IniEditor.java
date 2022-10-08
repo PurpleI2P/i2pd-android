@@ -25,7 +25,7 @@
    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package org.purplei2p.i2pd.iniedotr;
+package org.purplei2p.i2pd.iniEditor;
 
 import java.io.*;
 import java.util.*;
@@ -112,13 +112,13 @@ import java.util.*;
  */
 public class IniEditor {
 
-    private static boolean DEFAULT_CASE_SENSITIVITY = false;
+    private static final boolean DEFAULT_CASE_SENSITIVITY = false;
 
-    private Map<String, Section> sections;
-    private List<String> sectionOrder;
+    private final Map<String, Section> sections;
+    private final List<String> sectionOrder;
     private String commonName;
-    private char[] commentDelims;
-    private boolean isCaseSensitive;
+    private final char[] commentDelims;
+    private final boolean isCaseSensitive;
     private OptionFormat optionFormat;
 
     /**
@@ -209,12 +209,12 @@ public class IniEditor {
      *    comments
      */
     public IniEditor(String commonName, char[] delims, boolean isCaseSensitive) {
-        this.sections = new HashMap<String, Section>();
-        this.sectionOrder = new LinkedList<String>();
+        this.sections = new HashMap<>();
+        this.sectionOrder = new LinkedList<>();
         this.isCaseSensitive = isCaseSensitive;
         if (commonName != null) {
             this.commonName = commonName;
-            addSection(this.commonName);
+            boolean x = addSection(this.commonName);
         }
         this.commentDelims = delims;
         this.optionFormat = new OptionFormat(Section.DEFAULT_OPTION_FORMAT);
@@ -275,7 +275,7 @@ public class IniEditor {
      * @throws NullPointerException if section is <code>null</code>
      */
     public Map< String, String > getSectionMap(String section) {
-        Map< String, String > sectionMap = new HashMap< String, String >();
+        Map< String, String > sectionMap = new HashMap<>();
         if (hasSection(section)) {
             Section sect = getSection(section);
             for(String key : sect.options.keySet()) {
@@ -346,26 +346,26 @@ public class IniEditor {
      * @return true if the section exists
      */
     public boolean hasSection(String name) {
-        return this.sections.containsKey(normSection(name));
+        return this.sections.containsKey(normalizeSection(name));
     }
 
     /**
      * Adds a section if it doesn't exist yet.
      *
      * @param name the name of the section
-     * @return <code>true</code> if the section didn't already exist
-     * @throws IllegalArgumentException the name is illegal, ie contains one
+     * @return <code>true</code> iff the section didn't already exist and was actually added
+     * @throws IllegalArgumentException the name is illegal, i.e. contains one
      *      of the characters '[' and ']' or consists only of white space
      */
     public boolean addSection(String name) {
-        String normName = normSection(name);
-        if (!hasSection(normName)) {
+        String normalizedSectionName = normalizeSection(name);
+        if (!hasSection(normalizedSectionName)) {
             // Section constructor might throw IllegalArgumentException
-            Section section = new Section(normName, this.commentDelims,
-                                                         this.isCaseSensitive);
-            section.setOptionFormat(this.optionFormat);
-            this.sections.put(normName, section);
-            this.sectionOrder.add(normName);
+            Section section = new Section(normalizedSectionName, commentDelims,
+                                                         isCaseSensitive);
+            section.setOptionFormat(optionFormat);
+            sections.put(normalizedSectionName, section);
+            sectionOrder.add(normalizedSectionName);
             return true;
         }
         else {
@@ -381,7 +381,7 @@ public class IniEditor {
      * @throws IllegalArgumentException when trying to remove the common section
      */
     public boolean removeSection(String name) {
-        String normName = normSection(name);
+        String normName = normalizeSection(name);
         if (this.commonName != null && this.commonName.equals(normName)) {
             throw new IllegalArgumentException("Can't remove common section");
         }
@@ -402,9 +402,9 @@ public class IniEditor {
      * @return list of the section names in original/insertion order
      */
     public List<String> sectionNames() {
-        List<String> sectList = new ArrayList<String>(this.sectionOrder);
-        if (this.commonName != null) {
-            sectList.remove(this.commonName);
+        List<String> sectList = new ArrayList<>(sectionOrder);
+        if (commonName != null) {
+            sectList.remove(commonName);
         }
         return sectList;
     }
@@ -558,20 +558,18 @@ public class IniEditor {
      */
     public void load(InputStreamReader streamReader) throws IOException {
         BufferedReader reader = new BufferedReader(streamReader);
-        String curSection = null;
-        String line = null;
-
+        String currentSection = null;
         while (reader.ready()) {
-            line = reader.readLine().trim();
+            String line = reader.readLine().trim();
             if (line.length() > 0 && line.charAt(0) == Section.HEADER_START) {
                 int endIndex = line.indexOf(Section.HEADER_END);
                 if (endIndex >= 0) {
-                    curSection = line.substring(1, endIndex);
-                    addSection(curSection);
+                    currentSection = line.substring(1, endIndex);
+                    boolean added = addSection(currentSection);
                 }
             }
-            if (curSection != null) {
-                Section sect = getSection(curSection);
+            if (currentSection != null) {
+                Section sect = getSection(currentSection);
                 sect.load(reader);
             }
         }
@@ -584,7 +582,7 @@ public class IniEditor {
      * @return the section
      */
     private Section getSection(String name) {
-        return sections.get(normSection(name));
+        return sections.get(normalizeSection(name));
     }
 
     /**
@@ -596,20 +594,15 @@ public class IniEditor {
      * @param name the string to be used as section name
      * @return a normalized section name
      */
-    private String normSection(String name) {
-        if (!this.isCaseSensitive) {
+    private String normalizeSection(String name) {
+        if (!isCaseSensitive) {
             name = name.toLowerCase();
         }
         return name.trim();
     }
 
-    private static String[] toStringArray(Collection coll) {
-        Object[] objArray = coll.toArray();
-        String[] strArray = new String[objArray.length];
-        for (int i = 0; i < objArray.length; i++) {
-            strArray[i] = (String)objArray[i];
-        }
-        return strArray;
+    private static String[] toStringArray(Collection<String> coll) {
+        return coll.toArray(new String[0]);
     }
 
     /**
@@ -620,15 +613,14 @@ public class IniEditor {
      * properties, for example).
      */
     public static class Section {
-
-        private String name;
-        private Map<String, Option> options;
-        private List<Line> lines;
-        private char[] optionDelims;
-        private char[] optionDelimsSorted;
-        private char[] commentDelims;
-        private char[] commentDelimsSorted;
-        private boolean isCaseSensitive;
+        private final String name;
+        private final Map<String, Option> options;
+        private final List<Line> lines;
+        private final char[] optionDelims;
+        private final char[] optionDelimsSorted;
+        private final char[] commentDelims;
+        private final char[] commentDelimsSorted;
+        private final boolean isCaseSensitive;
         private OptionFormat optionFormat;
 
         private static final char[] DEFAULT_OPTION_DELIMS
@@ -695,8 +687,8 @@ public class IniEditor {
             }
             this.name = name;
             this.isCaseSensitive = isCaseSensitive;
-            this.options = new HashMap<String, Option>();
-            this.lines = new LinkedList<Line>();
+            this.options = new HashMap<>();
+            this.lines = new LinkedList<>();
             this.optionDelims = DEFAULT_OPTION_DELIMS;
             this.commentDelims = (delims == null ? DEFAULT_COMMENT_DELIMS : delims);
             this.optionFormat = new OptionFormat(DEFAULT_OPTION_FORMAT);
@@ -749,12 +741,10 @@ public class IniEditor {
          *      original/insertion order
          */
         public List<String> optionNames() {
-            List<String> optNames = new LinkedList<String>();
-            Iterator<Line> it = this.lines.iterator();
-            while (it.hasNext()) {
-                Line line = it.next();
+            List<String> optNames = new LinkedList<>();
+            for (Line line : lines) {
                 if (line instanceof Option) {
-                    optNames.add(((Option)line).name());
+                    optNames.add(((Option) line).name());
                 }
             }
             return optNames;
@@ -767,7 +757,7 @@ public class IniEditor {
          * @return true if the option exists in this section
          */
         public boolean hasOption(String name) {
-            return this.options.containsKey(normOption(name));
+            return options.containsKey(normalizeOption(name));
         }
 
         /**
@@ -778,9 +768,9 @@ public class IniEditor {
          *      option with the specified name exists
          */
         public String get(String option) {
-            String normed = normOption(option);
-            if (hasOption(normed)) {
-                return getOption(normed).value();
+            String normalizedOption = normalizeOption(option);
+            if (hasOption(normalizedOption)) {
+                return getOption(normalizedOption).value();
             }
             return null;
         }
@@ -794,7 +784,7 @@ public class IniEditor {
          *      ie contains a '=' character or consists only of white space
          */
         public void set(String option, String value) {
-            set(option, value, this.optionDelims[0]);
+            set(option, value, optionDelims[0]);
         }
 
         /**
@@ -802,20 +792,20 @@ public class IniEditor {
          *
          * @param option the option's name
          * @param value the option's value
-         * @param delim the delimiter between name and value for this option
+         * @param delimiter the delimiter between name and value for this option
          * @throws IllegalArgumentException the option name is illegal,
          *      ie contains a '=' character or consists only of white space
          */
-        public void set(String option, String value, char delim) {
-            String normed = normOption(option);
-            if (hasOption(normed)) {
-                getOption(normed).set(value);
+        public void set(String option, String value, char delimiter) {
+            String normalizedOption = normalizeOption(option);
+            if (hasOption(normalizedOption)) {
+                getOption(normalizedOption).set(value);
             }
             else {
                 // Option constructor might throw IllegalArgumentException
-                Option opt = new Option(normed, value, delim, this.optionFormat);
-                this.options.put(normed, opt);
-                this.lines.add(opt);
+                Option opt = new Option(normalizedOption, value, delimiter, optionFormat);
+                options.put(normalizedOption, opt);
+                lines.add(opt);
             }
         }
 
@@ -826,10 +816,10 @@ public class IniEditor {
          * @return <code>true</code> if the option was actually removed
          */
         public boolean remove(String option) {
-            String normed = normOption(option);
-            if (hasOption(normed)) {
-                this.lines.remove(getOption(normed));
-                this.options.remove(normed);
+            String normalizedOption = normalizeOption(option);
+            if (hasOption(normalizedOption)) {
+                lines.remove(getOption(normalizedOption));
+                options.remove(normalizedOption);
                 return true;
             }
             else {
@@ -845,7 +835,7 @@ public class IniEditor {
          * @param comment the comment
          */
         public void addComment(String comment) {
-            addComment(comment, this.commentDelims[0]);
+            addComment(comment, commentDelims[0]);
         }
 
         /**
@@ -854,12 +844,12 @@ public class IniEditor {
          * line for each line.
          *
          * @param comment the comment
-         * @param delim the delimiter used to mark the start of this comment
+         * @param delimiter the delimiter used to mark the start of this comment
          */
-        public void addComment(String comment, char delim) {
+        public void addComment(String comment, char delimiter) {
             StringTokenizer st = new StringTokenizer(comment.trim(), NEWLINE_CHARS);
             while (st.hasMoreTokens()) {
-                this.lines.add(new Comment(st.nextToken(), delim));
+                lines.add(new Comment(st.nextToken(), delimiter));
             }
         }
         private static final String NEWLINE_CHARS = "\n\r";
@@ -868,7 +858,7 @@ public class IniEditor {
          * Adds a blank line to the end of this section.
          */
         public void addBlankLine() {
-            this.lines.add(BLANK_LINE);
+            lines.add(BLANK_LINE);
         }
 
         /**
@@ -890,28 +880,28 @@ public class IniEditor {
                     return;
                 }
 
-                int delimIndex = -1;
+                int delimIndex;
                 // blank line
                 if (line.equals("")) {
                     this.addBlankLine();
                 }
                 // comment line
-                else if ((delimIndex = Arrays.binarySearch(this.commentDelimsSorted, line.charAt(0))) >= 0) {
-                    addComment(line.substring(1), this.commentDelimsSorted[delimIndex]);
+                else if ((delimIndex = Arrays.binarySearch(commentDelimsSorted, line.charAt(0))) >= 0) {
+                    addComment(line.substring(1), commentDelimsSorted[delimIndex]);
                 }
                 // option line
                 else {
                     delimIndex = -1;
-                    int delimNum = -1;
+                    int delimNum;
                     int lastSpaceIndex = -1;
                     for (int i = 0, l = line.length(); i < l && delimIndex < 0; i++) {
-                        delimNum = Arrays.binarySearch(this.optionDelimsSorted, line.charAt(i));
+                        delimNum = Arrays.binarySearch(optionDelimsSorted, line.charAt(i));
                         if (delimNum >= 0) {
                             delimIndex = i;
                         }
                         else {
                             boolean isSpace = Arrays.binarySearch(
-                                this.OPTION_DELIMS_WHITESPACE, line.charAt(i)) >= 0;
+                                OPTION_DELIMS_WHITESPACE, line.charAt(i)) >= 0;
                             if (!isSpace && lastSpaceIndex >= 0) {
                                 break;
                             }
@@ -920,25 +910,27 @@ public class IniEditor {
                             }
                         }
                     }
-                    // delimiter at start of line
-                    if (delimIndex == 0) {
-                        // XXX what's a man got to do?
-                    }
                     // no delimiter found
-                    else if (delimIndex < 0) {
+                    if (delimIndex < 0) {
                         if (lastSpaceIndex < 0) {
-                            this.set(line, "");
+                            set(line, "");
                         }
                         else {
-                            this.set(line.substring(0, lastSpaceIndex)
-                                , line.substring(lastSpaceIndex+1));
+                            set(line.substring(0, lastSpaceIndex)
+                                , line.substring(lastSpaceIndex + 1));
                         }
                     }
                     // delimiter found
-                    else {
-                        this.set(line.substring(0, delimIndex)
+                    else if (delimIndex > 0){
+                        set(line.substring(0, delimIndex)
                             , line.substring(delimIndex+1), line.charAt(delimIndex));
                     }
+                    /*
+                    // delimiter at start of line
+                    else {
+                        // XXX what's a man got to do?
+                    }
+                    */
                 }
             }
         }
@@ -950,24 +942,23 @@ public class IniEditor {
          * @throws IOException at an I/O problem
          */
         public void save(PrintWriter writer) throws IOException {
-            Iterator<Line> it = this.lines.iterator();
-            while (it.hasNext()) {
-                writer.println(it.next().toString());
+            for (Line line : lines) {
+                writer.println(line.toString());
             }
             if (writer.checkError()) {
-                throw new IOException();
+                throw new IOException("PrintWriter.checkError() returned true");
             }
         }
 
         /**
          * Returns an actual Option instance.
          *
-         * @param option the name of the option, assumed to be normed already (!)
+         * @param name the name of the option, assumed to be already normalized.
          * @return the requested Option instance
          * @throws NullPointerException if no option with the specified name exists
          */
         private Option getOption(String name) {
-            return this.options.get(name);
+            return options.get(name);
         }
 
         /**
@@ -977,7 +968,7 @@ public class IniEditor {
          * @return the section's name in brackets
          */
         private String header() {
-            return HEADER_START + this.name + HEADER_END;
+            return HEADER_START + name + HEADER_END;
         }
 
         /**
@@ -992,8 +983,8 @@ public class IniEditor {
             if (name.trim().equals("")) {
                 return false;
             }
-            for (int i = 0; i < INVALID_NAME_CHARS.length; i++) {
-                if (name.indexOf(INVALID_NAME_CHARS[i]) >= 0) {
+            for (char invalidNameChar : INVALID_NAME_CHARS) {
+                if (name.indexOf(invalidNameChar) >= 0) {
                     return false;
                 }
             }
@@ -1008,8 +999,8 @@ public class IniEditor {
          * @param name the string to be used as option name
          * @return a normalized option name
          */
-        private String normOption(String name) {
-            if (!this.isCaseSensitive) {
+        private String normalizeOption(String name) {
+            if (!isCaseSensitive) {
                 name = name.toLowerCase();
             }
             return name.trim();
@@ -1018,7 +1009,7 @@ public class IniEditor {
     }
 
     private interface Line {
-        public String toString();
+        String toString();
     }
 
     private static final Line BLANK_LINE = new Line() {
@@ -1026,17 +1017,16 @@ public class IniEditor {
     };
 
     private static class Option implements Line {
-
-        private String name;
+        private final String name;
         private String value;
-        private char separator;
-        private OptionFormat format;
+        private final char separator;
+        private final OptionFormat format;
 
         private static final String ILLEGAL_VALUE_CHARS = "\n\r";
 
         public Option(String name, String value, char separator, OptionFormat format) {
             if (!validName(name, separator)) {
-                throw new IllegalArgumentException("Illegal option name:" + name);
+                throw new IllegalArgumentException("Illegal option name: '" + name + "'");
             }
             this.name = name;
             this.separator = separator;
@@ -1045,11 +1035,11 @@ public class IniEditor {
         }
 
         public String name() {
-            return this.name;
+            return name;
         }
 
         public String value() {
-            return this.value;
+            return value;
         }
 
         public void set(String value) {
@@ -1059,7 +1049,7 @@ public class IniEditor {
             else {
                 StringTokenizer st = new StringTokenizer(value.trim(),
                                                          ILLEGAL_VALUE_CHARS);
-                StringBuffer sb = new StringBuffer();
+                StringBuilder sb = new StringBuilder();
                 // XXX this might not be particularly efficient
                 while (st.hasMoreTokens()) {
                     sb.append(st.nextToken());
@@ -1069,25 +1059,22 @@ public class IniEditor {
         }
 
         public String toString() {
-            return this.format.format(this.name, this.value, this.separator);
+            return format.format(name, value, separator);
         }
 
         private static boolean validName(String name, char separator) {
             if (name.trim().equals("")) {
                 return false;
             }
-            if (name.indexOf(separator) >= 0) {
-                return false;
-            }
-            return true;
+            return name.indexOf(separator) < 0;
         }
 
     }
 
     private static class Comment implements Line {
 
-        private String comment;
-        private char delimiter;
+        private final String comment;
+        private final char delimiter;
 
         private static final char DEFAULT_DELIMITER = '#';
 
@@ -1101,16 +1088,14 @@ public class IniEditor {
         }
 
         public String toString() {
-            return this.delimiter + " " + this.comment;
+            return delimiter + " " + comment;
         }
-
     }
 
     private static class OptionFormat {
-
         private static final int EXPECTED_TOKENS = 4;
 
-        private String[] formatTokens;
+        private final String[] formatTokens;
 
         public OptionFormat(String formatString) {
             this.formatTokens = this.compileFormat(formatString);
@@ -1125,7 +1110,7 @@ public class IniEditor {
             String[] tokens = {"", "", "", ""};
             int tokenCount = 0;
             boolean seenPercent = false;
-            StringBuffer token = new StringBuffer();
+            StringBuilder token = new StringBuilder();
             for (int i = 0; i < formatString.length(); i++) {
                 switch (formatString.charAt(i)) {
                     case '%':
@@ -1141,11 +1126,11 @@ public class IniEditor {
                         if (seenPercent) {
                             if (tokenCount >= EXPECTED_TOKENS) {
                                 throw new IllegalArgumentException(
-                                    "Illegal option format. Too many %s placeholders.");
+                                    "Illegal option format. Too many %s placeholders. Must be less than " + EXPECTED_TOKENS + ".");
                             }
                             tokens[tokenCount] = token.toString();
                             tokenCount++;
-                            token = new StringBuffer();
+                            token = new StringBuilder();
                             seenPercent = false;
                         }
                         else {
@@ -1163,7 +1148,7 @@ public class IniEditor {
             }
             if (tokenCount != EXPECTED_TOKENS - 1) {
                 throw new IllegalArgumentException(
-                        "Illegal option format. Not enough %s placeholders.");
+                        "Illegal option format. Not enough %s placeholders. Must be as many as " + (EXPECTED_TOKENS - 1) + ".");
             }
             tokens[tokenCount] = token.toString();
             return tokens;
@@ -1178,5 +1163,4 @@ public class IniEditor {
         public NoSuchSectionException() { super(); }
         public NoSuchSectionException(String msg) { super(msg); }
     }
-
 }
