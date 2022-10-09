@@ -46,15 +46,15 @@ public class I2PDActivity extends Activity {
     public static final int GRACEFUL_DELAY_MILLIS = 10 * 60 * 1000;
     public static final String PACKAGE_URI_SCHEME = "package:";
 
-    private final MakeMeAJobReceiver jobReceiver = isJobServiceApiAvailable() ?
-            new MakeMeAJobReceiver() : null;
-
     private TextView textView;
     private CheckBox HTTPProxyState;
     private CheckBox SOCKSProxyState;
     private CheckBox BOBState;
     private CheckBox SAMState;
     private CheckBox I2CPState;
+
+    private final MakeMeAJobReceiver jobReceiver = isJobServiceApiAvailable() ?
+            new MakeMeAJobReceiver() : null;
 
     private static volatile DaemonWrapper daemon;
 
@@ -144,11 +144,16 @@ public class I2PDActivity extends Activity {
             filter.addAction(MakeMeAJobReceiver.MAKEMEAJOB_ACTION);
             registerReceiver(jobReceiver, filter);
 
+            final DaemonWrapper daemon = I2PDActivity.daemon;
+            if (daemon==null) throw new NullPointerException("daemon is null before the job pinger init");
+
             new Thread(() -> {
                 try {
-                    while (getDaemon().getState().needsToBeAlive()) {
+                    // if (daemon==null) throw new NullPointerException("daemon is null at the job pinger init");
+                    while (daemon.getState().needsToBeAlive()) {
                         runOnUiThread(() -> {
                             try {
+                                I2PDActivity.daemon = daemon;
                                 sendBroadcast(new Intent(MakeMeAJobReceiver.MAKEMEAJOB_ACTION));
                             } catch (Throwable tr) {
                                 Log.e(TAG, "", tr);
@@ -276,6 +281,7 @@ public class I2PDActivity extends Activity {
         synchronized (I2PDActivity.class) {
             if (!jobServiceBound && org.purplei2p.i2pd.I2PDActivity.isJobServiceApiAvailable()) {
                 bindService(new Intent(this, MyJobService.class), jobServiceConnection, Context.BIND_AUTO_CREATE);
+                MyJobService.setI2PDDaemon(daemon);
                 jobServiceBound = true;
             }
         }

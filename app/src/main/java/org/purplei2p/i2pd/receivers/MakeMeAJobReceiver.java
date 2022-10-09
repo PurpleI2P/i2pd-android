@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import org.purplei2p.i2pd.DaemonWrapper;
 import org.purplei2p.i2pd.I2PDActivity;
 import org.purplei2p.i2pd.MyJobService;
 

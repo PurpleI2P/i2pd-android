@@ -13,6 +13,12 @@ public class MyJobService extends JobService {
 
     private DaemonWrapper.StateUpdateListener listener;
 
+    public static DaemonWrapper getI2PDDaemon() {
+        DaemonWrapper daemon = I2PDActivity.getDaemon();
+        if (daemon==null) throw new NullPointerException("i2pdDaemon==null");
+        return daemon;
+    }
+
     @Override
     public boolean onStartJob(final JobParameters params) {
         Log.d(TAG,"onStartJob entered");
@@ -26,7 +32,8 @@ public class MyJobService extends JobService {
                 jobFinished(params, false);
             }
         };
-        I2PDActivity.getDaemon().addStateChangeListener(listener);
+
+        getI2PDDaemon().addStateChangeListener(listener);
 
         /*
             "So, the system may kill the process at any time to reclaim memory, and in doing so,
@@ -58,6 +65,6 @@ public class MyJobService extends JobService {
     }
 
     private void removeDaemonStateChangeListener() {
-        I2PDActivity.getDaemon().removeStateChangeListener(listener);
+        getI2PDDaemon().removeStateChangeListener(listener);
     }
 }
