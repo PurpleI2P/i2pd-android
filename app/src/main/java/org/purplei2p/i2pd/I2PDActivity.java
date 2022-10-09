@@ -281,7 +281,6 @@ public class I2PDActivity extends Activity {
         synchronized (I2PDActivity.class) {
             if (!jobServiceBound && org.purplei2p.i2pd.I2PDActivity.isJobServiceApiAvailable()) {
                 bindService(new Intent(this, MyJobService.class), jobServiceConnection, Context.BIND_AUTO_CREATE);
-                MyJobService.setI2PDDaemon(daemon);
                 jobServiceBound = true;
             }
         }
