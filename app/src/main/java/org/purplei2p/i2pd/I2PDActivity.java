@@ -2,6 +2,7 @@ package org.purplei2p.i2pd;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -17,6 +18,7 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -123,11 +125,11 @@ public class I2PDActivity extends Activity {
         if (daemon == null) {
             ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             daemon = new DaemonWrapper(getAssets(), connectivityManager);
+            ForegroundService.init(daemon);
+            daemon.addStateChangeListener(daemonStateUpdatedListener);
+            daemonStateUpdatedListener.daemonStateUpdate(DaemonWrapper.State.uninitialized, daemon.getState());
         }
-        ForegroundService.init(daemon);
 
-        daemon.addStateChangeListener(daemonStateUpdatedListener);
-        daemonStateUpdatedListener.daemonStateUpdate(DaemonWrapper.State.uninitialized, daemon.getState());
         // request permissions
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -137,37 +139,7 @@ public class I2PDActivity extends Activity {
             }
         }
 
-        doBindServices();
-
-        if(isJobServiceApiAvailable()) {
-            IntentFilter filter = new IntentFilter();
-            filter.addAction(MakeMeAJobReceiver.MAKEMEAJOB_ACTION);
-            registerReceiver(jobReceiver, filter);
-
-            final DaemonWrapper daemon = I2PDActivity.daemon;
-            if (daemon==null) throw new NullPointerException("daemon is null before the job pinger init");
-
-            new Thread(() -> {
-                try {
-                    // if (daemon==null) throw new NullPointerException("daemon is null at the job pinger init");
-                    while (daemon.getState().needsToBeAlive()) {
-                        runOnUiThread(() -> {
-                            try {
-                                I2PDActivity.daemon = daemon;
-                                sendBroadcast(new Intent(MakeMeAJobReceiver.MAKEMEAJOB_ACTION));
-                            } catch (Throwable tr) {
-                                Log.e(TAG, "", tr);
-                            }
-                        });
-                        Thread.sleep(60*1000);
-                    }
-                } catch(InterruptedException ex) {
-                    Log.d(TAG, "JOB_ACTION pinger thread interrupted");
-                } catch(Throwable tr) {
-                    Log.e(TAG, "", tr);
-                }
-            }, "JOB_ACTION pinger").start();
-        }
+        makeSureServicesAreBound(getApplicationContext());
 
         final Timer gracefulQuitTimer = getGracefulQuitTimer();
         if (gracefulQuitTimer != null) {
@@ -185,22 +157,6 @@ public class I2PDActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         textView = null;
-        ForegroundService.deinit();
-        daemon.removeStateChangeListener(daemonStateUpdatedListener);
-        //cancelGracefulStop0();
-        try {
-            doUnbindServices();
-        } catch (IllegalArgumentException ex) {
-            Log.e(TAG, "throwable caught and ignored", ex);
-            if (ex.getMessage().startsWith("Service not registered: " + I2PDActivity.class.getName())) {
-                Log.i(TAG, "Service not registered exception seems to be normal, not a bug it seems.");
-            }
-        } catch (Throwable tr) {
-            Log.e(TAG, "throwable caught and ignored", tr);
-        }
-        if (isJobServiceApiAvailable()) {
-            unregisterReceiver(jobReceiver);
-        }
     }
 
     @Override
@@ -267,7 +223,22 @@ public class I2PDActivity extends Activity {
     private static volatile boolean foregroundServiceBound;
     private static volatile boolean jobServiceBound;
 
-    private void doBindServices() {
+    private static void sendImplicitBroadcast(Context ctx, Intent i) {
+        PackageManager pm=ctx.getPackageManager();
+        List<ResolveInfo> matches=pm.queryBroadcastReceivers(i, 0);
+
+        for (ResolveInfo resolveInfo : matches) {
+            Intent explicit=new Intent(i);
+            ComponentName cn=
+                    new ComponentName(resolveInfo.activityInfo.applicationInfo.packageName,
+                            resolveInfo.activityInfo.name);
+
+            explicit.setComponent(cn);
+            ctx.sendBroadcast(explicit);
+        }
+    }
+
+    private void makeSureServicesAreBound(final Context ctx) {
         synchronized (I2PDActivity.class) {
             if (!foregroundServiceBound) {
                 // Establish a connection with the service.  We use an explicit
@@ -279,27 +250,73 @@ public class I2PDActivity extends Activity {
             }
         }
         synchronized (I2PDActivity.class) {
-            if (!jobServiceBound && org.purplei2p.i2pd.I2PDActivity.isJobServiceApiAvailable()) {
+            if (!jobServiceBound && I2PDActivity.isJobServiceApiAvailable()) {
                 bindService(new Intent(this, MyJobService.class), jobServiceConnection, Context.BIND_AUTO_CREATE);
+
+                IntentFilter filter = new IntentFilter();
+                filter.addAction(MakeMeAJobReceiver.MAKEMEAJOB_ACTION);
+                registerReceiver(jobReceiver, filter);
+
+                final DaemonWrapper daemon = I2PDActivity.daemon;
+                if (daemon==null) throw new NullPointerException("daemon is null before the job pinger init");
+
+                new Thread(() -> {
+                    try {
+                        // if (daemon==null) throw new NullPointerException("daemon is null at the job pinger init");
+                        while (daemon.getState().needsToBeAlive()) {
+                            runOnUiThread(() -> {
+                                try {
+                                    sendImplicitBroadcast(ctx, new Intent(MakeMeAJobReceiver.MAKEMEAJOB_ACTION));
+                                } catch (Throwable tr) {
+                                    Log.e(TAG, "", tr);
+                                }
+                            });
+                            Thread.sleep(60*1000);
+                        }
+                    } catch(InterruptedException ex) {
+                        Log.d(TAG, "JOB_ACTION pinger thread interrupted");
+                    } catch(Throwable tr) {
+                        Log.e(TAG, "", tr);
+                    }
+                }, "JOB_ACTION pinger").start();
+
                 jobServiceBound = true;
             }
         }
     }
 
-    private void doUnbindServices() {
-        synchronized (I2PDActivity.class) {
-            if (foregroundServiceBound) {
-                // Detach our existing connection.
-                unbindService(foregroundServiceConnection);
-                foregroundServiceBound = false;
+    private void unbindServicesIfBound() {
+        try {
+            synchronized (I2PDActivity.class) {
+                if (foregroundServiceBound) {
+                    // Detach our existing connection.
+                    unbindService(foregroundServiceConnection);
+                    foregroundServiceBound = false;
+                }
             }
+        } catch (IllegalArgumentException ex) {
+            Log.e(TAG, "throwable caught and ignored", ex);
+            if (ex.getMessage().startsWith("Service not registered: " + I2PDActivity.class.getName())) {
+                Log.i(TAG, "Service not registered exception seems to be normal, not a bug it seems.");
+            }
+        } catch (Throwable tr) {
+            Log.e(TAG, "throwable caught and ignored", tr);
         }
-        synchronized (I2PDActivity.class) {
-            if (jobServiceBound) {
-                // Detach our existing connection.
-                unbindService(jobServiceConnection);
-                jobServiceBound = false;
+        try {
+            synchronized (I2PDActivity.class) {
+                if (jobServiceBound) {
+                    // Detach our existing connection.
+                    unbindService(jobServiceConnection);
+                    jobServiceBound = false;
+                }
             }
+        } catch (IllegalArgumentException ex) {
+            Log.e(TAG, "throwable caught and ignored", ex);
+            if (ex.getMessage().startsWith("Service not registered: " + I2PDActivity.class.getName())) {
+                Log.i(TAG, "Service not registered exception seems to be normal, not a bug it seems.");
+            }
+        } catch (Throwable tr) {
+            Log.e(TAG, "throwable caught and ignored", tr);
         }
     }
 
@@ -559,6 +576,17 @@ public class I2PDActivity extends Activity {
         }
         try {
             daemon.stopDaemon();
+        } catch (Throwable tr) {
+            Log.e(TAG, "", tr);
+        }
+        try{
+            ForegroundService.deinit();
+            daemon.removeStateChangeListener(daemonStateUpdatedListener);
+            //cancelGracefulStop0();
+            unbindServicesIfBound();
+            if (isJobServiceApiAvailable()) {
+                unregisterReceiver(jobReceiver);
+            }
         } catch (Throwable tr) {
             Log.e(TAG, "", tr);
         }
