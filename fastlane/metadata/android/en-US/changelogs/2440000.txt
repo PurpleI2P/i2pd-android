@@ -1,0 +1,4 @@
+* Updated codebase to 2.44.0
+* Switch to OpenSSL 1.1.1s
+* Added Ukrainian, Spain and Italian translations
+* Disable SSU and enable SSU2 for new installations
