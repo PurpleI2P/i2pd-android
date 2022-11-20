@@ -20,7 +20,7 @@
     <string name="startFailed">Error al iniciar</string>
     <string name="stopped">Aplicación detenida</string>
     <string name="stopping">Deteniendo aplicación...</string>
-    <string name="remaining">restante(s)</string>
+    <string name="remaining">restantes</string>
     <string name="services">Servicios internos</string>
     <string name="services_http_proxy">Proxy HTTP</string>
     <string name="services_socks_proxy">Proxy SOCKS5</string>
