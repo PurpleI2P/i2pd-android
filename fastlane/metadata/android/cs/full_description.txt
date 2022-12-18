@@ -1,0 +1,9 @@
+<b>I2P</b> (Invisible Internet Protocol) je univerzální anonymní síťová vrstva.
+Veškerá komunikace přes I2P je anonymní a end-to-end šifrována, účastníci neodhalí své skutečné IP adresy.
+
+<b>I2P klient</b> je software používaný pro vytváření a používání anonymních I2P sítí.
+Tyto sítě se běžně používají pro anonymní aplikace typu peer-to-peer (sdílení souborů, kryptoměny) a anonymní aplikace typu klient-server (webové stránky, instantní messengery, chat-servery).
+
+<b>I2P</b> umožňuje lidem z celého světa komunikovat a sdílet informace bez omezení.
+
+Pro více informací o <b>I2P</b> si můžete přečíst <a href="https://en.m.wikipedia.org/wiki/I2P">článek na Wikipedii</a>.

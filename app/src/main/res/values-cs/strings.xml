@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="app_description2">Síť bez hranic</string>
+    <string name="action_start">Začít</string>
+    <string name="action_stop">Zastavit</string>
+    <string name="action_exit">Odejít</string>
+    <string name="action_graceful_stop">Hladké vypnutí</string>
+    <string name="action_cancel_graceful_stop">Zrušit hladké vypnutí</string>
+    <string name="action_reload_tunnels_config">Znovu načíst tunely</string>
+    <string name="action_start_webview">Otevřít webovou konzoli</string>
+    <string name="action_settings">Nastavení</string>
+    <string name="graceful_stop_is_already_in_progress">Hladké vypnutí již probíhá</string>
+    <string name="graceful_stop_is_in_progress">Hladké vypnutí právě probíhá</string>
+    <string name="gracefulShutdownInProgress">Hladké vypnutí právě probíhá</string>
+    <string name="already_stopped">Již zastaveno</string>
+    <string name="uninitialized">Aplikace se inicializuje...</string>
+    <string name="starting">Aplikace se zapíná...</string>
+    <string name="jniLibraryLoaded">JNI knihovny načteny</string>
+    <string name="startedOkay">Aplikace spuštěna</string>
+    <string name="startFailed">Spuštění se nezdrařilo</string>
+    <string name="stopped">Aplikace zastavena</string>
+    <string name="stopping">Aplikace se vypíná...</string>
+    <string name="remaining">zbývá</string>
+    <string name="services">Vnitřní služby</string>
+    <string name="services_http_proxy">HTTP Proxy</string>
+    <string name="services_socks_proxy">SOCKS5 Proxy</string>
+    <string name="title_activity_i2_pdperms_asker_prompt">Výzva</string>
+    <string name="permDenied">Oprávnění k zápisu na SD kartu bylo zamítnuto. Abyste mohli pokračovat, je třeba toto oprávnění povolit</string>
+    <string name="permRequired">Pro zápis klíčů a dalších souborů do I2PD složky na SD kartu je vyžadován přístup k SD kartě.</string>
+    <string name="retryPermRequest">Opakovat žádost o oprávnění k zápisu na SD kartu</string>
+    <string name="menu_item_battery_optimizations_str">Optimalizace baterie</string>
+    <string name="battery_optimizations_enabled">Optimalizace baterie je zapnutá</string>
+    <string name="battery_optimizations_enabled_explained">Váš Android dělá na I2PD náročné optimalizace baterie, což by mohlo vést k uzavření I2PD služby bez jediného důvodu.\nDoporučuje se povolit vypnutí optimalizace baterie.</string>
+    <string name="battery_optimizations_enabled_dialog">Váš Android dělá na I2PD náročné optimalizace baterie, což by mohlo vést k uzavření I2PD služby bez jediného důvodu.\n\nNyní budete požádáni o zakázání této optimalizace.</string>
+    <string name="continue_str">Pokračovat</string>
+    <string name="device_does_not_support_disabling_battery_optimizations">Vaše verze Androidu nepodporuje vypnutí optimalizace baterie</string>
+    <string name="os_version_does_not_support_battery_optimizations_show_os_dialog_api">Vaše verze Android OS nepodporuje zobrazování dialogových oken pro optimalizaci baterie pro aplikace.</string>
+    <string name="shutdown_canceled">Plánované vypnutí zrušeno</string>
+    <string name="tunnels_reloading">Obnovuji konfiguraci tunelů...</string>
+    <string name="settings_section0">Základní nastavení</string>
+    <string name="settings_section_tunnels">Tunely</string>
+    <string name="autostart_enabled">Spustit při spuštění systému</string>
+    <string name="add_tunnel_button">Přidat tunel</string>
+    <string name="add_tunnel">Správa tunelů</string>
+    <string name="del_tunnel_button">Smazat tunel</string>
+</resources>
