@@ -2,12 +2,10 @@
 
 set -e
 
-BOOST_VERSION=1.74.0
+BOOST_VERSION=1.78.0
 BOOST_LIBS=date_time,filesystem,program_options,system
 
 function build_one {
-	mkdir out
-
 	echo "Configuring and building..."
 	CXXFLAGS="-std=c++14" \
 	NCPU=$(nproc) \
@@ -70,10 +68,10 @@ function build {
 checkPreRequisites
 
 cd boost
-rm -rf out
 
 # disable verbose output
 sed -i -e 's/d+2/d+0/' build-android.sh
+sed -i -e 's/\"23\.1\"\|\"25\.0\"/\"23\.1\"\|\"23\.2\"\|\"25\.0\"/' build-android.sh
 
 if (( $# == 0 )); then
 	build all

@@ -21,15 +21,15 @@ jobs:
       uses: maxim-lobanov/setup-android-tools@v1
       with:
         packages: |
-          build-tools;31.0.0
-          platforms;android-31
-          ndk;21.4.7075529
-          cmake;3.18.1
+          build-tools;32.0.0
+          platforms;android-32
+          ndk;23.2.8568313
+          cmake;3.22.1
         cache: true
     - name: Build required modules
       run: |
         export ANDROID_SDK_ROOT=$ANDROID_HOME
-        export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/21.4.7075529
+        export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/23.2.8568313
         pushd app/jni
         ./build_boost.sh
         ./build_openssl.sh
@@ -40,7 +40,7 @@ jobs:
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: android-apks.zip
+        name: android-apks
         path: app/build/outputs/apk/debug/*.apk
 
   build-binary:
@@ -61,13 +61,13 @@ jobs:
       uses: maxim-lobanov/setup-android-tools@v1
       with:
         packages: |
-          ndk;21.4.7075529
-          cmake;3.18.1
+          ndk;23.2.8568313
+          cmake;3.22.1
         cache: true
     - name: Build required modules
       run: |
         export ANDROID_SDK_ROOT=$ANDROID_HOME
-        export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/21.4.7075529
+        export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/23.2.8568313
         pushd binary/jni
         ./build_boost.sh
         ./build_openssl.sh
@@ -86,10 +86,10 @@ jobs:
     - name: Upload binaries archive
       uses: actions/upload-artifact@v2
       with:
-        name: android-binaries.zip
+        name: android-binaries
         path: binary/libs/*
     - name: Upload binaries package
       uses: actions/upload-artifact@v2
       with:
-        name: android-binaries-pack.zip
+        name: android-binaries-pack
         path: contrib/binary_pack/i2pd_*_android_binary.zip

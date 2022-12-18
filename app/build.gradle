@@ -8,16 +8,16 @@ dependencies {
 }
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 32
 
     defaultConfig {
         applicationId "org.purplei2p.i2pd"
-        targetSdkVersion 29
+        targetSdkVersion 32
         minSdkVersion 16
         versionCode 2440000
         versionName "2.44.0"
         archivesBaseName += "-$versionName"
-        ndkVersion "21.4.7075529"
+        ndkVersion "23.2.8568313"
 
         ndk {
             abiFilters "armeabi-v7a"

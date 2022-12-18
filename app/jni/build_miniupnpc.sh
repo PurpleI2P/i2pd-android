@@ -2,7 +2,7 @@
 
 set -e
 
-CMAKE_VERSION=3.18.1
+CMAKE_VERSION=3.22.1
 
 function build_one {
 	mkdir -p build out/$CPU
