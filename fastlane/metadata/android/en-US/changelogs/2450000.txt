@@ -1,0 +1,4 @@
+* Updated codebase to 2.45.0
+* Buildtools 32, target SDK 32, NDK 23c
+* Switch to Boost 1.78.0
+* Added Czech translation
