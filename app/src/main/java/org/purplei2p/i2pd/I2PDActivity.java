@@ -20,6 +20,7 @@ import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Build;
+import android.os.Environment;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
@@ -126,11 +127,17 @@ public class I2PDActivity extends Activity {
 
         daemon.addStateChangeListener(daemonStateUpdatedListener);
         daemonStateUpdatedListener.daemonStateUpdate(DaemonWrapper.State.uninitialized, daemon.getState());
+
         // request permissions
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            if(!Environment.isExternalStorageManager()) {
+                Log.e(TAG, "MANAGE_EXTERNAL_STORAGE perm declined, stopping i2pd");
+                i2pdStop();
+            }
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE },
                     MY_PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE);
             }
         }

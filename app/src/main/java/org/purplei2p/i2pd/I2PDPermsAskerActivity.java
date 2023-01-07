@@ -4,7 +4,11 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -16,6 +20,7 @@ import java.lang.reflect.Method;
 public class I2PDPermsAskerActivity extends Activity {
 
     private static final int PERMISSION_WRITE_EXTERNAL_STORAGE = 0;
+    private static final int PERMISSION_MANAGE_EXTERNAL_STORAGE = 0;
 
     private Button button_request_write_ext_storage_perms;
     private TextView textview_retry;
@@ -48,57 +53,66 @@ public class I2PDPermsAskerActivity extends Activity {
         textview_retry.setVisibility(TextView.GONE);
         button_request_write_ext_storage_perms.setVisibility(Button.GONE);
 
-        Method methodCheckPermission;
-        Method method_shouldShowRequestPermissionRationale;
-        Method method_requestPermissions;
-        try {
-            methodCheckPermission = getClass().getMethod("checkSelfPermission", String.class);
-            method_shouldShowRequestPermissionRationale =
-                    getClass().getMethod("shouldShowRequestPermissionRationale", String.class);
-            method_requestPermissions =
-                    getClass().getMethod("requestPermissions", String[].class, int.class);
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
-        Integer resultObj;
-        try {
-            resultObj = (Integer) methodCheckPermission.invoke(
-                    this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        } catch (Throwable e) {
-            throw new RuntimeException(e);
-        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if(!Environment.isExternalStorageManager()) {
+                showExplanation();
+            } else {
+                startMainActivity();
+            }
+        } else {
+            Method methodCheckPermission;
+            Method method_shouldShowRequestPermissionRationale;
+            Method method_requestPermissions;
 
-        if (resultObj != PackageManager.PERMISSION_GRANTED) {
-
-            // Should we show an explanation?
-            Boolean aBoolean;
             try {
-                aBoolean = (Boolean) method_shouldShowRequestPermissionRationale.invoke(this,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE);
-            } catch (Exception e) {
+                methodCheckPermission = getClass().getMethod("checkSelfPermission", String.class);
+                method_shouldShowRequestPermissionRationale =
+                        getClass().getMethod("shouldShowRequestPermissionRationale", String.class);
+                method_requestPermissions =
+                        getClass().getMethod("requestPermissions", String[].class, int.class);
+            } catch (NoSuchMethodException e) {
                 throw new RuntimeException(e);
             }
-            if (aBoolean) {
 
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
+            Integer resultObj;
 
-                showExplanation();
+            try {
+                resultObj = (Integer) methodCheckPermission.invoke(
+                        this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            } catch (Throwable e) {
+                throw new RuntimeException(e);
+            }
 
-            } else {
-
-                // No explanation needed, we can request the permission.
-
+            if (resultObj != PackageManager.PERMISSION_GRANTED) {
+                // Should we show an explanation?
+                Boolean aBoolean;
                 try {
-                    method_requestPermissions.invoke(this,
-                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                            PERMISSION_WRITE_EXTERNAL_STORAGE);
+                    aBoolean = (Boolean) method_shouldShowRequestPermissionRationale.invoke(this,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
-            }
-        } else startMainActivity();
+
+                if (aBoolean) {
+
+                    // Show an explanation to the user *asynchronously* -- don't block
+                    // this thread waiting for the user's response! After the user
+                    // sees the explanation, try again to request the permission.
+
+                    showExplanation();
+
+                } else {
+                    // No explanation needed, we can request the permission.
+                    try {
+                        method_requestPermissions.invoke(this,
+                                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                PERMISSION_WRITE_EXTERNAL_STORAGE);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            } else startMainActivity();
+        }
     }
 
     @Override
@@ -136,6 +150,7 @@ public class I2PDPermsAskerActivity extends Activity {
     }
 
     private static final int SHOW_EXPLANATION_REQUEST = 1;  // The request code
+    private static final int APP_STORAGE_ACCESS_REQUEST_CODE = 2;
 
     private void showExplanation() {
         Intent intent = new Intent(this, I2PDPermsExplanationActivity.class);
@@ -144,11 +159,14 @@ public class I2PDPermsAskerActivity extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // Check which request we're responding to
-        if (requestCode == SHOW_EXPLANATION_REQUEST) {
-            // Make sure the request was successful
-            if (resultCode == RESULT_OK) {
-                // Request the permission
+        super.onActivityResult(requestCode, resultCode, data);
+        // Check which request we're responding to and make sure the request was successful
+        if (requestCode == SHOW_EXPLANATION_REQUEST && resultCode == RESULT_OK) {
+            // Request the permission
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                Intent intentManageAccess = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, Uri.parse("package:" + BuildConfig.APPLICATION_ID));
+                startActivityForResult(intentManageAccess, APP_STORAGE_ACCESS_REQUEST_CODE);
+            } else {
                 Method method_requestPermissions;
                 try {
                     method_requestPermissions =
@@ -163,9 +181,19 @@ public class I2PDPermsAskerActivity extends Activity {
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
-            } else {
-                finish(); //close the app
             }
+        } else if (requestCode == APP_STORAGE_ACCESS_REQUEST_CODE && resultCode == RESULT_OK) {
+            if (Environment.isExternalStorageManager()) {
+                startMainActivity();
+            } else {
+                textview_retry.setText(R.string.permDenied);
+                textview_retry.setVisibility(TextView.VISIBLE);
+                button_request_write_ext_storage_perms.setVisibility(Button.VISIBLE);
+
+                finish();
+            }
+        } else {
+            finish(); // close the app
         }
     }
 }
