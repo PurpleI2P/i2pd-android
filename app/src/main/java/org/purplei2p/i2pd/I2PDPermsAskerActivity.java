@@ -29,7 +29,7 @@ public class I2PDPermsAskerActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //if less than Android 6, no runtime perms req system present
-        if (android.os.Build.VERSION.SDK_INT < 23) {
+        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             startMainActivity();
             return;
         }
@@ -53,7 +53,7 @@ public class I2PDPermsAskerActivity extends Activity {
         textview_retry.setVisibility(TextView.GONE);
         button_request_write_ext_storage_perms.setVisibility(Button.GONE);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             if(!Environment.isExternalStorageManager()) {
                 showExplanation();
             } else {
@@ -163,7 +163,7 @@ public class I2PDPermsAskerActivity extends Activity {
         // Check which request we're responding to and make sure the request was successful
         if (requestCode == SHOW_EXPLANATION_REQUEST && resultCode == RESULT_OK) {
             // Request the permission
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 Intent intentManageAccess = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, Uri.parse("package:" + BuildConfig.APPLICATION_ID));
                 startActivityForResult(intentManageAccess, APP_STORAGE_ACCESS_REQUEST_CODE);
             } else {
