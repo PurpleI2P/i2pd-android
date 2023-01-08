@@ -72,3 +72,9 @@ Download Android SDK command line tools for Windows, unpack and install it repla
 `ANDROID_SDK_ROOT` variable must point to SDK using linux-way path, like `/c/dev/android-sdk` when SDK installed to `C:\dev\android-sdk`.
 
 Gradle can be called with `./gradlew` command inside project root, or you can install it using `pacman` and call `gradle` like on linux.
+
+## Release signing
+
+Current releases signed with certificate fingerprint (SHA-256):
+
+`FC:C3:C7:34:9E:22:6A:77:B3:70:46:BB:00:FD:04:BB:A5:30:32:21:01:F8:62:F3:6D:8C:3D:B0:EB:B6:35:20`
