@@ -3,19 +3,19 @@ plugins {
 }
 
 dependencies {
-    implementation 'androidx.core:core:1.6.0'
+    implementation 'androidx.core:core:1.9.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 }
 
 android {
-    compileSdkVersion 32
+    compileSdkVersion 33
 
     defaultConfig {
         applicationId "org.purplei2p.i2pd"
-        targetSdkVersion 32
+        targetSdkVersion 33
         minSdkVersion 16
-        versionCode 2450001
-        versionName "2.45.0.1"
+        versionCode 2450020
+        versionName "2.45.0.2"
         archivesBaseName += "-$versionName"
         ndkVersion "23.2.8568313"
 
@@ -73,6 +73,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+    namespace 'org.purplei2p.i2pd'
 }
 
 ext.abiCodes = ['armeabi-v7a': 1, 'x86': 2, 'arm64-v8a': 3, 'x86_64': 4]
@@ -83,7 +84,7 @@ android.applicationVariants.all { variant ->
         def baseAbiVersionCode = project.ext.abiCodes.get(output.getFilter(OutputFile.ABI))
 
         if (baseAbiVersionCode != null) {
-            output.versionCodeOverride = baseAbiVersionCode * 10 + variant.versionCode
+            output.versionCodeOverride = baseAbiVersionCode + variant.versionCode
         }
     }
 }
