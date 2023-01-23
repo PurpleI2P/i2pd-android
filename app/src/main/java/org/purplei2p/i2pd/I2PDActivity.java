@@ -35,6 +35,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.work.*;
+import java.util.UUID;
+import com.google.common.util.concurrent.ListenableFuture;
 
 import static android.provider.Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS;
 
@@ -50,9 +53,26 @@ public class I2PDActivity extends Activity {
     private CheckBox BOBState;
     private CheckBox SAMState;
     private CheckBox I2CPState;
-
+    private UUID workRequestId;
 
     private static volatile DaemonWrapper daemon;
+    
+    private static class I2PDWorker extends ListenableWorker {
+        public I2PDWorker(Context appContext, WorkerParameters workerParams) {
+            super(appContext, workerParams);
+        }
+        
+        public ListenableFuture<ListenableWorker.Result> startWork() {
+            try {
+                for (;;) {
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Log.e(TAG, "", ex);
+            }
+            return null;
+        }    
+    }
 
     private final DaemonWrapper.StateUpdateListener daemonStateUpdatedListener = new DaemonWrapper.StateUpdateListener() {
         @Override
@@ -105,6 +125,8 @@ public class I2PDActivity extends Activity {
         long remSec = remainingSeconds - remainingMinutes * 60;
         return remainingMinutes + ":" + (remSec / 10) + remSec % 10;
     }
+    
+    private static final String I2PD_WORK_NAME = "i2pd";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -152,6 +174,11 @@ public class I2PDActivity extends Activity {
             }
             rescheduleGraceStop(gracefulQuitTimer, gracefulStopAtMillis);
         }
+        
+        WorkManager workManager = WorkManager.getInstance();
+        OneTimeWorkRequest request = new OneTimeWorkRequest.Builder(I2PDWorker.class).build();
+        workRequestId = request.getId();
+        workManager.beginUniqueWork(I2PD_WORK_NAME, ExistingWorkPolicy.REPLACE, request);
 
         openBatteryOptimizationDialogIfNeeded();
     }
@@ -494,6 +521,14 @@ public class I2PDActivity extends Activity {
     }
 
     private void quit() {
+        try {
+            if (workRequestId != null) {
+                WorkManager workManager = WorkManager.getInstance();
+                workManager.cancelWorkById(workRequestId);
+            }
+        } catch (Throwable tr) {
+            Log.e(TAG, "", tr);
+        }
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 finishAndRemoveTask();
