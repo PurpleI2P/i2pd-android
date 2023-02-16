@@ -4,6 +4,8 @@
     <string name="action_start">Démarrer</string>
     <string name="action_stop">Arrêter</string>
     <string name="action_exit">Quitter</string>
+    <string name="action_graceful_stop">Arrêt gracieux</string>
+    <string name="action_cancel_graceful_stop">Annuler l\'arrêt gracieux</string>
     <string name="action_reload_tunnels_config">Actualiser les tunnels</string>
     <string name="action_start_webview">Ouvrir console web</string>
     <string name="action_settings">Paramètres</string>
@@ -11,10 +13,18 @@
     <string name="graceful_stop_is_in_progress">Arrêt gracieux en cours</string>
     <string name="gracefulShutdownInProgress">Fermeture gracieuse en cours</string>
     <string name="already_stopped">Déjà arrêté</string>
+    <string name="uninitialized">Initialisation de l\'application...</string>
+    <string name="starting">Démarrage de l\'application...</string>
     <string name="jniLibraryLoaded">Librairies JNI chargées</string>
+    <string name="startedOkay">Application démarrée</string>
     <string name="startFailed">Démarrage échoué</string>
     <string name="stopped">Application arrêtée</string>
+    <string name="stopping">Arrêt de l\'application...</string>
     <string name="remaining">restant</string>
+    <string name="services">Services internes</string>
+    <string name="services_http_proxy">Proxy HTTP</string>
+    <string name="services_socks_proxy">Proxy SOCKS5</string>
+    <string name="title_activity_i2_pdperms_asker_prompt">Message</string>
     <string name="permDenied">Permission d\'écrire sur la carte SD refusée, vous devez autoriser pour continuer</string>
     <string name="permRequired">La permission d\'écrire sur la carte SD est requise pour écrire les clés et autres fichiers dans le dossier I2PD sur la carte SD.</string>
     <string name="retryPermRequest">Réessayer de demander la permission d\'écrire sur la carte SD</string>

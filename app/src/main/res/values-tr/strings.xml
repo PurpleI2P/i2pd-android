@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_description2">Sınırları olmayan ağ</string>
-
     <string name="action_start">Başlat</string>
     <string name="action_stop">Durdur</string>
     <string name="action_exit">Çık</string>
@@ -10,11 +9,9 @@
     <string name="action_reload_tunnels_config">Tünelleri yeniden yükle</string>
     <string name="action_start_webview">Web Konsolunu Aç</string>
     <string name="action_settings">Ayarlar</string>
-
     <string name="graceful_stop_is_already_in_progress">Düzgün durdurma zaten devam ediyor</string>
     <string name="graceful_stop_is_in_progress">Düzgün durdurma devam ediyor</string>
     <string name="gracefulShutdownInProgress">Düzgün kapatma devam ediyor</string>
-
     <string name="already_stopped">Zaten durduruldu</string>
     <string name="uninitialized">Uygulama ilk ayarları yapılıyor...</string>
     <string name="starting">Uygulama başlatılıyor...</string>
@@ -22,13 +19,15 @@
     <string name="startedOkay">Uygulama başlatıldı</string>
     <string name="startFailed">Başlatılamadı</string>
     <string name="stopped">Uygulama durduruldu</string>
+    <string name="stopping">Uygulama durduruluyor...</string>
     <string name="remaining">kalan</string>
-
+    <string name="services">İç servisler</string>
+    <string name="services_http_proxy">HTTP Proxy</string>
+    <string name="services_socks_proxy">SOCKS5 Proxy</string>
     <string name="title_activity_i2_pdperms_asker_prompt">Bilgi</string>
     <string name="permDenied">SD karta yazma izni reddedildi, devam etmek için buna izin vermeniz gerekiyor</string>
     <string name="permRequired">Anahtarları ve diğer dosyaları SD karttaki I2PD klasörüne yazmak için SD karta yazma erişimi gereklidir.</string>
     <string name="retryPermRequest">SD karta yazma izinlerini istemeyi yeniden dene</string>
-
     <string name="menu_item_battery_optimizations_str">Pil İyileştirmeleri</string>
     <string name="battery_optimizations_enabled">Pil iyileştirmeleri etkin</string>
     <string name="battery_optimizations_enabled_explained">Android aygıtınız, I2PD üzerinde başka bir neden olmaksızın arka plan programının kapanmasına neden olabilecek bazı ağır pil iyileştirmeleri yapıyor.\nBu pil iyileştirmelerinin devre dışı bırakılmasına izin verilmesi tavsiye edilir.</string>
@@ -36,18 +35,12 @@
     <string name="continue_str">Devam et</string>
     <string name="device_does_not_support_disabling_battery_optimizations">Android sürümünüz pil iyileştirmelerini devre dışı bırakmayı desteklemiyor</string>
     <string name="os_version_does_not_support_battery_optimizations_show_os_dialog_api">Android işletim sistemi sürümünüz, uygulamalar için pil iyileştirmeleri iletişim kutusunun gösterilmesini desteklemiyor.</string>
-
     <string name="shutdown_canceled">Zamanlanan kapatma iptal edildi</string>
-
     <string name="tunnels_reloading">Tünel yapılandırması yeniden yükleniyor...</string>
-
     <string name="settings_section0">Ortak ayarlar</string>
     <string name="settings_section_tunnels">Tüneller</string>
-
     <string name="autostart_enabled">Önyüklemede başlat</string>
     <string name="add_tunnel_button">Tünel ekle</string>
     <string name="add_tunnel">Tünel yönetimi</string>
-
     <string name="del_tunnel_button">Tünelis is</string>
-
 </resources>
