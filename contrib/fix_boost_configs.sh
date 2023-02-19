@@ -4,5 +4,5 @@ do
         echo $file
         newname=```echo $file | sed "s/ndk23/ndk19/"```
         echo "cp $file to $newname"
-        cp $file $newname
+        cp "$file" "$newname"
 done
