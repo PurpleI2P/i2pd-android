@@ -8,7 +8,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import java.util.Objects;
 
 public class WebConsoleActivity extends Activity {
@@ -22,7 +21,7 @@ public class WebConsoleActivity extends Activity {
 
         Objects.requireNonNull(getActionBar()).setDisplayHomeAsUpEnabled(true);
 
-        webView = (WebView) findViewById(R.id.webview1);
+        webView = (WebView) findViewById(R.id.webconsole);
         webView.setWebViewClient(new WebViewClient());
 
         final WebSettings webSettings = webView.getSettings();

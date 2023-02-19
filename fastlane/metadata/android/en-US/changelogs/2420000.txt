@@ -1,0 +1,3 @@
+* Updated codebase to 2.42.0
+* Switch to OpenSSL 1.1.1o
+* Added French translation

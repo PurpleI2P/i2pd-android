@@ -1,0 +1,5 @@
+* Updated codebase to 2.43.0
+* Remove unused READ_PHONE_STATE permission
+* Switch to OpenSSL 1.1.1q
+* Added Simplified Chinese translation
+* Disable SSU and enable SSU2 for new installations

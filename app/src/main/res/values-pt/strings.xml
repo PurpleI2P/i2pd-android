@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="app_description2">Rede sem fronteiras</string>
+    <string name="action_start">Iniciar</string>
+    <string name="action_stop">Parar</string>
+    <string name="action_exit">Sair</string>
+    <string name="action_graceful_stop">Saída Graciosa</string>
+    <string name="action_cancel_graceful_stop">Cancelar Saída Graciosa</string>
+    <string name="action_reload_tunnels_config">Recarregar túneis</string>
+    <string name="action_start_webview">Abrir o Web Console</string>
+    <string name="action_settings">Configurações</string>
+    <string name="graceful_stop_is_already_in_progress">Saída Graciosa já está em progresso</string>
+    <string name="graceful_stop_is_in_progress">Saída Graciosa em progresso</string>
+    <string name="gracefulShutdownInProgress">Saída Graciosa em progresso</string>
+    <string name="already_stopped">Já parou</string>
+    <string name="uninitialized">Inicializando aplicação...</string>
+    <string name="starting">Iniciando aplicação...</string>
+    <string name="jniLibraryLoaded">Bibliotecas JNI carregadas</string>
+    <string name="startedOkay">Aplicação iniciada</string>
+    <string name="startFailed">Inicialização falhou</string>
+    <string name="stopped">Aplicação parou</string>
+    <string name="stopping">Parando aplicação...</string>
+    <string name="remaining">faltando</string>
+    <string name="services">Serviços internos</string>
+    <string name="services_http_proxy">Proxy HTTP</string>
+    <string name="services_socks_proxy">Proxy SOCKS5</string>
+    <string name="title_activity_i2_pdperms_asker_prompt">Permissão</string>
+    <string name="permDenied">Permissões de escrita no cartão SD negadas, você precisa permitir isso para continuar</string>
+    <string name="permRequired">Permissões de escrita no cartão SD são necessárias para gravar as chaves e outros arquivos na pasta do I2PD no cartão SD.</string>
+    <string name="retryPermRequest">Tente novamente solicitar as permissões de escrita ao cartão SD</string>
+    <string name="menu_item_battery_optimizations_str">Otimizações da Bateria</string>
+    <string name="battery_optimizations_enabled">Otimizações da bateria ativadas</string>
+    <string name="battery_optimizations_enabled_explained">O seu sistema está realizando fortes otimizações de uso de bateria pelo I2PD que podem levar a fechamentos inesperados do serviço.\nÉ recomendando desativar estas otimizações de bateria.</string>
+    <string name="battery_optimizations_enabled_dialog">O seu sistema está realizando fortes otimizações de uso de bateria pelo I2PD que podem levar a fechamentos inesperados do serviço.\n\nVocê será solicitado a permitir desativá-las.</string>
+    <string name="continue_str">Continuar</string>
+    <string name="device_does_not_support_disabling_battery_optimizations">A sua versão do Android não suporta definir otimizações de bateria</string>
+    <string name="os_version_does_not_support_battery_optimizations_show_os_dialog_api">A versão do seu sistema Android não suporta mostrar a caixa de diálogo para otimizações de bateria para aplicativos.</string>
+    <string name="shutdown_canceled">Desligamento planejado cancelado</string>
+    <string name="tunnels_reloading">Recarregando configurações dos túneis...</string>
+    <string name="settings_section0">Configurações usuais</string>
+    <string name="settings_section_tunnels">Túneis</string>
+    <string name="autostart_enabled">Iniciar no boot</string>
+    <string name="add_tunnel_button">Adicionar túnel</string>
+    <string name="add_tunnel">Gerenciamento de túneis</string>
+    <string name="del_tunnel_button">Exclui túnel</string>
+</resources>

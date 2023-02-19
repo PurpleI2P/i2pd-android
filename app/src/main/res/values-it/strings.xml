@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="app_description2">Rete senza confini</string>
+    <string name="action_start">Avvia</string>
+    <string name="action_stop">Arresta</string>
+    <string name="action_exit">Esci</string>
+    <string name="action_graceful_stop">Interruzione controllata</string>
+    <string name="action_cancel_graceful_stop">Annulla interruzione controllata</string>
+    <string name="action_reload_tunnels_config">Ricarica i tunnel</string>
+    <string name="action_start_webview">Apri la console web</string>
+    <string name="action_settings">Impostazioni</string>
+    <string name="graceful_stop_is_already_in_progress">L\'interruzione controllata è già in corso</string>
+    <string name="graceful_stop_is_in_progress">L\'interruzione controllata è in corso</string>
+    <string name="gracefulShutdownInProgress">Interruzione controllata in corso</string>
+    <string name="already_stopped">Già interrotto</string>
+    <string name="uninitialized">Inizializzazione dell\'applicazione...</string>
+    <string name="starting">L\'applicazione si sta avviando...</string>
+    <string name="jniLibraryLoaded">Caricate le librerie JNI</string>
+    <string name="startedOkay">Applicazione avviata</string>
+    <string name="startFailed">Avvio fallito</string>
+    <string name="stopped">Applicazione arrestata</string>
+    <string name="stopping">Applicazione in arresto...</string>
+    <string name="remaining">rimanenti</string>
+    <string name="services">Servizi interni</string>
+    <string name="services_http_proxy">Proxy HTTP</string>
+    <string name="services_socks_proxy">Proxy SOCKS5</string>
+    <string name="title_activity_i2_pdperms_asker_prompt">Messaggio</string>
+    <string name="permDenied">Permesso di scrittura scheda SD negato, è necessario consentirlo per continuare</string>
+    <string name="permRequired">L\'accesso in scrittura della scheda SD è richiesto per scrivare le chiavi e gli altri file nella cartella I2PD sulla scheda SD.</string>
+    <string name="retryPermRequest">Riprova a richiedere il permesso di scrittura sulla scheda SD</string>
+    <string name="menu_item_battery_optimizations_str">Ottimizzazione batteria</string>
+    <string name="battery_optimizations_enabled">Ottimizzazione batteria abilitata</string>
+    <string name="battery_optimizations_enabled_explained">Il tuo dispositivo Android sta eseguendo alcune pesanti ottimizzazioni della batteria su I2PD che potrebbero comportare l\'arresto di quest\'ultimo senza alcun motivo.\nSi raccomanda di consentire a I2PD di disabilitare queste ottimizzazioni della batteria.</string>
+    <string name="battery_optimizations_enabled_dialog">Il tuo dispositivo Android sta eseguendo alcune pesanti ottimizzazioni della batteria su I2PD che potrebbero comportare l\'arresto di quest\'ultimo senza alcun motivo.\n\nOra verrà richiesto di disabilitare queste ottimizzazioni della batteria.</string>
+    <string name="continue_str">Continua</string>
+    <string name="device_does_not_support_disabling_battery_optimizations">La versione del tuo dispositivo Android non supporta l\'esclusione delle ottimizzazioni della batteria</string>
+    <string name="os_version_does_not_support_battery_optimizations_show_os_dialog_api">La versione del tuo dispositivo Android non supporta la visualizzazione della finestra di dialogo per l\'ottimizzazione della batteria per le applicazioni.</string>
+    <string name="shutdown_canceled">Arresto programmato annullato</string>
+    <string name="tunnels_reloading">Ricaricando le configurazioni dei tunnel...</string>
+    <string name="settings_section0">Impostazioni generali</string>
+    <string name="settings_section_tunnels">Tunnel</string>
+    <string name="autostart_enabled">Avvia all\'accensione</string>
+    <string name="add_tunnel_button">Aggiungi tunnel</string>
+    <string name="add_tunnel">Gestione tunnel</string>
+    <string name="del_tunnel_button">Elimina tunnel</string>
+</resources>

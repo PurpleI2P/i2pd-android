@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="Main">
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="check_box_preference_1"
+            android:title="Log" />
+        <ListPreference
+            android:defaultValue="1"
+            android:entries="@array/pref_loglevel"
+            android:entryValues="@array/pref_loglevel"
+            android:key="list_preference_1"
+            android:summary="Logging level to file. Use 'none' to reduce memory usage"
+            android:title="Log level" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="check_box_preference_1"
+            android:title="IPv4" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="check_box_preference_1"
+            android:title="IPv6" />
+        <EditTextPreference
+            android:defaultValue="Default value"
+            android:key="edit_text_preference_1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Port" />
+        <ListPreference
+            android:entries="@array/pref_bandwidth_limit_flags"
+            android:entryValues="@array/pref_bandwidth_limit_flags"
+            android:key="list_preference_1"
+            android:summary="Bandwidth limit for transit traffic"
+            android:title="Bandwidth" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="check_box_preference_1"
+            android:summary="Disable transit"
+            android:title="No transit" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="check_box_preference_1"
+            android:summary="Uses more battery"
+            android:title="Floodfill" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="check_box_preference_1"
+            android:title="SSU" />
+
+    </PreferenceCategory>
+    <PreferenceCategory android:title="NTCP2">
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="check_box_preference_1"
+            android:title="Enable" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="check_box_preference_1"
+            android:summary="Disable to make unable to connect to your device"
+            android:title="Publish" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Web Console">
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="check_box_preference_1"
+            android:title="Enable" />
+        <EditTextPreference
+            android:defaultValue="127.0.0.1"
+            android:key="edit_text_preference_1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Address" />
+        <EditTextPreference
+            android:defaultValue="7070"
+            android:key="edit_text_preference_1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Port" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="check_box_preference_1"
+            android:summary="Use HTTP authorization to access Web Console"
+            android:title="Autorization" />
+        <EditTextPreference
+            android:defaultValue="Default value"
+            android:key="edit_text_preference_1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="User" />
+        <EditTextPreference
+            android:defaultValue="Default value"
+            android:key="edit_text_preference_1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Password" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/services_http_proxy">
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="check_box_preference_1"
+            android:title="Enable" />
+        <EditTextPreference
+            android:defaultValue="127.0.0.1"
+            android:key="edit_text_preference_1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Address" />
+        <EditTextPreference
+            android:defaultValue="4444"
+            android:key="edit_text_preference_1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Port" />
+        <EditTextPreference
+            android:defaultValue="proxy-keys.dat"
+            android:key="edit_text_preference_1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Keys" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="SOCKS Proxy">
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="check_box_preference_1"
+            android:title="Enable" />
+        <EditTextPreference
+            android:defaultValue="127.0.0.1"
+            android:key="edit_text_preference_1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Address" />
+        <EditTextPreference
+            android:defaultValue="4447"
+            android:key="edit_text_preference_1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Port" />
+        <EditTextPreference
+            android:defaultValue="proxy-keys.dat"
+            android:key="edit_text_preference_1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Keys" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="SAM">
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="check_box_preference_1"
+            android:title="Enable" />
+        <EditTextPreference
+            android:defaultValue="127.0.0.1"
+            android:key="edit_text_preference_1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Address" />
+        <EditTextPreference
+            android:defaultValue="7656"
+            android:key="edit_text_preference_1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Port" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="UPnP">
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="check_box_preference_1"
+            android:title="Enable" />
+        <EditTextPreference
+            android:defaultValue="I2Pd"
+            android:key="edit_text_preference_1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Forwarding name" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Limits">
+
+        <EditTextPreference
+            android:defaultValue="50"
+            android:key="edit_text_preference_1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="Limit possible built transit tunnels"
+            android:title="Transit tunnels" />
+    </PreferenceCategory>
+</PreferenceScreen>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="app_description2">Мережа без кордонів</string>
+    <string name="action_start">Почати</string>
+    <string name="action_stop">Зупинити</string>
+    <string name="action_exit">Вийти</string>
+    <string name="action_graceful_stop">Плавна зупинка</string>
+    <string name="action_cancel_graceful_stop">Скасувати плавну зупинку</string>
+    <string name="action_reload_tunnels_config">Перезавантажити тунелі</string>
+    <string name="action_start_webview">Відкрити веб-консоль</string>
+    <string name="action_settings">Налаштування</string>
+    <string name="graceful_stop_is_already_in_progress">Плавна зупинка вже виконується</string>
+    <string name="graceful_stop_is_in_progress">Плавна зупинка у процесі</string>
+    <string name="gracefulShutdownInProgress">Виконується плавне завершення</string>
+    <string name="already_stopped">Вже зупинено</string>
+    <string name="uninitialized">Додаток запускається...</string>
+    <string name="starting">Додаток запускається...</string>
+    <string name="jniLibraryLoaded">Завантажено бібліотеки JNI</string>
+    <string name="startedOkay">Запуск додатку</string>
+    <string name="startFailed">Не вдалося запустити</string>
+    <string name="stopped">Додаток зупинено</string>
+    <string name="stopping">Додаток зупиняється...</string>
+    <string name="remaining">залишилось</string>
+    <string name="services">Внутрішні служби</string>
+    <string name="services_http_proxy">Проксі HTTP</string>
+    <string name="services_socks_proxy">Проксі SOCKS5</string>
+    <string name="title_activity_i2_pdperms_asker_prompt">Запит</string>
+    <string name="permDenied">Дозвіл на запис до SD-карти відхилений, Вам необхідно дозволити для продовження</string>
+    <string name="permRequired">Для запису ключів та інших файлів до теки I2PD на SD-карті потрібен доступ до передачі даних на SD-карті.</string>
+    <string name="retryPermRequest">Повторити запит на запис до SD-карти</string>
+    <string name="menu_item_battery_optimizations_str">Оптимізація батареї</string>
+    <string name="battery_optimizations_enabled">Оптимізацію батареї ввімкнено</string>
+    <string name="battery_optimizations_enabled_explained">Ваш Android виконує деякі складні оптимізації використання заряду на I2PD, які можуть призвести до встановлення демонів без будь-яких інших причин.\nРекомендується дозволити вимкнення цих оптимізації використання акумулятора.</string>
+    <string name="battery_optimizations_enabled_dialog">Ваш Android виконує деякі складні оптимізації використання заряду на I2PD, які можуть призвести до встановлення демонів без будь-яких інших причин.\n\nРекомендується дозволити вимкнення цих оптимізації використання акумулятора.</string>
+    <string name="continue_str">Далі</string>
+    <string name="device_does_not_support_disabling_battery_optimizations">Ваш пристрій не підтримує відключення оптимізації батареї</string>
+    <string name="os_version_does_not_support_battery_optimizations_show_os_dialog_api">Ваша версія ОС Android не підтримує відображення діалогу для оптимізації заряду акумулятора для програм.</string>
+    <string name="shutdown_canceled">Плановане завершення скасоване</string>
+    <string name="tunnels_reloading">Перезавантаження налаштувань тунелів...</string>
+    <string name="settings_section0">Загальні налаштування</string>
+    <string name="settings_section_tunnels">Тунелі</string>
+    <string name="autostart_enabled">Автозапуск</string>
+    <string name="add_tunnel_button">Додайте тунель</string>
+    <string name="add_tunnel">Керування тунелями</string>
+    <string name="del_tunnel_button">Видалити тунель</string>
+</resources>

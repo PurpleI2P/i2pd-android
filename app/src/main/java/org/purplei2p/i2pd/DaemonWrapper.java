@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Locale;
 
 import android.annotation.TargetApi;
 import android.content.res.AssetManager;
@@ -28,8 +29,10 @@ public class DaemonWrapper {
     private static final String TAG = "i2pd";
     private final AssetManager assetManager;
     private final ConnectivityManager connectivityManager;
-    private String i2pdpath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/i2pd/";
+    private String i2pdpath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/i2pd";
     private boolean assetsCopied;
+
+    private static final String appLocale = Locale.getDefault().getDisplayLanguage(Locale.ENGLISH).toLowerCase(); // lower-case system language (like "english")
 
     public interface StateUpdateListener {
         void daemonStateUpdate(State oldValue, State newValue);
@@ -82,13 +85,12 @@ public class DaemonWrapper {
     }
 
     public int getTransitTunnelsCount() {
-        return I2PD_JNI.GetTransitTunnelsCount();
+        return I2PD_JNI.getTransitTunnelsCount();
     }
 
     public enum State {
         uninitialized(R.string.uninitialized),
         starting(R.string.starting),
-        jniLibraryLoaded(R.string.jniLibraryLoaded),
         startedOkay(R.string.startedOkay),
         startFailed(R.string.startFailed),
         gracefulShutdownInProgress(R.string.gracefulShutdownInProgress),
@@ -126,7 +128,7 @@ public class DaemonWrapper {
     private String daemonStartResult = "N/A";
 
     private void fireStateUpdate1(State oldValue, State newValue) {
-        Log.i(TAG, "daemon state change: " + state);
+        Log.d(TAG, "daemon state change: " + state);
         for (StateUpdateListener listener : stateUpdateListeners) {
             try {
                 listener.daemonStateUpdate(oldValue, newValue);
@@ -150,8 +152,8 @@ public class DaemonWrapper {
 
     public void changeDataDir(String dataDir, Boolean updateAssets) {
         I2PD_JNI.setDataDir(dataDir);
-	if( updateAssets ) processAssets();
-	//ToDo: move old dir to new dir?
+        if (updateAssets) processAssets();
+        //ToDo: move old dir to new dir?
     }
 
     public boolean isStartedOkay() {
@@ -165,7 +167,6 @@ public class DaemonWrapper {
             } catch (Throwable tr) {
                 Log.e(TAG, "", tr);
             }
-
             setState(State.stopped);
         }
     }
@@ -175,8 +176,7 @@ public class DaemonWrapper {
             try {
                 processAssets();
                 I2PD_JNI.loadLibraries();
-                setState(State.jniLibraryLoaded);
-                registerNetworkCallback();
+                //registerNetworkCallback();
             } catch (Throwable tr) {
                 lastThrowable = tr;
                 setState(State.startFailed);
@@ -184,7 +184,11 @@ public class DaemonWrapper {
             }
             try {
                 synchronized (DaemonWrapper.this) {
-                    I2PD_JNI.setDataDir(i2pdpath);//(Environment.getExternalStorageDirectory().getAbsolutePath() + "/i2pd");
+                    I2PD_JNI.setDataDir(i2pdpath); // (Environment.getExternalStorageDirectory().getAbsolutePath() + "/i2pd");
+
+                    Log.i(TAG, "setting webconsole language to " + appLocale);
+                    I2PD_JNI.setLanguage(appLocale);
+
                     daemonStartResult = I2PD_JNI.startDaemon();
                     if ("ok".equals(daemonStartResult)) {
                         setState(State.startedOkay);
@@ -199,58 +203,51 @@ public class DaemonWrapper {
     }
 
     private void processAssets() {
-        if (!assetsCopied) {
-            try {
-                assetsCopied = true;
+        File holderFile = new File(i2pdpath, "assets.ready");
+        String versionName = BuildConfig.VERSION_NAME; // here will be app version, like 2.XX.XX
+        StringBuilder text = new StringBuilder();
+        Log.d(TAG, "checking assets");
 
-                File holderFile = new File(i2pdpath, "assets.ready");
-                String versionName = BuildConfig.VERSION_NAME; // here will be app version, like 2.XX.XX
-                StringBuilder text = new StringBuilder();
+        if (holderFile.exists()) {
+            try { // if holder file exists, read assets version string
+                FileReader fileReader = new FileReader(holderFile);
 
-                if (holderFile.exists()) {
-                    try { // if holder file exists, read assets version string
-                        FileReader fileReader = new FileReader(holderFile);
+                try {
+                    BufferedReader br = new BufferedReader(fileReader);
 
-                        try {
-                            BufferedReader br = new BufferedReader(fileReader);
+                    try {
+                        String line;
 
-                            try {
-                                String line;
-
-                                while ((line = br.readLine()) != null) {
-                                    text.append(line);
-                                }
-                            }finally {
-                                try {
-                                    br.close();
-                                } catch (IOException e) {
-                                    Log.e(TAG, "", e);
-                                }
-                            }
-                        } finally {
-                            try {
-                                fileReader.close();
-                            } catch (IOException e) {
-                                Log.e(TAG, "", e);
-                            }
+                        while ((line = br.readLine()) != null) {
+                            text.append(line);
                         }
+                    }finally {
+                        try {
+                            br.close();
+                        } catch (IOException e) {
+                            Log.e(TAG, "", e);
+                        }
+                    }
+                } finally {
+                    try {
+                        fileReader.close();
                     } catch (IOException e) {
                         Log.e(TAG, "", e);
                     }
                 }
+            } catch (IOException e) {
+                Log.e(TAG, "", e);
+            }
+        }
 
-                // if version differs from current app version or null, try to delete certificates folder
-                if (!text.toString().contains(versionName))
-                    try {
-                        boolean deleteResult = holderFile.delete();
-                        if (!deleteResult)
-                            Log.e(TAG, "holderFile.delete() returned " + deleteResult + ", absolute path='" + holderFile.getAbsolutePath() + "'");
-                        File certPath = new File(i2pdpath, "certificates");
-                        deleteRecursive(certPath);
-                    }
-                    catch (Throwable tr) {
-                        Log.e(TAG, "", tr);
-                    }
+        // if version differs from current app version or null, try to delete certificates folder
+        if (!text.toString().contains(versionName)) {
+            try {
+                boolean deleteResult = holderFile.delete();
+                if (!deleteResult)
+                    Log.e(TAG, "holderFile.delete() returned " + deleteResult + ", absolute path='" + holderFile.getAbsolutePath() + "'");
+                File certPath = new File(i2pdpath, "certificates");
+                deleteRecursive(certPath);
 
                 // copy assets. If processed file exists, it won't be overwritten
                 copyAsset("addressbook");
@@ -305,7 +302,7 @@ public class DaemonWrapper {
             // Make the directory.
             File dir = new File(i2pdpath, path);
             boolean result = dir.mkdirs();
-            Log.d(TAG, "dir.mkdirs() returned " + result);
+            Log.d(TAG, "dir.mkdirs() returned " + result + " for " + dir);
 
             // Recurse on the contents.
             for (String entry : contents) {
@@ -354,7 +351,7 @@ public class DaemonWrapper {
         }
         boolean deleteResult = fileOrDirectory.delete();
         if (!deleteResult)
-            Log.e(TAG, "fileOrDirectory.delete() returned " + deleteResult + ", absolute path='" + fileOrDirectory.getAbsolutePath() + "'");
+            Log.d(TAG, "fileOrDirectory.delete() returned " + deleteResult + ", absolute path='" + fileOrDirectory.getAbsolutePath() + "'");
     }
 
     private void registerNetworkCallback(){
@@ -376,14 +373,14 @@ public class DaemonWrapper {
         public void onAvailable(Network network) {
             super.onAvailable(network);
             I2PD_JNI.onNetworkStateChanged(true);
-            Log.i(TAG, "NetworkCallback.onAvailable");
+            Log.d(TAG, "NetworkCallback.onAvailable");
         }
 
         @Override
         public void onLost(Network network) {
             super.onLost(network);
             I2PD_JNI.onNetworkStateChanged(false);
-            Log.i(TAG, " NetworkCallback.onLost");
+            Log.d(TAG, " NetworkCallback.onLost");
         }
     }
 }

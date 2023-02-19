@@ -10,23 +10,24 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
-import android.view.View;
+import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import java.io.File;
 import java.util.List;
+import java.util.Objects;
 
 
-import org.purplei2p.i2pd.iniedotr.IniEditor;
+//import org.purplei2p.i2pd.iniedotr.IniEditor;
+
 public class SettingsActivity extends Activity {
-    protected IniEditor iniedit = new IniEditor();
-    private String dataDir = DaemonWrapper.getDataDir();//for inieditor
+    //protected IniEditor iniedit = new IniEditor();
     private String TAG = "i2pdSrvcSettings";
     private File cacheDir;
-    public static String onBootFileName="/onBoot"; // just file, empty, if exist the do autostart, if not then no.
+    public static String onBootFileName = "/onBoot"; // just file, empty, if exist the do autostart, if not then no.
 
     //https://gist.github.com/chandruark/3165a5ee3452f2b9ec7736cf1b4c5ea6
-    private void addAutoStartupswitch() {
+    private void addAutoStartupSwitch() {
 
         try {
             Intent intent = new Intent();
@@ -54,7 +55,7 @@ public class SettingsActivity extends Activity {
             }
 
             List<ResolveInfo> list = getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
-            if  (list.size() > 0) {
+            if (list.size() > 0) {
                 startActivity(intent);
             }
         } catch (Exception e) {
@@ -62,6 +63,7 @@ public class SettingsActivity extends Activity {
         }
 
     }
+
     //@Override
     private void requestPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -71,38 +73,52 @@ public class SettingsActivity extends Activity {
                         Uri.parse("package:" + getPackageName())
                 );
                 startActivityForResult(intent, 232);
-            } else {
-                //Permission Granted-System will work
             }
         }
     }
+
     public void onCreate(Bundle savedInstanceState) {
-        Log.i(TAG, "onCreate");
+        Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
-        cacheDir = getApplicationContext().getCacheDir();
         setContentView(R.layout.activity_settings);
+        Objects.requireNonNull(getActionBar()).setDisplayHomeAsUpEnabled(true);
         Switch autostart_switch = findViewById(R.id.autostart_enable);
-        File onBoot= new File( cacheDir.getAbsolutePath()+onBootFileName);
+
+        cacheDir = getApplicationContext().getCacheDir();
+        File onBoot = new File(cacheDir.getAbsolutePath() + onBootFileName);
         autostart_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // do something, the isChecked will be
                 // true if the switch is in the On position
-                if(isChecked){
-                    if( !onBoot.exists() ) {
+                if (isChecked) {
+                    if (!onBoot.exists()) {
                         requestPermission();
-                        addAutoStartupswitch();
+                        addAutoStartupSwitch();
+
                         try {
-                            if( !onBoot.createNewFile()) Log.d(TAG, "Cant create new wile on: "+onBoot.getAbsolutePath());
+                            if (!onBoot.createNewFile())
+                                Log.d(TAG, "Cant create new wile on: "+onBoot.getAbsolutePath());
                         } catch (Exception e) {
-                            Log.d(TAG, "error: " + e.toString());
+                            Log.e(TAG, "error: " + e.toString());
                         }
                     }
-                }else{
-                    if( onBoot.exists() )
+                } else {
+                    if (onBoot.exists())
                         onBoot.delete();
                 }
             }
         });
-        if(onBoot.exists()) autostart_switch.setChecked(true);
+        if(onBoot.exists())
+            autostart_switch.setChecked(true);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return false;
     }
 }

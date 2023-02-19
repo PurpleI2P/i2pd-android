@@ -1,19 +1,86 @@
+[![GitHub release](https://img.shields.io/github/release/PurpleI2P/i2pd-android.svg?label=latest%20release)](https://github.com/PurpleI2P/i2pd-android/releases/latest)
+[![License](https://img.shields.io/github/license/PurpleI2P/i2pd-android.svg)](https://github.com/PurpleI2P/i2pd-android/blob/openssl/LICENSE)
+[![Android CI](https://github.com/PurpleI2P/i2pd-android/actions/workflows/android.yml/badge.svg)](https://github.com/PurpleI2P/i2pd-android/actions/workflows/android.yml)
+
 # i2pd android
 
-### Install OpenJDK, gradle 5.1+ (6.8.3 has been tested and is working ok), download Android SDK and NDK r21e
+This repository contains Android application sources of i2pd
+
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
+     alt="Get it on F-Droid"
+     height="80">](https://f-droid.org/packages/org.purplei2p.i2pd/)
+
+## How to build
+
+### Install g++, OpenJDK 11+, gradle 5.1+
+
+```bash
+sudo apt-get install g++ openjdk-11-jdk gradle
+```
+
+If your system provides gradle with version < 5.1, download it from gradle homepage:
+
 https://gradle.org/install/
+
+### Download and prepare Android SDK for building
+
+Android SDK Available here:
 
 https://developer.android.com/studio#downloads
 
-https://developer.android.com/ndk/
+Download Android SDK, unpack it to temporary directory `/tmp/anrdoid-sdk` and install it (in `/opt/android-sdk` for example) with required packages
+```bash
+mkdir /tmp/android-sdk
+cd /tmp/android-sdk
+wget https://dl.google.com/android/repository/commandlinetools-linux-8092744_latest.zip
+unzip commandlinetools-linux-8092744_latest.zip
+# install required tools
+./cmdline-tools/bin/sdkmanager --sdk_root=/opt/android-sdk "build-tools;31.0.0" "cmake;3.18.1" "ndk;22.1.7171670"
+```
 
 ### Clone repository with submodules
-    git clone --recurse-submodules https://github.com/PurpleI2P/i2pd-android.git
+
+```bash
+git clone --recurse-submodules https://github.com/PurpleI2P/i2pd-android.git
+```
 
 ### Compile application
-    export ANDROID_SDK_ROOT=/opt/android-sdk
-    export ANDROID_NDK_HOME=/opt/android-ndk-r21e
-    
-    gradle clean assembleDebug
+
+```bash
+export ANDROID_SDK_ROOT=/opt/android-sdk
+export ANDROID_NDK_HOME=$ANDROID_SDK_ROOT/ndk/22.1.7171670
+
+pushd app/jni
+./build_boost.sh
+
+pushd boost/build/out
+cp ../../../../../contrib/fix_boost.sh .
+bash fix_boost.sh
+popd
+
+./build_openssl.sh
+./build_miniupnpc.sh
+popd
+
+./gradlew clean assembleDebug
+```
 
 You will find APKs in `app/build/outputs/apk`
+
+### Building on Windows
+
+For building on Windows you must use MSYS2 with `mingw64` or `ucrt64` shell and preinstalled `gcc` ( package `mingw-w64-x86_64-gcc` or `mingw-w64-ucrt-x86_64-gcc`). But you would to use WSL. Is better way in some things.
+
+Java 11 can be downloaded from [jdk.java.com](https://jdk.java.net/java-se-ri/11)
+
+Download Android SDK command line tools for Windows, unpack and install it replacing `--sdk_root=` path.
+
+`ANDROID_SDK_ROOT` variable must point to SDK using linux-way path, like `/c/dev/android-sdk` when SDK installed to `C:\dev\android-sdk`.
+
+Gradle can be called with `./gradlew` command inside project root, or you can install it using `pacman` and call `gradle` like on linux.
+
+## Release signing
+
+Current releases signed with certificate fingerprint (SHA-256):
+
+`FC:C3:C7:34:9E:22:6A:77:B3:70:46:BB:00:FD:04:BB:A5:30:32:21:01:F8:62:F3:6D:8C:3D:B0:EB:B6:35:20`

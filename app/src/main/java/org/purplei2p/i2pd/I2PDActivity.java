@@ -20,6 +20,7 @@ import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Build;
+import android.os.Environment;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
@@ -27,8 +28,7 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,19 +37,20 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import static android.provider.Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS;
-import static org.purplei2p.i2pd.DaemonWrapper.State.startedOkay;
-import static org.purplei2p.i2pd.DaemonWrapper.State.starting;
-import static org.purplei2p.i2pd.DaemonWrapper.State.stopped;
 
 public class I2PDActivity extends Activity {
     private static final String TAG = "i2pdActvt";
     private static final int MY_PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
     public static final int GRACEFUL_DELAY_MILLIS = 10 * 60 * 1000;
     public static final String PACKAGE_URI_SCHEME = "package:";
-    private Button enableButton;
-    private Button disableButton;
 
     private TextView textView;
+    private CheckBox HTTPProxyState;
+    private CheckBox SOCKSProxyState;
+    private CheckBox BOBState;
+    private CheckBox SAMState;
+    private CheckBox I2CPState;
+
 
     private static volatile DaemonWrapper daemon;
 
@@ -65,15 +66,23 @@ public class I2PDActivity extends Activity {
             try {
                 if (textView == null)
                     return;
+
                 Throwable tr = daemon.getLastThrowable();
                 if (tr != null) {
                     textView.setText(throwableToString(tr));
                     return;
                 }
+
                 DaemonWrapper.State state = daemon.getState();
-                if(state == startedOkay){
-                    disableButton.setVisibility(View.VISIBLE);
+
+                if (daemon.isStartedOkay()) {
+                    HTTPProxyState.setChecked(I2PD_JNI.getHTTPProxyState());
+                    SOCKSProxyState.setChecked(I2PD_JNI.getSOCKSProxyState());
+                    BOBState.setChecked(I2PD_JNI.getBOBState());
+                    SAMState.setChecked(I2PD_JNI.getSAMState());
+                    I2CPState.setChecked(I2PD_JNI.getI2CPState());
                 }
+
                 String startResultStr = DaemonWrapper.State.startFailed.equals(state) ? String.format(": %s", daemon.getDaemonStartResult()) : "";
                 String graceStr = DaemonWrapper.State.gracefulShutdownInProgress.equals(state) ? String.format(": %s %s", formatGraceTimeRemaining(), getText(R.string.remaining)) : "";
                 textView.setText(String.format("%s%s%s", getText(state.getStatusStringResourceId()), startResultStr, graceStr));
@@ -99,12 +108,17 @@ public class I2PDActivity extends Activity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.i(TAG, "onCreate");
+        Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        enableButton = findViewById(R.id.enableButton);
-        disableButton = findViewById(R.id.disableButton);
-        textView = (TextView) findViewById(R.id.textView);
+
+        textView = (TextView) findViewById(R.id.appStatusText);
+        HTTPProxyState = (CheckBox) findViewById(R.id.service_httpproxy_box);
+        SOCKSProxyState = (CheckBox) findViewById(R.id.service_socksproxy_box);
+        BOBState = (CheckBox) findViewById(R.id.service_bob_box);
+        SAMState = (CheckBox) findViewById(R.id.service_sam_box);
+        I2CPState = (CheckBox) findViewById(R.id.service_i2cp_box);
+
         if (daemon == null) {
             ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             daemon = new DaemonWrapper(getAssets(), connectivityManager);
@@ -113,30 +127,17 @@ public class I2PDActivity extends Activity {
 
         daemon.addStateChangeListener(daemonStateUpdatedListener);
         daemonStateUpdatedListener.daemonStateUpdate(DaemonWrapper.State.uninitialized, daemon.getState());
-        enableButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if( daemon.getState() != startedOkay && daemon.getState() != starting ){
-                    daemon.stopDaemon();
-                    daemon.startDaemon();
-                    disableButton.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-        disableButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if( daemon.getState() != stopped ){
-                    daemon.stopDaemon();
-                    disableButton.setVisibility(View.INVISIBLE);
-                }
-            }
-        });
+
         // request permissions
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            if(!Environment.isExternalStorageManager()) {
+                Log.e(TAG, "MANAGE_EXTERNAL_STORAGE perm declined, stopping i2pd");
+                i2pdStop();
+            }
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE },
                     MY_PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE);
             }
         }
@@ -164,8 +165,13 @@ public class I2PDActivity extends Activity {
         //cancelGracefulStop0();
         try {
             doUnbindService();
+        } catch (IllegalArgumentException ex) {
+            Log.e(TAG, "throwable caught and ignored", ex);
+            if (ex.getMessage().startsWith("Service not registered: " + org.purplei2p.i2pd.I2PDActivity.class.getName())) {
+                Log.i(TAG, "Service not registered exception seems to be normal, not a bug it seems.");
+            }
         } catch (Throwable tr) {
-            Log.e(TAG, "", tr);
+            Log.e(TAG, "throwable caught and ignored", tr);
         }
     }
 
@@ -174,11 +180,10 @@ public class I2PDActivity extends Activity {
     {
         if (requestCode == MY_PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                Log.e(TAG, "WR_EXT_STORAGE perm granted");
+                Log.w(TAG, "WR_EXT_STORAGE perm granted");
             else {
                 Log.e(TAG, "WR_EXT_STORAGE perm declined, stopping i2pd");
                 i2pdStop();
-                //TODO must work w/o this perm, ask orignal
             }
         }
     }
@@ -294,7 +299,7 @@ public class I2PDActivity extends Activity {
                 return true;
 
             case R.id.action_start_webview:
-                if( daemon.getState() == startedOkay)
+                if(daemon.isStartedOkay())
                     startActivity(new Intent(getApplicationContext(), WebConsoleActivity.class));
                 else
                     Toast.makeText(this,"I2Pd not was started!", Toast.LENGTH_SHORT).show();
@@ -319,21 +324,22 @@ public class I2PDActivity extends Activity {
     }
 
     private void onReloadTunnelsConfig() {
-        Log.d(TAG, "reloading tunnels");
+        Log.i(TAG, "reloading tunnels");
         daemon.reloadTunnelsConfigs();
         Toast.makeText(this, R.string.tunnels_reloading, Toast.LENGTH_SHORT).show();
     }
 
     private void i2pdStop() {
         cancelGracefulStop0();
+        Log.i(TAG, "stopping");
+        textView.setText(getText(R.string.stopping));
         new Thread(() -> {
-            Log.d(TAG, "stopping");
             try {
                 daemon.stopDaemon();
             } catch (Throwable tr) {
                 Log.e(TAG, "", tr);
             }
-            quit(); //TODO make menu items for starting i2pd. On my Android, I need to reboot the OS to restart i2pd.
+            quit();
         }, "stop").start();
     }
 
@@ -348,10 +354,10 @@ public class I2PDActivity extends Activity {
             Toast.makeText(this, R.string.graceful_stop_is_already_in_progress, Toast.LENGTH_SHORT).show();
             return;
         }
+        Log.i(TAG, "graceful stopping");
         Toast.makeText(this, R.string.graceful_stop_is_in_progress, Toast.LENGTH_SHORT).show();
         new Thread(() -> {
             try {
-                Log.d(TAG, "graceful stopping");
                 if (daemon.isStartedOkay()) {
                     daemon.stopAcceptingTunnels();
                     long gracefulStopAtMillis;
@@ -371,9 +377,9 @@ public class I2PDActivity extends Activity {
     private void cancelGracefulStop()
     {
         cancelGracefulStop0();
+        Log.i(TAG, "canceling graceful stop");
         new Thread(() -> {
             try {
-                Log.d(TAG, "canceling graceful stop");
                 if (daemon.isStartedOkay()) {
                     daemon.startAcceptingTunnels();
                     runOnUiThread(() -> Toast.makeText(this, R.string.shutdown_canceled, Toast.LENGTH_SHORT).show());
@@ -390,7 +396,7 @@ public class I2PDActivity extends Activity {
             gracefulQuitTimerOld.cancel();
 
         if (daemon.getTransitTunnelsCount() <= 0) { // no tunnels left
-            Log.d(TAG, "no transit tunnels left, stopping");
+            Log.i(TAG, "no transit tunnels left, stopping");
             i2pdStop();
             return;
         }
@@ -436,7 +442,7 @@ public class I2PDActivity extends Activity {
     @SuppressLint("BatteryLife")
     private void openBatteryOptimizationDialogIfNeeded() {
         boolean questionEnabled = getPreferences().getBoolean(getBatteryOptimizationPreferenceKey(), true);
-        Log.i(TAG, "BATT_OPTIM_questionEnabled==" + questionEnabled);
+        Log.d(TAG, "BATT_OPTIM_questionEnabled==" + questionEnabled);
         if (!isKnownIgnoringBatteryOptimizations()
                 && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M
                 && questionEnabled) {
@@ -466,14 +472,14 @@ public class I2PDActivity extends Activity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             final PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
             if (pm == null) {
-                Log.i(TAG, "BATT_OPTIM: POWER_SERVICE==null");
+                Log.d(TAG, "BATT_OPTIM: POWER_SERVICE==null");
                 return false;
             }
             boolean ignoring = pm.isIgnoringBatteryOptimizations(getPackageName());
-            Log.i(TAG, "BATT_OPTIM: ignoring==" + ignoring);
+            Log.d(TAG, "BATT_OPTIM: ignoring==" + ignoring);
             return ignoring;
         } else {
-            Log.i(TAG, "BATT_OPTIM: old SDK version==" + Build.VERSION.SDK_INT);
+            Log.d(TAG, "BATT_OPTIM: old SDK version==" + Build.VERSION.SDK_INT);
             return false;
         }
     }
@@ -505,6 +511,6 @@ public class I2PDActivity extends Activity {
         } catch (Throwable tr) {
             Log.e(TAG, "", tr);
         }
-        //System.exit(0);
+        System.exit(0);
     }
 }

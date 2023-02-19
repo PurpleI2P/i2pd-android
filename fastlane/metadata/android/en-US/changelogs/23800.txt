@@ -1,0 +1,2 @@
+* Updated codebase to 2.38.0
+* Fix launch on devices with API < 21

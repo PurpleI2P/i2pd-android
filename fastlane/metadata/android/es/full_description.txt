@@ -1,0 +1,9 @@
+<b>I2P</b> (Invisible Internet Protocol, Protocolo de Internet Invisible) es una capa de red anónima universal.
+Todas las comunicaciones a través de I2P son anónimas y cifradas de extremo a extremo, los participantes no revelan sus direcciones IP reales.
+
+Un <b>cliente de I2P</b> es un software utilizado para construir y utilizar redes I2P anónimas.
+Tales redes son comúnmente utilizadas para aplicaciones de par en par (intercambio de archivos, criptomonedas) y aplicaciones anónimas cliente-servidor (sitios web, mensajería instantánea, servidores de chat).
+
+<b>I2P</b> le permite a la gente de todo el mundo comunicarse y compartir información sin restricciones.
+
+Para más información sobre <b>I2P</b>, puedes leer <a href="https://es.m.wikipedia.org/wiki/I2P">este artículo en Wikipedia</a>.

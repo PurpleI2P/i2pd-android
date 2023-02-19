@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/margin_medium"
     android:orientation="vertical"
+    android:padding="@dimen/margin_medium"
     tools:context=".SettingsActivity">
 
     <TextView
@@ -21,15 +21,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="left"
-        android:textOff="@string/disabled"
-        android:textOn="@string/enabled"
-        android:text="@string/autostart_enabled" />
+        android:text="@string/autostart_enabled"
+        tools:ignore="TouchTargetSizeCheck" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="?android:attr/listDivider" />
-<!--
+    <!--
     <TextView
         android:id="@+id/settings_section2"
         android:layout_width="match_parent"

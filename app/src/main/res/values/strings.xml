@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name" translatable="false">i2pd</string>
-    <string name="app_description">Invisible Internet Protocol:</string>
+    <string name="app_description" translatable="false">Invisible Internet Protocol:</string>
     <string name="app_description2">Network without borders</string>
 
     <string name="action_start">Start</string>
     <string name="action_stop">Stop</string>
-    <string name="action_graceful_stop">Graceful Stop</string>
-    <string name="action_cancel_graceful_stop">Cancel Graceful Stop</string>
+    <string name="action_exit">Exit</string>
+    <string name="action_graceful_stop">Graceful stop</string>
+    <string name="action_cancel_graceful_stop">Cancel Graceful stop</string>
     <string name="action_reload_tunnels_config">Reload tunnels</string>
     <string name="action_start_webview">Open Web Console</string>
     <string name="action_settings">Settings</string>
@@ -17,14 +18,22 @@
     <string name="gracefulShutdownInProgress">Graceful shutdown in progress</string>
 
     <string name="already_stopped">Already stopped</string>
-    <string name="uninitialized">Application initializing</string>
-    <string name="starting">Application starting</string>
+    <string name="uninitialized">Application initializing...</string>
+    <string name="starting">Application starting...</string>
     <string name="jniLibraryLoaded">Loaded JNI libraries</string>
-    <string name="startedOkay">Application Started</string>
+    <string name="startedOkay">Application started</string>
     <string name="startFailed">Start failed</string>
     <string name="stopped">Application stopped</string>
+    <string name="stopping">Application stopping...</string>
     <string name="remaining">remaining</string>
     <string name="ok" translatable="false">OK</string>
+
+    <string name="services">Internal services</string>
+    <string name="services_http_proxy">HTTP Proxy</string>
+    <string name="services_socks_proxy">SOCKS5 Proxy</string>
+    <string name="services_bob" translatable="false">BOB</string>
+    <string name="services_sam" translatable="false">SAM</string>
+    <string name="services_i2cp" translatable="false">I2CP</string>
 
     <string name="title_activity_i2_pdperms_asker_prompt">Prompt</string>
     <string name="permDenied">SD card write permission denied, you need to allow this to continue</string>
@@ -51,7 +60,5 @@
     <string name="add_tunnel">Tunnels management</string>
 
     <string name="del_tunnel_button">Delete tunnel</string>
-    <string name="enabled">On</string>
-    <string name="disabled">Off</string>
 
 </resources>

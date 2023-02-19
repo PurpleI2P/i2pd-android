@@ -1,0 +1,2 @@
+* Updated codebase to 2.37.0
+* Changes in main activity

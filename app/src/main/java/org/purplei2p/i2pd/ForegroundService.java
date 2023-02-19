@@ -1,5 +1,7 @@
 package org.purplei2p.i2pd;
 
+import static android.app.PendingIntent.FLAG_IMMUTABLE;
+
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -84,7 +86,7 @@ public class ForegroundService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.i("ForegroundService", "Received start id " + startId + ": " + intent);
+        Log.d("ForegroundService", "Received start id " + startId + ": " + intent);
         return START_STICKY;
     }
 
@@ -139,19 +141,19 @@ public class ForegroundService extends Service {
 
                 // The PendingIntent to launch our activity if the user selects this notification
                 PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                        new Intent(this, I2PDActivity.class), 0);
+                        new Intent(this, I2PDActivity.class),
+                        Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? FLAG_IMMUTABLE : 0);
 
                 // If earlier version channel ID is not used
                 // https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder.html#NotificationCompat.Builder(android.content.Context)
-                String channelId = Build.VERSION.SDK_INT >= 26 ? createNotificationChannel() : "";
+                String channelId = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel() : "";
 
                 // Set the info for the views that show in the notification panel.
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId)
                         .setOngoing(true)
                         .setSmallIcon(R.drawable.ic_notification_icon); // the status icon
-                if (Build.VERSION.SDK_INT >= 16)
-                    builder = builder.setPriority(Notification.PRIORITY_DEFAULT);
-                if (Build.VERSION.SDK_INT >= 21)
+                builder = builder.setPriority(Notification.PRIORITY_DEFAULT);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
                     builder = builder.setCategory(Notification.CATEGORY_SERVICE);
                 Notification notification = builder
                         .setTicker(text) // the status text

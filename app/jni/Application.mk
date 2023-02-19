@@ -4,19 +4,20 @@ APP_STL := c++_static
 # Enable c++17 extensions in source code
 APP_CPPFLAGS += -std=c++17 -fexceptions -frtti
 
-APP_CPPFLAGS += -DANDROID -D__ANDROID__ -DUSE_UPNP
+APP_CPPFLAGS += -DANDROID -D__ANDROID__ -DUSE_UPNP -Wno-deprecated-declarations
 ifeq ($(TARGET_ARCH_ABI),armeabi-v7a)
 APP_CPPFLAGS += -DANDROID_ARM7A
 endif
 
-BOOST_PATH    = $(NDK_MODULE_PATH)/boost
-OPENSSL_PATH  = $(NDK_MODULE_PATH)/openssl
-MINIUPNP_PATH = $(NDK_MODULE_PATH)/miniupnp
 IFADDRS_PATH  = $(NDK_MODULE_PATH)/android-ifaddrs
+BOOST_PATH    = $(NDK_MODULE_PATH)/boost
+MINIUPNP_PATH = $(NDK_MODULE_PATH)/miniupnp
+OPENSSL_PATH  = $(NDK_MODULE_PATH)/openssl
 
 # don't change me
 I2PD_SRC_PATH = $(NDK_MODULE_PATH)/i2pd
 
-LIB_SRC_PATH = $(I2PD_SRC_PATH)/libi2pd
+LIB_SRC_PATH        = $(I2PD_SRC_PATH)/libi2pd
 LIB_CLIENT_SRC_PATH = $(I2PD_SRC_PATH)/libi2pd_client
-DAEMON_SRC_PATH = $(I2PD_SRC_PATH)/daemon
+LANG_SRC_PATH       = $(I2PD_SRC_PATH)/i18n
+DAEMON_SRC_PATH     = $(I2PD_SRC_PATH)/daemon

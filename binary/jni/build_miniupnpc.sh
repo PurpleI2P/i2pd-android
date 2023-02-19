@@ -1,0 +1,1 @@
+../../app/jni/build_miniupnpc.sh
