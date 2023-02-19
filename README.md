@@ -51,6 +51,9 @@ export ANDROID_SDK_ROOT=/opt/android-sdk
 export ANDROID_NDK_HOME=$ANDROID_SDK_ROOT/ndk/21.4.7075529
 
 pushd app/jni
+pushd boost
+cp ../../../contrib/fix_boost.sh .
+popd
 ./build_boost.sh
 
 pushd boost/build/out
