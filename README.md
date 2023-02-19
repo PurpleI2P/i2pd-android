@@ -35,7 +35,7 @@ cd /tmp/android-sdk
 wget https://dl.google.com/android/repository/commandlinetools-linux-8092744_latest.zip
 unzip commandlinetools-linux-8092744_latest.zip
 # install required tools
-./cmdline-tools/bin/sdkmanager --sdk_root=/opt/android-sdk "build-tools;31.0.0" "cmake;3.18.1" "ndk;25.2.9519653"
+./cmdline-tools/bin/sdkmanager --sdk_root=/opt/android-sdk "build-tools;31.0.0" "cmake;3.18.1" "ndk;21.4.7075529"
 ```
 
 ### Clone repository with submodules
@@ -48,7 +48,7 @@ git clone --recurse-submodules https://github.com/PurpleI2P/i2pd-android.git
 
 ```bash
 export ANDROID_SDK_ROOT=/opt/android-sdk
-export ANDROID_NDK_HOME=$ANDROID_SDK_ROOT/ndk/25.2.9519653
+export ANDROID_NDK_HOME=$ANDROID_SDK_ROOT/ndk/21.4.7075529
 
 pushd app/jni
 ./build_boost.sh
