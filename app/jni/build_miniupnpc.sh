@@ -37,8 +37,8 @@ function checkPreRequisites {
 		exit
 	fi
 
-	if [ -z "$ANDROID_SDK_ROOT" -a "$ANDROID_SDK_ROOT" == "" ]; then
-		echo -e "\033[31mFailed! ANDROID_SDK_ROOT is empty. Run 'export ANDROID_SDK_ROOT=[PATH_TO_NDK]'\033[0m"
+	if [ -z "$ANDROID_HOME" -a "$ANDROID_HOME" == "" ]; then
+		echo -e "\033[31mFailed! ANDROID_HOME is empty. Run 'export ANDROID_HOME=[PATH_TO_NDK]'\033[0m"
 		exit
 	fi
 
@@ -83,7 +83,7 @@ cd miniupnp/miniupnpc
 rm -rf build out
 
 # add cmake from Android SDK to PATH
-PATH=$ANDROID_SDK_ROOT/cmake/$CMAKE_VERSION/bin:$PATH
+PATH=$ANDROID_HOME/cmake/$CMAKE_VERSION/bin:$PATH
 
 if (( $# == 0 )); then
 	build x86_64 arm64 arm x86

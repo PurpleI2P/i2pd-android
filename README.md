@@ -35,7 +35,7 @@ cd /tmp/android-sdk
 wget https://dl.google.com/android/repository/commandlinetools-linux-8092744_latest.zip
 unzip commandlinetools-linux-8092744_latest.zip
 # install required tools
-./cmdline-tools/bin/sdkmanager --sdk_root=/opt/android-sdk "build-tools;31.0.0" "cmake;3.18.1" "ndk;21.4.7075529"
+./cmdline-tools/bin/sdkmanager --sdk_root=/opt/android-sdk "build-tools;33.0.1" "cmake;3.22.1" "ndk;23.2.8568313"
 ```
 
 ### Clone repository with submodules
@@ -47,8 +47,11 @@ git clone --recurse-submodules https://github.com/PurpleI2P/i2pd-android.git
 ### Compile application
 
 ```bash
-export ANDROID_SDK_ROOT=/opt/android-sdk
-export ANDROID_NDK_HOME=$ANDROID_SDK_ROOT/ndk/21.4.7075529
+# if you are not using Java 11 by default:
+export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+
+export ANDROID_HOME=/opt/android-sdk
+export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/23.2.8568313
 
 pushd app/jni
 ./build_boost.sh
@@ -69,7 +72,7 @@ Java 11 can be downloaded from [jdk.java.com](https://jdk.java.net/java-se-ri/11
 
 Download Android SDK command line tools for Windows, unpack and install it replacing `--sdk_root=` path.
 
-`ANDROID_SDK_ROOT` variable must point to SDK using linux-way path, like `/c/dev/android-sdk` when SDK installed to `C:\dev\android-sdk`.
+`ANDROID_HOME` variable must point to SDK using linux-way path, like `/c/dev/android-sdk` when SDK installed to `C:\dev\android-sdk`.
 
 Gradle can be called with `./gradlew` command inside project root, or you can install it using `pacman` and call `gradle` like on linux.
 
