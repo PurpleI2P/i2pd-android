@@ -6,7 +6,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         submodules: 'recursive'
     - name: Install GNU C++ compiler
@@ -16,7 +16,7 @@ jobs:
     - name: Switch to JDK 11
       run: export JAVA_HOME=$JAVA_HOME_11_X64
     - name: Install required Android SDK packages
-      run: $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "ndk;23.2.8568313"
+      run: $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "cmake;3.22.1" "ndk;23.2.8568313"
     - name: Build required modules
       run: |
         export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/23.2.8568313
@@ -36,7 +36,7 @@ jobs:
   build-binary:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         submodules: 'recursive'
     - name: Install GNU C++ compiler
@@ -46,7 +46,7 @@ jobs:
     - name: Switch to JDK 11
       run: export JAVA_HOME=$JAVA_HOME_11_X64
     - name: Install required Android SDK packages
-      run: $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "ndk;23.2.8568313"
+      run: $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "cmake;3.22.1" "ndk;23.2.8568313"
     - name: Build required modules
       run: |
         export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/23.2.8568313
