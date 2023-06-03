@@ -13,22 +13,8 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y g++
-    - name: Setup JDK 11
-      uses: actions/setup-java@v3
-      with:
-        distribution: 'oracle'
-        java-version: '11'
-        java-package: jdk
-        cache: 'gradle'
-    #- name: Setup Android SDK
-    #  uses: maxim-lobanov/setup-android-tools@v1
-    #  with:
-    #    packages: |
-    #      build-tools;32.0.0
-    #      platforms;android-32
-    #      ndk;23.2.8568313
-    #      cmake;3.22.1
-    #    cache: true
+    - name: Switch to JDK 11
+      run: export JAVA_HOME=$JAVA_HOME_11_X64
     - name: Install required Android SDK packages
       run: $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager install "ndk;23.2.8568313"
     - name: Build required modules
@@ -57,20 +43,8 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y g++
-    - name: Setup JDK 11
-      uses: actions/setup-java@v3
-      with:
-        distribution: 'oracle'
-        java-version: '11'
-        java-package: jdk
-        cache: 'gradle'
-    #- name: Setup Android SDK
-    #  uses: maxim-lobanov/setup-android-tools@v1
-    #  with:
-    #    packages: |
-    #      ndk;23.2.8568313
-    #      cmake;3.22.1
-    #    cache: true
+    - name: Switch to JDK 11
+      run: export JAVA_HOME=$JAVA_HOME_11_X64
     - name: Install required Android SDK packages
       run: $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager install "ndk;23.2.8568313"
     - name: Build required modules
