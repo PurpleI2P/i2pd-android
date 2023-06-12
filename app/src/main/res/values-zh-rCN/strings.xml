@@ -9,7 +9,7 @@
     <string name="action_reload_tunnels_config">重新加载隧道</string>
     <string name="action_start_webview">打开网页控制台</string>
     <string name="action_settings">设置</string>
-    <string name="graceful_stop_is_already_in_progress">已经平滑退出了 I2P 网络</string>
+    <string name="graceful_stop_is_already_in_progress">平滑退出已在进行...</string>
     <string name="graceful_stop_is_in_progress">正在平滑退出</string>
     <string name="gracefulShutdownInProgress">正在平滑关闭 剩余时间:</string>
     <string name="already_stopped">已停止</string>
