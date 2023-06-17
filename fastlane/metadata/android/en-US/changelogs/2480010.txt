@@ -1,0 +1,2 @@
+* Updated codebase to 2.48.0 with SOCKS5 authorization fix (2.48.0-3-g07c5291)
+* Updated OpenSSL to 1.1.1u
