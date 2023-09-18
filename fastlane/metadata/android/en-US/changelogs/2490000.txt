@@ -1,0 +1,2 @@
+* Updated codebase to 2.49.0
+* Updated OpenSSL to 1.1.1w
