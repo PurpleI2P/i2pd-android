@@ -28,7 +28,8 @@ Android SDK Available here:
 
 https://developer.android.com/studio#downloads
 
-Download Android SDK, unpack it to temporary directory `/tmp/anrdoid-sdk` and install it (in `/opt/android-sdk` for example) with required packages
+Download Android SDK, unpack it to temporary directory `/tmp/android-sdk` and install it
+(in `/opt/android-sdk` for example) with required packages
 ```bash
 mkdir /tmp/android-sdk
 cd /tmp/android-sdk
