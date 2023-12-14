@@ -32,7 +32,7 @@ Download Android SDK, unpack it to temporary directory `/tmp/anrdoid-sdk` and in
 ```bash
 mkdir /tmp/android-sdk
 cd /tmp/android-sdk
-wget https://dl.google.com/android/repository/commandlinetools-linux-8092744_latest.zip
+wget -t0 https://dl.google.com/android/repository/commandlinetools-linux-8092744_latest.zip
 unzip commandlinetools-linux-8092744_latest.zip
 # install required tools
 ./cmdline-tools/bin/sdkmanager --sdk_root=/opt/android-sdk "build-tools;33.0.1" "cmake;3.22.1" "ndk;23.2.8568313"
