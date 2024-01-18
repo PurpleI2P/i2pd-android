@@ -16,3 +16,4 @@ build
 *.iml
 *.local
 *.jks
+.vscode
