@@ -11,8 +11,12 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+
+
 import java.io.File;
 import java.util.List;
 import java.util.Objects;
@@ -21,7 +25,6 @@ import java.util.Objects;
 //import org.purplei2p.i2pd.iniedotr.IniEditor;
 
 public class SettingsActivity extends Activity {
-    //protected IniEditor iniedit = new IniEditor();
     private String TAG = "i2pdSrvcSettings";
     private File cacheDir;
     public static String onBootFileName = "/onBoot"; // just file, empty, if exist the do autostart, if not then no.
@@ -83,9 +86,16 @@ public class SettingsActivity extends Activity {
         setContentView(R.layout.activity_settings);
         Objects.requireNonNull(getActionBar()).setDisplayHomeAsUpEnabled(true);
         Switch autostart_switch = findViewById(R.id.autostart_enable);
-
+        Button openPreferences = findViewById(R.id.OpenPreferences);
         cacheDir = getApplicationContext().getCacheDir();
         File onBoot = new File(cacheDir.getAbsolutePath() + onBootFileName);
+        openPreferences.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SettingsActivity.this, MyPreferenceActivity.class);
+                startActivity(intent);
+            }
+        });
         autostart_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // do something, the isChecked will be

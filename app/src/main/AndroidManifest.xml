@@ -74,5 +74,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.purplei2p.i2pd.I2PDPermsAskerActivity" />
         </activity>
+        <activity
+            android:name=".MyPreferenceActivity"
+            android:label="Settings"
+            >
+        </activity>
+
     </application>
 </manifest>
