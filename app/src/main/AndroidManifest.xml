@@ -23,6 +23,17 @@
         android:theme="@android:style/Theme.DeviceDefault"
         android:usesCleartextTraffic="true">
 
+        <service
+            android:name=".I2PdQSTileService"
+            android:exported="true"
+            android:label="I2Pd"
+            android:icon="@drawable/ic_logo"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
         <receiver
             android:enabled="true"
             android:name="org.purplei2p.i2pd.receivers.BootUpReceiver"
@@ -64,6 +75,8 @@
 
         <service
             android:name=".ForegroundService"
+            android:exported="false"
+            android:stopWithTask="false"
             android:enabled="true" />
 
         <activity
@@ -75,7 +88,7 @@
                 android:value="org.purplei2p.i2pd.I2PDPermsAskerActivity" />
         </activity>
         <activity
-            android:name=".MyPreferenceActivity"
+            android:name=".MainPreferenceActivity"
             android:label="Settings"
             >
         </activity>

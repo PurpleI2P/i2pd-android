@@ -111,7 +111,7 @@ public class I2PDActivity extends Activity {
         Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        startService(new Intent(this, ForegroundService.class));
         textView = (TextView) findViewById(R.id.appStatusText);
         HTTPProxyState = (CheckBox) findViewById(R.id.service_httpproxy_box);
         SOCKSProxyState = (CheckBox) findViewById(R.id.service_socksproxy_box);

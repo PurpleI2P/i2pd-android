@@ -92,7 +92,7 @@ public class SettingsActivity extends Activity {
         openPreferences.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(SettingsActivity.this, MyPreferenceActivity.class);
+                Intent intent = new Intent(SettingsActivity.this, MainPreferenceActivity.class);
                 startActivity(intent);
             }
         });
