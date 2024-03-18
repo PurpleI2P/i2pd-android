@@ -5,10 +5,13 @@ import android.service.quicksettings.Tile;
 import android.service.quicksettings.TileService;
 import android.util.Log;
 
+import android.annotation.TargetApi;
+import android.os.Build;
+
+@TargetApi(Build.VERSION_CODES.N)
 public class I2PdQSTileService extends TileService {
 
     private static final String TAG = "MyQSTileService";
-
     @Override
     public void onClick() {
         super.onClick();

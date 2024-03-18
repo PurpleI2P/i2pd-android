@@ -183,6 +183,7 @@ public class I2PDPermsAskerActivity extends Activity {
                 }
             }
         } else if (requestCode == APP_STORAGE_ACCESS_REQUEST_CODE && resultCode == RESULT_OK) {
+	    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             if (Environment.isExternalStorageManager()) {
                 startMainActivity();
             } else {
@@ -195,5 +196,6 @@ public class I2PDPermsAskerActivity extends Activity {
         } else {
             finish(); // close the app
         }
+	}
     }
 }

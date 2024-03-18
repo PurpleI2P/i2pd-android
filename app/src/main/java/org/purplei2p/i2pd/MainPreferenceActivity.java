@@ -1,4 +1,5 @@
 package org.purplei2p.i2pd;
+import android.os.Build;
 
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -39,12 +40,15 @@ public class MainPreferenceActivity extends PreferenceActivity {
         if (!isOldConfigExists)
         {
             try {
+	      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 if (Files.exists(Paths.get(CONFIG_FILE_PATH))) {
                     Files.copy(Paths.get(CONFIG_FILE_PATH), Paths.get(CONFIG_FILE_PATH + OLD_FILE_PREFIX));
                 }
+	      } // if build ...
             } catch (IOException e) {
                 e.printStackTrace();
             }
+	  
         }
         // delete empty sections
         {
