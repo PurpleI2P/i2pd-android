@@ -52,7 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:textAppearance="@android:style/TextAppearance.Material.Large"
+            android:textAppearance="@android:style/TextAppearance.Large"
             android:textColor="#DFDFDF" />
 
         <Space
@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:text="@string/services"
-            android:textAppearance="@android:style/TextAppearance.Material.Medium"
+            android:textAppearance="@android:style/TextAppearance.Medium"
             android:textColor="#DFDFDF" />
 
         <TableLayout
@@ -84,7 +84,7 @@
                     android:layout_height="wrap_content"
                     android:clickable="false"
                     android:text="@string/services_http_proxy"
-                    android:textAppearance="@android:style/TextAppearance.Material.Small"
+                    android:textAppearance="@android:style/TextAppearance.Small"
                     android:textColor="#DFDFDF" />
 
             </TableRow>
@@ -100,7 +100,7 @@
                     android:layout_height="wrap_content"
                     android:clickable="false"
                     android:text="@string/services_socks_proxy"
-                    android:textAppearance="@android:style/TextAppearance.Material.Small"
+                    android:textAppearance="@android:style/TextAppearance.Small"
                     android:textColor="#DFDFDF" />
             </TableRow>
 
@@ -115,7 +115,7 @@
                     android:layout_height="wrap_content"
                     android:clickable="false"
                     android:text="@string/services_bob"
-                    android:textAppearance="@android:style/TextAppearance.Material.Small"
+                    android:textAppearance="@android:style/TextAppearance.Small"
                     android:textColor="#DFDFDF" />
             </TableRow>
 
@@ -130,7 +130,7 @@
                     android:layout_height="wrap_content"
                     android:clickable="false"
                     android:text="@string/services_sam"
-                    android:textAppearance="@android:style/TextAppearance.Material.Small"
+                    android:textAppearance="@android:style/TextAppearance.Small"
                     android:textColor="#DFDFDF" />
             </TableRow>
 
@@ -145,7 +145,7 @@
                     android:layout_height="wrap_content"
                     android:clickable="false"
                     android:text="@string/services_i2cp"
-                    android:textAppearance="@android:style/TextAppearance.Material.Small"
+                    android:textAppearance="@android:style/TextAppearance.Small"
                     android:textColor="#DFDFDF" />
             </TableRow>
         </TableLayout>

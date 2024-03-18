@@ -5,14 +5,29 @@ plugins {
 dependencies {
     implementation 'androidx.core:core:1.9.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    // implementation 'org.ini4j:ini4j:0.5.4'
+    implementation 'org.apache.commons:commons-configuration2:2.9.0'
+}
+ configurations {
+    all{
+        //exclude group: 'commons-logging', module: 'commons-logging'
+        //exclude group: 'org.apache.httpcomponents'
+        exclude module: 'httpclient'
+    }
 }
 
 android {
+    lintOptions {
+        // Not so a good way
+        disable 'DuplicatePlatformClasses'
+    }
+
     compileSdkVersion 33
 
     defaultConfig {
         applicationId "org.purplei2p.i2pd"
         targetSdkVersion 33
+        // TODO: 24?
         minSdkVersion 16
         versionCode 2500200
         versionName "2.50.2"
