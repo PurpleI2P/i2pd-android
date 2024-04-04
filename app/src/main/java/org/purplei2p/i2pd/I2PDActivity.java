@@ -45,11 +45,11 @@ public class I2PDActivity extends Activity {
     public static final String PACKAGE_URI_SCHEME = "package:";
 
     private TextView textView;
-    private CheckBox HTTPProxyState;
-    private CheckBox SOCKSProxyState;
-    private CheckBox BOBState;
-    private CheckBox SAMState;
-    private CheckBox I2CPState;
+//    private CheckBox HTTPProxyState;
+//    private CheckBox SOCKSProxyState;
+//    private CheckBox BOBState;
+//    private CheckBox SAMState;
+//    private CheckBox I2CPState;
 
 
     private static volatile DaemonWrapper daemon;
@@ -75,13 +75,13 @@ public class I2PDActivity extends Activity {
 
                 DaemonWrapper.State state = daemon.getState();
 
-                if (daemon.isStartedOkay()) {
-                    HTTPProxyState.setChecked(I2PD_JNI.getHTTPProxyState());
-                    SOCKSProxyState.setChecked(I2PD_JNI.getSOCKSProxyState());
-                    BOBState.setChecked(I2PD_JNI.getBOBState());
-                    SAMState.setChecked(I2PD_JNI.getSAMState());
-                    I2CPState.setChecked(I2PD_JNI.getI2CPState());
-                }
+//                if (daemon.isStartedOkay()) {
+//                    HTTPProxyState.setChecked(I2pdApi.getHTTPProxyState());
+//                    SOCKSProxyState.setChecked(I2pdApi.getSOCKSProxyState());
+//                    BOBState.setChecked(I2pdApi.getBOBState());
+//                    SAMState.setChecked(I2pdApi.getSAMState());
+//                    I2CPState.setChecked(I2pdApi.getI2CPState());
+//                }
 
                 String startResultStr = DaemonWrapper.State.startFailed.equals(state) ? String.format(": %s", daemon.getDaemonStartResult()) : "";
                 String graceStr = DaemonWrapper.State.gracefulShutdownInProgress.equals(state) ? String.format(": %s %s", formatGraceTimeRemaining(), getText(R.string.remaining)) : "";
@@ -113,15 +113,15 @@ public class I2PDActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         textView = (TextView) findViewById(R.id.appStatusText);
-        HTTPProxyState = (CheckBox) findViewById(R.id.service_httpproxy_box);
-        SOCKSProxyState = (CheckBox) findViewById(R.id.service_socksproxy_box);
-        BOBState = (CheckBox) findViewById(R.id.service_bob_box);
-        SAMState = (CheckBox) findViewById(R.id.service_sam_box);
-        I2CPState = (CheckBox) findViewById(R.id.service_i2cp_box);
+//        HTTPProxyState = (CheckBox) findViewById(R.id.service_httpproxy_box);
+//        SOCKSProxyState = (CheckBox) findViewById(R.id.service_socksproxy_box);
+//        BOBState = (CheckBox) findViewById(R.id.service_bob_box);
+//        SAMState = (CheckBox) findViewById(R.id.service_sam_box);
+//        I2CPState = (CheckBox) findViewById(R.id.service_i2cp_box);
 
         if (daemon == null) {
             ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-            daemon = new DaemonWrapper(getAssets(), connectivityManager);
+            daemon = new DaemonWrapper(getApplicationContext(), getAssets(), connectivityManager);
         }
         ForegroundService.init(daemon);
 
@@ -261,6 +261,8 @@ public class I2PDActivity extends Activity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.options_main, menu);
         menu.findItem(R.id.action_battery_otimizations).setVisible(isBatteryOptimizationsOpenOsDialogApiAvailable());
+        //TODO
+        menu.findItem(R.id.action_reload_tunnels_config).setVisible(false);
         this.optionsMenu = menu;
         return true;
     }
@@ -295,6 +297,7 @@ public class I2PDActivity extends Activity {
                 return true;
 
             case R.id.action_reload_tunnels_config:
+                //TODO
                 onReloadTunnelsConfig();
                 return true;
 
@@ -302,7 +305,7 @@ public class I2PDActivity extends Activity {
                 if(daemon.isStartedOkay())
                     startActivity(new Intent(getApplicationContext(), WebConsoleActivity.class));
                 else
-                    Toast.makeText(this,"I2Pd not was started!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.error_i2pd_not_running, Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_settings:
                 startActivity(new Intent(getApplicationContext(), SettingsActivity.class));

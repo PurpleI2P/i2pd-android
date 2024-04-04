@@ -18,11 +18,9 @@ import java.util.List;
 import java.util.Objects;
 
 
-//import org.purplei2p.i2pd.iniedotr.IniEditor;
 
 public class SettingsActivity extends Activity {
-    //protected IniEditor iniedit = new IniEditor();
-    private String TAG = "i2pdSrvcSettings";
+    private static final String TAG = "i2pdSttngs";
     private File cacheDir;
     public static String onBootFileName = "/onBoot"; // just file, empty, if exist the do autostart, if not then no.
 
@@ -59,7 +57,7 @@ public class SettingsActivity extends Activity {
                 startActivity(intent);
             }
         } catch (Exception e) {
-            Log.e("exceptionAutostarti2pd" , String.valueOf(e));
+            Log.e("Autostarti2pd" , "", e);
         }
 
     }
@@ -99,7 +97,7 @@ public class SettingsActivity extends Activity {
                             if (!onBoot.createNewFile())
                                 Log.d(TAG, "Cant create new wile on: "+onBoot.getAbsolutePath());
                         } catch (Exception e) {
-                            Log.e(TAG, "error: " + e.toString());
+                            Log.e(TAG, "", e);
                         }
                     }
                 } else {

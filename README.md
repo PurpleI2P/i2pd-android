@@ -18,7 +18,7 @@ This repository contains Android application sources of i2pd
 sudo apt-get install g++ openjdk-11-jdk gradle
 ```
 
-If your system provides gradle with version < 5.1, download it from gradle homepage:
+If your system provides gradle with version &lt; 5.1, download it from gradle homepage:
 
 https://gradle.org/install/
 
@@ -54,10 +54,8 @@ export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 export ANDROID_HOME=/opt/android-sdk
 export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/23.2.8568313
 
-pushd app/jni
-./build_boost.sh
-./build_openssl.sh
-./build_miniupnpc.sh
+pushd binary/jni
+./build_all.sh
 popd
 
 gradle clean assembleDebug

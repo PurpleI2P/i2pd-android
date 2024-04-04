@@ -19,7 +19,7 @@ public class NetworkStateChangeReceiver extends BroadcastReceiver {
             NetworkInfo activeNetworkInfo = cm.getActiveNetworkInfo();
             boolean isConnected = activeNetworkInfo != null && activeNetworkInfo.isConnected();
 
-            I2PD_JNI.onNetworkStateChanged(isConnected);
+            I2pdApi.onNetworkStateChanged(isConnected);
         } catch (Throwable tr) {
             Log.e(TAG, "", tr);
         }

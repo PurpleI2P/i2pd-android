@@ -27,7 +27,7 @@ public class WebConsoleActivity extends Activity {
         final WebSettings webSettings = webView.getSettings();
         webSettings.setBuiltInZoomControls(true);
         webSettings.setJavaScriptEnabled(false);
-        webView.loadUrl(I2PD_JNI.getWebConsAddr());
+        webView.loadUrl(I2pdApi.getWebConsAddr());
 
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

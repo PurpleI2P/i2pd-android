@@ -28,8 +28,15 @@ android {
 
         externalNativeBuild {
             ndkBuild {
-                arguments "NDK_MODULE_PATH:=${rootProject.projectDir}/app/jni"
+                arguments "NDK_MODULE_PATH:=${rootProject.projectDir}/binary/jni"
                 arguments "-j${Runtime.getRuntime().availableProcessors()}"
+                arguments 'V=1'
+                //targets
+                        // You need to configure this executable and its sources in your
+                        // Android.mk file like you would any other library, except you must
+                        // specify "include $(BUILD_EXECUTABLE)". Building executables from
+                        // your native sources is optional, and building native libraries to
+                        // package into your APK satisfies most project requirements.
             }
         }
     }
@@ -59,16 +66,19 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
         }
         debug {
-            jniDebuggable = true
         }
     }
 
     externalNativeBuild {
         ndkBuild {
-            path "${rootProject.projectDir}/app/jni/Android.mk"
+            path "${rootProject.projectDir}/binary/jni/Android.mk"
         }
     }
-
+    sourceSets {
+        main {
+            jniLibs.srcDir file("${rootProject.projectDir}/binary/libs")
+        }
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
