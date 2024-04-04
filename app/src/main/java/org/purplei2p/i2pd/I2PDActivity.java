@@ -263,6 +263,7 @@ public class I2PDActivity extends Activity {
         menu.findItem(R.id.action_battery_otimizations).setVisible(isBatteryOptimizationsOpenOsDialogApiAvailable());
         //TODO
         menu.findItem(R.id.action_reload_tunnels_config).setVisible(false);
+        menu.findItem(R.id.action_start_webview).setVisible(false);
         this.optionsMenu = menu;
         return true;
     }
