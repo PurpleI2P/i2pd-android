@@ -5,5 +5,9 @@ fi
 ./build_boost.sh
 ./build_miniupnpc.sh
 ./build_openssl.sh
+if [ -z "$BUILD_SO" -a "$BUILD_SO" == "" ]; then
+export NDK_MODULE_PATH=`pwd` && export NDK_PROJECT_PATH=`pwd`/.. && $ANDROID_NDK_HOME/ndk-build V=1 NDK_LOG=1 -j`nproc`
+else
 export NDK_MODULE_PATH=`pwd` && export NDK_PROJECT_PATH=`pwd`/.. && ./ndkbuild-wrapper.sh V=1 NDK_LOG=1 -j`nproc`
+fi
 echo "$0 completed."

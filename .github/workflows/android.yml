@@ -20,10 +20,9 @@ jobs:
     - name: Build required modules
       run: |
         export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/23.2.8568313
-        pushd app/jni
-        ./build_boost.sh
-        ./build_openssl.sh
-        ./build_miniupnpc.sh
+        pushd binary/jni
+        export BUILD_SO=1
+        ./build_all.sh
         popd
     - name: Build with Gradle
       run: ./gradlew --no-daemon assembleDebug
@@ -51,9 +50,7 @@ jobs:
       run: |
         export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/23.2.8568313
         pushd binary/jni
-        ./build_boost.sh
-        ./build_openssl.sh
-        ./build_miniupnpc.sh
+        ./build_all.sh
         popd
     - name: Build binaries with NDK
       run: |

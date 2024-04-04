@@ -55,6 +55,7 @@ export ANDROID_HOME=/opt/android-sdk
 export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/23.2.8568313
 
 pushd binary/jni
+export BUILD_SO=1
 ./build_all.sh
 popd
 
