@@ -13,10 +13,10 @@
     <string name="graceful_stop_is_in_progress">Корректная остановка запущена</string>
     <string name="gracefulShutdownInProgress">Корректная остановка запущена</string>
     <string name="already_stopped">Уже остановлено</string>
-    <string name="uninitialized">Приложение инициализируется...</string>
-    <string name="starting">Приложение запускается...</string>
+    <string name="uninitialized">Приложение инициализируется…</string>
+    <string name="starting">Приложение запускается…</string>
     <string name="jniLibraryLoaded">Загружены JNI библиотеки</string>
-    <string name="startedOkay">Приложение запущено</string>
+    <string name="startedOkay">Приложение работает</string>
     <string name="startFailed">Запуск не удался</string>
     <string name="stopped">Приложение было остановлено</string>
     <string name="stopping">Остановка приложения...</string>
