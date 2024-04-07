@@ -3,97 +3,108 @@
 
     <PreferenceCategory android:title="Main">
 
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="check_box_preference_1"
-            android:title="Log" />
         <ListPreference
+            android:id="@+id/LogLevel"
             android:defaultValue="1"
             android:entries="@array/pref_loglevel"
             android:entryValues="@array/pref_loglevel"
-            android:key="list_preference_1"
+            android:key="logLevelPreference"
             android:summary="Logging level to file. Use 'none' to reduce memory usage"
             android:title="Log level" />
         <CheckBoxPreference
+            android:id="@+id/IPV4Enable"
             android:defaultValue="true"
-            android:key="check_box_preference_1"
+            android:key="ipv4EnablePreference"
             android:title="IPv4" />
         <CheckBoxPreference
+            android:id="@+id/IPV6Enable"
             android:defaultValue="false"
-            android:key="check_box_preference_1"
+            android:key="ipv6EnablePreference"
             android:title="IPv6" />
         <EditTextPreference
-            android:defaultValue="Default value"
-            android:key="edit_text_preference_1"
+            android:id="@+id/Port"
+            android:defaultValue="auto"
+            android:key="portPreference"
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:title="Port" />
         <ListPreference
+            android:id="@+id/BandWithType"
             android:entries="@array/pref_bandwidth_limit_flags"
             android:entryValues="@array/pref_bandwidth_limit_flags"
-            android:key="list_preference_1"
+            android:key="bandwidthPreference"
             android:summary="Bandwidth limit for transit traffic"
             android:title="Bandwidth" />
         <CheckBoxPreference
+            android:id="@+id/NoTransitCheckbox"
             android:defaultValue="false"
-            android:key="check_box_preference_1"
+            android:key="noTransitPreference"
             android:summary="Disable transit"
             android:title="No transit" />
         <CheckBoxPreference
+            android:id="@+id/FloodfillCheckBox"
             android:defaultValue="false"
-            android:key="check_box_preference_1"
+            android:key="floodfillPreference"
             android:summary="Uses more battery"
             android:title="Floodfill" />
         <CheckBoxPreference
+            android:id="@+id/SSUCheckBox"
             android:defaultValue="true"
-            android:key="check_box_preference_1"
+            android:key="ssuPreference"
             android:title="SSU" />
 
     </PreferenceCategory>
     <PreferenceCategory android:title="NTCP2">
-
         <CheckBoxPreference
+            android:id="@+id/NTCP2Checkbox"
             android:defaultValue="true"
-            android:key="check_box_preference_1"
+            android:key="ntcp2EnablePreference"
             android:title="Enable" />
         <CheckBoxPreference
+            android:id="@+id/NTCPPublishCheckbox"
             android:defaultValue="true"
-            android:key="check_box_preference_1"
+            android:key="ntcp2PublishPreference"
             android:summary="Disable to make unable to connect to your device"
             android:title="Publish" />
     </PreferenceCategory>
     <PreferenceCategory android:title="Web Console">
 
         <CheckBoxPreference
+            android:id="@+id/WebConsoleEnableCheckbox"
             android:defaultValue="true"
-            android:key="check_box_preference_1"
+            android:key="webConsoleEnablePreference"
             android:title="Enable" />
         <EditTextPreference
+            android:id="@+id/WebConsoleIPText"
             android:defaultValue="127.0.0.1"
-            android:key="edit_text_preference_1"
+            android:key="webConsoleAddressPreference"
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:title="Address" />
         <EditTextPreference
+            android:id="@+id/WebConsolePortText"
             android:defaultValue="7070"
-            android:key="edit_text_preference_1"
+            android:key="webConsolePortPreference"
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:title="Port" />
         <CheckBoxPreference
+            android:id="@+id/WebConsoleUseAuthCheckbox"
             android:defaultValue="false"
-            android:key="check_box_preference_1"
+            android:key="webConsoleAuthPreference"
             android:summary="Use HTTP authorization to access Web Console"
-            android:title="Autorization" />
+            android:title="Authorization" />
         <EditTextPreference
+            android:id="@+id/WebConsoleUser"
             android:defaultValue="Default value"
-            android:key="edit_text_preference_1"
+            android:key="webConsoleUserPreference"
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:title="User" />
         <EditTextPreference
+            android:id="@+id/WebConsoleUserPassword"
             android:defaultValue="Default value"
-            android:key="edit_text_preference_1"
+            android:key="webConsolePasswordPreference"
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:title="Password" />
@@ -101,24 +112,28 @@
     <PreferenceCategory android:title="@string/services_http_proxy">
 
         <CheckBoxPreference
+            android:id="@+id/EnableHTTPProxy"
             android:defaultValue="true"
-            android:key="check_box_preference_1"
+            android:key="httpProxyEnablePreference"
             android:title="Enable" />
         <EditTextPreference
+            android:id="@+id/HTTPProxyHost"
             android:defaultValue="127.0.0.1"
-            android:key="edit_text_preference_1"
+            android:key="httpProxyAddressPreference"
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:title="Address" />
         <EditTextPreference
+            android:id="@+id/HTTPProxyPort"
             android:defaultValue="4444"
-            android:key="edit_text_preference_1"
+            android:key="httpProxyPortPreference"
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:title="Port" />
         <EditTextPreference
-            android:defaultValue="proxy-keys.dat"
-            android:key="edit_text_preference_1"
+            android:id="@+id/HTTPProxyKeys"
+            android:defaultValue="transient"
+            android:key="httpProxyKeysPreference"
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:title="Keys" />
@@ -126,24 +141,28 @@
     <PreferenceCategory android:title="SOCKS Proxy">
 
         <CheckBoxPreference
+            android:id="@+id/SocksProxyEnableCheckbox"
             android:defaultValue="false"
-            android:key="check_box_preference_1"
+            android:key="socksProxyEnablePreference"
             android:title="Enable" />
         <EditTextPreference
+            android:id="@+id/SocksProxyHost"
             android:defaultValue="127.0.0.1"
-            android:key="edit_text_preference_1"
+            android:key="socksProxyAddressPreference"
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:title="Address" />
         <EditTextPreference
+            android:id="@+id/SocksProxyPort"
             android:defaultValue="4447"
-            android:key="edit_text_preference_1"
+            android:key="socksProxyPortPreference"
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:title="Port" />
         <EditTextPreference
-            android:defaultValue="proxy-keys.dat"
-            android:key="edit_text_preference_1"
+            android:id="@+id/SocksProxyKey"
+            android:defaultValue="transient"
+            android:key="socksProxyKeysPreference"
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:title="Keys" />
@@ -151,18 +170,21 @@
     <PreferenceCategory android:title="SAM">
 
         <CheckBoxPreference
+            android:id="@+id/SAMEnable"
             android:defaultValue="false"
-            android:key="check_box_preference_1"
+            android:key="samEnablePreference"
             android:title="Enable" />
         <EditTextPreference
+            android:id="@+id/SAMHost"
             android:defaultValue="127.0.0.1"
-            android:key="edit_text_preference_1"
+            android:key="samAddressPreference"
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:title="Address" />
         <EditTextPreference
+            android:id="@+id/SAMPort"
             android:defaultValue="7656"
-            android:key="edit_text_preference_1"
+            android:key="samPortPreference"
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:title="Port" />
@@ -170,12 +192,14 @@
     <PreferenceCategory android:title="UPnP">
 
         <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="check_box_preference_1"
+            android:id="@+id/UPnPEnable"
+            android:defaultValue="false"
+            android:key="upnpEnablePreference"
             android:title="Enable" />
         <EditTextPreference
+            android:id="@+id/UPnPForwardName"
             android:defaultValue="I2Pd"
-            android:key="edit_text_preference_1"
+            android:key="upnpForwardNamePreference"
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:title="Forwarding name" />
@@ -183,8 +207,9 @@
     <PreferenceCategory android:title="Limits">
 
         <EditTextPreference
-            android:defaultValue="50"
-            android:key="edit_text_preference_1"
+            android:id="@+id/TransitTunnelEdit"
+            android:defaultValue="3000"
+            android:key="transitTunnelPreference"
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:summary="Limit possible built transit tunnels"

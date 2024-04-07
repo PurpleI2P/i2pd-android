@@ -60,5 +60,6 @@
     <string name="add_tunnel">Tunnels management</string>
 
     <string name="del_tunnel_button">Delete tunnel</string>
+    <string name="OpenPreferences">Open i2pd settings</string>
 
 </resources>
