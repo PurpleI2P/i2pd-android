@@ -6,7 +6,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         submodules: 'recursive'
     - name: Install GNU C++ compiler
@@ -28,7 +28,7 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew --no-daemon assembleDebug
     - name: Upload artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: android-apks
         path: app/build/outputs/apk/debug/*.apk
@@ -36,7 +36,7 @@ jobs:
   build-binary:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         submodules: 'recursive'
     - name: Install GNU C++ compiler
@@ -66,12 +66,12 @@ jobs:
         ./build-archive
         popd
     - name: Upload binaries archive
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: android-binaries
         path: binary/libs/*
     - name: Upload binaries package
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: android-binaries-pack
         path: contrib/binary_pack/i2pd_*_android_binary.zip
