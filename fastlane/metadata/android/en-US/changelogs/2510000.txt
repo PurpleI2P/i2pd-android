@@ -1,0 +1,2 @@
+* Updated codebase to 2.51.0
+* Added minimal configuration menu (cudos: @wipedlifepotato)
