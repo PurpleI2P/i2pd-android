@@ -1,5 +1,7 @@
 package org.purplei2p.i2pd;
 
 public interface AbstractProcess {
-    void kill();
+    /** @param tr can be null
+     */
+    void kill(Throwable tr);
 }

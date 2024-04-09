@@ -83,9 +83,12 @@ public class I2PDActivity extends Activity {
 //                    I2CPState.setChecked(I2pdApi.getI2CPState());
 //                }
 
+                final Throwable lastThrowable = daemon.getLastThrowable();
                 String startResultStr = DaemonWrapper.State.startFailed.equals(state) ? String.format(": %s", daemon.getDaemonStartResult()) : "";
+                String stopReasonStr = DaemonWrapper.State.stopped.equals(state) && lastThrowable != null ?
+                        String.format(": %s", lastThrowable) : "";
                 String graceStr = DaemonWrapper.State.gracefulShutdownInProgress.equals(state) ? String.format(": %s %s", formatGraceTimeRemaining(), getText(R.string.remaining)) : "";
-                textView.setText(String.format("%s%s%s", getText(state.getStatusStringResourceId()), startResultStr, graceStr));
+                textView.setText(String.format("%s%s%s%s", getText(state.getStatusStringResourceId()), startResultStr, graceStr, stopReasonStr));
             } catch (Throwable tr) {
                 Log.e(TAG,"error ignored",tr);
             }

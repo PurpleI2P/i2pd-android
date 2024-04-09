@@ -153,13 +153,18 @@ public class DaemonWrapper {
         return getState().isStartedOkay();
     }
 
-    public synchronized void stopDaemon() {
+    public void stopDaemon() {
+        stopDaemon(null);
+    }
+
+    public synchronized void stopDaemon(final Throwable throwable) {
         if (isStartedOkay()) {
             try {
-                I2pdApi.stopDaemon();
+                I2pdApi.stopDaemon(throwable);
             } catch (Throwable tr) {
                 Log.e(TAG, "", tr);
             }
+            if (throwable != null) lastThrowable = throwable;
             setState(State.stopped);
         }
     }
@@ -179,7 +184,7 @@ public class DaemonWrapper {
                     String locale = getAppLocale();
                     Log.i(TAG, "setting webconsole language to " + locale);
 
-                    daemonStartResult = I2pdApi.startDaemon(ctx, i2pdpath, locale);
+                    daemonStartResult = I2pdApi.startDaemon(ctx, i2pdpath, locale, DaemonWrapper.this);
                     if ("ok".equals(daemonStartResult)) {
                         setState(State.startedOkay);
                     } else

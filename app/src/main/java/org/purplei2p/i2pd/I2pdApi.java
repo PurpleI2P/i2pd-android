@@ -29,19 +29,32 @@ public class I2pdApi {
      * returns error info if failed
      * returns "ok" if daemon initialized and started okay
      */
-    public static String startDaemon(Context ctx, String dataDir, String language){
+    public static String startDaemon(final Context ctx, final String dataDir, String language, final DaemonWrapper daemonWrapper){
         try {
             i2pdProcess = null;
             I2pdApi.dataDir = dataDir;
-            Process p = Runtime.getRuntime().exec(new String[]{
+            File pidFile = new File(dataDir, "i2pd.pid");
+            final Process p = Runtime.getRuntime().exec(new String[]{
                     ctx.getApplicationInfo().nativeLibraryDir + "/libi2pd.so",
-                    "--datadir=" + dataDir
+                    "--datadir=" + dataDir,
+                    "--pidfile=" + pidFile.getAbsolutePath()
             });
-            i2pdProcess = () -> {
+            i2pdProcess = (Throwable tr) -> {
                 try {
-                    p.destroy();
-                } catch (Throwable tr) {
-                    Log.e(TAG, "", tr);
+                    if (p.isAlive()) {
+                        if (tr != null)
+                            Log.e(TAG, "destroying the subprocess \"i2pd\", reason: " + tr, tr);
+                        else
+                            Log.e(TAG, "destroying the subprocess \"i2pd\", reason: null");
+                        p.destroy();
+                    }else{
+                        if (tr != null)
+                            Log.e(TAG, "skipping destroy of a dead subprocess \"i2pd\", reason: " + tr, tr);
+                        else
+                            Log.e(TAG, "skipping destroy of a dead subprocess \"i2pd\", reason: null");
+                    }
+                } catch (Throwable tr2) {
+                    Log.e(TAG, "", tr2);
                 }
             };
             new Thread(() -> {
@@ -60,7 +73,7 @@ public class I2pdApi {
                 } catch (Throwable tr) {
                     Log.e(TAG, "", tr);
                 }
-            }, "i2pd-stdout");
+            }, "i2pd-stdout").start();
             new Thread(() -> {
                 try {
                     try (BufferedInputStream bis = new BufferedInputStream(p.getErrorStream())) {
@@ -77,7 +90,29 @@ public class I2pdApi {
                 } catch (Throwable tr) {
                     Log.e(TAG, "", tr);
                 }
-            }, "i2pd-stderr");
+                try {
+                    p.waitFor();
+                } catch (Throwable tr) {
+                    Log.e(TAG, "", tr);
+                }
+                final int errorLevel = p.exitValue();
+                Log.i(TAG, "i2pd process exit code: " + errorLevel);
+                final Throwable trReason = new Throwable("subprocess \"i2pd\" exited with exit code " + errorLevel);
+                try {
+                    stopDaemon(trReason);
+                    Log.i(TAG, "stopDaemon completed");
+                } catch (Throwable tr) {
+                    Log.e(TAG, "Called stopDaemon, got exception", tr);
+                }
+                new Thread(() -> {
+                    try {
+                        daemonWrapper.stopDaemon(trReason);
+                        Log.i(TAG, "daemonWrapper.stopDaemon completed");
+                    } catch (Throwable tr) {
+                        Log.e(TAG, "Called daemonWrapper.stopDaemon, got exception", tr);
+                    }
+                }, "stop the daemonWrapper thread").start();
+            }, "i2pd-stderr").start();
             new Thread(() -> {
                 try {
                     try (BufferedOutputStream bos = new BufferedOutputStream(p.getOutputStream())) {
@@ -94,7 +129,7 @@ public class I2pdApi {
                 } catch (Throwable tr) {
                     Log.e(TAG, "", tr);
                 }
-            }, "i2pd-stdin");
+            }, "i2pd-stdin").start();
             return "ok";
         } catch (Throwable tr) {
             Log.e(TAG, "", tr);
@@ -102,10 +137,10 @@ public class I2pdApi {
         }
     }
 
-    public static void stopDaemon(){
+    public static void stopDaemon(Throwable tr){
         AbstractProcess p = i2pdProcess;
         if (p != null) {
-            p.kill();
+            p.kill(tr);
             i2pdProcess = null;
         }
     }
