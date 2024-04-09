@@ -95,68 +95,6 @@ public class I2pdApi {
                     Log.e(TAG, "", tr);
                 }
             }, "i2pd-stdin");
-            Process p2 = Runtime.getRuntime().exec(new String[]{
-                    ctx.getApplicationInfo().nativeLibraryDir + "/libi2pd.so",
-                    "--datadir=" + dataDir
-            });
-            i2pdProcess = () -> {
-                try {
-                    p2.destroy();
-                } catch (Throwable tr) {
-                    Log.e(TAG, "", tr);
-                }
-            };
-            new Thread(() -> {
-                try {
-                    try (BufferedInputStream bis = new BufferedInputStream(p2.getInputStream())) {
-                        try (InputStreamReader sr = new InputStreamReader(bis)) {
-                            try (BufferedReader r = new BufferedReader(sr)) {
-                                while (true) {
-                                    String s = r.readLine();
-                                    if (s == null) break;
-                                    Log.i(TAG, s);
-                                }
-                            }
-                        }
-                    }
-                } catch (Throwable tr) {
-                    Log.e(TAG, "", tr);
-                }
-            }, "i2pd-stdout2");
-            new Thread(() -> {
-                try {
-                    try (BufferedInputStream bis = new BufferedInputStream(p2.getErrorStream())) {
-                        try (InputStreamReader sr = new InputStreamReader(bis)) {
-                            try (BufferedReader r = new BufferedReader(sr)) {
-                                while (true) {
-                                    String s = r.readLine();
-                                    if (s == null) break;
-                                    Log.i(TAG, s);
-                                }
-                            }
-                        }
-                    }
-                } catch (Throwable tr) {
-                    Log.e(TAG, "", tr);
-                }
-            }, "i2pd-stderr2");
-            new Thread(() -> {
-                try {
-                    try (BufferedOutputStream bos = new BufferedOutputStream(p2.getOutputStream())) {
-                        try (OutputStreamWriter sr = new OutputStreamWriter(bos)) {
-                            try (BufferedWriter r = new BufferedWriter(sr)) {
-                                while (true) {
-                                    synchronized (Thread.currentThread()) {
-                                        Thread.currentThread().wait(100);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                } catch (Throwable tr) {
-                    Log.e(TAG, "", tr);
-                }
-            }, "i2pd-stdin2");
             return "ok";
         } catch (Throwable tr) {
             Log.e(TAG, "", tr);
