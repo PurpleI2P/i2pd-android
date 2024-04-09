@@ -4,7 +4,9 @@ import android.content.Context;
 import android.util.Log;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.DataInput;
 import java.io.DataInputStream;
 import java.io.EOFException;
@@ -13,6 +15,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 
 /** i2pd process API calls via TCP between the Android Java app and i2pd C++-only process.
  * TODO
@@ -29,49 +32,60 @@ public class I2pdApi {
     public static String startDaemon(Context ctx, String dataDir, String language){
         try {
             i2pdProcess = null;
-            final String pidFileName = dataDir + "/i2pd.pid";
-            final File pidFile = new File(pidFileName);
-            if (pidFile.exists()) {
+            I2pdApi.dataDir = dataDir;
+            Process p = Runtime.getRuntime().exec(new String[]{
+                    ctx.getApplicationInfo().nativeLibraryDir + "/libi2pd.so",
+                    "--datadir=" + dataDir
+            });
+            i2pdProcess = () -> {
                 try {
-                    try (FileInputStream fis = new FileInputStream(pidFile)) {
-                        try (BufferedInputStream bis = new BufferedInputStream(fis)) {
-                            try (InputStreamReader isr = new InputStreamReader(bis)) {
-                                try (BufferedReader br = new BufferedReader(isr)) {
-                                    String pidStr = br.readLine();
-                                    int pid = Integer.parseInt(pidStr);
-                                    Log.i(TAG, "i2pd_pid:"+pid);
-                                    Process psProcess = Runtime.getRuntime().exec(new String[]{
-                                            "/system/bin/sh",
-                                            "-c",
-                                            "ps -a|/system/bin/grep "+pid
-                                    });
-                                    try(InputStream is2 = psProcess.getInputStream()) {
-                                        try(BufferedInputStream bis2 = new BufferedInputStream(is2)) {
-                                            try(InputStreamReader isr2 = new InputStreamReader(bis2)) {
-                                                try (BufferedReader br2 = new BufferedReader(isr2)) {
-                                                    String psOutput = br2.readLine()+"\n"+
-                                                            br2.readLine();
-                                                    Log.i(TAG, "ps.out:"+psOutput);
-                                                    if (psOutput.contains(pidStr)) {
-                                                        //process is alive
-                                                        i2pdProcess = new ExternalProcessImpl(pid);
-                                                    } /*else {
-                                                        //process is dead, restart
-                                                    }*/
-                                                }
-                                            }
-                                        }
-                                    }
-                                    try(InputStream is3 = psProcess.getErrorStream()) {
-                                        try(BufferedInputStream bis3 = new BufferedInputStream(is3)) {
-                                            try(InputStreamReader isr3 = new InputStreamReader(bis3)) {
-                                                try (BufferedReader br3 = new BufferedReader(isr3)) {
-                                                    String psOutput = br3.readLine();
-                                                    if (psOutput == null) psOutput = "";
-                                                    Log.i(TAG, "ps.err:"+psOutput);
-                                                }
-                                            }
-                                        }
+                    p.destroy();
+                } catch (Throwable tr) {
+                    Log.e(TAG, "", tr);
+                }
+            };
+            new Thread(() -> {
+                try {
+                    try (BufferedInputStream bis = new BufferedInputStream(p.getInputStream())) {
+                        try (InputStreamReader sr = new InputStreamReader(bis)) {
+                            try (BufferedReader r = new BufferedReader(sr)) {
+                                while (true) {
+                                    String s = r.readLine();
+                                    if (s == null) break;
+                                    Log.i(TAG, s);
+                                }
+                            }
+                        }
+                    }
+                } catch (Throwable tr) {
+                    Log.e(TAG, "", tr);
+                }
+            }, "i2pd-stdout");
+            new Thread(() -> {
+                try {
+                    try (BufferedInputStream bis = new BufferedInputStream(p.getErrorStream())) {
+                        try (InputStreamReader sr = new InputStreamReader(bis)) {
+                            try (BufferedReader r = new BufferedReader(sr)) {
+                                while (true) {
+                                    String s = r.readLine();
+                                    if (s == null) break;
+                                    Log.i(TAG, s);
+                                }
+                            }
+                        }
+                    }
+                } catch (Throwable tr) {
+                    Log.e(TAG, "", tr);
+                }
+            }, "i2pd-stderr");
+            new Thread(() -> {
+                try {
+                    try (BufferedOutputStream bos = new BufferedOutputStream(p.getOutputStream())) {
+                        try (OutputStreamWriter sr = new OutputStreamWriter(bos)) {
+                            try (BufferedWriter r = new BufferedWriter(sr)) {
+                                while (true) {
+                                    synchronized (Thread.currentThread()) {
+                                        Thread.currentThread().wait(100);
                                     }
                                 }
                             }
@@ -80,56 +94,69 @@ public class I2pdApi {
                 } catch (Throwable tr) {
                     Log.e(TAG, "", tr);
                 }
-            }
-            I2pdApi.dataDir = dataDir;
-            if(i2pdProcess == null) {
-                Process p = Runtime.getRuntime().exec(new String[]{
-                        ctx.getApplicationInfo().nativeLibraryDir + "/libi2pd.so",
-                        "--datadir=" + dataDir,
-                        "--pidfile=" + pidFileName
-                });
-                i2pdProcess = () -> {
-                    try {
-                        p.destroy();
-                    } catch (Throwable tr) {
-                        Log.e(TAG, "", tr);
+            }, "i2pd-stdin");
+            Process p2 = Runtime.getRuntime().exec(new String[]{
+                    ctx.getApplicationInfo().nativeLibraryDir + "/libi2pd.so",
+                    "--datadir=" + dataDir
+            });
+            i2pdProcess = () -> {
+                try {
+                    p2.destroy();
+                } catch (Throwable tr) {
+                    Log.e(TAG, "", tr);
+                }
+            };
+            new Thread(() -> {
+                try {
+                    try (BufferedInputStream bis = new BufferedInputStream(p2.getInputStream())) {
+                        try (InputStreamReader sr = new InputStreamReader(bis)) {
+                            try (BufferedReader r = new BufferedReader(sr)) {
+                                while (true) {
+                                    String s = r.readLine();
+                                    if (s == null) break;
+                                    Log.i(TAG, s);
+                                }
+                            }
+                        }
                     }
-                };
-                new Thread(() -> {
-                    try {
-                        try (BufferedInputStream bis = new BufferedInputStream(p.getInputStream())) {
-                            try (InputStreamReader sr = new InputStreamReader(bis)) {
-                                try (BufferedReader r = new BufferedReader(sr)) {
-                                    while (true) {
-                                        String s = r.readLine();
-                                        if (s == null) break;
-                                        Log.i(TAG, s);
+                } catch (Throwable tr) {
+                    Log.e(TAG, "", tr);
+                }
+            }, "i2pd-stdout2");
+            new Thread(() -> {
+                try {
+                    try (BufferedInputStream bis = new BufferedInputStream(p2.getErrorStream())) {
+                        try (InputStreamReader sr = new InputStreamReader(bis)) {
+                            try (BufferedReader r = new BufferedReader(sr)) {
+                                while (true) {
+                                    String s = r.readLine();
+                                    if (s == null) break;
+                                    Log.i(TAG, s);
+                                }
+                            }
+                        }
+                    }
+                } catch (Throwable tr) {
+                    Log.e(TAG, "", tr);
+                }
+            }, "i2pd-stderr2");
+            new Thread(() -> {
+                try {
+                    try (BufferedOutputStream bos = new BufferedOutputStream(p2.getOutputStream())) {
+                        try (OutputStreamWriter sr = new OutputStreamWriter(bos)) {
+                            try (BufferedWriter r = new BufferedWriter(sr)) {
+                                while (true) {
+                                    synchronized (Thread.currentThread()) {
+                                        Thread.currentThread().wait(100);
                                     }
                                 }
                             }
                         }
-                    } catch (Throwable tr) {
-                        Log.e(TAG, "", tr);
                     }
-                }, "i2pd-stdout");
-                new Thread(() -> {
-                    try {
-                        try (BufferedInputStream bis = new BufferedInputStream(p.getErrorStream())) {
-                            try (InputStreamReader sr = new InputStreamReader(bis)) {
-                                try (BufferedReader r = new BufferedReader(sr)) {
-                                    while (true) {
-                                        String s = r.readLine();
-                                        if (s == null) break;
-                                        Log.i(TAG, s);
-                                    }
-                                }
-                            }
-                        }
-                    } catch (Throwable tr) {
-                        Log.e(TAG, "", tr);
-                    }
-                }, "i2pd-stderr");
-            }
+                } catch (Throwable tr) {
+                    Log.e(TAG, "", tr);
+                }
+            }, "i2pd-stdin2");
             return "ok";
         } catch (Throwable tr) {
             Log.e(TAG, "", tr);
