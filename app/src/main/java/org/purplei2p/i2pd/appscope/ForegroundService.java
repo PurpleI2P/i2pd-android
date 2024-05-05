@@ -1,4 +1,4 @@
-package org.purplei2p.i2pd;
+package org.purplei2p.i2pd.appscope;
 
 import static android.app.PendingIntent.FLAG_IMMUTABLE;
 
@@ -16,21 +16,18 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 import android.util.Log;
 
+import org.purplei2p.i2pd.I2PDActivity;
+import org.purplei2p.i2pd.R;
+
 public class ForegroundService extends Service {
-    private static final String TAG = "FgService";
+    private static final String TAG = "FgSvc";
     private volatile boolean shown;
     private static ForegroundService instance;
     private static volatile DaemonWrapper daemon;
     private static final Object initDeinitLock = new Object();
 
     private final DaemonWrapper.StateUpdateListener daemonStateUpdatedListener =
-            new DaemonWrapper.StateUpdateListener() {
-
-                @Override
-                public void daemonStateUpdate(DaemonWrapper.State oldValue, DaemonWrapper.State newValue) {
-                    updateNotificationText();
-                }
-            };
+            (oldValue, newValue) -> updateNotificationText();
 
     private void updateNotificationText() {
         try {

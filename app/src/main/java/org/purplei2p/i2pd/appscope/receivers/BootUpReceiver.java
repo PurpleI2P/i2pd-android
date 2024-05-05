@@ -1,10 +1,10 @@
-package org.purplei2p.i2pd.receivers;
+package org.purplei2p.i2pd.appscope.receivers;
 
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-//import org.purplei2p.i2pd.ForegroundService;
+//import org.purplei2p.i2pd.appscope.ForegroundService;
 //ToDo:* fix^^^ change to service, not on window on start.
 import org.purplei2p.i2pd.I2PDPermsAskerActivity;
 

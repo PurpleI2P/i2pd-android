@@ -6,8 +6,10 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:7.3.1'
     }
+    //Required for app version retrieval to work as of Android Studio 4.1.0: https://issuetracker.google.com/issues/158695880
+    project.ext.set("android_version_code", 2510000)
+    project.ext.set("android_version_name", "2.51.0")
 }
-
 allprojects {
     repositories {
         google()
@@ -17,4 +19,21 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+// IDE: do not index
+apply plugin: 'idea'
+idea {
+    module {
+        excludeDirs += file('app/jni/android-ifaddrs')
+        excludeDirs += file('app/jni/boost')
+        excludeDirs += file('app/jni/miniupnp')
+        excludeDirs += file('app/jni/openssl')
+        excludeDirs += file('app/jni/i2pd')
+        excludeDirs += file('binary/jni/android-ifaddrs')
+        excludeDirs += file('binary/jni/boost')
+        excludeDirs += file('binary/jni/miniupnp')
+        excludeDirs += file('binary/jni/openssl')
+        excludeDirs += file('binary/jni/i2pd')
+    }
 }

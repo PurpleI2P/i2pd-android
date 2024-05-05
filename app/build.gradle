@@ -29,9 +29,10 @@ android {
         targetSdkVersion 33
         // TODO: 24?
         minSdkVersion 16
-        versionCode 2510000
-        versionName "2.51.0"
-        archivesBaseName += "-$versionName"
+        //Required for app version retrieval to work as of Android Studio 4.1.0: https://issuetracker.google.com/issues/158695880
+        buildConfigField 'int', 'VERSION_CODE', "${project.android_version_code}"
+        buildConfigField 'String', 'VERSION_NAME', "\"${project.android_version_name}\""
+        archivesBaseName += "-${project.android_version_name}"
         ndkVersion "23.2.8568313"
 
         ndk {

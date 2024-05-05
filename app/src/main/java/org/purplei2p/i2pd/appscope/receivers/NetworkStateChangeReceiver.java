@@ -1,4 +1,4 @@
-package org.purplei2p.i2pd;
+package org.purplei2p.i2pd.appscope.receivers;
 
 import android.util.Log;
 import android.content.BroadcastReceiver;
@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+
+import org.purplei2p.i2pd.I2PD_JNI;
 
 public class NetworkStateChangeReceiver extends BroadcastReceiver {
 

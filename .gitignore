@@ -11,8 +11,8 @@ obj
 ant.properties
 local.properties
 build.sh
-android.iml
 build
 *.iml
 *.local
 *.jks
+tmp*

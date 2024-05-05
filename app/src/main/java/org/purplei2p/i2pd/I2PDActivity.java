@@ -10,18 +10,13 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Build;
 import android.os.Environment;
-import android.os.IBinder;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
@@ -38,6 +33,9 @@ import androidx.core.content.ContextCompat;
 
 import static android.provider.Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS;
 
+import org.purplei2p.i2pd.appscope.App;
+import org.purplei2p.i2pd.appscope.DaemonWrapper;
+
 public class I2PDActivity extends Activity {
     private static final String TAG = "i2pdActvt";
     private static final int MY_PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
@@ -51,8 +49,7 @@ public class I2PDActivity extends Activity {
     private CheckBox SAMState;
     private CheckBox I2CPState;
 
-
-    private static volatile DaemonWrapper daemon;
+    private DaemonWrapper daemon = App.getDaemonWrapper();
 
     private final DaemonWrapper.StateUpdateListener daemonStateUpdatedListener = new DaemonWrapper.StateUpdateListener() {
         @Override
@@ -111,7 +108,6 @@ public class I2PDActivity extends Activity {
         Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        startService(new Intent(this, ForegroundService.class));
         textView = (TextView) findViewById(R.id.appStatusText);
         HTTPProxyState = (CheckBox) findViewById(R.id.service_httpproxy_box);
         SOCKSProxyState = (CheckBox) findViewById(R.id.service_socksproxy_box);
@@ -119,14 +115,7 @@ public class I2PDActivity extends Activity {
         SAMState = (CheckBox) findViewById(R.id.service_sam_box);
         I2CPState = (CheckBox) findViewById(R.id.service_i2cp_box);
 
-        if (daemon == null) {
-            ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-            daemon = new DaemonWrapper(getAssets(), connectivityManager);
-        }
-        ForegroundService.init(daemon);
-
         daemon.addStateChangeListener(daemonStateUpdatedListener);
-        daemonStateUpdatedListener.daemonStateUpdate(DaemonWrapper.State.uninitialized, daemon.getState());
 
         // request permissions
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -142,8 +131,6 @@ public class I2PDActivity extends Activity {
             }
         }
 
-        doBindService();
-
         final Timer gracefulQuitTimer = getGracefulQuitTimer();
         if (gracefulQuitTimer != null) {
             long gracefulStopAtMillis;
@@ -154,25 +141,16 @@ public class I2PDActivity extends Activity {
         }
 
         openBatteryOptimizationDialogIfNeeded();
+
+        updateStatusText();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         textView = null;
-        ForegroundService.deinit();
         daemon.removeStateChangeListener(daemonStateUpdatedListener);
         //cancelGracefulStop0();
-        try {
-            doUnbindService();
-        } catch (IllegalArgumentException ex) {
-            Log.e(TAG, "throwable caught and ignored", ex);
-            if (ex.getMessage().startsWith("Service not registered: " + org.purplei2p.i2pd.I2PDActivity.class.getName())) {
-                Log.i(TAG, "Service not registered exception seems to be normal, not a bug it seems.");
-            }
-        } catch (Throwable tr) {
-            Log.e(TAG, "throwable caught and ignored", tr);
-        }
     }
 
     @Override
@@ -202,58 +180,6 @@ public class I2PDActivity extends Activity {
         tr.printStackTrace(pw);
         pw.close();
         return sw.toString();
-    }
-
-    // private LocalService mBoundService;
-
-    private ServiceConnection mConnection = new ServiceConnection() {
-        public void onServiceConnected(ComponentName className, IBinder service) {
-            /* This is called when the connection with the service has been
-               established, giving us the service object we can use to
-               interact with the service.  Because we have bound to a explicit
-               service that we know is running in our own process, we can
-               cast its IBinder to a concrete class and directly access it. */
-            // mBoundService = ((LocalService.LocalBinder)service).getService();
-
-            /* Tell the user about this for our demo. */
-            // Toast.makeText(Binding.this, R.string.local_service_connected,
-            // Toast.LENGTH_SHORT).show();
-        }
-
-        public void onServiceDisconnected(ComponentName className) {
-            /* This is called when the connection with the service has been
-               unexpectedly disconnected -- that is, its process crashed.
-               Because it is running in our same process, we should never
-               see this happen. */
-            // mBoundService = null;
-            // Toast.makeText(Binding.this, R.string.local_service_disconnected,
-            // Toast.LENGTH_SHORT).show();
-        }
-    };
-
-    private static volatile boolean mIsBound;
-
-    private void doBindService() {
-        synchronized (I2PDActivity.class) {
-            if (mIsBound)
-                return;
-            // Establish a connection with the service.  We use an explicit
-            // class name because we want a specific service implementation that
-            // we know will be running in our own process (and thus won't be
-            // supporting component replacement by other applications).
-            bindService(new Intent(this, ForegroundService.class), mConnection, Context.BIND_AUTO_CREATE);
-            mIsBound = true;
-        }
-    }
-
-    private void doUnbindService() {
-        synchronized (I2PDActivity.class) {
-            if (mIsBound) {
-                // Detach our existing connection.
-                unbindService(mConnection);
-                mIsBound = false;
-            }
-        }
     }
 
     @Override

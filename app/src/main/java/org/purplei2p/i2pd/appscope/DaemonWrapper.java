@@ -1,4 +1,4 @@
-package org.purplei2p.i2pd;
+package org.purplei2p.i2pd.appscope;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -23,6 +23,10 @@ import android.os.Environment;
 import android.util.Log;
 
 import androidx.annotation.RequiresApi;
+
+import org.purplei2p.i2pd.I2PD_JNI;
+import org.purplei2p.i2pd.R;
+import org.purplei2p.i2pd.BuildConfig;
 
 public class DaemonWrapper {
 
@@ -128,12 +132,14 @@ public class DaemonWrapper {
     private String daemonStartResult = "N/A";
 
     private void fireStateUpdate1(State oldValue, State newValue) {
-        Log.d(TAG, "daemon state change: " + state);
-        for (StateUpdateListener listener : stateUpdateListeners) {
-            try {
-                listener.daemonStateUpdate(oldValue, newValue);
-            } catch (Throwable tr) {
-                Log.e(TAG, "exception in listener ignored", tr);
+        if(newValue != oldValue) {
+            Log.d(TAG, "daemon state change: " + state);
+            for (StateUpdateListener listener : stateUpdateListeners) {
+                try {
+                    listener.daemonStateUpdate(oldValue, newValue);
+                } catch (Throwable tr) {
+                    Log.e(TAG, "exception in listener ignored", tr);
+                }
             }
         }
     }
