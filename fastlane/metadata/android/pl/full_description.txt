@@ -1,0 +1,9 @@
+<b>I2P</b> (Invisible Internet Protocol) jest uniwersalną, anonimową warstwą sieci.
+Wszystkie komunikaty przez I2P są anonimowe i zaszyfrowane end-to-end, uczestnicy nie ujawniają swoich rzeczywistych adresów IP.
+
+<b>Klient I2P</b> jest oprogramowaniem używanym do budowania i używania anonimowych sieci I2P.
+Sieci takie są powszechnie używane do anonimowych aplikacji peer-to-peer (udostępnianie plików, kryptowaluty) i anonimowych aplikacji klient-serwer (strony internetowe, komunikatory błyskawiczne, serwery czatów).
+
+<b>I2P</b> pozwala ludziom z całego świata komunikować się i dzielić się informacjami bez ograniczeń.
+
+Aby uzyskać więcej informacji na temat <b>I2P</b>możesz przeczytać artykuł <a href="https://en.m.wikipedia.org/wiki/I2P">na Wikipedii</a>.
