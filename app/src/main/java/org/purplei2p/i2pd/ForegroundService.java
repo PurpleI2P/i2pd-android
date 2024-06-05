@@ -19,6 +19,11 @@ import android.util.Log;
 public class ForegroundService extends Service {
     private static final String TAG = "FgService";
     private volatile boolean shown;
+
+    public static ForegroundService getInstance() {
+        return instance;
+    }
+
     private static ForegroundService instance;
     private static volatile DaemonWrapper daemon;
     private static final Object initDeinitLock = new Object();

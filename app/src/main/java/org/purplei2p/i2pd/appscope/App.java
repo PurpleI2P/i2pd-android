@@ -80,6 +80,12 @@ public class App extends Application {
         } catch (Throwable tr) {
             Log.e(TAG, "throwable caught and ignored", tr);
         }
+        try{
+            ForegroundService fs = ForegroundService.getInstance();
+            if(fs!=null)fs.onDestroy();
+        }catch(Throwable tr) {
+            Log.e(TAG, "", tr);
+        }
         super.onTerminate();
     }
 
