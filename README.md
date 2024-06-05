@@ -54,9 +54,7 @@ export ANDROID_HOME=/opt/android-sdk
 export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/23.2.8568313
 
 pushd app/jni
-./build_boost.sh
-./build_openssl.sh
-./build_miniupnpc.sh
+./build_boost.sh && ./build_openssl.sh && ./build_miniupnpc.sh
 popd
 
 gradle clean assembleDebug
