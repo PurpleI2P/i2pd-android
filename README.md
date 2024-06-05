@@ -53,8 +53,9 @@ export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 export ANDROID_HOME=/opt/android-sdk
 export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/23.2.8568313
 
-pushd app/jni
-./build_boost.sh && ./build_openssl.sh && ./build_miniupnpc.sh
+pushd binary/jni
+export BUILD_SO=1
+./build_debug.sh
 popd
 
 gradle clean assembleDebug
