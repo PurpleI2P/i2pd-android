@@ -97,6 +97,10 @@ public class ForegroundService extends Service {
 
     @Override
     public void onDestroy() {
+        stop();
+    }
+
+    public void stop() {
         cancelNotification();
         deinitCheck();
         instance = null;

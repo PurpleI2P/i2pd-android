@@ -70,22 +70,7 @@ public class App extends Application {
 
     @Override
     public void onTerminate() {
-        try {
-            doUnbindService();
-        } catch (IllegalArgumentException ex) {
-            Log.e(TAG, "throwable caught and ignored", ex);
-            if (ex.getMessage().startsWith("Service not registered: " + I2PDActivity.class.getName())) {
-                Log.i(TAG, "Service not registered exception seems to be normal, not a bug it seems.");
-            }
-        } catch (Throwable tr) {
-            Log.e(TAG, "throwable caught and ignored", tr);
-        }
-        try{
-            ForegroundService fs = ForegroundService.getInstance();
-            if(fs!=null)fs.onDestroy();
-        }catch(Throwable tr) {
-            Log.e(TAG, "", tr);
-        }
+        quit();
         super.onTerminate();
     }
 
@@ -113,4 +98,29 @@ public class App extends Application {
             // Toast.LENGTH_SHORT).show();
         }
     };
+
+    public synchronized void quit() {
+        try {
+            if(daemonWrapper!=null)daemonWrapper.stopDaemon(new Throwable("quit() called"));
+        } catch (Throwable tr) {
+            Log.e(TAG, "", tr);
+        }
+        try {
+            doUnbindService();
+        } catch (IllegalArgumentException ex) {
+            Log.e(TAG, "throwable caught and ignored", ex);
+            if (ex.getMessage().startsWith("Service not registered: " + I2PDActivity.class.getName())) {
+                Log.i(TAG, "Service not registered exception seems to be normal, not a bug it seems.");
+            }
+        } catch (Throwable tr) {
+            Log.e(TAG, "throwable caught and ignored", tr);
+        }
+        try{
+            ForegroundService fs = ForegroundService.getInstance();
+            if(fs!=null)fs.stop();
+        }catch(Throwable tr) {
+            Log.e(TAG, "", tr);
+        }
+
+    }
 }

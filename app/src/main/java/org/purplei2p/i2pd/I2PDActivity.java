@@ -515,7 +515,7 @@ public class I2PDActivity extends Activity {
             Log.e(TAG, "", tr);
         }
         try {
-            getDaemon().stopDaemon(new Throwable("quit() called"));
+            ((App)getApplication()).quit();
         } catch (Throwable tr) {
             Log.e(TAG, "", tr);
         }
