@@ -47,12 +47,12 @@ public class I2PDActivity extends Activity {
     public static final String PACKAGE_URI_SCHEME = "package:";
 
     private TextView textView;
-    private CheckBox HTTPProxyState;
+    /*private CheckBox HTTPProxyState;
     private CheckBox SOCKSProxyState;
     private CheckBox BOBState;
     private CheckBox SAMState;
     private CheckBox I2CPState;
-
+*/
 
     private final DaemonWrapper.StateUpdateListener daemonStateUpdatedListener = new DaemonWrapper.StateUpdateListener() {
         @Override
@@ -119,11 +119,12 @@ public class I2PDActivity extends Activity {
         setContentView(R.layout.activity_main);
         startService(new Intent(this, ForegroundService.class));
         textView = (TextView) findViewById(R.id.appStatusText);
+        /*
         HTTPProxyState = (CheckBox) findViewById(R.id.service_httpproxy_box);
         SOCKSProxyState = (CheckBox) findViewById(R.id.service_socksproxy_box);
         BOBState = (CheckBox) findViewById(R.id.service_bob_box);
         SAMState = (CheckBox) findViewById(R.id.service_sam_box);
-        I2CPState = (CheckBox) findViewById(R.id.service_i2cp_box);
+        I2CPState = (CheckBox) findViewById(R.id.service_i2cp_box);*/
 
         /*if (getDaemon() == null) {
             ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -302,15 +303,15 @@ public class I2PDActivity extends Activity {
                 onActionBatteryOptimizations();
                 return true;
 
-            case R.id.action_reload_tunnels_config:
+/*            case R.id.action_reload_tunnels_config:
                 onReloadTunnelsConfig();
-                return true;
+                return true;*/
 
             case R.id.action_start_webview:
                 if(getDaemon().isStartedOkay())
                     startActivity(new Intent(getApplicationContext(), WebConsoleActivity.class));
                 else
-                    Toast.makeText(this,"I2Pd not was started!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this,"I2Pd not started!", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_settings:
                 startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
