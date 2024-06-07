@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.Locale;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.res.AssetManager;
 import android.net.ConnectivityManager;
 import android.net.Network;
@@ -67,25 +68,25 @@ public class DaemonWrapper {
     public synchronized void stopAcceptingTunnels() {
         if (isStartedOkay()) {
             setState(State.gracefulShutdownInProgress);
-            I2PD_JNI.stopAcceptingTunnels();
+            //I2PD_JNI.stopAcceptingTunnels();
         }
     }
 
     public synchronized void startAcceptingTunnels() {
         if (isStartedOkay()) {
             setState(State.startedOkay);
-            I2PD_JNI.startAcceptingTunnels();
+            //I2PD_JNI.startAcceptingTunnels();
         }
     }
 
     public synchronized void reloadTunnelsConfigs() {
         if (isStartedOkay()) {
-            I2PD_JNI.reloadTunnelsConfigs();
+            //I2PD_JNI.reloadTunnelsConfigs();
         }
     }
 
     public int getTransitTunnelsCount() {
-        return I2PD_JNI.getTransitTunnelsCount();
+        return 0;//I2PD_JNI.getTransitTunnelsCount();
     }
 
     public enum State {
@@ -117,11 +118,11 @@ public class DaemonWrapper {
         return state;
     }
 
-    public DaemonWrapper(AssetManager assetManager, ConnectivityManager connectivityManager){
+    public DaemonWrapper(Context ctx, AssetManager assetManager, ConnectivityManager connectivityManager){
         this.assetManager = assetManager;
         this.connectivityManager = connectivityManager;
         setState(State.starting);
-        startDaemon();
+        startDaemon(ctx);
     }
 
     private Throwable lastThrowable;
@@ -147,11 +148,13 @@ public class DaemonWrapper {
     }
 
     public static String getDataDir() { // for settings iniEditor
-        return I2PD_JNI.getDataDir();
+        return i2pdDataDir;
     }
 
+    private static String i2pdDataDir;
+
     public void changeDataDir(String dataDir, Boolean updateAssets) {
-        I2PD_JNI.setDataDir(dataDir);
+        i2pdDataDir=dataDir;
         if (updateAssets) processAssets();
         //ToDo: move old dir to new dir?
     }
@@ -160,22 +163,22 @@ public class DaemonWrapper {
         return getState().isStartedOkay();
     }
 
-    public synchronized void stopDaemon() {
+    public synchronized void stopDaemon(final Throwable throwable) {
         if (isStartedOkay()) {
             try {
-                I2PD_JNI.stopDaemon();
+                I2pdApi.stopDaemon(throwable);
             } catch (Throwable tr) {
                 Log.e(TAG, "", tr);
             }
+            if (throwable != null) lastThrowable = throwable;
             setState(State.stopped);
         }
     }
-    public synchronized void startDaemon() {
+    public synchronized void startDaemon(Context ctx) {
         if( getState() != State.stopped && getState() != State.starting ) return;
         new Thread(() -> {
             try {
                 processAssets();
-                I2PD_JNI.loadLibraries();
                 //registerNetworkCallback();
             } catch (Throwable tr) {
                 lastThrowable = tr;
@@ -184,12 +187,10 @@ public class DaemonWrapper {
             }
             try {
                 synchronized (DaemonWrapper.this) {
-                    I2PD_JNI.setDataDir(i2pdpath); // (Environment.getExternalStorageDirectory().getAbsolutePath() + "/i2pd");
+                    String locale = getAppLocale();
+                    Log.i(TAG, "setting webconsole language to " + locale);
 
-                    Log.i(TAG, "setting webconsole language to " + appLocale);
-                    I2PD_JNI.setLanguage(appLocale);
-
-                    daemonStartResult = I2PD_JNI.startDaemon();
+                    daemonStartResult = I2pdApi.startDaemon(ctx, i2pdpath, locale, DaemonWrapper.this);
                     if ("ok".equals(daemonStartResult)) {
                         setState(State.startedOkay);
                     } else
@@ -372,15 +373,18 @@ public class DaemonWrapper {
         @Override
         public void onAvailable(Network network) {
             super.onAvailable(network);
-            I2PD_JNI.onNetworkStateChanged(true);
+            //I2PD_JNI.onNetworkStateChanged(true);
             Log.d(TAG, "NetworkCallback.onAvailable");
         }
 
         @Override
         public void onLost(Network network) {
             super.onLost(network);
-            I2PD_JNI.onNetworkStateChanged(false);
+            //I2PD_JNI.onNetworkStateChanged(false);
             Log.d(TAG, " NetworkCallback.onLost");
         }
+    }
+    private String getAppLocale() {
+        return Locale.getDefault().getDisplayLanguage(Locale.ENGLISH).toLowerCase(); // lower-case system language (like "english")
     }
 }
