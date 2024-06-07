@@ -101,7 +101,7 @@ public class App extends Application {
 
     public synchronized void quit() {
         try {
-            if(daemonWrapper!=null)daemonWrapper.stopDaemon(new Throwable("quit() called"));
+            if(daemonWrapper!=null)daemonWrapper.stopDaemon(null);
         } catch (Throwable tr) {
             Log.e(TAG, "", tr);
         }
