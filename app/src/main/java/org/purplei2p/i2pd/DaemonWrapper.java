@@ -122,7 +122,7 @@ public class DaemonWrapper {
         this.assetManager = assetManager;
         this.connectivityManager = connectivityManager;
         setState(State.starting);
-        startDaemon(ctx);
+        //startDaemon(ctx); //need to start when storage permissions to the datadir exist
     }
 
     private Throwable lastThrowable;
@@ -208,71 +208,75 @@ public class DaemonWrapper {
         String versionName = BuildConfig.VERSION_NAME; // here will be app version, like 2.XX.XX
         StringBuilder text = new StringBuilder();
         Log.d(TAG, "checking assets");
-
-        if (holderFile.exists()) {
-            try { // if holder file exists, read assets version string
-                FileReader fileReader = new FileReader(holderFile);
-
-                try {
-                    BufferedReader br = new BufferedReader(fileReader);
+        try {
+            if (holderFile.exists()) {
+                try { // if holder file exists, read assets version string
+                    FileReader fileReader = new FileReader(holderFile);
 
                     try {
-                        String line;
+                        BufferedReader br = new BufferedReader(fileReader);
 
-                        while ((line = br.readLine()) != null) {
-                            text.append(line);
-                        }
-                    }finally {
                         try {
-                            br.close();
+                            String line;
+
+                            while ((line = br.readLine()) != null) {
+                                text.append(line);
+                            }
+                        } finally {
+                            try {
+                                br.close();
+                            } catch (IOException e) {
+                                Log.e(TAG, "", e);
+                            }
+                        }
+                    } finally {
+                        try {
+                            fileReader.close();
                         } catch (IOException e) {
                             Log.e(TAG, "", e);
                         }
                     }
-                } finally {
-                    try {
-                        fileReader.close();
-                    } catch (IOException e) {
-                        Log.e(TAG, "", e);
-                    }
+                } catch (IOException e) {
+                    Log.e(TAG, "", e);
                 }
-            } catch (IOException e) {
-                Log.e(TAG, "", e);
             }
-        }
 
-        // if version differs from current app version or null, try to delete certificates folder
-        if (!text.toString().contains(versionName)) {
-            try {
-                boolean deleteResult = holderFile.delete();
-                if (!deleteResult)
-                    Log.e(TAG, "holderFile.delete() returned " + deleteResult + ", absolute path='" + holderFile.getAbsolutePath() + "'");
-                File certPath = new File(i2pdpath, "certificates");
-                deleteRecursive(certPath);
-
-                // copy assets. If processed file exists, it won't be overwritten
-                copyAsset("addressbook");
-                copyAsset("certificates");
-                copyAsset("tunnels.d");
-                copyAsset("i2pd.conf");
-                copyAsset("subscriptions.txt");
-                copyAsset("tunnels.conf");
-
-                // update holder file about successful copying
-                FileWriter writer = new FileWriter(holderFile);
+            // if version differs from current app version or null, try to delete certificates folder
+            if (!text.toString().contains(versionName)) {
                 try {
-                    writer.append(versionName);
-                } finally {
+                    boolean deleteResult = holderFile.delete();
+                    if (!deleteResult)
+                        Log.e(TAG, "holderFile.delete() returned " + deleteResult + ", absolute path='" + holderFile.getAbsolutePath() + "'");
+                    File certPath = new File(i2pdpath, "certificates");
+                    deleteRecursive(certPath);
+
+                    // copy assets. If processed file exists, it won't be overwritten
+                    copyAsset("addressbook");
+                    copyAsset("certificates");
+                    copyAsset("tunnels.d");
+                    copyAsset("i2pd.conf");
+                    copyAsset("subscriptions.txt");
+                    copyAsset("tunnels.conf");
+
+                    // update holder file about successful copying
+                    FileWriter writer = new FileWriter(holderFile);
                     try {
-                        writer.close();
-                    } catch (IOException e) {
-                        Log.e(TAG,"on writer close", e);
+                        writer.append(versionName);
+                    } finally {
+                        try {
+                            writer.close();
+                        } catch (IOException e) {
+                            Log.e(TAG, "on writer close", e);
+                        }
                     }
+                } catch (Throwable tr) {
+                    Log.e(TAG, "on assets copying", tr);
                 }
             }
-            catch (Throwable tr)
-            {
-                Log.e(TAG,"on assets copying", tr);
+        }catch(Throwable tr) {
+            if(tr.getMessage().contains("Permission denied")) {
+                Log.e(TAG, "Permission denied on assets copying", tr);
+                throw new RuntimeException("Permission denied on assets copying", tr);
             }
         }
     }

@@ -133,8 +133,6 @@ public class I2PDActivity extends Activity {
         ForegroundService.init(getDaemon());
 
          */
-
-        getDaemon().addStateChangeListener(daemonStateUpdatedListener);
         //getDaemon()StateUpdatedListener.getDaemon()StateUpdate(getDaemon()Wrapper.State.uninitialized, App.getgetDaemon()Wrapper().getState());
 
         // request permissions
@@ -151,6 +149,12 @@ public class I2PDActivity extends Activity {
             }
         }
 
+        //here, we might have datadir access permissions,
+        // it's maybe safe to call daemon start which copies i2pd assets
+        getDaemon().startDaemon(getApplicationContext());
+        getDaemon().addStateChangeListener(daemonStateUpdatedListener);
+        DaemonWrapper.State daemonState = getDaemon().getState();
+        daemonStateUpdatedListener.daemonStateUpdate(daemonState, daemonState);
         doBindService();
 
         final Timer gracefulQuitTimer = getGracefulQuitTimer();
