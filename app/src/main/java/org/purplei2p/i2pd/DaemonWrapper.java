@@ -174,19 +174,21 @@ public class DaemonWrapper {
             setState(State.stopped);
         }
     }
-    public synchronized void startDaemon(Context ctx) {
-        if( getState() != State.stopped && getState() != State.starting ) return;
+
+    public synchronized void startDaemonIfStopped(Context ctx) {
+        if (getState() == State.startedOkay) return;
         new Thread(() -> {
-            try {
-                processAssets();
-                //registerNetworkCallback();
-            } catch (Throwable tr) {
-                lastThrowable = tr;
-                setState(State.startFailed);
-                return;
-            }
-            try {
-                synchronized (DaemonWrapper.this) {
+            synchronized(DaemonWrapper.this) {
+                if (getState() == State.startedOkay) return;
+                try {
+                    processAssets();
+                    //registerNetworkCallback();
+                } catch (Throwable tr) {
+                    lastThrowable = tr;
+                    setState(State.startFailed);
+                    return;
+                }
+                try {
                     String locale = getAppLocale();
                     Log.i(TAG, "setting webconsole language to " + locale);
 
@@ -195,10 +197,10 @@ public class DaemonWrapper {
                         setState(State.startedOkay);
                     } else
                         setState(State.startFailed);
+                } catch (Throwable tr) {
+                    lastThrowable = tr;
+                    setState(State.startFailed);
                 }
-            } catch (Throwable tr) {
-                lastThrowable = tr;
-                setState(State.startFailed);
             }
         }, "i2pdDaemonStart").start();
     }

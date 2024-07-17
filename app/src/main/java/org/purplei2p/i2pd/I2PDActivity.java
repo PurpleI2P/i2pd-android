@@ -151,7 +151,7 @@ public class I2PDActivity extends Activity {
 
         //here, we might have datadir access permissions,
         // it's maybe safe to call daemon start which copies i2pd assets
-        getDaemon().startDaemon(getApplicationContext());
+        getDaemon().startDaemonIfStopped(getApplicationContext());
         getDaemon().addStateChangeListener(daemonStateUpdatedListener);
         updateStatusText();
         doBindService();
