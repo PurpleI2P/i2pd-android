@@ -278,8 +278,8 @@ public class DaemonWrapper {
         }catch(Throwable tr) {
             if(tr.getMessage().contains("Permission denied")) {
                 Log.e(TAG, "Permission denied on assets copying", tr);
-                throw new RuntimeException("Permission denied on assets copying", tr);
             }
+            throw new RuntimeException(tr);
         }
     }
 
