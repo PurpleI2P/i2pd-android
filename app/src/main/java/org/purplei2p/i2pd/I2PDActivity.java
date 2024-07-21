@@ -38,6 +38,8 @@ import androidx.core.content.ContextCompat;
 
 import static android.provider.Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS;
 
+import org.purplei2p.i2pd.appscope.App;
+
 public class I2PDActivity extends Activity {
     private static final String TAG = "i2pdActvt";
     private static final int MY_PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
@@ -45,14 +47,12 @@ public class I2PDActivity extends Activity {
     public static final String PACKAGE_URI_SCHEME = "package:";
 
     private TextView textView;
-    private CheckBox HTTPProxyState;
+    /*private CheckBox HTTPProxyState;
     private CheckBox SOCKSProxyState;
     private CheckBox BOBState;
     private CheckBox SAMState;
     private CheckBox I2CPState;
-
-
-    private static volatile DaemonWrapper daemon;
+*/
 
     private final DaemonWrapper.StateUpdateListener daemonStateUpdatedListener = new DaemonWrapper.StateUpdateListener() {
         @Override
@@ -60,6 +60,10 @@ public class I2PDActivity extends Activity {
             updateStatusText();
         }
     };
+    
+    private DaemonWrapper getDaemon() {
+        return App.getDaemonWrapper();
+    }
 
     private void updateStatusText() {
         runOnUiThread(() -> {
@@ -67,23 +71,25 @@ public class I2PDActivity extends Activity {
                 if (textView == null)
                     return;
 
-                Throwable tr = daemon.getLastThrowable();
+                Throwable tr = getDaemon().getLastThrowable();
                 if (tr != null) {
                     textView.setText(throwableToString(tr));
                     return;
                 }
 
-                DaemonWrapper.State state = daemon.getState();
+                DaemonWrapper.State state = getDaemon().getState();
 
-                if (daemon.isStartedOkay()) {
+                if (getDaemon().isStartedOkay()) {
+                    /*
                     HTTPProxyState.setChecked(I2PD_JNI.getHTTPProxyState());
                     SOCKSProxyState.setChecked(I2PD_JNI.getSOCKSProxyState());
                     BOBState.setChecked(I2PD_JNI.getBOBState());
                     SAMState.setChecked(I2PD_JNI.getSAMState());
                     I2CPState.setChecked(I2PD_JNI.getI2CPState());
+                    */
                 }
 
-                String startResultStr = DaemonWrapper.State.startFailed.equals(state) ? String.format(": %s", daemon.getDaemonStartResult()) : "";
+                String startResultStr = DaemonWrapper.State.startFailed==state ? String.format(": %s", getDaemon().getDaemonStartResult()) : "";
                 String graceStr = DaemonWrapper.State.gracefulShutdownInProgress.equals(state) ? String.format(": %s %s", formatGraceTimeRemaining(), getText(R.string.remaining)) : "";
                 textView.setText(String.format("%s%s%s", getText(state.getStatusStringResourceId()), startResultStr, graceStr));
             } catch (Throwable tr) {
@@ -113,20 +119,21 @@ public class I2PDActivity extends Activity {
         setContentView(R.layout.activity_main);
         startService(new Intent(this, ForegroundService.class));
         textView = (TextView) findViewById(R.id.appStatusText);
+        /*
         HTTPProxyState = (CheckBox) findViewById(R.id.service_httpproxy_box);
         SOCKSProxyState = (CheckBox) findViewById(R.id.service_socksproxy_box);
         BOBState = (CheckBox) findViewById(R.id.service_bob_box);
         SAMState = (CheckBox) findViewById(R.id.service_sam_box);
-        I2CPState = (CheckBox) findViewById(R.id.service_i2cp_box);
+        I2CPState = (CheckBox) findViewById(R.id.service_i2cp_box);*/
 
-        if (daemon == null) {
+        /*if (getDaemon() == null) {
             ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-            daemon = new DaemonWrapper(getAssets(), connectivityManager);
+            getDaemon() = new getDaemon()Wrapper(getAssets(), connectivityManager);
         }
-        ForegroundService.init(daemon);
+        ForegroundService.init(getDaemon());
 
-        daemon.addStateChangeListener(daemonStateUpdatedListener);
-        daemonStateUpdatedListener.daemonStateUpdate(DaemonWrapper.State.uninitialized, daemon.getState());
+         */
+        //getDaemon()StateUpdatedListener.getDaemon()StateUpdate(getDaemon()Wrapper.State.uninitialized, App.getgetDaemon()Wrapper().getState());
 
         // request permissions
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -142,6 +149,11 @@ public class I2PDActivity extends Activity {
             }
         }
 
+        //here, we might have datadir access permissions,
+        // it's maybe safe to call daemon start which copies i2pd assets
+        getDaemon().startDaemonIfStopped(getApplicationContext());
+        getDaemon().addStateChangeListener(daemonStateUpdatedListener);
+        updateStatusText();
         doBindService();
 
         final Timer gracefulQuitTimer = getGracefulQuitTimer();
@@ -161,7 +173,7 @@ public class I2PDActivity extends Activity {
         super.onDestroy();
         textView = null;
         ForegroundService.deinit();
-        daemon.removeStateChangeListener(daemonStateUpdatedListener);
+        getDaemon().removeStateChangeListener(daemonStateUpdatedListener);
         //cancelGracefulStop0();
         try {
             doUnbindService();
@@ -294,15 +306,15 @@ public class I2PDActivity extends Activity {
                 onActionBatteryOptimizations();
                 return true;
 
-            case R.id.action_reload_tunnels_config:
+/*            case R.id.action_reload_tunnels_config:
                 onReloadTunnelsConfig();
-                return true;
+                return true;*/
 
             case R.id.action_start_webview:
-                if(daemon.isStartedOkay())
+                if(getDaemon().isStartedOkay())
                     startActivity(new Intent(getApplicationContext(), WebConsoleActivity.class));
                 else
-                    Toast.makeText(this,"I2Pd not was started!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this,"I2Pd not started!", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_settings:
                 startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
@@ -325,7 +337,7 @@ public class I2PDActivity extends Activity {
 
     private void onReloadTunnelsConfig() {
         Log.i(TAG, "reloading tunnels");
-        daemon.reloadTunnelsConfigs();
+        getDaemon().reloadTunnelsConfigs();
         Toast.makeText(this, R.string.tunnels_reloading, Toast.LENGTH_SHORT).show();
     }
 
@@ -335,7 +347,7 @@ public class I2PDActivity extends Activity {
         textView.setText(getText(R.string.stopping));
         new Thread(() -> {
             try {
-                daemon.stopDaemon();
+                getDaemon().stopDaemon(null);
             } catch (Throwable tr) {
                 Log.e(TAG, "", tr);
             }
@@ -346,7 +358,7 @@ public class I2PDActivity extends Activity {
     private static volatile Timer gracefulQuitTimer;
 
     private void i2pdGracefulStop() {
-        if (daemon.getState() == DaemonWrapper.State.stopped) {
+        if (getDaemon().getState() == DaemonWrapper.State.stopped) {
             Toast.makeText(this, R.string.already_stopped, Toast.LENGTH_SHORT).show();
             return;
         }
@@ -358,8 +370,8 @@ public class I2PDActivity extends Activity {
         Toast.makeText(this, R.string.graceful_stop_is_in_progress, Toast.LENGTH_SHORT).show();
         new Thread(() -> {
             try {
-                if (daemon.isStartedOkay()) {
-                    daemon.stopAcceptingTunnels();
+                if (getDaemon().isStartedOkay()) {
+                    getDaemon().stopAcceptingTunnels();
                     long gracefulStopAtMillis;
                     synchronized (graceStartedMillis_LOCK) {
                         graceStartedMillis = System.currentTimeMillis();
@@ -380,8 +392,8 @@ public class I2PDActivity extends Activity {
         Log.i(TAG, "canceling graceful stop");
         new Thread(() -> {
             try {
-                if (daemon.isStartedOkay()) {
-                    daemon.startAcceptingTunnels();
+                if (getDaemon().isStartedOkay()) {
+                    getDaemon().startAcceptingTunnels();
                     runOnUiThread(() -> Toast.makeText(this, R.string.shutdown_canceled, Toast.LENGTH_SHORT).show());
                 } else
                     i2pdStop();
@@ -395,7 +407,7 @@ public class I2PDActivity extends Activity {
         if (gracefulQuitTimerOld != null)
             gracefulQuitTimerOld.cancel();
 
-        if (daemon.getTransitTunnelsCount() <= 0) { // no tunnels left
+        if (getDaemon().getTransitTunnelsCount() <= 0) { // no tunnels left
             Log.i(TAG, "no transit tunnels left, stopping");
             i2pdStop();
             return;
@@ -507,7 +519,7 @@ public class I2PDActivity extends Activity {
             Log.e(TAG, "", tr);
         }
         try {
-            daemon.stopDaemon();
+            ((App)getApplication()).quit();
         } catch (Throwable tr) {
             Log.e(TAG, "", tr);
         }

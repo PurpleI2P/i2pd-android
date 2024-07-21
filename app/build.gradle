@@ -43,7 +43,7 @@ android {
 
         externalNativeBuild {
             ndkBuild {
-                arguments "NDK_MODULE_PATH:=${rootProject.projectDir}/app/jni"
+                arguments "NDK_MODULE_PATH:=${rootProject.projectDir}/binary/jni"
                 arguments "-j${Runtime.getRuntime().availableProcessors()}"
             }
         }
@@ -80,7 +80,13 @@ android {
 
     externalNativeBuild {
         ndkBuild {
-            path "${rootProject.projectDir}/app/jni/Android.mk"
+            path "${rootProject.projectDir}/binary/jni/Android.mk"
+        }
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDir file("${rootProject.projectDir}/binary/libs")
         }
     }
 
