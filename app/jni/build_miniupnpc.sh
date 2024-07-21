@@ -38,7 +38,7 @@ function checkPreRequisites {
 	fi
 
 	if [ -z "$ANDROID_HOME" -a "$ANDROID_HOME" == "" ]; then
-		echo -e "\033[31mFailed! ANDROID_HOME is empty. Run 'export ANDROID_HOME=[PATH_TO_NDK]'\033[0m"
+		echo -e "\033[31mFailed! ANDROID_HOME is empty. Run 'export ANDROID_HOME=[PATH_TO_SDK]'\033[0m"
 		exit
 	fi
 
