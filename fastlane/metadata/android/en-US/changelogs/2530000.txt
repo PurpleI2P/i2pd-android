@@ -1,0 +1,2 @@
+* Updated codebase to 2.53.0
+* Change application service algorithm to work with binary instead of library. More changes about status in main activity are pending
