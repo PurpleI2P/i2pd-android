@@ -30,12 +30,13 @@ help()
 	echo "m     Rename binaries as libraries."
 	echo "d     Debug build."
 	echo "s     Strip binaries."
-	echo "h     Print this Help."
+	echo "x     Skip libraries rebuild."
 	echo "v     Verbose NDK output."
+	echo "h     Print this Help."
 	echo
 }
 
-while getopts ":dmsvh" option; do
+while getopts ":dmsvxh" option; do
 	case $option in
 		d) # debug build
 			_NDK_OPTS="$_NDK_OPTS NDK_DEBUG=1"
@@ -45,6 +46,9 @@ while getopts ":dmsvh" option; do
 			;;
 		s) # strip binaries
 			_STRIP=1
+			;;
+		x) # skip libraries rebuild
+			_SKIP_LIBS=1
 			;;
 		v) # verbose output
 			_NDK_OPTS="$_NDK_OPTS V=1 NDK_LOG=1"
@@ -59,19 +63,22 @@ while getopts ":dmsvh" option; do
 done
 
 # Building
-echo Building boost...
-./build_boost.sh
+if [ -z "$_SKIP_LIBS" ]; then
+	echo "Building boost..."
+	./build_boost.sh
 
-echo Building openssl...
-./build_openssl.sh
+	echo "Building openssl..."
+	./build_openssl.sh
 
-echo Building miniupnpc...
-./build_miniupnpc.sh
+	echo "Building miniupnpc..."
+	./build_miniupnpc.sh
+fi
 
-echo Building i2pd...
+echo "Building i2pd..."
 $ANDROID_NDK_HOME/ndk-build $_NDK_OPTS
 
-pushd $DIR/../libs
+echo "Processing binaries (if requested)..."
+pushd $DIR/../libs > /dev/null
 for xarch in $(ls .); do
 	if [ ! -z "$_STRIP" ]; then
 		$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip -s $xarch/i2pd
@@ -80,4 +87,6 @@ for xarch in $(ls .); do
 		mv $xarch/i2pd $xarch/libi2pd.so
 	fi
 done
-popd
+popd > /dev/null
+
+echo "Compilation finished"
