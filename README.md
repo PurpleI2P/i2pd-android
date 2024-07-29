@@ -42,7 +42,6 @@ unzip commandlinetools-linux-8092744_latest.zip
 
 ```bash
 git clone --recurse-submodules https://github.com/PurpleI2P/i2pd-android.git
-cd i2pd-android
 ```
 
 ### Compile application
@@ -54,8 +53,10 @@ export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 export ANDROID_HOME=/opt/android-sdk
 export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/23.2.8568313
 
-pushd binary/jni
-./build.sh -md
+pushd app/jni
+./build_boost.sh
+./build_openssl.sh
+./build_miniupnpc.sh
 popd
 
 gradle clean assembleDebug

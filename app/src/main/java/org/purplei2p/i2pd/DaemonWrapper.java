@@ -13,7 +13,6 @@ import java.util.Set;
 import java.util.Locale;
 
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.content.res.AssetManager;
 import android.net.ConnectivityManager;
 import android.net.Network;
@@ -68,25 +67,25 @@ public class DaemonWrapper {
     public synchronized void stopAcceptingTunnels() {
         if (isStartedOkay()) {
             setState(State.gracefulShutdownInProgress);
-            //I2PD_JNI.stopAcceptingTunnels();
+            I2PD_JNI.stopAcceptingTunnels();
         }
     }
 
     public synchronized void startAcceptingTunnels() {
         if (isStartedOkay()) {
             setState(State.startedOkay);
-            //I2PD_JNI.startAcceptingTunnels();
+            I2PD_JNI.startAcceptingTunnels();
         }
     }
 
     public synchronized void reloadTunnelsConfigs() {
         if (isStartedOkay()) {
-            //I2PD_JNI.reloadTunnelsConfigs();
+            I2PD_JNI.reloadTunnelsConfigs();
         }
     }
 
     public int getTransitTunnelsCount() {
-        return 0;//I2PD_JNI.getTransitTunnelsCount();
+        return I2PD_JNI.getTransitTunnelsCount();
     }
 
     public enum State {
@@ -118,11 +117,11 @@ public class DaemonWrapper {
         return state;
     }
 
-    public DaemonWrapper(Context ctx, AssetManager assetManager, ConnectivityManager connectivityManager){
+    public DaemonWrapper(AssetManager assetManager, ConnectivityManager connectivityManager){
         this.assetManager = assetManager;
         this.connectivityManager = connectivityManager;
         setState(State.starting);
-        //startDaemon(ctx); //need to start when storage permissions to the datadir exist
+        startDaemon();
     }
 
     private Throwable lastThrowable;
@@ -148,13 +147,11 @@ public class DaemonWrapper {
     }
 
     public static String getDataDir() { // for settings iniEditor
-        return i2pdDataDir;
+        return I2PD_JNI.getDataDir();
     }
 
-    private static String i2pdDataDir;
-
     public void changeDataDir(String dataDir, Boolean updateAssets) {
-        i2pdDataDir=dataDir;
+        I2PD_JNI.setDataDir(dataDir);
         if (updateAssets) processAssets();
         //ToDo: move old dir to new dir?
     }
@@ -163,44 +160,44 @@ public class DaemonWrapper {
         return getState().isStartedOkay();
     }
 
-    public synchronized void stopDaemon(final Throwable throwable) {
+    public synchronized void stopDaemon() {
         if (isStartedOkay()) {
             try {
-                I2pdApi.stopDaemon(throwable);
+                I2PD_JNI.stopDaemon();
             } catch (Throwable tr) {
                 Log.e(TAG, "", tr);
             }
-            if (throwable != null) lastThrowable = throwable;
             setState(State.stopped);
         }
     }
-
-    public synchronized void startDaemonIfStopped(Context ctx) {
-        if (getState() == State.startedOkay) return;
+    public synchronized void startDaemon() {
+        if( getState() != State.stopped && getState() != State.starting ) return;
         new Thread(() -> {
-            synchronized(DaemonWrapper.this) {
-                if (getState() == State.startedOkay) return;
-                try {
-                    processAssets();
-                    //registerNetworkCallback();
-                } catch (Throwable tr) {
-                    lastThrowable = tr;
-                    setState(State.startFailed);
-                    return;
-                }
-                try {
-                    String locale = getAppLocale();
-                    Log.i(TAG, "setting webconsole language to " + locale);
+            try {
+                processAssets();
+                I2PD_JNI.loadLibraries();
+                //registerNetworkCallback();
+            } catch (Throwable tr) {
+                lastThrowable = tr;
+                setState(State.startFailed);
+                return;
+            }
+            try {
+                synchronized (DaemonWrapper.this) {
+                    I2PD_JNI.setDataDir(i2pdpath); // (Environment.getExternalStorageDirectory().getAbsolutePath() + "/i2pd");
 
-                    daemonStartResult = I2pdApi.startDaemon(ctx, i2pdpath, locale, DaemonWrapper.this);
+                    Log.i(TAG, "setting webconsole language to " + appLocale);
+                    I2PD_JNI.setLanguage(appLocale);
+
+                    daemonStartResult = I2PD_JNI.startDaemon();
                     if ("ok".equals(daemonStartResult)) {
                         setState(State.startedOkay);
                     } else
                         setState(State.startFailed);
-                } catch (Throwable tr) {
-                    lastThrowable = tr;
-                    setState(State.startFailed);
                 }
+            } catch (Throwable tr) {
+                lastThrowable = tr;
+                setState(State.startFailed);
             }
         }, "i2pdDaemonStart").start();
     }
@@ -210,75 +207,71 @@ public class DaemonWrapper {
         String versionName = BuildConfig.VERSION_NAME; // here will be app version, like 2.XX.XX
         StringBuilder text = new StringBuilder();
         Log.d(TAG, "checking assets");
-        try {
-            if (holderFile.exists()) {
-                try { // if holder file exists, read assets version string
-                    FileReader fileReader = new FileReader(holderFile);
+
+        if (holderFile.exists()) {
+            try { // if holder file exists, read assets version string
+                FileReader fileReader = new FileReader(holderFile);
+
+                try {
+                    BufferedReader br = new BufferedReader(fileReader);
 
                     try {
-                        BufferedReader br = new BufferedReader(fileReader);
+                        String line;
 
-                        try {
-                            String line;
-
-                            while ((line = br.readLine()) != null) {
-                                text.append(line);
-                            }
-                        } finally {
-                            try {
-                                br.close();
-                            } catch (IOException e) {
-                                Log.e(TAG, "", e);
-                            }
+                        while ((line = br.readLine()) != null) {
+                            text.append(line);
                         }
-                    } finally {
+                    }finally {
                         try {
-                            fileReader.close();
+                            br.close();
                         } catch (IOException e) {
                             Log.e(TAG, "", e);
                         }
                     }
-                } catch (IOException e) {
-                    Log.e(TAG, "", e);
-                }
-            }
-
-            // if version differs from current app version or null, try to delete certificates folder
-            if (!text.toString().contains(versionName)) {
-                try {
-                    boolean deleteResult = holderFile.delete();
-                    if (!deleteResult)
-                        Log.e(TAG, "holderFile.delete() returned " + deleteResult + ", absolute path='" + holderFile.getAbsolutePath() + "'");
-                    File certPath = new File(i2pdpath, "certificates");
-                    deleteRecursive(certPath);
-
-                    // copy assets. If processed file exists, it won't be overwritten
-                    copyAsset("addressbook");
-                    copyAsset("certificates");
-                    copyAsset("tunnels.d");
-                    copyAsset("i2pd.conf");
-                    copyAsset("tunnels.conf");
-
-                    // update holder file about successful copying
-                    FileWriter writer = new FileWriter(holderFile);
+                } finally {
                     try {
-                        writer.append(versionName);
-                    } finally {
-                        try {
-                            writer.close();
-                        } catch (IOException e) {
-                            Log.e(TAG, "on writer close", e);
-                        }
+                        fileReader.close();
+                    } catch (IOException e) {
+                        Log.e(TAG, "", e);
                     }
-                } catch (Throwable tr) {
-                    Log.e(TAG, "on assets copying", tr);
+                }
+            } catch (IOException e) {
+                Log.e(TAG, "", e);
+            }
+        }
+
+        // if version differs from current app version or null, try to delete certificates folder
+        if (!text.toString().contains(versionName)) {
+            try {
+                boolean deleteResult = holderFile.delete();
+                if (!deleteResult)
+                    Log.e(TAG, "holderFile.delete() returned " + deleteResult + ", absolute path='" + holderFile.getAbsolutePath() + "'");
+                File certPath = new File(i2pdpath, "certificates");
+                deleteRecursive(certPath);
+
+                // copy assets. If processed file exists, it won't be overwritten
+                copyAsset("addressbook");
+                copyAsset("certificates");
+                copyAsset("tunnels.d");
+                copyAsset("i2pd.conf");
+                copyAsset("tunnels.conf");
+
+                // update holder file about successful copying
+                FileWriter writer = new FileWriter(holderFile);
+                try {
+                    writer.append(versionName);
+                } finally {
+                    try {
+                        writer.close();
+                    } catch (IOException e) {
+                        Log.e(TAG,"on writer close", e);
+                    }
                 }
             }
-        }catch(Throwable tr) {
-            if(tr.getMessage().contains("Permission denied")) {
-                Log.e(TAG, "Permission denied on assets copying", tr);
+            catch (Throwable tr)
+            {
+                Log.e(TAG,"on assets copying", tr);
             }
-            throw new RuntimeException(tr);
         }
     }
 
@@ -378,18 +371,15 @@ public class DaemonWrapper {
         @Override
         public void onAvailable(Network network) {
             super.onAvailable(network);
-            //I2PD_JNI.onNetworkStateChanged(true);
+            I2PD_JNI.onNetworkStateChanged(true);
             Log.d(TAG, "NetworkCallback.onAvailable");
         }
 
         @Override
         public void onLost(Network network) {
             super.onLost(network);
-            //I2PD_JNI.onNetworkStateChanged(false);
+            I2PD_JNI.onNetworkStateChanged(false);
             Log.d(TAG, " NetworkCallback.onLost");
         }
-    }
-    private String getAppLocale() {
-        return Locale.getDefault().getDisplayLanguage(Locale.ENGLISH).toLowerCase(); // lower-case system language (like "english")
     }
 }

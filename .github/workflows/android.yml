@@ -21,7 +21,7 @@ jobs:
       run: |
         export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/23.2.8568313
         pushd binary/jni
-        ./build.sh -md
+        ./build.sh
         popd
     - name: Build with Gradle
       run: ./gradlew --no-daemon assembleDebug
@@ -45,11 +45,11 @@ jobs:
       run: export JAVA_HOME=$JAVA_HOME_11_X64
     - name: Install required Android SDK packages
       run: $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "cmake;3.22.1" "ndk;23.2.8568313"
-    - name: Build binaries with NDK
+    - name: Build binary with NDK
       run: |
         export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/23.2.8568313
         pushd binary/jni
-        ./build.sh
+        ./build.sh -b
         popd
     - name: Create package with built binaries
       run: |

@@ -29,8 +29,8 @@ android {
         targetSdkVersion 33
         // TODO: 24?
         minSdkVersion 16
-        versionCode 2530000
-        versionName "2.53.0"
+        versionCode 2530010
+        versionName "2.53.0.1"
         archivesBaseName += "-$versionName"
         ndkVersion "23.2.8568313"
 
@@ -39,6 +39,13 @@ android {
             abiFilters "x86"
             abiFilters "arm64-v8a"
             abiFilters "x86_64"
+        }
+
+        externalNativeBuild {
+            ndkBuild {
+                arguments "NDK_MODULE_PATH:=${rootProject.projectDir}/binary/jni"
+                arguments "-j${Runtime.getRuntime().availableProcessors()}"
+            }
         }
     }
 
@@ -71,9 +78,9 @@ android {
         }
     }
 
-    sourceSets {
-        main {
-            jniLibs.srcDir file("${rootProject.projectDir}/binary/libs")
+    externalNativeBuild {
+        ndkBuild {
+            path "${rootProject.projectDir}/app/jni/Android.mk"
         }
     }
 

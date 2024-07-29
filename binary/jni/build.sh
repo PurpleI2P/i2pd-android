@@ -27,7 +27,7 @@ help()
 {
 	echo "Syntax: $(basename "$SOURCE") [-m|d|s|h|v]"
 	echo "Options:"
-	echo "m     Rename binaries as libraries."
+	echo "b     Build binary."
 	echo "d     Debug build."
 	echo "s     Strip binaries."
 	echo "x     Skip libraries rebuild."
@@ -36,13 +36,13 @@ help()
 	echo
 }
 
-while getopts ":dmsvxh" option; do
+while getopts ":dbsvxh" option; do
 	case $option in
 		d) # debug build
 			_NDK_OPTS="$_NDK_OPTS NDK_DEBUG=1"
 			;;
-		m) # make module
-			_MODULE=1
+		b) # build binary
+			_BINARY=1
 			;;
 		s) # strip binaries
 			_STRIP=1
@@ -74,8 +74,10 @@ if [ -z "$_SKIP_LIBS" ]; then
 	./build_miniupnpc.sh
 fi
 
-echo "Building i2pd..."
-$ANDROID_NDK_HOME/ndk-build $_NDK_OPTS
+if [ ! -z "$_BINARY" ]; then
+	echo "Building i2pd..."
+	$ANDROID_NDK_HOME/ndk-build $_NDK_OPTS
+fi
 
 echo "Processing binaries (if requested)..."
 pushd $DIR/../libs > /dev/null

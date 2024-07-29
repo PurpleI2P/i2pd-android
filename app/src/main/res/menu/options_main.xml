@@ -15,10 +15,10 @@
             android:id="@+id/action_start_webview"
             android:orderInCategory="96"
             android:title="@string/action_start_webview" />
-        <!--<item
+        <item
             android:id="@+id/action_reload_tunnels_config"
             android:orderInCategory="97"
-            android:title="@string/action_reload_tunnels_config" />-->
+            android:title="@string/action_reload_tunnels_config" />
         <item
             android:id="@+id/action_graceful_stop"
             android:orderInCategory="98"
