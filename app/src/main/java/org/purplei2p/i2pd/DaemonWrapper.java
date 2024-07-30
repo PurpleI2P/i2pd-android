@@ -257,7 +257,6 @@ public class DaemonWrapper {
                     copyAsset("certificates");
                     copyAsset("tunnels.d");
                     copyAsset("i2pd.conf");
-                    copyAsset("subscriptions.txt");
                     copyAsset("tunnels.conf");
 
                     // update holder file about successful copying
