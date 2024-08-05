@@ -29,8 +29,8 @@ android {
         targetSdkVersion 33
         // TODO: 24?
         minSdkVersion 16
-        versionCode 2530010
-        versionName "2.53.0.1"
+        versionCode 2530100
+        versionName "2.53.1"
         archivesBaseName += "-$versionName"
         ndkVersion "23.2.8568313"
 
