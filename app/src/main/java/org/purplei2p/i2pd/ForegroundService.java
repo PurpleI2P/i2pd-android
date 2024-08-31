@@ -16,6 +16,8 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 import android.util.Log;
 
+import org.purplei2p.i2pd.appscope.App;
+
 public class ForegroundService extends Service {
     private static final String TAG = "FgService";
     private volatile boolean shown;
@@ -24,7 +26,7 @@ public class ForegroundService extends Service {
         return instance;
     }
 
-    private static ForegroundService instance;
+    private static volatile ForegroundService instance;
     private static volatile DaemonWrapper daemon;
     private static final Object initDeinitLock = new Object();
 
@@ -44,7 +46,7 @@ public class ForegroundService extends Service {
                 showNotification();
             }
         } catch (Throwable tr) {
-            Log.e(TAG,"error ignored",tr);
+            Log.e(TAG,"error ignored", tr);
         }
     }
 
@@ -53,7 +55,7 @@ public class ForegroundService extends Service {
 
     // Unique Identification Number for the Notification.
     // We use it on Notification start, and to cancel it.
-    private static final int NOTIFICATION = 1;
+    private static final int NOTIFICATION_ID = 1;
 
     /**
      * Class for clients to access.  Because we know this service always
@@ -80,6 +82,8 @@ public class ForegroundService extends Service {
     @Override
     public void onCreate() {
         notificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+        final App app = (App) getApplication();
+        if (daemon==null)daemon=app.getDaemonWrapper();
         instance = this;
         initCheck();
     }
@@ -91,7 +95,7 @@ public class ForegroundService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d("ForegroundService", "Received start id " + startId + ": " + intent);
+        Log.d(TAG, "Received start id " + startId + ": " + intent);
         return START_STICKY;
     }
 
@@ -119,13 +123,8 @@ public class ForegroundService extends Service {
 
     private void cancelNotification() {
         synchronized (initDeinitLock) {
-            // Cancel the persistent notification.
-            notificationManager.cancel(NOTIFICATION);
-
+            notificationManager.cancel(NOTIFICATION_ID);
             stopForeground(true);
-
-            // Tell the user we stopped.
-            //Toast.makeText(this, R.string.i2pd_service_stopped, Toast.LENGTH_SHORT).show();
             shown = false;
         }
     }
@@ -145,23 +144,22 @@ public class ForegroundService extends Service {
     private void showNotification() {
         synchronized (initDeinitLock) {
             if (daemon != null) {
-                // In this sample, we'll use the same text for the ticker and the expanded notification
                 CharSequence text = getText(daemon.getState().getStatusStringResourceId());
 
                 // The PendingIntent to launch our activity if the user selects this notification
                 PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                        new Intent(this, I2PDActivity.class),
+                        new Intent(this, I2PDPermsAskerActivity.class),
                         Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? FLAG_IMMUTABLE : 0);
 
-                // If earlier version channel ID is not used
+                // on old Android, the channel id is not used
                 // https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder.html#NotificationCompat.Builder(android.content.Context)
                 String channelId = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel() : "";
 
                 // Set the info for the views that show in the notification panel.
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId)
                         .setOngoing(true)
-                        .setSmallIcon(R.drawable.ic_notification_icon); // the status icon
-                builder = builder.setPriority(Notification.PRIORITY_DEFAULT);
+                        .setSmallIcon(R.drawable.ic_notification_icon) // the status icon
+                        .setPriority(Notification.PRIORITY_DEFAULT);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
                     builder = builder.setCategory(Notification.CATEGORY_SERVICE);
                 Notification notification = builder
@@ -174,7 +172,7 @@ public class ForegroundService extends Service {
 
                 // Send the notification.
                 //mNM.notify(NOTIFICATION, notification);
-                startForeground(NOTIFICATION, notification);
+                startForeground(NOTIFICATION_ID, notification);
                 shown = true;
             }
         }
@@ -183,13 +181,13 @@ public class ForegroundService extends Service {
     @RequiresApi(Build.VERSION_CODES.O)
     private synchronized String createNotificationChannel() {
         String channelId = getString(R.string.app_name);
-        CharSequence channelName = "I2Pd service";
+        CharSequence channelName = getString(R.string.i2pd_service);
         NotificationChannel chan = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_LOW);
         //chan.setLightColor(Color.PURPLE);
         chan.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
         NotificationManager service = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         if (service != null) service.createNotificationChannel(chan);
-        else Log.e(TAG, "error: NOTIFICATION_SERVICE is null");
+        else Log.e(TAG, "error: NOTIFICATION_SERVICE is null, haven't called createNotificationChannel");
         return channelId;
     }
 }

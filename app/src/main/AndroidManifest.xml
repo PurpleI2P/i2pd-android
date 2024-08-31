@@ -25,7 +25,7 @@
         android:usesCleartextTraffic="true">
 
         <service
-            android:name=".I2PdQSTileService"
+            android:name=".I2pdQuickSettingsTileService"
             android:exported="true"
             android:label="I2Pd"
             android:icon="@drawable/ic_logo"

@@ -1,17 +1,23 @@
 package org.purplei2p.i2pd.appscope;
 
+import android.Manifest;
 import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
+import android.os.Build;
+import android.os.Environment;
 import android.os.IBinder;
 import android.util.Log;
 
 import org.purplei2p.i2pd.BuildConfig;
 import org.purplei2p.i2pd.I2PDActivity;
 import org.purplei2p.i2pd.*;
+
+import java.lang.reflect.Method;
 
 public class App extends Application {
     private static final String TAG = "i2pd.app";
@@ -22,7 +28,6 @@ public class App extends Application {
     private String versionName;
 
     private static volatile boolean mIsBound;
-
 
 
     public synchronized static DaemonWrapper getDaemonWrapper() {
@@ -43,9 +48,9 @@ public class App extends Application {
     }
 
     private void createDaemonWrapper() {
-        ConnectivityManager  connectivityManager = (ConnectivityManager) getSystemService(
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(
                 Context.CONNECTIVITY_SERVICE);
-        daemonWrapper = new DaemonWrapper(getApplicationContext(), getAssets(), connectivityManager);
+        daemonWrapper = new DaemonWrapper(this, getApplicationContext(), getAssets(), connectivityManager);
         ForegroundService.init(daemonWrapper);
     }
 
@@ -101,7 +106,7 @@ public class App extends Application {
 
     public synchronized void quit() {
         try {
-            if(daemonWrapper!=null)daemonWrapper.stopDaemon(null);
+            if (daemonWrapper != null) daemonWrapper.stopDaemon(null);
         } catch (Throwable tr) {
             Log.e(TAG, "", tr);
         }
@@ -115,12 +120,38 @@ public class App extends Application {
         } catch (Throwable tr) {
             Log.e(TAG, "throwable caught and ignored", tr);
         }
-        try{
+        try {
             ForegroundService fs = ForegroundService.getInstance();
-            if(fs!=null)fs.stop();
-        }catch(Throwable tr) {
+            if (fs != null) fs.stop();
+        } catch (Throwable tr) {
             Log.e(TAG, "", tr);
         }
 
+    }
+
+    public boolean isPermittedToWriteToExternalStorage() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            return Environment.isExternalStorageManager();
+        } else {
+            Method methodCheckPermission;
+
+            try {
+                methodCheckPermission = getClass().getMethod(
+                        "checkSelfPermission", String.class);
+            } catch (NoSuchMethodException e) {
+                throw new RuntimeException(e);
+            }
+
+            Integer resultObj;
+
+            try {
+                resultObj = (Integer) methodCheckPermission.invoke(
+                        this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            } catch (Throwable e) {
+                throw new RuntimeException(e);
+            }
+
+            return resultObj == PackageManager.PERMISSION_GRANTED;
+        }
     }
 }
