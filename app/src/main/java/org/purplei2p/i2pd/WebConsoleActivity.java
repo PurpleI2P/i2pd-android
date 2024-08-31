@@ -21,7 +21,7 @@ public class WebConsoleActivity extends Activity {
 
         Objects.requireNonNull(getActionBar()).setDisplayHomeAsUpEnabled(true);
 
-        webView = (WebView) findViewById(R.id.webconsole);
+        webView = findViewById(R.id.webconsole);
         webView.setWebViewClient(new WebViewClient());
 
         final WebSettings webSettings = webView.getSettings();
@@ -29,19 +29,13 @@ public class WebConsoleActivity extends Activity {
         webSettings.setJavaScriptEnabled(false);
         webView.loadUrl("http://localhost:7070/"/*I2PD_JNI.getWebConsAddr()*/);
 
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                swipeRefreshLayout.setRefreshing(true);
-                new Handler().post(new Runnable() {
-                    @Override
-                    public void run() {
-                        swipeRefreshLayout.setRefreshing(false);
-                        webView.reload();
-                    }
-                });
-            }
+        swipeRefreshLayout = findViewById(R.id.swipe);
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            swipeRefreshLayout.setRefreshing(true);
+            new Handler().post(() -> {
+                swipeRefreshLayout.setRefreshing(false);
+                webView.reload();
+            });
         });
     }
 
