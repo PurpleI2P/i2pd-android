@@ -17,6 +17,7 @@ import androidx.core.app.NotificationCompat;
 import android.util.Log;
 
 import org.purplei2p.i2pd.appscope.App;
+import org.purplei2p.i2pd.receivers.BootUpReceiver;
 
 public class ForegroundService extends Service {
     private static final String TAG = "FgService";
@@ -31,23 +32,25 @@ public class ForegroundService extends Service {
     private static final Object initDeinitLock = new Object();
 
     private final DaemonWrapper.StateUpdateListener daemonStateUpdatedListener =
-            new DaemonWrapper.StateUpdateListener() {
-
-                @Override
-                public void daemonStateUpdate(DaemonWrapper.State oldValue, DaemonWrapper.State newValue) {
-                    updateNotificationText();
-                }
-            };
+            (oldValue, newValue) -> updateNotificationText();
 
     private void updateNotificationText() {
+        Log.d(TAG, "FgSvc.updateNotificationText() enter");
         try {
             synchronized (initDeinitLock) {
-                if (shown) cancelNotification();
-                showNotification();
+                if (shown){
+                    Log.d(TAG, "FgSvc.updateNotificationText() calling cancelNotification()");
+                    cancelNotification();
+                }
+                if(App.isStartDaemon()){
+                    Log.d(TAG, "FgSvc.updateNotificationText() calling showNotification()");
+                    showNotification();
+                }
             }
         } catch (Throwable tr) {
             Log.e(TAG,"error ignored", tr);
         }
+        Log.d(TAG, "FgSvc.updateNotificationText() leave");
     }
 
 
@@ -63,9 +66,6 @@ public class ForegroundService extends Service {
      * IPC.
      */
     public class LocalBinder extends Binder {
-        ForegroundService getService() {
-            return ForegroundService.this;
-        }
     }
 
     public static void init(DaemonWrapper daemon) {
@@ -81,33 +81,51 @@ public class ForegroundService extends Service {
 
     @Override
     public void onCreate() {
+        Log.d(TAG, "FgSvc.onCreate()");
         notificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
         final App app = (App) getApplication();
-        if (daemon==null)daemon=app.getDaemonWrapper();
+        if (daemon == null) daemon = App.getDaemonWrapper();
+        if (daemon == null) {
+            if(App.isStartDaemon()) {
+                Log.d(TAG, "FgSvc.onCreate() calling app.createDaemonWrapper()");
+                app.createDaemonWrapper();
+            }
+            daemon = App.getDaemonWrapper();
+        }
         instance = this;
         initCheck();
+        Log.d(TAG, "FgSvc.onCreate() leave");
     }
 
     private void setListener() {
-        daemon.addStateChangeListener(daemonStateUpdatedListener);
+        final DaemonWrapper dw = daemon;
+        if (dw != null) dw.addStateChangeListener(daemonStateUpdatedListener);
         updateNotificationText();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(TAG, "Received start id " + startId + ": " + intent);
+        readFlags(flags);
         return START_STICKY;
     }
-
+    private void readFlags(int flags) {
+        if ((flags&START_FLAG_REDELIVERY) == START_FLAG_REDELIVERY)
+            Log.d(TAG,"START_FLAG_REDELIVERY");
+        if ((flags&START_FLAG_RETRY) == START_FLAG_RETRY)
+            Log.d(TAG,"START_FLAG_RETRY");
+    }
     @Override
     public void onDestroy() {
         stop();
     }
 
     public void stop() {
+        Log.e(TAG,"stop() enter", new Throwable("dumpstack"));
         cancelNotification();
         deinitCheck();
         instance = null;
+        Log.d(TAG,"stop() leave");
     }
 
     public static void deinit() {
@@ -122,6 +140,7 @@ public class ForegroundService extends Service {
     }
 
     private void cancelNotification() {
+        Log.d(TAG, "FgSvc.cancelNotification()");
         synchronized (initDeinitLock) {
             notificationManager.cancel(NOTIFICATION_ID);
             stopForeground(true);
@@ -142,9 +161,12 @@ public class ForegroundService extends Service {
      * Show a notification while this service is running.
      */
     private void showNotification() {
+        Log.d(TAG, "FgSvc.showNotification() enter");
         synchronized (initDeinitLock) {
+            Log.d(TAG, "FgSvc.showNotification(): daemon="+daemon);
             if (daemon != null) {
                 CharSequence text = getText(daemon.getState().getStatusStringResourceId());
+                Log.d(TAG, "FgSvc.showNotification(): text="+text);
 
                 // The PendingIntent to launch our activity if the user selects this notification
                 PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
@@ -172,10 +194,12 @@ public class ForegroundService extends Service {
 
                 // Send the notification.
                 //mNM.notify(NOTIFICATION, notification);
+                Log.d(TAG, "FgSvc.showNotification(): calling startForeground()");
                 startForeground(NOTIFICATION_ID, notification);
                 shown = true;
             }
         }
+        Log.d(TAG, "FgSvc.showNotification() leave");
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

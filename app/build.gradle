@@ -22,11 +22,11 @@ android {
         disable 'DuplicatePlatformClasses'
     }
 
-    compileSdkVersion 33
+    compileSdkVersion 34
 
     defaultConfig {
         applicationId "org.purplei2p.i2pd"
-        targetSdkVersion 33
+        targetSdkVersion 34
         // TODO: 24?
         minSdkVersion 16
         versionCode 2530000

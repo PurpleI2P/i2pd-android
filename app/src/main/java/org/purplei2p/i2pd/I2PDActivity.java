@@ -117,8 +117,7 @@ public class I2PDActivity extends Activity {
         Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        startService(new Intent(this, ForegroundService.class));
-        textView = (TextView) findViewById(R.id.appStatusText);
+        textView = findViewById(R.id.appStatusText);
         /*
         HTTPProxyState = (CheckBox) findViewById(R.id.service_httpproxy_box);
         SOCKSProxyState = (CheckBox) findViewById(R.id.service_socksproxy_box);
@@ -126,14 +125,10 @@ public class I2PDActivity extends Activity {
         SAMState = (CheckBox) findViewById(R.id.service_sam_box);
         I2CPState = (CheckBox) findViewById(R.id.service_i2cp_box);*/
 
-        /*if (getDaemon() == null) {
-            ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-            getDaemon() = new getDaemon()Wrapper(getAssets(), connectivityManager);
+        App.setStartDaemon(true);
+        if (getDaemon() == null) {
+            ((App)getApplication()).createDaemonWrapper();
         }
-        ForegroundService.init(getDaemon());
-
-         */
-        //getDaemon()StateUpdatedListener.getDaemon()StateUpdate(getDaemon()Wrapper.State.uninitialized, App.getgetDaemon()Wrapper().getState());
 
         // request permissions
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -154,7 +149,6 @@ public class I2PDActivity extends Activity {
         getDaemon().startDaemonIfStopped(getApplicationContext());
         getDaemon().addStateChangeListener(daemonStateUpdatedListener);
         updateStatusText();
-        doBindService();
 
         final Timer gracefulQuitTimer = getGracefulQuitTimer();
         if (gracefulQuitTimer != null) {
@@ -172,19 +166,8 @@ public class I2PDActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         textView = null;
-        ForegroundService.deinit();
         getDaemon().removeStateChangeListener(daemonStateUpdatedListener);
         //cancelGracefulStop0();
-        try {
-            doUnbindService();
-        } catch (IllegalArgumentException ex) {
-            Log.e(TAG, "throwable caught and ignored", ex);
-            if (ex.getMessage().startsWith("Service not registered: " + org.purplei2p.i2pd.I2PDActivity.class.getName())) {
-                Log.i(TAG, "Service not registered exception seems to be normal, not a bug it seems.");
-            }
-        } catch (Throwable tr) {
-            Log.e(TAG, "throwable caught and ignored", tr);
-        }
     }
 
     @Override
@@ -214,58 +197,6 @@ public class I2PDActivity extends Activity {
         tr.printStackTrace(pw);
         pw.close();
         return sw.toString();
-    }
-
-    // private LocalService mBoundService;
-
-    private ServiceConnection mConnection = new ServiceConnection() {
-        public void onServiceConnected(ComponentName className, IBinder service) {
-            /* This is called when the connection with the service has been
-               established, giving us the service object we can use to
-               interact with the service.  Because we have bound to a explicit
-               service that we know is running in our own process, we can
-               cast its IBinder to a concrete class and directly access it. */
-            // mBoundService = ((LocalService.LocalBinder)service).getService();
-
-            /* Tell the user about this for our demo. */
-            // Toast.makeText(Binding.this, R.string.local_service_connected,
-            // Toast.LENGTH_SHORT).show();
-        }
-
-        public void onServiceDisconnected(ComponentName className) {
-            /* This is called when the connection with the service has been
-               unexpectedly disconnected -- that is, its process crashed.
-               Because it is running in our same process, we should never
-               see this happen. */
-            // mBoundService = null;
-            // Toast.makeText(Binding.this, R.string.local_service_disconnected,
-            // Toast.LENGTH_SHORT).show();
-        }
-    };
-
-    private static volatile boolean mIsBound;
-
-    private void doBindService() {
-        synchronized (I2PDActivity.class) {
-            if (mIsBound)
-                return;
-            // Establish a connection with the service.  We use an explicit
-            // class name because we want a specific service implementation that
-            // we know will be running in our own process (and thus won't be
-            // supporting component replacement by other applications).
-            bindService(new Intent(this, ForegroundService.class), mConnection, Context.BIND_AUTO_CREATE);
-            mIsBound = true;
-        }
-    }
-
-    private void doUnbindService() {
-        synchronized (I2PDActivity.class) {
-            if (mIsBound) {
-                // Detach our existing connection.
-                unbindService(mConnection);
-                mIsBound = false;
-            }
-        }
     }
 
     @Override
