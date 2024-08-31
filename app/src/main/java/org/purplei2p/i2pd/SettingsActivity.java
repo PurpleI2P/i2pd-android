@@ -3,7 +3,9 @@ package org.purplei2p.i2pd;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
@@ -18,6 +20,8 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 
 
+import org.purplei2p.i2pd.receivers.BootUpReceiver;
+
 import java.io.File;
 import java.util.List;
 import java.util.Objects;
@@ -26,13 +30,9 @@ import java.util.Objects;
 //import org.purplei2p.i2pd.iniedotr.IniEditor;
 
 public class SettingsActivity extends Activity {
-    private String TAG = "Settings";
-    /**
-     * just file, empty, if exist the do autostart, if not then no.
-     */
-    public static String onBootFileName = "onBoot";
+    private final static String TAG = "Settings";
 
-    //https://gist.github.com/chandruark/3165a5ee3452f2b9ec7736cf1b4c5ea6
+    /** https://gist.github.com/chandruark/3165a5ee3452f2b9ec7736cf1b4c5ea6 */
     private void maybeStartManufacturerSpecificBootupPermissionManagerActivity() {
         try {
             Intent intent = new Intent();
@@ -76,29 +76,23 @@ public class SettingsActivity extends Activity {
         Switch autostartSwitch = findViewById(R.id.autostart_enable);
         Button openPreferencesButton = findViewById(R.id.OpenPreferences);
         File prefsDir = getApplicationContext().getFilesDir();
-        File onBoot = new File(prefsDir, onBootFileName);
         openPreferencesButton.setOnClickListener(view -> {
             Intent intent = new Intent(SettingsActivity.this, MainPreferenceActivity.class);
             startActivity(intent);
         });
+        final SharedPreferences sharedPrefBootUp = getApplicationContext().getSharedPreferences(
+                BootUpReceiver.SHARED_PREF_FILE_KEY, Context.MODE_PRIVATE);
         autostartSwitch.setOnCheckedChangeListener((view, isChecked) -> {
-            if (isChecked) {
-                if (!onBoot.exists()) {
-                    maybeStartManufacturerSpecificBootupPermissionManagerActivity();
-                    try {
-                        if (!onBoot.createNewFile())
-                            Log.d(TAG, "Can't create new file "+onBoot.getAbsolutePath());
-                    } catch (Throwable e) {
-                        Log.e(TAG,"",e);
-                    }
-                }
-            } else {
-                if (onBoot.exists())
-                    if (!onBoot.delete())
-                        Log.d(TAG, "Can't delete file "+onBoot.getAbsolutePath());
+            boolean autostartOnBootPrevValue = sharedPrefBootUp.getBoolean(BootUpReceiver.AUTOSTART_ON_BOOT, true);
+            SharedPreferences.Editor editor = sharedPrefBootUp.edit();
+            editor.putBoolean(BootUpReceiver.AUTOSTART_ON_BOOT, isChecked);
+            editor.apply();
+            if (isChecked && !autostartOnBootPrevValue) {
+                maybeStartManufacturerSpecificBootupPermissionManagerActivity();
             }
         });
-        autostartSwitch.setChecked(onBoot.exists());
+        boolean autostartOnBoot = sharedPrefBootUp.getBoolean(BootUpReceiver.AUTOSTART_ON_BOOT, true);
+        autostartSwitch.setChecked(autostartOnBoot);
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
