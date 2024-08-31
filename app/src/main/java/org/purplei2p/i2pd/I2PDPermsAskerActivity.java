@@ -2,6 +2,7 @@ package org.purplei2p.i2pd;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.Application;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -183,19 +184,19 @@ public class I2PDPermsAskerActivity extends Activity {
                 }
             }
         } else if (requestCode == APP_STORAGE_ACCESS_REQUEST_CODE && resultCode == RESULT_OK) {
-	    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            if (Environment.isExternalStorageManager()) {
-                startMainActivity();
-            } else {
-                textview_retry.setText(R.string.permDenied);
-                textview_retry.setVisibility(TextView.VISIBLE);
-                button_request_write_ext_storage_perms.setVisibility(Button.VISIBLE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                if (Environment.isExternalStorageManager()) {
+                    startMainActivity();
+                } else {
+                    textview_retry.setText(R.string.permDenied);
+                    textview_retry.setVisibility(TextView.VISIBLE);
+                    button_request_write_ext_storage_perms.setVisibility(Button.VISIBLE);
 
-                finish();
+                    finish();
+                }
+            } else {
+                finish(); // close the app
             }
-        } else {
-            finish(); // close the app
         }
-	}
     }
 }

@@ -25,6 +25,8 @@ import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
+import org.purplei2p.i2pd.appscope.App;
+
 public class DaemonWrapper {
 
     private static final String TAG = "i2pd";
@@ -118,11 +120,11 @@ public class DaemonWrapper {
         return state;
     }
 
-    public DaemonWrapper(Context ctx, AssetManager assetManager, ConnectivityManager connectivityManager){
+    public DaemonWrapper(App app, Context ctx, AssetManager assetManager, ConnectivityManager connectivityManager){
         this.assetManager = assetManager;
         this.connectivityManager = connectivityManager;
         setState(State.starting);
-        //startDaemon(ctx); //need to start when storage permissions to the datadir exist
+        if(app.isPermittedToWriteToExternalStorage())startDaemonIfStopped(ctx);
     }
 
     private Throwable lastThrowable;
@@ -257,7 +259,6 @@ public class DaemonWrapper {
                     copyAsset("certificates");
                     copyAsset("tunnels.d");
                     copyAsset("i2pd.conf");
-                    copyAsset("subscriptions.txt");
                     copyAsset("tunnels.conf");
 
                     // update holder file about successful copying

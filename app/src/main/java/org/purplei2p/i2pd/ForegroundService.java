@@ -16,6 +16,9 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 import android.util.Log;
 
+import org.purplei2p.i2pd.appscope.App;
+import org.purplei2p.i2pd.receivers.BootUpReceiver;
+
 public class ForegroundService extends Service {
     private static final String TAG = "FgService";
     private volatile boolean shown;
@@ -24,28 +27,30 @@ public class ForegroundService extends Service {
         return instance;
     }
 
-    private static ForegroundService instance;
+    private static volatile ForegroundService instance;
     private static volatile DaemonWrapper daemon;
     private static final Object initDeinitLock = new Object();
 
     private final DaemonWrapper.StateUpdateListener daemonStateUpdatedListener =
-            new DaemonWrapper.StateUpdateListener() {
-
-                @Override
-                public void daemonStateUpdate(DaemonWrapper.State oldValue, DaemonWrapper.State newValue) {
-                    updateNotificationText();
-                }
-            };
+            (oldValue, newValue) -> updateNotificationText();
 
     private void updateNotificationText() {
+        Log.d(TAG, "FgSvc.updateNotificationText() enter");
         try {
             synchronized (initDeinitLock) {
-                if (shown) cancelNotification();
-                showNotification();
+                if (shown){
+                    Log.d(TAG, "FgSvc.updateNotificationText() calling cancelNotification()");
+                    cancelNotification();
+                }
+                if(App.isStartDaemon()){
+                    Log.d(TAG, "FgSvc.updateNotificationText() calling showNotification()");
+                    showNotification();
+                }
             }
         } catch (Throwable tr) {
-            Log.e(TAG,"error ignored",tr);
+            Log.e(TAG,"error ignored", tr);
         }
+        Log.d(TAG, "FgSvc.updateNotificationText() leave");
     }
 
 
@@ -53,7 +58,7 @@ public class ForegroundService extends Service {
 
     // Unique Identification Number for the Notification.
     // We use it on Notification start, and to cancel it.
-    private static final int NOTIFICATION = 1;
+    private static final int NOTIFICATION_ID = 1;
 
     /**
      * Class for clients to access.  Because we know this service always
@@ -61,9 +66,6 @@ public class ForegroundService extends Service {
      * IPC.
      */
     public class LocalBinder extends Binder {
-        ForegroundService getService() {
-            return ForegroundService.this;
-        }
     }
 
     public static void init(DaemonWrapper daemon) {
@@ -79,31 +81,51 @@ public class ForegroundService extends Service {
 
     @Override
     public void onCreate() {
+        Log.d(TAG, "FgSvc.onCreate()");
         notificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+        final App app = (App) getApplication();
+        if (daemon == null) daemon = App.getDaemonWrapper();
+        if (daemon == null) {
+            if(App.isStartDaemon()) {
+                Log.d(TAG, "FgSvc.onCreate() calling app.createDaemonWrapper()");
+                app.createDaemonWrapper();
+            }
+            daemon = App.getDaemonWrapper();
+        }
         instance = this;
         initCheck();
+        Log.d(TAG, "FgSvc.onCreate() leave");
     }
 
     private void setListener() {
-        daemon.addStateChangeListener(daemonStateUpdatedListener);
+        final DaemonWrapper dw = daemon;
+        if (dw != null) dw.addStateChangeListener(daemonStateUpdatedListener);
         updateNotificationText();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d("ForegroundService", "Received start id " + startId + ": " + intent);
+        Log.d(TAG, "Received start id " + startId + ": " + intent);
+        readFlags(flags);
         return START_STICKY;
     }
-
+    private void readFlags(int flags) {
+        if ((flags&START_FLAG_REDELIVERY) == START_FLAG_REDELIVERY)
+            Log.d(TAG,"START_FLAG_REDELIVERY");
+        if ((flags&START_FLAG_RETRY) == START_FLAG_RETRY)
+            Log.d(TAG,"START_FLAG_RETRY");
+    }
     @Override
     public void onDestroy() {
         stop();
     }
 
     public void stop() {
+        Log.e(TAG,"stop() enter", new Throwable("dumpstack"));
         cancelNotification();
         deinitCheck();
         instance = null;
+        Log.d(TAG,"stop() leave");
     }
 
     public static void deinit() {
@@ -118,14 +140,10 @@ public class ForegroundService extends Service {
     }
 
     private void cancelNotification() {
+        Log.d(TAG, "FgSvc.cancelNotification()");
         synchronized (initDeinitLock) {
-            // Cancel the persistent notification.
-            notificationManager.cancel(NOTIFICATION);
-
+            notificationManager.cancel(NOTIFICATION_ID);
             stopForeground(true);
-
-            // Tell the user we stopped.
-            //Toast.makeText(this, R.string.i2pd_service_stopped, Toast.LENGTH_SHORT).show();
             shown = false;
         }
     }
@@ -143,25 +161,27 @@ public class ForegroundService extends Service {
      * Show a notification while this service is running.
      */
     private void showNotification() {
+        Log.d(TAG, "FgSvc.showNotification() enter");
         synchronized (initDeinitLock) {
+            Log.d(TAG, "FgSvc.showNotification(): daemon="+daemon);
             if (daemon != null) {
-                // In this sample, we'll use the same text for the ticker and the expanded notification
                 CharSequence text = getText(daemon.getState().getStatusStringResourceId());
+                Log.d(TAG, "FgSvc.showNotification(): text="+text);
 
                 // The PendingIntent to launch our activity if the user selects this notification
                 PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                        new Intent(this, I2PDActivity.class),
+                        new Intent(this, I2PDPermsAskerActivity.class),
                         Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? FLAG_IMMUTABLE : 0);
 
-                // If earlier version channel ID is not used
+                // on old Android, the channel id is not used
                 // https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder.html#NotificationCompat.Builder(android.content.Context)
                 String channelId = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel() : "";
 
                 // Set the info for the views that show in the notification panel.
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId)
                         .setOngoing(true)
-                        .setSmallIcon(R.drawable.ic_notification_icon); // the status icon
-                builder = builder.setPriority(Notification.PRIORITY_DEFAULT);
+                        .setSmallIcon(R.drawable.ic_notification_icon) // the status icon
+                        .setPriority(Notification.PRIORITY_DEFAULT);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
                     builder = builder.setCategory(Notification.CATEGORY_SERVICE);
                 Notification notification = builder
@@ -174,22 +194,24 @@ public class ForegroundService extends Service {
 
                 // Send the notification.
                 //mNM.notify(NOTIFICATION, notification);
-                startForeground(NOTIFICATION, notification);
+                Log.d(TAG, "FgSvc.showNotification(): calling startForeground()");
+                startForeground(NOTIFICATION_ID, notification);
                 shown = true;
             }
         }
+        Log.d(TAG, "FgSvc.showNotification() leave");
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private synchronized String createNotificationChannel() {
         String channelId = getString(R.string.app_name);
-        CharSequence channelName = "I2Pd service";
+        CharSequence channelName = getString(R.string.i2pd_service);
         NotificationChannel chan = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_LOW);
         //chan.setLightColor(Color.PURPLE);
         chan.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
         NotificationManager service = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         if (service != null) service.createNotificationChannel(chan);
-        else Log.e(TAG, "error: NOTIFICATION_SERVICE is null");
+        else Log.e(TAG, "error: NOTIFICATION_SERVICE is null, haven't called createNotificationChannel");
         return channelId;
     }
 }
