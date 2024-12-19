@@ -203,7 +203,15 @@ public class DaemonWrapper {
     }
 
     private void processAssets() {
-        File holderFile = new File(i2pdpath, "assets.ready");
+        // Checking if application folder exists, and create it if not
+        Log.d(TAG, "checking app directory");
+        File appPath = new File(i2pdpath)
+	if (!appPath.exists()) {
+            boolean result = appPath.mkdir();
+            Log.d(TAG, "appPath.mkdir() returned " + result + " for " + appPath);
+        }
+
+        File holderFile = new File(appPath, "assets.ready");
         String versionName = BuildConfig.VERSION_NAME; // here will be app version, like 2.XX.XX
         StringBuilder text = new StringBuilder();
         Log.d(TAG, "checking assets");
@@ -246,7 +254,7 @@ public class DaemonWrapper {
                 boolean deleteResult = holderFile.delete();
                 if (!deleteResult)
                     Log.e(TAG, "holderFile.delete() returned " + deleteResult + ", absolute path='" + holderFile.getAbsolutePath() + "'");
-                File certPath = new File(i2pdpath, "certificates");
+                File certPath = new File(appPath, "certificates");
                 deleteRecursive(certPath);
 
                 // copy assets. If processed file exists, it won't be overwritten
