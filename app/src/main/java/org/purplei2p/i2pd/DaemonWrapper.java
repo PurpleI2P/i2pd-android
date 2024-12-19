@@ -205,7 +205,7 @@ public class DaemonWrapper {
     private void processAssets() {
         // Checking if application folder exists, and create it if not
         Log.d(TAG, "checking app directory");
-        File appPath = new File(i2pdpath)
+        File appPath = new File(i2pdpath);
 	if (!appPath.exists()) {
             boolean result = appPath.mkdir();
             Log.d(TAG, "appPath.mkdir() returned " + result + " for " + appPath);
