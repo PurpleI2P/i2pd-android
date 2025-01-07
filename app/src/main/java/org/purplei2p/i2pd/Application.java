@@ -14,14 +14,18 @@ import android.util.Log;
 
 import androidx.core.content.ContextCompat;
 
-import org.purplei2p.i2pd.receivers.BootUpReceiver;
-
 import java.lang.reflect.Method;
 
 public class Application extends android.app.Application {
     private static final String TAG = "App";
+    private static Application instance = null;
 
     private static volatile boolean startDaemon = false;
+
+    public Application() {
+        Application.instance = this;
+    }
+
 
     public static synchronized boolean isStartDaemon() {
         return startDaemon;
@@ -62,9 +66,12 @@ public class Application extends android.app.Application {
 
     public static boolean isAutostartOnBoot(Context context) {
         SharedPreferences sharedPref = context.getSharedPreferences(
-                BootUpReceiver.SHARED_PREF_FILE_KEY, MODE_PRIVATE);
-        boolean autostartOnBoot = sharedPref.getBoolean(BootUpReceiver.AUTOSTART_ON_BOOT, true);
-        return autostartOnBoot;
+                org.purplei2p.i2pd.BootUpReceiver.SHARED_PREF_FILE_KEY, MODE_PRIVATE);
+        return sharedPref.getBoolean(org.purplei2p.i2pd.BootUpReceiver.AUTOSTART_ON_BOOT, true);
+    }
+
+    public static Application getInstance() {
+        return instance;
     }
 
     @Override
@@ -88,13 +95,18 @@ public class Application extends android.app.Application {
         versionName = BuildConfig.VERSION_NAME;
 //            startService(new Intent(this, ForegroundService.class));
 //        }
+        startService(new Intent(this, ForegroundService.class));
+        createDaemonWrapper();
+
+        //daemonWrapper.addStateChangeListener(daemonStateUpdatedListener);
+        //daemonStateUpdatedListener.daemonStateUpdate(DaemonWrapper.State.uninitialized, daemon.getState());
         Log.d(TAG, "App.onCreate() leave");
     }
 
-    public void createDaemonWrapper() {
+    private void createDaemonWrapper() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(
                 Context.CONNECTIVITY_SERVICE);
-        daemonWrapper = new DaemonWrapper(this, getApplicationContext(), getAssets(), connectivityManager);
+        daemonWrapper = new DaemonWrapper(getAssets(), connectivityManager);
         ForegroundService.init(daemonWrapper);
     }
 
@@ -150,7 +162,7 @@ public class Application extends android.app.Application {
 
     public synchronized void quit() {
         try {
-            if (daemonWrapper != null) daemonWrapper.stopDaemon(null);
+            if (daemonWrapper != null) daemonWrapper.stopDaemon();
         } catch (Throwable tr) {
             Log.e(TAG, "", tr);
         }
@@ -159,7 +171,8 @@ public class Application extends android.app.Application {
             doUnbindService();
         } catch (IllegalArgumentException ex) {
             Log.e(TAG, "throwable caught and ignored", ex);
-            if (ex.getMessage().startsWith("Service not registered: " + I2PDActivity.class.getName())) {
+            final String message = ex.getMessage();
+            if (message!=null && message.startsWith("Service not registered: " + I2PDActivity.class.getName())) {
                 Log.i(TAG, "Service not registered exception seems to be normal, not a bug it seems.");
             }
         } catch (Throwable tr) {
@@ -167,8 +180,7 @@ public class Application extends android.app.Application {
         }
         try {
             Log.d(TAG, "calling fgservice.stop");
-            ForegroundService fs = ForegroundService.getInstance();
-            if (fs != null) fs.stop();
+            ForegroundService.deinit();
         } catch (Throwable tr) {
             Log.e(TAG, "", tr);
         }

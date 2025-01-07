@@ -36,7 +36,7 @@
 
         <receiver
             android:enabled="true"
-            android:name="org.purplei2p.i2pd.receivers.BootUpReceiver"
+            android:name="org.purplei2p.i2pd.BootUpReceiver"
             android:exported="true"
             android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
             <intent-filter>
