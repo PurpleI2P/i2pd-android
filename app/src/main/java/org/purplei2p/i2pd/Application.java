@@ -208,7 +208,7 @@ public class Application extends android.app.Application {
                 throw new RuntimeException(e);
             }
 
-            return resultObj == PackageManager.PERMISSION_GRANTED;
+            return resultObj != null && resultObj == PackageManager.PERMISSION_GRANTED;
         }
     }
 }
