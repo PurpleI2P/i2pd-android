@@ -71,7 +71,6 @@ cd boost
 
 # disable verbose output
 sed -i -E -e 's/d\+2/d\+0/' build-android.sh
-sed -i -E -e 's/\"23\.1\"\|\"25\.0\"/\"23\.1\"\|\"23\.2\"\|\"25\.0\"/' build-android.sh
 
 if (( $# == 0 )); then
 	build all

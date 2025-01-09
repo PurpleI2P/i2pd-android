@@ -4,7 +4,6 @@ LOCAL_MODULE := i2pd
 LOCAL_CPP_FEATURES := rtti exceptions
 LOCAL_C_INCLUDES += $(IFADDRS_PATH) $(LIB_SRC_PATH) $(LIB_CLIENT_SRC_PATH) $(LANG_SRC_PATH) $(DAEMON_SRC_PATH)
 LOCAL_STATIC_LIBRARIES := \
-	boost_system \
 	boost_program_options \
 	crypto \
 	ssl \
@@ -26,13 +25,6 @@ LOCAL_SRC_FILES := \
 	$(DAEMON_SRC_PATH)/I2PControlHandlers.cpp
 
 include $(BUILD_SHARED_LIBRARY)
-
-LOCAL_PATH := $(call my-dir)
-include $(CLEAR_VARS)
-LOCAL_MODULE := boost_system
-LOCAL_SRC_FILES := $(BOOST_PATH)/build/out/$(TARGET_ARCH_ABI)/lib/libboost_system.a
-LOCAL_EXPORT_C_INCLUDES := $(BOOST_PATH)/build/out/$(TARGET_ARCH_ABI)/include
-include $(PREBUILT_STATIC_LIBRARY)
 
 LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
