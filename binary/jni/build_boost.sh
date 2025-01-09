@@ -2,8 +2,8 @@
 
 set -e
 
-BOOST_VERSION=1.78.0
-BOOST_LIBS=date_time,filesystem,program_options,system
+BOOST_VERSION=1.84.0
+BOOST_LIBS=program_options
 
 function build_one {
 	echo "Configuring and building..."

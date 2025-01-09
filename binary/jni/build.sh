@@ -23,7 +23,7 @@ fi
 
 _NDK_OPTS="-j `nproc` NDK_MODULE_PATH=$DIR"
 
-help()
+_help()
 {
 	echo "Syntax: $(basename "$SOURCE") [-m|d|s|h|v]"
 	echo "Options:"
@@ -34,6 +34,12 @@ help()
 	echo "v     Verbose NDK output."
 	echo "h     Print this Help."
 	echo
+}
+
+_failed()
+{
+	echo "Compilation failed";
+	exit 1;
 }
 
 while getopts ":dbsvxh" option; do
@@ -54,7 +60,7 @@ while getopts ":dbsvxh" option; do
 			_NDK_OPTS="$_NDK_OPTS V=1 NDK_LOG=1"
 			;;
 		h) # display help
-			help
+			_help
 			exit;;
 		\?) # Invalid option
 			echo "Error: Invalid option. Use $(basename "$SOURCE") -h for help"
@@ -66,12 +72,15 @@ done
 if [ -z "$_SKIP_LIBS" ]; then
 	echo "Building boost..."
 	./build_boost.sh
+	[ $? -ne 0 ] && _failed
 
 	echo "Building openssl..."
 	./build_openssl.sh
+	[ $? -ne 0 ] && _failed
 
 	echo "Building miniupnpc..."
 	./build_miniupnpc.sh
+	[ $? -ne 0 ] && _failed
 fi
 
 if [ ! -z "$_BINARY" ]; then
