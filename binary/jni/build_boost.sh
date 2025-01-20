@@ -2,8 +2,8 @@
 
 set -e
 
-BOOST_VERSION=1.78.0
-BOOST_LIBS=date_time,filesystem,program_options,system
+BOOST_VERSION=1.84.0
+BOOST_LIBS=program_options
 
 function build_one {
 	echo "Configuring and building..."
@@ -71,7 +71,6 @@ cd boost
 
 # disable verbose output
 sed -i -E -e 's/d\+2/d\+0/' build-android.sh
-sed -i -E -e 's/\"23\.1\"\|\"25\.0\"/\"23\.1\"\|\"23\.2\"\|\"25\.0\"/' build-android.sh
 
 if (( $# == 0 )); then
 	build all
