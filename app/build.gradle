@@ -17,16 +17,12 @@ dependencies {
 }
 
 android {
-    lintOptions {
-        // Not so a good way
-        disable 'DuplicatePlatformClasses'
-    }
-
-    compileSdkVersion 33
+    // do not remove, it is deprecated & nevertheless required
+    compileSdkVersion 35
 
     defaultConfig {
         applicationId "org.purplei2p.i2pd"
-        targetSdkVersion 33
+        targetSdkVersion 35
         // TODO: 24?
         minSdkVersion 16
         versionCode 2550000
@@ -89,6 +85,12 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     namespace 'org.purplei2p.i2pd'
+    lint {
+        disable 'DuplicatePlatformClasses'
+    }
+    buildFeatures {
+        buildConfig = true
+    }
 }
 
 ext.abiCodes = ['armeabi-v7a': 1, 'x86': 2, 'arm64-v8a': 3, 'x86_64': 4]
