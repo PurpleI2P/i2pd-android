@@ -110,6 +110,8 @@ public class I2PDActivity extends Activity {
         SAMState = findViewById(R.id.service_sam_box);
         I2CPState = findViewById(R.id.service_i2cp_box);
 
+        getDaemon().addStateChangeListener(daemonStateUpdatedListener);
+
         // request permissions
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             if(!Environment.isExternalStorageManager()) {
