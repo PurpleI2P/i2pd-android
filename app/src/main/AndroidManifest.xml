@@ -24,7 +24,7 @@
         android:usesCleartextTraffic="true">
 
         <service
-            android:name=".I2PdQSTileService"
+            android:name=".I2PDQuickSettingsTileService"
             android:exported="true"
             android:label="I2Pd"
             android:icon="@drawable/ic_logo"
@@ -62,7 +62,7 @@
         </receiver>
 
         <activity
-            android:name=".I2PDPermsAskerActivity"
+            android:name=".I2PDPermissionsAskerActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -80,12 +80,12 @@
             android:enabled="true" />
 
         <activity
-            android:name=".I2PDPermsExplanationActivity"
+            android:name=".I2PDPermissionsExplanationActivity"
             android:label="@string/title_activity_i2_pdperms_asker_prompt"
-            android:parentActivityName=".I2PDPermsAskerActivity">
+            android:parentActivityName=".I2PDPermissionsAskerActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.purplei2p.i2pd.I2PDPermsAskerActivity" />
+                android:value="org.purplei2p.i2pd.I2PDPermissionsAskerActivity" />
         </activity>
         <activity
             android:name=".MainPreferenceActivity"

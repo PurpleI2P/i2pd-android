@@ -12,7 +12,7 @@ public class BootUpReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (Application.isAutostartOnBoot(context)) Application.setStartDaemon(true);
-        Application.maybeAutostartForegroundServiceOnBoot(context);
+        if (I2PDApplication.isAutostartOnBoot(context)) I2PDApplication.setStartDaemon(true);
+        I2PDApplication.maybeAutostartForegroundServiceOnBoot(context);
     }
 }

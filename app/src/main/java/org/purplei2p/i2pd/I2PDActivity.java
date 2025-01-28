@@ -36,7 +36,6 @@ import static android.provider.Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTI
 public class I2PDActivity extends Activity {
     private static final String TAG = "i2pdActvt";
     private static final int MY_PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
-    public static final int GRACEFUL_DELAY_MILLIS = 10 * 60 * 1000;
     public static final String PACKAGE_URI_SCHEME = "package:";
 
     private TextView textView;
@@ -72,7 +71,7 @@ public class I2PDActivity extends Activity {
                 }
 
                 String startResultStr = DaemonWrapper.State.startFailed.equals(state) ? String.format(": %s", getDaemon().getDaemonStartResult()) : "";
-                String graceStr = DaemonWrapper.State.gracefulShutdownInProgress.equals(state) ? String.format(": %s %s", formatGraceTimeRemaining(), getText(R.string.remaining)) : "";
+                String graceStr = DaemonWrapper.State.gracefulShutdownInProgress.equals(state) ? String.format(": %s %s", I2PDApplication.formatGraceTimeRemaining(), getText(R.string.remaining)) : "";
                 textView.setText(String.format("%s%s%s", getText(state.getStatusStringResourceId()), startResultStr, graceStr));
             } catch (Throwable tr) {
                 Log.e(TAG,"error ignored",tr);
@@ -81,22 +80,10 @@ public class I2PDActivity extends Activity {
     }
 
     private DaemonWrapper getDaemon() {
-        return Application.getDaemonWrapper();
+        return I2PDApplication.getDaemonWrapper();
     }
 
-    private static volatile long graceStartedMillis;
-    private static final Object graceStartedMillis_LOCK = new Object();
     private Menu optionsMenu;
-
-    private static String formatGraceTimeRemaining() {
-        long remainingSeconds;
-        synchronized (graceStartedMillis_LOCK) {
-            remainingSeconds = Math.round(Math.max(0, graceStartedMillis + GRACEFUL_DELAY_MILLIS - System.currentTimeMillis()) / 1000.0D);
-        }
-        long remainingMinutes = (long) Math.floor(remainingSeconds / 60.0D);
-        long remSec = remainingSeconds - remainingMinutes * 60;
-        return remainingMinutes + ":" + (remSec / 10) + remSec % 10;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -126,11 +113,11 @@ public class I2PDActivity extends Activity {
             }
         }
 
-        final Timer gracefulQuitTimer = getGracefulQuitTimer();
+        final Timer gracefulQuitTimer = I2PDApplication.getGracefulQuitTimer();
         if (gracefulQuitTimer != null) {
             long gracefulStopAtMillis;
-            synchronized (graceStartedMillis_LOCK) {
-                gracefulStopAtMillis = graceStartedMillis + GRACEFUL_DELAY_MILLIS;
+            synchronized (I2PDApplication.graceStartedMillis_LOCK) {
+                gracefulStopAtMillis = I2PDApplication.graceStartedMillis + I2PDApplication.GRACEFUL_DELAY_MILLIS;
             }
             rescheduleGraceStop(gracefulQuitTimer, gracefulStopAtMillis);
         }
@@ -143,7 +130,6 @@ public class I2PDActivity extends Activity {
         super.onDestroy();
         textView = null;
         getDaemon().removeStateChangeListener(daemonStateUpdatedListener);
-        //cancelGracefulStop0();
     }
 
     @Override
@@ -160,7 +146,7 @@ public class I2PDActivity extends Activity {
     }
 
     private void cancelGracefulStop0() {
-        Timer gracefulQuitTimer = getGracefulQuitTimer();
+        Timer gracefulQuitTimer = I2PDApplication.getGracefulQuitTimer();
         if (gracefulQuitTimer != null) {
             gracefulQuitTimer.cancel();
             setGracefulQuitTimer(null);
@@ -201,8 +187,8 @@ public class I2PDActivity extends Activity {
                 return true;
 
             case R.id.action_graceful_stop:
-                synchronized (graceStartedMillis_LOCK) {
-                    if (getGracefulQuitTimer() != null)
+                synchronized (I2PDApplication.graceStartedMillis_LOCK) {
+                    if (I2PDApplication.getGracefulQuitTimer() != null)
                         cancelGracefulStop();
                     else
                         i2pdGracefulStop();
@@ -262,14 +248,12 @@ public class I2PDActivity extends Activity {
         }, "stop").start();
     }
 
-    private static volatile Timer gracefulQuitTimer;
-
     private void i2pdGracefulStop() {
         if (getDaemon().getState() == DaemonWrapper.State.stopped) {
             Toast.makeText(this, R.string.already_stopped, Toast.LENGTH_SHORT).show();
             return;
         }
-        if (getGracefulQuitTimer() != null) {
+        if (I2PDApplication.getGracefulQuitTimer() != null) {
             Toast.makeText(this, R.string.graceful_stop_is_already_in_progress, Toast.LENGTH_SHORT).show();
             return;
         }
@@ -280,9 +264,9 @@ public class I2PDActivity extends Activity {
                 if (getDaemon().isStartedOkay()) {
                     getDaemon().stopAcceptingTunnels();
                     long gracefulStopAtMillis;
-                    synchronized (graceStartedMillis_LOCK) {
-                        graceStartedMillis = System.currentTimeMillis();
-                        gracefulStopAtMillis = graceStartedMillis + GRACEFUL_DELAY_MILLIS;
+                    synchronized (I2PDApplication.graceStartedMillis_LOCK) {
+                        I2PDApplication.graceStartedMillis = System.currentTimeMillis();
+                        gracefulStopAtMillis = I2PDApplication.graceStartedMillis + I2PDApplication.GRACEFUL_DELAY_MILLIS;
                     }
                     rescheduleGraceStop(null, gracefulStopAtMillis);
                 } else
@@ -339,19 +323,15 @@ public class I2PDActivity extends Activity {
         gracefulQuitTimer.scheduleAtFixedRate(tickerTask, 0/*start delay*/, 1000/*millis period*/);
     }
 
-    private static Timer getGracefulQuitTimer() {
-        return gracefulQuitTimer;
-    }
-
     private void setGracefulQuitTimer(Timer gracefulQuitTimer) {
-        I2PDActivity.gracefulQuitTimer = gracefulQuitTimer;
+        I2PDApplication.gracefulQuitTimer = gracefulQuitTimer;
         runOnUiThread(() -> {
             Menu menu = optionsMenu;
             if (menu != null) {
                 MenuItem item = menu.findItem(R.id.action_graceful_stop);
                 if (item != null) {
-                    synchronized (graceStartedMillis_LOCK) {
-                        item.setTitle(getGracefulQuitTimer() != null ? R.string.action_cancel_graceful_stop : R.string.action_graceful_stop);
+                    synchronized (I2PDApplication.graceStartedMillis_LOCK) {
+                        item.setTitle(I2PDApplication.getGracefulQuitTimer() != null ? R.string.action_cancel_graceful_stop : R.string.action_graceful_stop);
                     }
                 }
             }
@@ -372,7 +352,7 @@ public class I2PDActivity extends Activity {
                 try {
                     startActivity(new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS, Uri.parse(PACKAGE_URI_SCHEME + getPackageName())));
                 } catch (ActivityNotFoundException e) {
-                    Log.e(TAG, "BATT_OPTIM_ActvtNotFound", e);
+                    Log.e(TAG, "BATT_OPTIM_ActivityNotFound", e);
                     Toast.makeText(this, R.string.device_does_not_support_disabling_battery_optimizations, Toast.LENGTH_SHORT).show();
                 }
             });
@@ -425,11 +405,6 @@ public class I2PDActivity extends Activity {
         } catch (Throwable tr) {
             Log.e(TAG, "", tr);
         }
-        try {
-            getDaemon().stopDaemon();
-        } catch (Throwable tr) {
-            Log.e(TAG, "", tr);
-        }
-        System.exit(0);
+        I2PDApplication.quit();
     }
 }

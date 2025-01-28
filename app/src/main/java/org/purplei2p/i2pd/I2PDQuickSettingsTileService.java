@@ -1,7 +1,6 @@
 package org.purplei2p.i2pd;
 
 import android.content.Intent;
-import android.service.quicksettings.Tile;
 import android.service.quicksettings.TileService;
 import android.util.Log;
 
@@ -9,7 +8,7 @@ import android.annotation.TargetApi;
 import android.os.Build;
 
 @TargetApi(Build.VERSION_CODES.N)
-public class I2PdQSTileService extends TileService {
+public class I2PDQuickSettingsTileService extends TileService {
 
     private static final String TAG = "MyQSTileService";
     @Override

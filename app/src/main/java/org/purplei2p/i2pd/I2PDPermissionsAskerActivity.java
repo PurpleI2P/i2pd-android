@@ -17,7 +17,7 @@ import java.lang.reflect.Method;
 
 //dangerous perms, per https://developer.android.com/guide/topics/permissions/normal-permissions.html :
 //android.permission.WRITE_EXTERNAL_STORAGE
-public class I2PDPermsAskerActivity extends Activity {
+public class I2PDPermissionsAskerActivity extends Activity {
 
     private static final int PERMISSION_WRITE_EXTERNAL_STORAGE = 0;
     private Button button_request_write_ext_storage_perms;
@@ -151,7 +151,7 @@ public class I2PDPermsAskerActivity extends Activity {
     private static final int APP_STORAGE_ACCESS_REQUEST_CODE = 2;
 
     private void showExplanation() {
-        Intent intent = new Intent(this, I2PDPermsExplanationActivity.class);
+        Intent intent = new Intent(this, I2PDPermissionsExplanationActivity.class);
         startActivityForResult(intent, SHOW_EXPLANATION_REQUEST);
     }
 

@@ -15,15 +15,20 @@ import android.util.Log;
 import androidx.core.content.ContextCompat;
 
 import java.lang.reflect.Method;
+import java.util.Timer;
 
-public class Application extends android.app.Application {
+public class I2PDApplication extends android.app.Application {
+    public static final int GRACEFUL_DELAY_MILLIS = 10 * 60 * 1000;
     private static final String TAG = "App";
-    private static Application instance = null;
+    public static final Object graceStartedMillis_LOCK = new Object();
+    private static I2PDApplication instance = null;
 
     private static volatile boolean startDaemon = false;
+    public static volatile long graceStartedMillis;
+    public static volatile Timer gracefulQuitTimer;
 
-    public Application() {
-        Application.instance = this;
+    public I2PDApplication() {
+        I2PDApplication.instance = this;
     }
 
 
@@ -32,7 +37,7 @@ public class Application extends android.app.Application {
     }
 
     public static synchronized void setStartDaemon(boolean startDaemon) {
-        Application.startDaemon = startDaemon;
+        I2PDApplication.startDaemon = startDaemon;
     }
 
 //private static final I2PD_JNI jniHolder = new I2PD_JNI();
@@ -70,19 +75,33 @@ public class Application extends android.app.Application {
         return sharedPref.getBoolean(org.purplei2p.i2pd.BootUpReceiver.AUTOSTART_ON_BOOT, true);
     }
 
-    public static Application getInstance() {
+    public static I2PDApplication getInstance() {
         return instance;
+    }
+
+    public static String formatGraceTimeRemaining() {
+        long remainingSeconds;
+        synchronized (graceStartedMillis_LOCK) {
+            remainingSeconds = Math.round(Math.max(0, graceStartedMillis + GRACEFUL_DELAY_MILLIS - System.currentTimeMillis()) / 1000.0D);
+        }
+        long remainingMinutes = (long) Math.floor(remainingSeconds / 60.0D);
+        long remSec = remainingSeconds - remainingMinutes * 60;
+        return remainingMinutes + ":" + (remSec / 10) + remSec % 10;
+    }
+
+    public static Timer getGracefulQuitTimer() {
+        return gracefulQuitTimer;
     }
 
     @Override
     public void onCreate() {
         Log.d(TAG, "App.onCreate");
         super.onCreate();
-        if(Application.isAutostartOnBoot(getApplicationContext())){
+        if(I2PDApplication.isAutostartOnBoot(getApplicationContext())){
             Log.d(TAG, "calling App.setStartDaemon(true)");
-            Application.setStartDaemon(true);
+            I2PDApplication.setStartDaemon(true);
         }
-        if(Application.isStartDaemon()){
+        if(I2PDApplication.isStartDaemon()){
             Log.d(TAG, "calling App.doBindService()");
             doBindService();
         }
@@ -160,7 +179,7 @@ public class Application extends android.app.Application {
         }
     };
 
-    public synchronized void quit() {
+    public static synchronized void quit() {
         try {
             if (daemonWrapper != null) daemonWrapper.stopDaemon();
         } catch (Throwable tr) {
@@ -168,7 +187,7 @@ public class Application extends android.app.Application {
         }
 
         try {
-            doUnbindService();
+            if(instance!=null)instance.doUnbindService();
         } catch (IllegalArgumentException ex) {
             Log.e(TAG, "throwable caught and ignored", ex);
             final String message = ex.getMessage();
@@ -184,6 +203,7 @@ public class Application extends android.app.Application {
         } catch (Throwable tr) {
             Log.e(TAG, "", tr);
         }
+        System.exit(0);
     }
 
     public boolean isPermittedToWriteToExternalStorage() {
