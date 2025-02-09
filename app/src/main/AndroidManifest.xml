@@ -3,17 +3,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:installLocation="auto">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="29" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="29" />
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:mimeType="text/plain" />
+        </intent>
+    </queries>
 
     <application
         android:allowBackup="true"
@@ -26,8 +36,8 @@
         <service
             android:name=".I2PdQSTileService"
             android:exported="true"
-            android:label="I2Pd"
             android:icon="@drawable/ic_logo"
+            android:label="I2Pd"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
@@ -35,8 +45,8 @@
         </service>
 
         <receiver
-            android:enabled="true"
             android:name="org.purplei2p.i2pd.receivers.BootUpReceiver"
+            android:enabled="true"
             android:exported="true"
             android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
             <intent-filter>
@@ -53,45 +63,42 @@
 
         <receiver
             android:name=".NetworkStateChangeReceiver"
-            android:label="NetworkChangeReceiver"
-            android:exported="true" >
+            android:exported="true"
+            android:label="NetworkChangeReceiver">
             <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"
+                <action
+                    android:name="android.net.conn.CONNECTIVITY_CHANGE"
                     tools:ignore="BatteryLife" />
             </intent-filter>
         </receiver>
 
         <activity
-            android:name=".I2PDPermsAskerActivity"
-            android:exported="true" >
+            android:name=".I2PDActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".I2PDActivity" />
-
         <service
             android:name=".ForegroundService"
+            android:enabled="true"
             android:exported="false"
-            android:stopWithTask="false"
-            android:enabled="true" />
+            android:stopWithTask="false" />
 
-        <activity
-            android:name=".I2PDPermsExplanationActivity"
-            android:label="@string/title_activity_i2_pdperms_asker_prompt"
-            android:parentActivityName=".I2PDPermsAskerActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.purplei2p.i2pd.I2PDPermsAskerActivity" />
-        </activity>
         <activity
             android:name=".MainPreferenceActivity"
-            android:label="Settings"
-            >
-        </activity>
+            android:label="Settings" />
 
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="org.purplei2p.i2pd.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 </manifest>

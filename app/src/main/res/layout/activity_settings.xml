@@ -29,46 +29,21 @@
         android:layout_height="1dp"
         android:background="?android:attr/listDivider" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <Button
-            android:id="@+id/OpenPreferences"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/OpenPreferences" />
-    </LinearLayout>
-    <!--
-    <TextView
-        android:id="@+id/settings_section2"
+    <Button
+        android:id="@+id/OpenPreferences"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:autoText="true"
-        android:clickable="false"
-        android:cursorVisible="false"
-        android:text="@string/settings_section_tunnels"
-        android:textColor="#282528"
-        android:textStyle="bold|italic"
-        android:verticalScrollbarPosition="defaultPosition" />
+        android:text="@string/OpenPreferences" />
 
-    <LinearLayout
+    <Button
+        android:id="@+id/open_raw_preferences"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:text="@string/open_raw_preferences" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/add_tunnel" />
-
-        <Button
-            android:id="@+id/add_tunnel_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/add_tunnel_button" />
-    </LinearLayout>
--->
+    <Button
+        android:id="@+id/open_raw_tunnel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/open_raw_tunnel" />
 </LinearLayout>

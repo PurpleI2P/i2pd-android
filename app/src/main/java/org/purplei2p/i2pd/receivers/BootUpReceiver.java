@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 //import org.purplei2p.i2pd.ForegroundService;
 //ToDo:* fix^^^ change to service, not on window on start.
-import org.purplei2p.i2pd.I2PDPermsAskerActivity;
 
 import java.io.File;
 
@@ -20,12 +19,6 @@ public class BootUpReceiver extends BroadcastReceiver {
                 new File(
                         context.getApplicationContext().getCacheDir().getAbsolutePath()
                                 + onBootFileName);
-        if(onBoot.exists()) {
-            Intent i = new Intent(context, I2PDPermsAskerActivity.class);
-            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(i);
-        }
-
     }
 }
 

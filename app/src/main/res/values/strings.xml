@@ -61,5 +61,7 @@
 
     <string name="del_tunnel_button">Delete tunnel</string>
     <string name="OpenPreferences">Open i2pd settings</string>
+    <string name="open_raw_preferences">Open as file i2pd.conf</string>
+    <string name="open_raw_tunnel">Open as file tunnel.conf</string>
 
 </resources>

@@ -1,5 +1,17 @@
 package org.purplei2p.i2pd;
 
+import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.res.AssetManager;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.net.NetworkRequest;
+import android.os.Build;
+import android.util.Log;
+
+import androidx.annotation.RequiresApi;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -9,36 +21,34 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.Locale;
-
-import android.annotation.TargetApi;
-import android.content.res.AssetManager;
-import android.net.ConnectivityManager;
-import android.net.Network;
-import android.net.NetworkCapabilities;
-import android.net.NetworkRequest;
-import android.os.Build;
-import android.os.Environment;
-import android.util.Log;
-
-import androidx.annotation.RequiresApi;
+import java.util.Set;
 
 public class DaemonWrapper {
-
     private static final String TAG = "i2pd";
+    private static final String appLocale = Locale.getDefault().getDisplayLanguage(Locale.ENGLISH).toLowerCase();
+    private final Context context;
     private final AssetManager assetManager;
     private final ConnectivityManager connectivityManager;
-    private String i2pdpath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/i2pd";
+    private final Set<StateUpdateListener> stateUpdateListeners = new HashSet<>();
+    private final String i2pdpath;
     private boolean assetsCopied;
+    private volatile State state = State.uninitialized;
+    private Throwable lastThrowable;
+    private String daemonStartResult = "N/A";
 
-    private static final String appLocale = Locale.getDefault().getDisplayLanguage(Locale.ENGLISH).toLowerCase(); // lower-case system language (like "english")
-
-    public interface StateUpdateListener {
-        void daemonStateUpdate(State oldValue, State newValue);
+    public DaemonWrapper(Context context, AssetManager assetManager, ConnectivityManager connectivityManager) {
+        this.context = context;
+        this.assetManager = assetManager;
+        this.connectivityManager = connectivityManager;
+        i2pdpath = context.getFilesDir().getAbsolutePath() + "/i2pd";
+        setState(State.starting);
+        startDaemon();
     }
 
-    private final Set<StateUpdateListener> stateUpdateListeners = new HashSet<>();
+    public static String getDataDir() { // for settings iniEditor
+        return I2PD_JNI.getDataDir();
+    }
 
     public synchronized void addStateChangeListener(StateUpdateListener listener) {
         stateUpdateListeners.add(listener);
@@ -46,22 +56,6 @@ public class DaemonWrapper {
 
     public synchronized void removeStateChangeListener(StateUpdateListener listener) {
         stateUpdateListeners.remove(listener);
-    }
-
-    private synchronized void setState(State newState) {
-        if (newState == null)
-            throw new NullPointerException();
-
-        State oldState = state;
-
-        if (oldState == null)
-            throw new NullPointerException();
-
-        if (oldState.equals(newState))
-            return;
-
-        state = newState;
-        fireStateUpdate1(oldState, newState);
     }
 
     public synchronized void stopAcceptingTunnels() {
@@ -88,44 +82,21 @@ public class DaemonWrapper {
         return I2PD_JNI.getTransitTunnelsCount();
     }
 
-    public enum State {
-        uninitialized(R.string.uninitialized),
-        starting(R.string.starting),
-        startedOkay(R.string.startedOkay),
-        startFailed(R.string.startFailed),
-        gracefulShutdownInProgress(R.string.gracefulShutdownInProgress),
-        stopped(R.string.stopped);
-
-        State(int statusStringResourceId) {
-            this.statusStringResourceId = statusStringResourceId;
-        }
-
-        private final int statusStringResourceId;
-
-        public int getStatusStringResourceId() {
-            return statusStringResourceId;
-        }
-
-        public boolean isStartedOkay() {
-            return equals(State.startedOkay) || equals(State.gracefulShutdownInProgress);
-        }
-    }
-
-    private volatile State state = State.uninitialized;
-
     public State getState() {
         return state;
     }
 
-    public DaemonWrapper(AssetManager assetManager, ConnectivityManager connectivityManager){
-        this.assetManager = assetManager;
-        this.connectivityManager = connectivityManager;
-        setState(State.starting);
-        startDaemon();
+    private synchronized void setState(State newState) {
+        if (newState == null)
+            throw new NullPointerException();
+        State oldState = state;
+        if (oldState == null)
+            throw new NullPointerException();
+        if (oldState.equals(newState))
+            return;
+        state = newState;
+        fireStateUpdate1(oldState, newState);
     }
-
-    private Throwable lastThrowable;
-    private String daemonStartResult = "N/A";
 
     private void fireStateUpdate1(State oldValue, State newValue) {
         Log.d(TAG, "daemon state change: " + state);
@@ -146,14 +117,11 @@ public class DaemonWrapper {
         return daemonStartResult;
     }
 
-    public static String getDataDir() { // for settings iniEditor
-        return I2PD_JNI.getDataDir();
-    }
-
     public void changeDataDir(String dataDir, Boolean updateAssets) {
         I2PD_JNI.setDataDir(dataDir);
-        if (updateAssets) processAssets();
-        //ToDo: move old dir to new dir?
+        if (updateAssets)
+            processAssets();
+        // ToDo: move old dir to new dir?
     }
 
     public boolean isStartedOkay() {
@@ -170,13 +138,14 @@ public class DaemonWrapper {
             setState(State.stopped);
         }
     }
+
     public synchronized void startDaemon() {
-        if( getState() != State.stopped && getState() != State.starting ) return;
+        if (getState() != State.stopped && getState() != State.starting)
+            return;
         new Thread(() -> {
             try {
                 processAssets();
                 I2PD_JNI.loadLibraries();
-                //registerNetworkCallback();
             } catch (Throwable tr) {
                 lastThrowable = tr;
                 setState(State.startFailed);
@@ -184,11 +153,9 @@ public class DaemonWrapper {
             }
             try {
                 synchronized (DaemonWrapper.this) {
-                    I2PD_JNI.setDataDir(i2pdpath); // (Environment.getExternalStorageDirectory().getAbsolutePath() + "/i2pd");
-
+                    I2PD_JNI.setDataDir(i2pdpath);
                     Log.i(TAG, "setting webconsole language to " + appLocale);
                     I2PD_JNI.setLanguage(appLocale);
-
                     daemonStartResult = I2PD_JNI.startDaemon();
                     if ("ok".equals(daemonStartResult)) {
                         setState(State.startedOkay);
@@ -203,33 +170,27 @@ public class DaemonWrapper {
     }
 
     private void processAssets() {
-        // Checking if application folder exists, and create it if not
         Log.d(TAG, "checking app directory");
         File appPath = new File(i2pdpath);
-	if (!appPath.exists()) {
+        if (!appPath.exists()) {
             boolean result = appPath.mkdir();
             Log.d(TAG, "appPath.mkdir() returned " + result + " for " + appPath);
         }
-
         File holderFile = new File(appPath, "assets.ready");
         String versionName = BuildConfig.VERSION_NAME; // here will be app version, like 2.XX.XX
         StringBuilder text = new StringBuilder();
         Log.d(TAG, "checking assets");
-
         if (holderFile.exists()) {
             try { // if holder file exists, read assets version string
                 FileReader fileReader = new FileReader(holderFile);
-
                 try {
                     BufferedReader br = new BufferedReader(fileReader);
-
                     try {
                         String line;
-
                         while ((line = br.readLine()) != null) {
                             text.append(line);
                         }
-                    }finally {
+                    } finally {
                         try {
                             br.close();
                         } catch (IOException e) {
@@ -247,7 +208,6 @@ public class DaemonWrapper {
                 Log.e(TAG, "", e);
             }
         }
-
         // if version differs from current app version or null, try to delete certificates folder
         if (!text.toString().contains(versionName)) {
             try {
@@ -256,14 +216,12 @@ public class DaemonWrapper {
                     Log.e(TAG, "holderFile.delete() returned " + deleteResult + ", absolute path='" + holderFile.getAbsolutePath() + "'");
                 File certPath = new File(appPath, "certificates");
                 deleteRecursive(certPath);
-
                 // copy assets. If processed file exists, it won't be overwritten
                 copyAsset("addressbook");
                 copyAsset("certificates");
                 copyAsset("tunnels.d");
                 copyAsset("i2pd.conf");
                 copyAsset("tunnels.conf");
-
                 // update holder file about successful copying
                 FileWriter writer = new FileWriter(holderFile);
                 try {
@@ -272,13 +230,11 @@ public class DaemonWrapper {
                     try {
                         writer.close();
                     } catch (IOException e) {
-                        Log.e(TAG,"on writer close", e);
+                        Log.e(TAG, "on writer close", e);
                     }
                 }
-            }
-            catch (Throwable tr)
-            {
-                Log.e(TAG,"on assets copying", tr);
+            } catch (Throwable tr) {
+                Log.e(TAG, "on assets copying", tr);
             }
         }
     }
@@ -287,15 +243,13 @@ public class DaemonWrapper {
      * Copy the asset at the specified path to this app's data directory. If the
      * asset is a directory, its contents are also copied.
      *
-     * @param path
-     * Path to asset, relative to app's assets directory.
+     * @param path Path to asset, relative to app's assets directory.
      */
     private void copyAsset(String path) {
         // If we have a directory, we make it and recurse. If a file, we copy its
         // contents.
         try {
             String[] contents = assetManager.list(path);
-
             // The documentation suggests that list throws an IOException, but doesn't
             // say under what conditions. It'd be nice if it did so when the path was
             // to a file. That doesn't appear to be the case. If the returned array is
@@ -305,12 +259,10 @@ public class DaemonWrapper {
                 copyFileAsset(path);
                 return;
             }
-
             // Make the directory.
             File dir = new File(i2pdpath, path);
             boolean result = dir.mkdirs();
             Log.d(TAG, "dir.mkdirs() returned " + result + " for " + dir);
-
             // Recurse on the contents.
             for (String entry : contents) {
                 copyAsset(path + '/' + entry);
@@ -324,8 +276,7 @@ public class DaemonWrapper {
      * Copy the asset file specified by path to app's data directory. Assumes
      * parent directories have already been created.
      *
-     * @param path
-     * Path to asset, relative to app's assets directory.
+     * @param path Path to asset, relative to app's assets directory.
      */
     private void copyFileAsset(String path) {
         File file = new File(i2pdpath, path);
@@ -361,17 +312,43 @@ public class DaemonWrapper {
             Log.d(TAG, "fileOrDirectory.delete() returned " + deleteResult + ", absolute path='" + fileOrDirectory.getAbsolutePath() + "'");
     }
 
-    private void registerNetworkCallback(){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) registerNetworkCallback0();
+    private void registerNetworkCallback() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            registerNetworkCallback0();
     }
 
     @TargetApi(Build.VERSION_CODES.M)
     private void registerNetworkCallback0() {
-        NetworkRequest request = new NetworkRequest.Builder()
-                .addCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
-                .build();
+        NetworkRequest request = new NetworkRequest.Builder().addCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED).build();
         NetworkStateCallbackImpl networkCallback = new NetworkStateCallbackImpl();
         connectivityManager.registerNetworkCallback(request, networkCallback);
+    }
+
+    public enum State {
+        uninitialized(R.string.uninitialized),
+        starting(R.string.starting),
+        startedOkay(R.string.startedOkay),
+        startFailed(R.string.startFailed),
+        gracefulShutdownInProgress(R.string.gracefulShutdownInProgress),
+        stopped(R.string.stopped);
+
+        private final int statusStringResourceId;
+
+        State(int statusStringResourceId) {
+            this.statusStringResourceId = statusStringResourceId;
+        }
+
+        public int getStatusStringResourceId() {
+            return statusStringResourceId;
+        }
+
+        public boolean isStartedOkay() {
+            return equals(State.startedOkay) || equals(State.gracefulShutdownInProgress);
+        }
+    }
+
+    public interface StateUpdateListener {
+        void daemonStateUpdate(State oldValue, State newValue);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

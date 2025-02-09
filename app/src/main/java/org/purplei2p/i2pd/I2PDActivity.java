@@ -1,11 +1,7 @@
 package org.purplei2p.i2pd;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.Timer;
-import java.util.TimerTask;
+import static android.provider.Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -15,12 +11,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Build;
-import android.os.Environment;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
@@ -33,33 +27,88 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
-import static android.provider.Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class I2PDActivity extends Activity {
-    private static final String TAG = "i2pdActvt";
-    private static final int MY_PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
     public static final int GRACEFUL_DELAY_MILLIS = 10 * 60 * 1000;
     public static final String PACKAGE_URI_SCHEME = "package:";
-
+    private static final String TAG = "i2pdActvt";
+    private static final Object graceStartedMillis_LOCK = new Object();
+    private static volatile DaemonWrapper daemon;
+    private static volatile long graceStartedMillis;
+    private static volatile boolean mIsBound;
+    private static volatile Timer gracefulQuitTimer;
     private TextView textView;
     private CheckBox HTTPProxyState;
     private CheckBox SOCKSProxyState;
     private CheckBox BOBState;
     private CheckBox SAMState;
     private CheckBox I2CPState;
-
-
-    private static volatile DaemonWrapper daemon;
-
     private final DaemonWrapper.StateUpdateListener daemonStateUpdatedListener = new DaemonWrapper.StateUpdateListener() {
         @Override
         public void daemonStateUpdate(DaemonWrapper.State oldValue, DaemonWrapper.State newValue) {
             updateStatusText();
         }
     };
+    private Menu optionsMenu;
+    private final ServiceConnection mConnection = new ServiceConnection() {
+        public void onServiceConnected(ComponentName className, IBinder service) {
+            /* This is called when the connection with the service has been
+               established, giving us the service object we can use to
+               interact with the service.  Because we have bound to a explicit
+               service that we know is running in our own process, we can
+               cast its IBinder to a concrete class and directly access it. */
+            // mBoundService = ((LocalService.LocalBinder)service).getService();
+            /* Tell the user about this for our demo. */
+            // Toast.makeText(Binding.this, R.string.local_service_connected,
+            // Toast.LENGTH_SHORT).show();
+        }
+
+        public void onServiceDisconnected(ComponentName className) {
+            /* This is called when the connection with the service has been
+               unexpectedly disconnected -- that is, its process crashed.
+               Because it is running in our same process, we should never
+               see this happen. */
+            // mBoundService = null;
+            // Toast.makeText(Binding.this, R.string.local_service_disconnected,
+            // Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    private static String formatGraceTimeRemaining() {
+        long remainingSeconds;
+        synchronized (graceStartedMillis_LOCK) {
+            remainingSeconds = Math.round(Math.max(0, graceStartedMillis + GRACEFUL_DELAY_MILLIS - System.currentTimeMillis()) / 1000.0D);
+        }
+        long remainingMinutes = (long) Math.floor(remainingSeconds / 60.0D);
+        long remSec = remainingSeconds - remainingMinutes * 60;
+        return remainingMinutes + ":" + (remSec / 10) + remSec % 10;
+    }
+
+    private static Timer getGracefulQuitTimer() {
+        return gracefulQuitTimer;
+    }
+
+    private void setGracefulQuitTimer(Timer gracefulQuitTimer) {
+        I2PDActivity.gracefulQuitTimer = gracefulQuitTimer;
+        runOnUiThread(() -> {
+            Menu menu = optionsMenu;
+            if (menu != null) {
+                MenuItem item = menu.findItem(R.id.action_graceful_stop);
+                if (item != null) {
+                    synchronized (graceStartedMillis_LOCK) {
+                        item.setTitle(getGracefulQuitTimer() != null
+                                ? R.string.action_cancel_graceful_stop
+                                : R.string.action_graceful_stop);
+                    }
+                }
+            }
+        });
+    }
 
     private void updateStatusText() {
         runOnUiThread(() -> {
@@ -83,27 +132,17 @@ public class I2PDActivity extends Activity {
                     I2CPState.setChecked(I2PD_JNI.getI2CPState());
                 }
 
-                String startResultStr = DaemonWrapper.State.startFailed.equals(state) ? String.format(": %s", daemon.getDaemonStartResult()) : "";
-                String graceStr = DaemonWrapper.State.gracefulShutdownInProgress.equals(state) ? String.format(": %s %s", formatGraceTimeRemaining(), getText(R.string.remaining)) : "";
+                String startResultStr = DaemonWrapper.State.startFailed.equals(state)
+                        ? String.format(": %s", daemon.getDaemonStartResult())
+                        : "";
+                String graceStr = DaemonWrapper.State.gracefulShutdownInProgress.equals(state)
+                        ? String.format(": %s %s", formatGraceTimeRemaining(), getText(R.string.remaining))
+                        : "";
                 textView.setText(String.format("%s%s%s", getText(state.getStatusStringResourceId()), startResultStr, graceStr));
             } catch (Throwable tr) {
-                Log.e(TAG,"error ignored",tr);
+                Log.e(TAG, "error ignored", tr);
             }
         });
-    }
-
-    private static volatile long graceStartedMillis;
-    private static final Object graceStartedMillis_LOCK = new Object();
-    private Menu optionsMenu;
-
-    private static String formatGraceTimeRemaining() {
-        long remainingSeconds;
-        synchronized (graceStartedMillis_LOCK) {
-            remainingSeconds = Math.round(Math.max(0, graceStartedMillis + GRACEFUL_DELAY_MILLIS - System.currentTimeMillis()) / 1000.0D);
-        }
-        long remainingMinutes = (long) Math.floor(remainingSeconds / 60.0D);
-        long remSec = remainingSeconds - remainingMinutes * 60;
-        return remainingMinutes + ":" + (remSec / 10) + remSec % 10;
     }
 
     @Override
@@ -111,36 +150,25 @@ public class I2PDActivity extends Activity {
         Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         startService(new Intent(this, ForegroundService.class));
-        textView = (TextView) findViewById(R.id.appStatusText);
-        HTTPProxyState = (CheckBox) findViewById(R.id.service_httpproxy_box);
-        SOCKSProxyState = (CheckBox) findViewById(R.id.service_socksproxy_box);
-        BOBState = (CheckBox) findViewById(R.id.service_bob_box);
-        SAMState = (CheckBox) findViewById(R.id.service_sam_box);
-        I2CPState = (CheckBox) findViewById(R.id.service_i2cp_box);
+
+        textView = findViewById(R.id.appStatusText);
+        HTTPProxyState = findViewById(R.id.service_httpproxy_box);
+        SOCKSProxyState = findViewById(R.id.service_socksproxy_box);
+        BOBState = findViewById(R.id.service_bob_box);
+        SAMState = findViewById(R.id.service_sam_box);
+        I2CPState = findViewById(R.id.service_i2cp_box);
 
         if (daemon == null) {
             ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-            daemon = new DaemonWrapper(getAssets(), connectivityManager);
+            daemon = new DaemonWrapper(getApplicationContext(), getAssets(), connectivityManager);
         }
         ForegroundService.init(daemon);
 
         daemon.addStateChangeListener(daemonStateUpdatedListener);
         daemonStateUpdatedListener.daemonStateUpdate(DaemonWrapper.State.uninitialized, daemon.getState());
 
-        // request permissions
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            if(!Environment.isExternalStorageManager()) {
-                Log.e(TAG, "MANAGE_EXTERNAL_STORAGE perm declined, stopping i2pd");
-                i2pdStop();
-            }
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this,
-                    new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE },
-                    MY_PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE);
-            }
-        }
 
         doBindService();
 
@@ -162,29 +190,15 @@ public class I2PDActivity extends Activity {
         textView = null;
         ForegroundService.deinit();
         daemon.removeStateChangeListener(daemonStateUpdatedListener);
-        //cancelGracefulStop0();
         try {
             doUnbindService();
         } catch (IllegalArgumentException ex) {
             Log.e(TAG, "throwable caught and ignored", ex);
-            if (ex.getMessage().startsWith("Service not registered: " + org.purplei2p.i2pd.I2PDActivity.class.getName())) {
+            if (ex.getMessage().startsWith("Service not registered: " + I2PDActivity.class.getName())) {
                 Log.i(TAG, "Service not registered exception seems to be normal, not a bug it seems.");
             }
         } catch (Throwable tr) {
             Log.e(TAG, "throwable caught and ignored", tr);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
-    {
-        if (requestCode == MY_PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                Log.w(TAG, "WR_EXT_STORAGE perm granted");
-            else {
-                Log.e(TAG, "WR_EXT_STORAGE perm declined, stopping i2pd");
-                i2pdStop();
-            }
         }
     }
 
@@ -203,35 +217,6 @@ public class I2PDActivity extends Activity {
         pw.close();
         return sw.toString();
     }
-
-    // private LocalService mBoundService;
-
-    private ServiceConnection mConnection = new ServiceConnection() {
-        public void onServiceConnected(ComponentName className, IBinder service) {
-            /* This is called when the connection with the service has been
-               established, giving us the service object we can use to
-               interact with the service.  Because we have bound to a explicit
-               service that we know is running in our own process, we can
-               cast its IBinder to a concrete class and directly access it. */
-            // mBoundService = ((LocalService.LocalBinder)service).getService();
-
-            /* Tell the user about this for our demo. */
-            // Toast.makeText(Binding.this, R.string.local_service_connected,
-            // Toast.LENGTH_SHORT).show();
-        }
-
-        public void onServiceDisconnected(ComponentName className) {
-            /* This is called when the connection with the service has been
-               unexpectedly disconnected -- that is, its process crashed.
-               Because it is running in our same process, we should never
-               see this happen. */
-            // mBoundService = null;
-            // Toast.makeText(Binding.this, R.string.local_service_disconnected,
-            // Toast.LENGTH_SHORT).show();
-        }
-    };
-
-    private static volatile boolean mIsBound;
 
     private void doBindService() {
         synchronized (I2PDActivity.class) {
@@ -299,10 +284,10 @@ public class I2PDActivity extends Activity {
                 return true;
 
             case R.id.action_start_webview:
-                if(daemon.isStartedOkay())
+                if (daemon.isStartedOkay())
                     startActivity(new Intent(getApplicationContext(), WebConsoleActivity.class));
                 else
-                    Toast.makeText(this,"I2Pd not was started!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "I2Pd not was started!", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_settings:
                 startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
@@ -343,8 +328,6 @@ public class I2PDActivity extends Activity {
         }, "stop").start();
     }
 
-    private static volatile Timer gracefulQuitTimer;
-
     private void i2pdGracefulStop() {
         if (daemon.getState() == DaemonWrapper.State.stopped) {
             Toast.makeText(this, R.string.already_stopped, Toast.LENGTH_SHORT).show();
@@ -374,8 +357,7 @@ public class I2PDActivity extends Activity {
         }, "gracInit").start();
     }
 
-    private void cancelGracefulStop()
-    {
+    private void cancelGracefulStop() {
         cancelGracefulStop0();
         Log.i(TAG, "canceling graceful stop");
         new Thread(() -> {
@@ -404,12 +386,10 @@ public class I2PDActivity extends Activity {
         final Timer gracefulQuitTimer = new Timer(true);
         setGracefulQuitTimer(gracefulQuitTimer);
         gracefulQuitTimer.schedule(new TimerTask() {
-
             @Override
             public void run() {
                 i2pdStop();
             }
-
         }, Math.max(0, gracefulStopAtMillis - System.currentTimeMillis()));
         final TimerTask tickerTask = new TimerTask() {
             @Override
@@ -417,26 +397,7 @@ public class I2PDActivity extends Activity {
                 updateStatusText();
             }
         };
-        gracefulQuitTimer.scheduleAtFixedRate(tickerTask, 0/*start delay*/, 1000/*millis period*/);
-    }
-
-    private static Timer getGracefulQuitTimer() {
-        return gracefulQuitTimer;
-    }
-
-    private void setGracefulQuitTimer(Timer gracefulQuitTimer) {
-        I2PDActivity.gracefulQuitTimer = gracefulQuitTimer;
-        runOnUiThread(() -> {
-            Menu menu = optionsMenu;
-            if (menu != null) {
-                MenuItem item = menu.findItem(R.id.action_graceful_stop);
-                if (item != null) {
-                    synchronized (graceStartedMillis_LOCK) {
-                        item.setTitle(getGracefulQuitTimer() != null ? R.string.action_cancel_graceful_stop : R.string.action_graceful_stop);
-                    }
-                }
-            }
-        });
+        gracefulQuitTimer.scheduleAtFixedRate(tickerTask, 0, 1000);
     }
 
     @SuppressLint("BatteryLife")
@@ -444,21 +405,22 @@ public class I2PDActivity extends Activity {
         boolean questionEnabled = getPreferences().getBoolean(getBatteryOptimizationPreferenceKey(), true);
         Log.d(TAG, "BATT_OPTIM_questionEnabled==" + questionEnabled);
         if (!isKnownIgnoringBatteryOptimizations()
-                && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M
+                && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
                 && questionEnabled) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.battery_optimizations_enabled);
             builder.setMessage(R.string.battery_optimizations_enabled_dialog);
             builder.setPositiveButton(R.string.continue_str, (dialog, which) -> {
                 try {
-                    startActivity(new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS, Uri.parse(PACKAGE_URI_SCHEME + getPackageName())));
+                    startActivity(new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS,
+                            Uri.parse(PACKAGE_URI_SCHEME + getPackageName())));
                 } catch (ActivityNotFoundException e) {
                     Log.e(TAG, "BATT_OPTIM_ActvtNotFound", e);
                     Toast.makeText(this, R.string.device_does_not_support_disabling_battery_optimizations, Toast.LENGTH_SHORT).show();
                 }
             });
             builder.setOnDismissListener(dialog -> setNeverAskForBatteryOptimizationsAgain());
-            final AlertDialog dialog = builder.create();
+            AlertDialog dialog = builder.create();
             dialog.setCanceledOnTouchOutside(false);
             dialog.show();
         }

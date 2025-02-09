@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 
 public class MainPreferenceActivity extends PreferenceActivity {
-    public static final String CONFIG_FILE_NAME = "i2pd.conf";
+    public static final String CONFIG_FILE_NAME = "i2pd/i2pd.conf";
     private static final String OLD_FILE_PREFIX = "__old";
 
     boolean isOldConfigExists() {
