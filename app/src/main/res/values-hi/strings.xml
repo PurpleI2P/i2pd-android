@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="app_description2">सीमाविहीन नेटवर्क</string>
+    <string name="action_start">प्रारम्भ करें</string>
+    <string name="action_stop">अवसान करें</string>
+    <string name="action_exit">बाहर निकलें</string>
+    <string name="action_graceful_stop">सौम्य अवसान</string>
+    <string name="action_cancel_graceful_stop">सौम्य अवसान निरस्त करें</string>
+    <string name="action_reload_tunnels_config">सुरंग को पुनः लोड करें</string>
+    <string name="action_start_webview">वेब कंसोल खोलें</string>
+    <string name="action_settings">सेटिंग्स</string>
+    <string name="graceful_stop_is_already_in_progress">सौम्य अवसान पहले से ही प्रगति में है</string>
+    <string name="graceful_stop_is_in_progress">सौम्य अवसान प्रगति में है</string>
+    <string name="gracefulShutdownInProgress">सौम्य अवसान प्रगति में है</string>
+    <string name="already_stopped">सेवा का अवसान पहले ही हो चुका है</string>
+    <string name="uninitialized">अनुप्रयोग प्रारंभिकीकरण...</string>
+    <string name="starting">अनुप्रयोग प्रारम्भ हो रहा है...</string>
+    <string name="jniLibraryLoaded">JNI पुस्तकालय लोड किए गए</string>
+    <string name="startedOkay">अनुप्रयोग प्रारम्भ हो चुका है</string>
+    <string name="startFailed">प्रारम्भ विफल</string>
+    <string name="stopped">अनुप्रयोग का अवसान हो चुका है</string>
+    <string name="stopping">अनुप्रयोग का अवसान प्रारंभ हो रहा है...</string>
+    <string name="remaining">शेष</string>
+    <string name="services">आंतरिक सेवाएँ</string>
+    <string name="services_http_proxy">HTTP प्रॉक्सी</string>
+    <string name="services_socks_proxy">SOCKS5 प्रॉक्सी</string>
+    <string name="title_activity_i2_pdperms_asker_prompt">सूचना-पट्ट</string>
+    <string name="permDenied">SD कार्ड लेखन अनुमति अस्वीकृत, इसे जारी रखने के लिए आपको इसे अनुमति देना आवश्यक है</string>
+    <string name="permRequired">SD कार्ड लेखन पहुँच आवश्यक है ताकि कुंजी और अन्य संचारिकाएँ SD कार्ड पर I2PD फ़ोल्डर में लिखी जा सकें।</string>
+    <string name="retryPermRequest">SD कार्ड लेखन अनुमतियाँ पुनः प्राप्त करने का प्रयास करें</string>
+    <string name="menu_item_battery_optimizations_str">बैटरी अनुकूलन</string>
+    <string name="battery_optimizations_enabled">बैटरी अनुकूलन सक्षम है</string>
+    <string name="battery_optimizations_enabled_explained">आपका एंड्रॉयड I2PD पर कुछ भारी बैटरी अनुकूलन कर रहा है, जिसके कारण डेमॉन बिना किसी अन्य कारण के बंद हो सकता है। \nयह अनुशंसा की जाती है कि आप उन बैटरी अनुकूलनों को निष्क्रिय करने की अनुमति दें।</string>
+    <string name="battery_optimizations_enabled_dialog">आपका एंड्रॉयड I2PD पर कुछ भारी बैटरी अनुकूलन कर रहा है, जिसके कारण डेमॉन बिना किसी अन्य कारण के बंद हो सकता है।\n\nअब आपसे उन बैटरी अनुकूलनों को निष्क्रिय करने की अनुमति देने को पूछा जाएगा।</string>
+    <string name="continue_str">जारी रखें</string>
+    <string name="device_does_not_support_disabling_battery_optimizations">आपके एंड्रॉयड संस्करण में बैटरी अनुकूलनों से बाहर निकलने का विकल्प समर्थित नहीं है</string>
+    <string name="os_version_does_not_support_battery_optimizations_show_os_dialog_api">आपके एंड्रॉइड ऑपरेटिंग सिस्टम का संस्करण अनुप्रयोगों के लिए बैटरी अनुकूलन डायलॉग दिखाने का समर्थन नहीं करता है।</string>
+    <string name="shutdown_canceled">नियोजित अवसान निरस्त किया गया</string>
+    <string name="tunnels_reloading">सुरंग विन्यास को पुनः लोड किया जा रहा है...</string>
+    <string name="settings_section0">सामान्य सेटिंग</string>
+    <string name="settings_section_tunnels">सुरंगें</string>
+    <string name="autostart_enabled">बूट पर प्रारंभ करें</string>
+    <string name="add_tunnel_button">सुरंग जोड़ें</string>
+    <string name="add_tunnel">सुरंग प्रबंधन</string>
+    <string name="del_tunnel_button">सुरंग हटाएँ</string>
+</resources>

@@ -28,6 +28,7 @@ _help()
 	echo "Syntax: $(basename "$SOURCE") [-m|d|s|h|v]"
 	echo "Options:"
 	echo "b     Build binary."
+	echo "c     Clean before binary build."
 	echo "d     Debug build."
 	echo "s     Strip binaries."
 	echo "x     Skip libraries rebuild."
@@ -42,13 +43,16 @@ _failed()
 	exit 1;
 }
 
-while getopts ":dbsvxh" option; do
+while getopts ":dbcsvxh" option; do
 	case $option in
 		d) # debug build
 			_NDK_OPTS="$_NDK_OPTS NDK_DEBUG=1"
 			;;
 		b) # build binary
 			_BINARY=1
+			;;
+		c) # clean before build
+			_CLEAN=1
 			;;
 		s) # strip binaries
 			_STRIP=1
@@ -83,21 +87,28 @@ if [ -z "$_SKIP_LIBS" ]; then
 	[ $? -ne 0 ] && _failed
 fi
 
+if [ ! -z "$_CLEAN" ]; then
+	echo "Cleaning..."
+	$ANDROID_NDK_HOME/ndk-build $_NDK_OPTS clean
+fi
+
 if [ ! -z "$_BINARY" ]; then
 	echo "Building i2pd..."
 	$ANDROID_NDK_HOME/ndk-build $_NDK_OPTS
 fi
 
-echo "Processing binaries (if requested)..."
-pushd $DIR/../libs > /dev/null
-for xarch in $(ls .); do
-	if [ ! -z "$_STRIP" ]; then
-		$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip -s $xarch/i2pd
-	fi
-	if [ ! -z "$_MODULE" ]; then
-		mv $xarch/i2pd $xarch/libi2pd.so
-	fi
-done
-popd > /dev/null
+if [ ! -z "$_STRIP" ||  ! -z "$_MODULE" ]; then
+	echo "Processing binaries..."
+	pushd $DIR/../libs > /dev/null
+	for xarch in $(ls .); do
+		if [ ! -z "$_STRIP" ]; then
+			$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip -s $xarch/i2pd
+		fi
+		if [ ! -z "$_MODULE" ]; then
+			mv $xarch/i2pd $xarch/libi2pd.so
+		fi
+	done
+	popd > /dev/null
+fi
 
 echo "Compilation finished"
