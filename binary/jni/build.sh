@@ -97,7 +97,7 @@ if [ ! -z "$_BINARY" ]; then
 	$ANDROID_NDK_HOME/ndk-build $_NDK_OPTS
 fi
 
-if [ ! -z "$_STRIP" ||  ! -z "$_MODULE" ]; then
+if [[ ! -z "$_STRIP" || ! -z "$_MODULE" ]]; then
 	echo "Processing binaries..."
 	pushd $DIR/../libs > /dev/null
 	for xarch in $(ls .); do
