@@ -36,6 +36,7 @@ function checkPreRequisites {
 		echo -e "\033[31mFailed! ANDROID_NDK_HOME is empty. Run 'export ANDROID_NDK_HOME=[PATH_TO_NDK]'\033[0m"
 		exit
 	fi
+	export ANDROID_NDK_ROOT=$ANDROID_NDK_HOME
 }
 
 function build {
