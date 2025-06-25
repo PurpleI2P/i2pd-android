@@ -10,6 +10,17 @@ This repository contains Android application sources of i2pd
      alt="Get it on F-Droid"
      height="80">](https://f-droid.org/packages/org.purplei2p.i2pd/)
 
+## Bounties &amp; Donations for this app
+
+* Send XMR to 89E1cHc7dkGKTcLxTMQti1W94NdYUxGokhGav5ubLP9jAmE7DmigfoYYx5b64LnTaaFcdczvpAVEsbtx4FFjPm2yJgkEvy2 ; if you want to include bounty/donation notes, create an issue at https://github.com/PurpleI2P/i2pd-android/issues or send an e-mail to hypnosis@i2pmail.org ; include the XMR amount data into your notes.
+
+## Team
+
+* Lead dev: Hypnosis aka nonlin-lin etc
+* Releases, merging into PurpleI2P: R4SAS
+* Sometimes, fixes & improvements: WipedLifePotato
+* Sometimes, merging into PurpleI2P: orignal
+
 ## How to build
 
 ### Install g++, OpenJDK 11+, gradle 5.1+
