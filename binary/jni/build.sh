@@ -25,7 +25,7 @@ _NDK_OPTS="-j `nproc` NDK_MODULE_PATH=$DIR"
 
 _help()
 {
-	echo "Syntax: $(basename "$SOURCE") [-m|d|s|h|v]"
+	echo "Syntax: $(basename "$SOURCE") [-b|c|d|s|x|v|h]"
 	echo "Options:"
 	echo "b     Build binary."
 	echo "c     Clean before binary build."

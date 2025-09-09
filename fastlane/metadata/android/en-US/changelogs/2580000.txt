@@ -1,0 +1,2 @@
+* Updated codebase to 2.58.0
+* Switched to OpenSSL 3.5.2

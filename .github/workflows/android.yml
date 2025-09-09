@@ -24,6 +24,8 @@ jobs:
         pushd binary/jni
         ./build.sh
         popd
+    - name: Change concurrent build processes
+      run: sed -i 's|-j\${\(.*\)}|-j2|g' app/build.gradle
     - name: Build with Gradle
       run: ./gradlew --no-daemon assembleDebug
     - name: Upload artifacts
