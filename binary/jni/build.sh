@@ -102,9 +102,11 @@ if [[ ! -z "$_STRIP" || ! -z "$_MODULE" ]]; then
 	pushd $DIR/../libs > /dev/null
 	for xarch in $(ls .); do
 		if [ ! -z "$_STRIP" ]; then
+			echo "Stripping binary..."
 			$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip -s $xarch/i2pd
 		fi
 		if [ ! -z "$_MODULE" ]; then
+			echo "Renaming binary as library..."
 			mv $xarch/i2pd $xarch/libi2pd.so
 		fi
 	done
