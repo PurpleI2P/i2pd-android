@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="app_description2">شبکه بدون مرز</string>
+    <string name="action_start">شروع</string>
+    <string name="action_stop">توقف</string>
+    <string name="action_exit">خروج</string>
+    <string name="action_graceful_stop">توقف غیر تهاجمی</string>
+    <string name="action_cancel_graceful_stop">لغو توقف غیر تهاجمی</string>
+    <string name="action_reload_tunnels_config">بارگیری مجدد تونل‌ها</string>
+    <string name="action_start_webview">بارکردن پایانه فرمان تحت وب</string>
+    <string name="action_settings">تنظیمات</string>
+    <string name="graceful_stop_is_already_in_progress">قبلاً توقف غیر تهاجمی شروع شده</string>
+    <string name="graceful_stop_is_in_progress">توقف غیر تهاجمی در حال انجام است</string>
+    <string name="gracefulShutdownInProgress">خاموشی غیر تهاجمی در حال انجام است</string>
+    <string name="already_stopped">قبلاً متوقف شده</string>
+    <string name="uninitialized">مقدار دهی اولیه برنامه...</string>
+    <string name="starting">در حال شروع برنامه...</string>
+    <string name="jniLibraryLoaded">کتابخانه JNI بارگیری شد</string>
+    <string name="startedOkay">برنامه شروع شد</string>
+    <string name="startFailed">شروع ناموفق بود</string>
+    <string name="stopped">برنامه متوقف شد</string>
+    <string name="stopping">در حال توقف برنامه...</string>
+    <string name="remaining">باقیمانده</string>
+    <string name="services">خدمات داخلی</string>
+    <string name="services_http_proxy">پراکسی HTTP</string>
+    <string name="services_socks_proxy">پراکسی SOCKS5</string>
+    <string name="title_activity_i2_pdperms_asker_prompt">درخواست</string>
+    <string name="permDenied">اجازه نوشتن در کارت حافظه داده نشد، باید این اجازه را بدهید تا برنامه اجرا شود</string>
+    <string name="permRequired">برای نوشتن کلیدها و سایر فایل‌ها در پوشه I2PD روی کارت SD، دسترسی نوشتن روی کارت SD لازم است.</string>
+    <string name="retryPermRequest">برای دریافت مجوز نوشتن روی کارت SD دوباره تلاش کنید</string>
+    <string name="menu_item_battery_optimizations_str">بهینه‌سازی باتری</string>
+    <string name="battery_optimizations_enabled">بهینه‌سازی باتری فعال شد</string>
+    <string name="battery_optimizations_enabled_explained">سیستم اندروید شما بهینه‌سازی‌های محدودکننده مصرف باتری را بر I2PD اعمال می‌کند که می‌تواند منجر به توقف ناگهانی سرویس شود.\n پیشنهاد می‌شود محدودیت‌های بهینه‌سازی باتری برای این برنامه غیرفعال گردد.</string>
+    <string name="battery_optimizations_enabled_dialog">اندروید شما در حال انجام بهینه‌سازی‌های شدید باتری روی I2PD است که ممکن است منجر به بسته شدن بی‌دلیل سرویس شود.\n\nاکنون از شما خواسته می‌شود که اجازه غیرفعال کردن آنها را بدهید.</string>
+    <string name="continue_str">ادامه</string>
+    <string name="device_does_not_support_disabling_battery_optimizations">نسخه اندروید شما از غیرفعال کردن بهینه‌سازی باتری پشتیبانی نمی‌کند</string>
+    <string name="os_version_does_not_support_battery_optimizations_show_os_dialog_api">نسخه سیستم عامل اندروید شما از نمایش کادر محاوره‌ای بهینه‌سازی باتری برای برنامه‌ها پشتیبانی نمی‌کند.</string>
+    <string name="shutdown_canceled">خاموش‌سازی برنامه‌ریزی‌شده لغو شد</string>
+    <string name="tunnels_reloading">بارگذاری دوباره تنظیمات تونل‌ها...</string>
+    <string name="settings_section0">تنظیمات عمومی</string>
+    <string name="settings_section_tunnels">تونل‌ها</string>
+    <string name="autostart_enabled">اجرای برنامه هنگام راه‌اندازی سیستم</string>
+    <string name="add_tunnel_button">افزودن تونل</string>
+    <string name="add_tunnel">مدیریت تونل‌ها</string>
+    <string name="del_tunnel_button">حذف تونل</string>
+</resources>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="app_description2">Rețea fără frontiere</string>
+    <string name="action_start">Start</string>
+    <string name="action_stop">Stop</string>
+    <string name="action_exit">Ieșire</string>
+    <string name="action_graceful_stop">Oprire lină</string>
+    <string name="action_cancel_graceful_stop">Anulează oprirea lină</string>
+    <string name="action_reload_tunnels_config">Reîncarcă tunelurile</string>
+    <string name="action_start_webview">Deschide consola web</string>
+    <string name="action_settings">Setări</string>
+    <string name="graceful_stop_is_already_in_progress">Oprirea lină este deja în curs</string>
+    <string name="graceful_stop_is_in_progress">Oprirea lină este în curs</string>
+    <string name="gracefulShutdownInProgress">Închidere lină în curs</string>
+    <string name="already_stopped">Deja oprit</string>
+    <string name="uninitialized">Aplicația se inițializează...</string>
+    <string name="starting">Aplicația pornește...</string>
+    <string name="jniLibraryLoaded">Biblioteci JNI încărcate</string>
+    <string name="startedOkay">Aplicația a pornit</string>
+    <string name="startFailed">Pornirea a eșuat</string>
+    <string name="stopped">Aplicația s-a oprit</string>
+    <string name="stopping">Aplicația se oprește...</string>
+    <string name="remaining">rămase</string>
+    <string name="services">Servicii interne</string>
+    <string name="services_http_proxy">Proxy HTTP</string>
+    <string name="services_socks_proxy">Proxy SOCKS5</string>
+    <string name="title_activity_i2_pdperms_asker_prompt">Solicitare</string>
+    <string name="permDenied">Permisiunea de scriere pe cardul SD a fost refuzată; trebuie să o permiți pentru a continua</string>
+    <string name="permRequired">Accesul de scriere pe cardul SD este necesar pentru a scrie cheile și alte fișiere în folderul I2PD de pe cardul SD.</string>
+    <string name="retryPermRequest">Reîncearcă solicitarea permisiunilor de scriere pe cardul SD</string>
+    <string name="menu_item_battery_optimizations_str">Optimizări baterie</string>
+    <string name="battery_optimizations_enabled">Optimizări baterie activate</string>
+    <string name="battery_optimizations_enabled_explained">Sistemul Android aplică optimizări drastice ale bateriei pentru I2PD, ceea ce poate duce la închiderea procesului fără un alt motiv.\nSe recomandă dezactivarea acestor optimizări.</string>
+    <string name="battery_optimizations_enabled_dialog">Sistemul Android aplică optimizări drastice ale bateriei pentru I2PD, ceea ce può duce la închiderea procesului fără un alt motiv.\n\nȚi se va solicita acum să permiți dezactivarea acestora.</string>
+    <string name="continue_str">Continuă</string>
+    <string name="device_does_not_support_disabling_battery_optimizations">Versiunea ta de Android nu suportă dezactivarea optimizărilor de baterie</string>
+    <string name="os_version_does_not_support_battery_optimizations_show_os_dialog_api">Versiunea sistemului de operare Android nu suportă afișarea ferestrei de dialog pentru optimizarea bateriei pentru aplicații.</string>
+    <string name="shutdown_canceled">Închiderea planificată a fost anulată</string>
+    <string name="tunnels_reloading">Se reîncarcă configurația tunelurilor...</string>
+    <string name="settings_section0">Setări comune</string>
+    <string name="settings_section_tunnels">Tuneluri</string>
+    <string name="autostart_enabled">Pornire la pornirea sistemului</string>
+    <string name="add_tunnel_button">Adaugă tunel</string>
+    <string name="add_tunnel">Gestionare tuneluri</string>
+    <string name="del_tunnel_button">Șterge tunel</string>
+</resources>

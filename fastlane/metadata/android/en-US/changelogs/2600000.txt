@@ -1,0 +1,3 @@
+* Updated codebase to 2.60.0
+* Added Telegram MTProto proxy tunnels file
+* Added Persian and Romanian translations
