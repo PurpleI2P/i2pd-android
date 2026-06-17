@@ -26,6 +26,8 @@ This repository contains Android application sources of i2pd
 
 ### Install g++, OpenJDK 11+, gradle 5.1+
 
+ * <i>Note:</i> openjdk 17 has also been tested okay.
+
 ```bash
 sudo apt-get install g++ openjdk-11-jdk gradle
 ```
@@ -70,7 +72,7 @@ pushd binary/jni
 ./build.sh -d
 popd
 
-gradle clean assembleDebug
+./gradlew clean assembleDebug
 ```
 
 You will find APKs in `app/build/outputs/apk`
