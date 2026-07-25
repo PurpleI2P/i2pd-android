@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/horizontal_page_margin"
     android:paddingRight="@dimen/horizontal_page_margin"
     android:paddingTop="@dimen/vertical_page_margin"
-    tools:context=".I2PDPermsAskerActivity">
+    tools:context=".I2PDPermissionsAskerActivity">
 
     <TextView
         android:id="@+id/textview_explanation"
