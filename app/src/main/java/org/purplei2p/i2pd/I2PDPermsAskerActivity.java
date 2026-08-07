@@ -20,8 +20,6 @@ import java.lang.reflect.Method;
 public class I2PDPermsAskerActivity extends Activity {
 
     private static final int PERMISSION_WRITE_EXTERNAL_STORAGE = 0;
-    private static final int PERMISSION_MANAGE_EXTERNAL_STORAGE = 0;
-
     private Button button_request_write_ext_storage_perms;
     private TextView textview_retry;
 
