@@ -12,6 +12,14 @@
 
     <group android:id="@+id/group_i2pd_control">
         <item
+            android:id="@+id/action_settings"
+            android:orderInCategory="94"
+            android:title="@string/action_settings" />
+        <item
+            android:id="@+id/action_app_settings"
+            android:orderInCategory="95"
+            android:title="@string/action_app_settings" />
+        <item
             android:id="@+id/action_start_webview"
             android:orderInCategory="96"
             android:title="@string/action_start_webview" />
@@ -23,10 +31,6 @@
             android:id="@+id/action_graceful_stop"
             android:orderInCategory="98"
             android:title="@string/action_graceful_stop" />
-        <item
-            android:id="@+id/action_settings"
-            android:orderInCategory="95"
-            android:title="@string/action_settings" />
         <item
             android:id="@+id/action_stop"
             android:orderInCategory="99"

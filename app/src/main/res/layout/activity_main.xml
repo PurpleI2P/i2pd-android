@@ -82,7 +82,8 @@
                     android:id="@+id/service_httpproxy_box"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:clickable="false"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:text="@string/services_http_proxy"
                     android:textAppearance="@android:style/TextAppearance.Small"
                     android:textColor="#DFDFDF" />
@@ -98,7 +99,8 @@
                     android:id="@+id/service_socksproxy_box"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:clickable="false"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:text="@string/services_socks_proxy"
                     android:textAppearance="@android:style/TextAppearance.Small"
                     android:textColor="#DFDFDF" />
@@ -113,7 +115,8 @@
                     android:id="@+id/service_bob_box"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:clickable="false"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:text="@string/services_bob"
                     android:textAppearance="@android:style/TextAppearance.Small"
                     android:textColor="#DFDFDF" />
@@ -128,7 +131,8 @@
                     android:id="@+id/service_sam_box"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:clickable="false"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:text="@string/services_sam"
                     android:textAppearance="@android:style/TextAppearance.Small"
                     android:textColor="#DFDFDF" />
@@ -143,7 +147,8 @@
                     android:id="@+id/service_i2cp_box"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:clickable="false"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:text="@string/services_i2cp"
                     android:textAppearance="@android:style/TextAppearance.Small"
                     android:textColor="#DFDFDF" />

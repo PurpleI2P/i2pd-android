@@ -21,13 +21,17 @@ import java.nio.file.*;
 
 public class MainPreferenceActivity extends PreferenceActivity {
     private Boolean isOldConfigExists = false;
-    public static final String CONFIG_FILE_PATH = "/sdcard/i2pd/i2pd.conf";
     private static final String OLD_FILE_PREFIX= "__old";
+
+    /** App-private i2pd.conf (same path DaemonWrapper uses). */
+    private String getConfigFilePath() {
+        return new File(getFilesDir(), "i2pd/i2pd.conf").getAbsolutePath();
+    }
 
     boolean isOldConfigExists()
     {
         try {
-            return new File(CONFIG_FILE_PATH + OLD_FILE_PREFIX).exists();
+            return new File(getConfigFilePath() + OLD_FILE_PREFIX).exists();
         }catch(Exception e) { return false; }
     }
     @Override
@@ -35,14 +39,15 @@ public class MainPreferenceActivity extends PreferenceActivity {
 
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences_i2pd);
+        final String configPath = getConfigFilePath();
         INIConfiguration properties = readConfiguration();
         // backup old configuration.
         if (!isOldConfigExists)
         {
             try {
 	      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                if (Files.exists(Paths.get(CONFIG_FILE_PATH))) {
-                    Files.copy(Paths.get(CONFIG_FILE_PATH), Paths.get(CONFIG_FILE_PATH + OLD_FILE_PREFIX));
+                if (Files.exists(Paths.get(configPath))) {
+                    Files.copy(Paths.get(configPath), Paths.get(configPath + OLD_FILE_PREFIX));
                 }
 	      } // if build ...
             } catch (IOException e) {
@@ -326,13 +331,13 @@ public class MainPreferenceActivity extends PreferenceActivity {
         });
         // SAM Category
         CheckBoxPreference samEnable = (CheckBoxPreference) findPreference("samEnablePreference");
-        boolean samEnableValue = Boolean.parseBoolean(properties.getString("sam.enabled", "true"));
+        boolean samEnableValue = Boolean.parseBoolean(properties.getString("sam.enabled", "false"));
         samEnable.setChecked(samEnableValue);
         samEnable.setOnPreferenceChangeListener((preference, newValue) -> {
             boolean newValueBoolean = (boolean) newValue;
             properties.setProperty("sam.enabled", String.valueOf(newValueBoolean));
-            // Save modified properties
             writeConfiguration(properties);
+            toastRestartRequired();
             return true;
         });
         EditTextPreference samAddress = (EditTextPreference) findPreference("samAddressPreference");
@@ -341,8 +346,8 @@ public class MainPreferenceActivity extends PreferenceActivity {
         samAddress.setOnPreferenceChangeListener((preference, newValue) -> {
             String newValueString = newValue.toString();
             properties.setProperty("sam.address", newValueString);
-            // Save modified properties
             writeConfiguration(properties);
+            toastRestartRequired();
             return true;
         });
         EditTextPreference samPort = (EditTextPreference) findPreference("samPortPreference");
@@ -351,8 +356,8 @@ public class MainPreferenceActivity extends PreferenceActivity {
         samPort.setOnPreferenceChangeListener((preference, newValue) -> {
             String newValueString = newValue.toString();
             properties.setProperty("sam.port", newValueString);
-            // Save modified properties
             writeConfiguration(properties);
+            toastRestartRequired();
             return true;
         });
         // UPnP Category
@@ -415,9 +420,13 @@ public class MainPreferenceActivity extends PreferenceActivity {
         }
     }*/
 
+    private void toastRestartRequired() {
+        Toast.makeText(this, R.string.restart_required_for_config, Toast.LENGTH_LONG).show();
+    }
+
     private INIConfiguration readConfiguration() {
         INIConfiguration iniConfiguration = new INIConfiguration();
-        try (FileReader reader = new FileReader(CONFIG_FILE_PATH)) {
+        try (FileReader reader = new FileReader(getConfigFilePath())) {
             iniConfiguration.read(reader);
         } catch (Exception e) {
             e.printStackTrace();
@@ -429,7 +438,7 @@ public class MainPreferenceActivity extends PreferenceActivity {
         writeConfiguration(iniConfiguration, "", "");
     }
     private void writeConfiguration(INIConfiguration iniConfiguration, String option, String value) {
-        try (FileWriter writer = new FileWriter(CONFIG_FILE_PATH)) {
+        try (FileWriter writer = new FileWriter(getConfigFilePath())) {
             StringWriter stringWriter = new StringWriter();
             iniConfiguration.write(stringWriter);
             String configFileContent = stringWriter.toString();
