@@ -5,7 +5,6 @@ import java.io.StringWriter;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -15,12 +14,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Build;
-import android.os.Environment;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
@@ -28,19 +25,15 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import static android.provider.Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS;
 
 public class I2PDActivity extends Activity {
     private static final String TAG = "i2pdActvt";
-    private static final int MY_PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
     public static final int GRACEFUL_DELAY_MILLIS = 10 * 60 * 1000;
     public static final String PACKAGE_URI_SCHEME = "package:";
 
@@ -121,26 +114,30 @@ public class I2PDActivity extends Activity {
 
         if (daemon == null) {
             ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-            daemon = new DaemonWrapper(getAssets(), connectivityManager);
+            daemon = new DaemonWrapper(this, getAssets(), connectivityManager);
         }
         ForegroundService.init(daemon);
 
         daemon.addStateChangeListener(daemonStateUpdatedListener);
         daemonStateUpdatedListener.daemonStateUpdate(DaemonWrapper.State.uninitialized, daemon.getState());
 
-        // request permissions
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            if(!Environment.isExternalStorageManager()) {
-                Log.e(TAG, "MANAGE_EXTERNAL_STORAGE perm declined, stopping i2pd");
-                i2pdStop();
+        // Service checkboxes are status indicators; tap opens i2pd settings (e.g. enable SAM).
+        View.OnClickListener openI2pdSettings = v -> {
+            // Restore live status — CheckBox would otherwise toggle on click.
+            if (daemon != null && daemon.isStartedOkay()) {
+                HTTPProxyState.setChecked(I2PD_JNI.getHTTPProxyState());
+                SOCKSProxyState.setChecked(I2PD_JNI.getSOCKSProxyState());
+                BOBState.setChecked(I2PD_JNI.getBOBState());
+                SAMState.setChecked(I2PD_JNI.getSAMState());
+                I2CPState.setChecked(I2PD_JNI.getI2CPState());
             }
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this,
-                    new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE },
-                    MY_PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE);
-            }
-        }
+            startActivity(new Intent(getApplicationContext(), MainPreferenceActivity.class));
+        };
+        HTTPProxyState.setOnClickListener(openI2pdSettings);
+        SOCKSProxyState.setOnClickListener(openI2pdSettings);
+        BOBState.setOnClickListener(openI2pdSettings);
+        SAMState.setOnClickListener(openI2pdSettings);
+        I2CPState.setOnClickListener(openI2pdSettings);
 
         doBindService();
 
@@ -172,19 +169,6 @@ public class I2PDActivity extends Activity {
             }
         } catch (Throwable tr) {
             Log.e(TAG, "throwable caught and ignored", tr);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
-    {
-        if (requestCode == MY_PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                Log.w(TAG, "WR_EXT_STORAGE perm granted");
-            else {
-                Log.e(TAG, "WR_EXT_STORAGE perm declined, stopping i2pd");
-                i2pdStop();
-            }
         }
     }
 
@@ -270,7 +254,7 @@ public class I2PDActivity extends Activity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
@@ -305,6 +289,10 @@ public class I2PDActivity extends Activity {
                     Toast.makeText(this,"I2Pd not was started!", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_settings:
+                // i2pd.conf (HTTP/SOCKS/SAM/etc.) — primary settings users need
+                startActivity(new Intent(getApplicationContext(), MainPreferenceActivity.class));
+                return true;
+            case R.id.action_app_settings:
                 startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
                 return true;
         }

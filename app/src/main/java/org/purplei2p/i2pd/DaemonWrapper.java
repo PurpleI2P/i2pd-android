@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.Locale;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.res.AssetManager;
 import android.net.ConnectivityManager;
 import android.net.Network;
@@ -29,7 +30,8 @@ public class DaemonWrapper {
     private static final String TAG = "i2pd";
     private final AssetManager assetManager;
     private final ConnectivityManager connectivityManager;
-    private String i2pdpath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/i2pd";
+    /** App-private data dir (no MANAGE_EXTERNAL_STORAGE / all-files access). */
+    private String i2pdpath;
     private boolean assetsCopied;
 
     private static final String appLocale = Locale.getDefault().getDisplayLanguage(Locale.ENGLISH).toLowerCase(); // lower-case system language (like "english")
@@ -117,11 +119,71 @@ public class DaemonWrapper {
         return state;
     }
 
-    public DaemonWrapper(AssetManager assetManager, ConnectivityManager connectivityManager){
+    public DaemonWrapper(Context context, AssetManager assetManager, ConnectivityManager connectivityManager){
         this.assetManager = assetManager;
         this.connectivityManager = connectivityManager;
+        Context appContext = context.getApplicationContext();
+        this.i2pdpath = new File(appContext.getFilesDir(), "i2pd").getAbsolutePath();
+        maybeMigrateFromLegacyExternalStorage();
         setState(State.starting);
         startDaemon();
+    }
+
+    /**
+     * One-time copy from legacy {@code /sdcard/i2pd} into app-private storage
+     * so existing installs keep keys/config after dropping all-files access.
+     */
+    private void maybeMigrateFromLegacyExternalStorage() {
+        File newDir = new File(i2pdpath);
+        File newConf = new File(newDir, "i2pd.conf");
+        if (newConf.exists())
+            return;
+
+        File oldDir;
+        try {
+            oldDir = new File(Environment.getExternalStorageDirectory(), "i2pd");
+        } catch (Throwable t) {
+            Log.w(TAG, "legacy external storage unavailable", t);
+            return;
+        }
+        if (!oldDir.isDirectory())
+            return;
+
+        File oldConf = new File(oldDir, "i2pd.conf");
+        if (!oldConf.exists())
+            return;
+
+        Log.i(TAG, "migrating i2pd data from " + oldDir + " to " + newDir);
+        try {
+            copyDirectoryRecursive(oldDir, newDir);
+        } catch (Throwable t) {
+            Log.e(TAG, "legacy data migration failed", t);
+        }
+    }
+
+    private static void copyDirectoryRecursive(File src, File dst) throws IOException {
+        if (src.isDirectory()) {
+            if (!dst.exists() && !dst.mkdirs())
+                throw new IOException("mkdirs failed: " + dst);
+            String[] children = src.list();
+            if (children == null)
+                return;
+            for (String child : children) {
+                copyDirectoryRecursive(new File(src, child), new File(dst, child));
+            }
+        } else {
+            File parent = dst.getParentFile();
+            if (parent != null && !parent.exists() && !parent.mkdirs())
+                throw new IOException("mkdirs failed: " + parent);
+            try (InputStream in = new java.io.FileInputStream(src);
+                 OutputStream out = new FileOutputStream(dst)) {
+                byte[] buffer = new byte[8192];
+                int read;
+                while ((read = in.read(buffer)) != -1) {
+                    out.write(buffer, 0, read);
+                }
+            }
+        }
     }
 
     private Throwable lastThrowable;
@@ -184,7 +246,7 @@ public class DaemonWrapper {
             }
             try {
                 synchronized (DaemonWrapper.this) {
-                    I2PD_JNI.setDataDir(i2pdpath); // (Environment.getExternalStorageDirectory().getAbsolutePath() + "/i2pd");
+                    I2PD_JNI.setDataDir(i2pdpath);
 
                     Log.i(TAG, "setting webconsole language to " + appLocale);
                     I2PD_JNI.setLanguage(appLocale);

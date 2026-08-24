@@ -11,7 +11,9 @@
     <string name="action_cancel_graceful_stop">Cancel Graceful stop</string>
     <string name="action_reload_tunnels_config">Reload tunnels</string>
     <string name="action_start_webview">Open Web Console</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">i2pd settings</string>
+    <string name="action_app_settings">App settings</string>
+    <string name="restart_required_for_config">Saved. Restart i2pd (Exit, then open the app again) for this to take effect.</string>
 
     <string name="graceful_stop_is_already_in_progress">Graceful stop is already in progress</string>
     <string name="graceful_stop_is_in_progress">Graceful stop is in progress</string>
@@ -60,6 +62,6 @@
     <string name="add_tunnel">Tunnels management</string>
 
     <string name="del_tunnel_button">Delete tunnel</string>
-    <string name="OpenPreferences">Open i2pd settings</string>
+    <string name="OpenPreferences">Open i2pd settings (SAM, proxies, …)</string>
 
 </resources>
