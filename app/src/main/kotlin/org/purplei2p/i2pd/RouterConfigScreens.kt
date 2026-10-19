@@ -117,7 +117,8 @@ private fun CenteredText(text: String) {
 fun RestartBanner() {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    val changes by RouterController.pendingChanges(context).collectAsStateWithLifecycle(emptyList())
+    val flow = remember { RouterController.pendingChanges(context) }
+    val changes by flow.collectAsStateWithLifecycle(emptyList())
     if (changes.isEmpty()) return
     Card(
         modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
@@ -179,39 +180,42 @@ fun RouterAdvancedScreen(session: ConfigSession) {
                 }
                 .groupBy { (spec, _) -> spec.section }
         }
-        LazyColumn(Modifier.fillMaxSize()) {
-            item {
-                RestartBanner()
-                OutlinedTextField(
-                    value = query,
-                    onValueChange = { query = it },
-                    label = { Text(stringResource(R.string.logs_search)) },
-                    singleLine = true,
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
-                )
-            }
-            if (unknown.isNotEmpty()) {
-                item { SectionTitle(stringResource(R.string.config_unknown_options, org.purplei2p.i2pd.nativelib.I2pdNative.version())) }
-                items(unknown, key = { "unknown-${it.line}" }) { entry -> UnknownEntryRow(session, entry) }
-            }
-            if (issues.isNotEmpty()) {
+        // The banner stays outside the lazy list: an item growing from zero height would be scrolled out of view
+        Column(Modifier.fillMaxSize()) {
+            RestartBanner()
+            LazyColumn(Modifier.fillMaxWidth().weight(1f)) {
                 item {
-                    SectionTitle(stringResource(R.string.config_issues))
-                    issues.forEach { issue ->
-                        Text(
-                            issueText(issue),
-                            color = MaterialTheme.colorScheme.error,
-                            style = MaterialTheme.typography.bodyMedium,
-                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 2.dp),
-                        )
+                    OutlinedTextField(
+                        value = query,
+                        onValueChange = { query = it },
+                        label = { Text(stringResource(R.string.logs_search)) },
+                        singleLine = true,
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                    )
+                }
+                if (unknown.isNotEmpty()) {
+                    item { SectionTitle(stringResource(R.string.config_unknown_options, org.purplei2p.i2pd.nativelib.I2pdNative.version())) }
+                    items(unknown, key = { "unknown-${it.line}" }) { entry -> UnknownEntryRow(session, entry) }
+                }
+                if (issues.isNotEmpty()) {
+                    item {
+                        SectionTitle(stringResource(R.string.config_issues))
+                        issues.forEach { issue ->
+                            Text(
+                                issueText(issue),
+                                color = MaterialTheme.colorScheme.error,
+                                style = MaterialTheme.typography.bodyMedium,
+                                modifier = Modifier.padding(horizontal = 16.dp, vertical = 2.dp),
+                            )
+                        }
                     }
                 }
-            }
-            sections.forEach { (section, options) ->
-                item(key = "section-$section") {
-                    SectionTitle(if (section.isEmpty()) stringResource(R.string.section_general) else "[$section]")
+                sections.forEach { (section, options) ->
+                    item(key = "section-$section") {
+                        SectionTitle(if (section.isEmpty()) stringResource(R.string.section_general) else "[$section]")
+                    }
+                    items(options, key = { it.first.name }) { (spec, ui) -> OptionRow(session, editor, spec, ui, showName = true) }
                 }
-                items(options, key = { it.first.name }) { (spec, ui) -> OptionRow(session, editor, spec, ui, showName = true) }
             }
         }
     }

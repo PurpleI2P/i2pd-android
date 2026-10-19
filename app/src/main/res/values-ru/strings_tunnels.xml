@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_tunnels">Туннели</string>
+
+    <string name="tunnels_add">Добавить туннель</string>
+    <string name="tunnels_empty">Туннелей пока нет</string>
+    <string name="tunnels_file_disabled">Отключён: i2pd пропускает этот файл</string>
+    <string name="tunnels_edit_file">Редактировать файл</string>
+    <string name="tunnels_delete_file">Удалить файл</string>
+    <string name="tunnels_delete_file_confirm">Удалить %1$s со всеми туннелями?</string>
+    <string name="tunnels_apply_banner">Туннели изменены. Примените их к работающему роутеру.</string>
+    <string name="tunnels_apply">Применить</string>
+    <string name="tunnels_choose_type">Тип туннеля</string>
+    <string name="tunnels_name">Имя</string>
+    <string name="tunnels_name_invalid">Имя не может быть пустым и содержать [ ] или перевод строки</string>
+    <string name="tunnels_name_taken">В этом файле уже есть туннель с таким именем</string>
+    <string name="tunnels_i2cp">Пул туннелей (I2CP)</string>
+    <string name="tunnels_other">Прочие параметры</string>
+    <string name="tunnels_add_param">Добавить параметр</string>
+    <string name="tunnels_param_key">Ключ</string>
+    <string name="tunnels_param_value">Значение</string>
+    <string name="tunnels_delete">Удалить туннель</string>
+    <string name="tunnels_delete_confirm">Удалить туннель %1$s?</string>
+    <string name="tunnels_delete_primary">Туннели %1$s этого файла используют его назначение; после удаления I2CP-параметры будет задавать следующий из них.</string>
+    <string name="tunnels_i2cp_from">I2CP-параметры берутся из туннеля %1$s этого файла с тем же ключом.</string>
+    <string name="tunnels_shared_destination">Общее назначение (%1$s): %2$s</string>
+    <string name="tunnels_shared_warning">i2pd перенастраивает одно назначение I2CP-параметрами каждого файла, использующего эти ключи.</string>
+    <string name="tunnels_address">Адрес I2P</string>
+    <string name="tunnels_address_b33">Адрес зашифрованного lease set (b33), его нужно давать клиентам:</string>
+    <string name="tunnels_address_pending">появится, когда роутер создаст файл ключей</string>
+    <string name="tunnels_copied">Скопировано</string>
+    <string name="tunnels_type_readonly">Тип нельзя изменить, создайте новый туннель</string>
+    <string name="tunnels_websocks_deprecated">Туннели websocks устарели, i2pd их не запускает</string>
+    <string name="tunnels_copy">Копировать</string>
+    <string name="proxy_name_httpproxy">HTTP-прокси (i2pd.conf)</string>
+    <string name="proxy_name_socksproxy">SOCKS-прокси (i2pd.conf)</string>
+
+    <string name="tunnel_type_client">Клиент</string>
+    <string name="tunnel_type_udpclient">UDP-клиент</string>
+    <string name="tunnel_type_socks">SOCKS-прокси</string>
+    <string name="tunnel_type_httpproxy">HTTP-прокси</string>
+    <string name="tunnel_type_server">Сервер</string>
+    <string name="tunnel_type_http">HTTP-сервер</string>
+    <string name="tunnel_type_irc">IRC-сервер</string>
+    <string name="tunnel_type_udpserver">UDP-сервер</string>
+    <string name="tunnel_type_websocks">Websocks</string>
+    <string name="tunnel_type_torrents">Торренты</string>
+
+    <string name="tparam_destination">Назначение (.i2p или .b32.i2p)</string>
+    <string name="tparam_destinationport">Порт назначения</string>
+    <string name="tparam_address">Локальный адрес</string>
+    <string name="tparam_port_client">Локальный порт</string>
+    <string name="tparam_port_server">Порт сервиса</string>
+    <string name="tparam_keys">Файл ключей</string>
+    <string name="tparam_outproxy">Outproxy</string>
+    <string name="tparam_addresshelper">Address helper</string>
+    <string name="tparam_senduseragent">Передавать User-Agent</string>
+    <string name="tparam_host">Адрес сервиса</string>
+    <string name="tparam_inport">Порт в I2P</string>
+    <string name="tparam_accesslist">Разрешённые назначения</string>
+    <string name="tparam_hostoverride">Заголовок Host</string>
+    <string name="tparam_i2pheaders">Добавлять заголовки I2P</string>
+    <string name="tparam_webircpassword">Пароль WEBIRC</string>
+    <string name="tparam_ssl">TLS к сервису</string>
+    <string name="tparam_torrentsdir">Каталог торрентов</string>
+    <string name="tparam_trackers">Трекеры</string>
+    <string name="tparam_inbound_length">Длина входящих</string>
+    <string name="tparam_inbound_quantity">Количество входящих</string>
+    <string name="tparam_outbound_length">Длина исходящих</string>
+    <string name="tparam_outbound_quantity">Количество исходящих</string>
+    <string name="tparam_inbound_variance">Разброс длины входящих</string>
+    <string name="tparam_outbound_variance">Разброс длины исходящих</string>
+    <string name="tparam_leaseset_type">Тип lease set</string>
+    <string name="tparam_leaseset_enc">Типы шифрования lease set</string>
+    <string name="tparam_dont_publish">Не публиковать lease set</string>
+
+    <string name="tissue_invalid_line">%1$s, строка %2$d: не «ключ = значение», i2pd может пропустить файл</string>
+    <string name="tissue_outside_section">%1$s: %2$s вне туннеля</string>
+    <string name="tissue_duplicate_section">%1$s: туннель %2$s задан дважды</string>
+    <string name="tissue_duplicate_key">%1$s: в %2$s дважды задан %3$s</string>
+    <string name="tissue_missing_type">%1$s: не задан тип</string>
+    <string name="tissue_unknown_type">%1$s: неизвестный тип %2$s</string>
+    <string name="tissue_missing_param">%1$s: нужен параметр %2$s</string>
+    <string name="tissue_invalid_value">%1$s: недопустимое значение %2$s = %3$s</string>
+    <string name="tissue_port_conflict">%1$s: порт %2$d занят также %3$s</string>
+</resources>

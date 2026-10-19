@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_tunnels">Tunnels</string>
+
+    <string name="tunnels_add">Add tunnel</string>
+    <string name="tunnels_empty">No tunnels yet</string>
+    <string name="tunnels_file_disabled">Disabled: i2pd skips this file</string>
+    <string name="tunnels_edit_file">Edit file</string>
+    <string name="tunnels_delete_file">Delete file</string>
+    <string name="tunnels_delete_file_confirm">Delete %1$s with all its tunnels?</string>
+    <string name="tunnels_apply_banner">Tunnels changed. Apply them to the running router.</string>
+    <string name="tunnels_apply">Apply</string>
+    <string name="tunnels_choose_type">Tunnel type</string>
+    <string name="tunnels_name">Name</string>
+    <string name="tunnels_name_invalid">Name must not be empty or contain [ ] or line breaks</string>
+    <string name="tunnels_name_taken">This file already has a tunnel with this name</string>
+    <string name="tunnels_i2cp">Tunnel pool (I2CP)</string>
+    <string name="tunnels_other">Other parameters</string>
+    <string name="tunnels_add_param">Add parameter</string>
+    <string name="tunnels_param_key">Key</string>
+    <string name="tunnels_param_value">Value</string>
+    <string name="tunnels_delete">Delete tunnel</string>
+    <string name="tunnels_delete_confirm">Delete tunnel %1$s?</string>
+    <string name="tunnels_delete_primary">Tunnels %1$s of this file use its destination; after deletion the next of them sets the I2CP options.</string>
+    <string name="tunnels_i2cp_from">I2CP options come from tunnel %1$s of this file, which uses the same keys.</string>
+    <string name="tunnels_shared_destination">Shared destination (%1$s): %2$s</string>
+    <string name="tunnels_shared_warning">i2pd reconfigures one destination with the I2CP options of each file using these keys.</string>
+    <string name="tunnels_address">I2P address</string>
+    <string name="tunnels_address_b33">Encrypted lease set address (b33), give it to clients:</string>
+    <string name="tunnels_address_pending">appears after the router creates the key file</string>
+    <string name="tunnels_copied">Copied</string>
+    <string name="tunnels_type_readonly">Type cannot be changed; create a new tunnel instead</string>
+    <string name="tunnels_websocks_deprecated">websocks tunnels are deprecated, i2pd does not start them</string>
+    <string name="tunnels_copy">Copy</string>
+    <string name="proxy_name_httpproxy">HTTP proxy (i2pd.conf)</string>
+    <string name="proxy_name_socksproxy">SOCKS proxy (i2pd.conf)</string>
+
+    <string name="tunnel_type_client">Client</string>
+    <string name="tunnel_type_udpclient">UDP client</string>
+    <string name="tunnel_type_socks">SOCKS proxy</string>
+    <string name="tunnel_type_httpproxy">HTTP proxy</string>
+    <string name="tunnel_type_server">Server</string>
+    <string name="tunnel_type_http">HTTP server</string>
+    <string name="tunnel_type_irc">IRC server</string>
+    <string name="tunnel_type_udpserver">UDP server</string>
+    <string name="tunnel_type_websocks">Websocks</string>
+    <string name="tunnel_type_torrents">Torrents</string>
+
+    <string name="tparam_destination">Destination (.i2p or .b32.i2p)</string>
+    <string name="tparam_destinationport">Destination port</string>
+    <string name="tparam_address">Local address</string>
+    <string name="tparam_port_client">Local port</string>
+    <string name="tparam_port_server">Service port</string>
+    <string name="tparam_keys">Key file</string>
+    <string name="tparam_outproxy">Outproxy</string>
+    <string name="tparam_addresshelper">Address helper</string>
+    <string name="tparam_senduseragent">Send User-Agent</string>
+    <string name="tparam_host">Service host</string>
+    <string name="tparam_inport">I2P port</string>
+    <string name="tparam_accesslist">Allowed destinations</string>
+    <string name="tparam_hostoverride">Host header</string>
+    <string name="tparam_i2pheaders">Add I2P headers</string>
+    <string name="tparam_webircpassword">WEBIRC password</string>
+    <string name="tparam_ssl">TLS to the service</string>
+    <string name="tparam_torrentsdir">Torrents directory</string>
+    <string name="tparam_trackers">Trackers</string>
+    <string name="tparam_inbound_length">Inbound length</string>
+    <string name="tparam_inbound_quantity">Inbound quantity</string>
+    <string name="tparam_outbound_length">Outbound length</string>
+    <string name="tparam_outbound_quantity">Outbound quantity</string>
+    <string name="tparam_inbound_variance">Inbound length variance</string>
+    <string name="tparam_outbound_variance">Outbound length variance</string>
+    <string name="tparam_leaseset_type">Lease set type</string>
+    <string name="tparam_leaseset_enc">Lease set encryption types</string>
+    <string name="tparam_dont_publish">Do not publish lease set</string>
+
+    <string name="tissue_invalid_line">%1$s, line %2$d: not a key = value line, i2pd may skip the file</string>
+    <string name="tissue_outside_section">%1$s: %2$s is outside any tunnel</string>
+    <string name="tissue_duplicate_section">%1$s: tunnel %2$s is defined twice</string>
+    <string name="tissue_duplicate_key">%1$s: %2$s sets %3$s twice</string>
+    <string name="tissue_missing_type">%1$s: no type</string>
+    <string name="tissue_unknown_type">%1$s: unknown type %2$s</string>
+    <string name="tissue_missing_param">%1$s: %2$s is required</string>
+    <string name="tissue_invalid_value">%1$s: %2$s = %3$s is not valid</string>
+    <string name="tissue_port_conflict">%1$s: port %2$d is also used by %3$s</string>
+</resources>

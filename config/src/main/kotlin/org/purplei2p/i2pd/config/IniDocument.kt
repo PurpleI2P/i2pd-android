@@ -1,17 +1,29 @@
 package org.purplei2p.i2pd.config
 
+/** The two INI flavours i2pd reads. */
+enum class IniDialect {
+    /** i2pd.conf, boost::program_options: "#" starts a comment anywhere in a line. */
+    PROGRAM_OPTIONS,
+
+    /**
+     * Tunnel files, boost::property_tree::read_ini: only whole lines starting with "#" or ";" are comments,
+     * a "#" inside a line belongs to the value; any other line without "=" makes the file invalid.
+     */
+    PROPERTY_TREE,
+}
+
 /**
- * INI file in the boost::program_options flavour used by i2pd, edited without losing anything:
+ * INI file of i2pd, edited without losing anything:
  * comments, blank lines, order, formatting and unknown lines are written back as they were read.
  *
  * Only the changed lines are rewritten. Keys before the first section belong to the global section "".
- * In i2pd files "#" starts a comment anywhere in a line.
  */
 class IniDocument private constructor(
     private val lines: MutableList<Line>,
     private val lineSeparator: String,
     private val endsWithNewline: Boolean,
     private val bom: Boolean,
+    val dialect: IniDialect,
 ) {
     sealed interface Line {
         val raw: String
@@ -103,6 +115,50 @@ class IniDocument private constructor(
         }
     }
 
+    /** Index of the header line of [section] (first one if repeated), -1 if absent. */
+    fun sectionLine(section: String): Int = lines.indexOfFirst { it is Line.Section && it.name == section }
+
+    /** Lines of [section]: its header and everything up to the next header. */
+    private fun sectionRange(section: String): IntRange? {
+        val start = sectionLine(section)
+        if (start < 0) return null
+        val next = (start + 1 until lines.size).firstOrNull { lines[it] is Line.Section } ?: lines.size
+        return start until next
+    }
+
+    /** Raw text of [section] with its header, as in the file. */
+    fun sectionText(section: String): String? = sectionRange(section)?.joinToString("\n") { lines[it].raw }
+
+    /** Removes [section] with all its lines (comments inside it included). Returns false if there is no such section. */
+    fun removeSection(section: String): Boolean {
+        val range = sectionRange(section) ?: return false
+        // Keep the file tidy: drop the blank line that separated the section from the previous one
+        val from = if (range.first > 0 && lines[range.first - 1].raw.isBlank() && range.last == lines.lastIndex) range.first - 1 else range.first
+        repeat(range.last - from + 1) { lines.removeAt(from) }
+        return true
+    }
+
+    fun renameSection(from: String, to: String): Boolean {
+        val index = sectionLine(from)
+        if (index < 0) return false
+        val old = lines[index] as Line.Section
+        lines[index] = Line.Section(old.raw.replaceFirst("[$from]", "[$to]").let { if (it == old.raw) "[$to]" else it }, to)
+        return true
+    }
+
+    /** Appends a new section with [entries] at the end of the file. */
+    fun addSection(section: String, entries: List<Pair<String, String>>) {
+        if (lines.isNotEmpty() && lines.last().raw.isNotBlank()) lines += Line.Other("")
+        lines += Line.Section("[$section]", section)
+        entries.forEach { (key, value) -> lines += Line.Entry("$key = $value", key, value, indent = "", comment = "") }
+    }
+
+    /** Indexes of lines the parser of [dialect] would reject: not blank, not a comment, not a section or an entry. */
+    fun invalidLines(): List<Int> = lines.indices.filter { index ->
+        val line = lines[index]
+        line is Line.Other && line.raw.trim().let { it.isNotEmpty() && !isComment(it, dialect) }
+    }
+
     override fun toString(): String = buildString {
         if (bom) append('﻿')
         lines.forEachIndexed { index, line ->
@@ -140,17 +196,22 @@ class IniDocument private constructor(
     }
 
     companion object {
-        fun parse(text: String): IniDocument {
+        fun parse(text: String, dialect: IniDialect = IniDialect.PROGRAM_OPTIONS): IniDocument {
             val bom = text.startsWith('﻿')
             val body = if (bom) text.substring(1) else text
             val separator = if (body.contains("\r\n")) "\r\n" else "\n"
-            val endsWithNewline = body.endsWith("\n")
-            val rawLines = body.split("\r\n", "\n").let { if (endsWithNewline) it.dropLast(1) else it }
-            return IniDocument(rawLines.mapTo(mutableListOf(), ::parseLine), separator, endsWithNewline, bom)
+            // An empty document has no lines; lines added to it end with a newline
+            val endsWithNewline = body.isEmpty() || body.endsWith("\n")
+            val rawLines = if (body.isEmpty()) emptyList() else body.split("\r\n", "\n").let { if (body.endsWith("\n")) it.dropLast(1) else it }
+            return IniDocument(rawLines.mapTo(mutableListOf()) { parseLine(it, dialect) }, separator, endsWithNewline, bom, dialect)
         }
 
-        private fun parseLine(raw: String): Line {
-            val hash = raw.indexOf('#')
+        private fun isComment(trimmed: String, dialect: IniDialect) =
+            trimmed.startsWith("#") || (dialect == IniDialect.PROPERTY_TREE && trimmed.startsWith(";"))
+
+        private fun parseLine(raw: String, dialect: IniDialect): Line {
+            if (isComment(raw.trim(), dialect)) return Line.Other(raw)
+            val hash = if (dialect == IniDialect.PROGRAM_OPTIONS) raw.indexOf('#') else -1
             val content = if (hash >= 0) raw.substring(0, hash) else raw
             val trimmed = content.trim()
             if (trimmed.isEmpty()) return Line.Other(raw)

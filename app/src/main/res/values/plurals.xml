@@ -8,4 +8,8 @@
         <item quantity="one">and %1$d more</item>
         <item quantity="other">and %1$d more</item>
     </plurals>
+    <plurals name="tunnels_shared_short">
+        <item quantity="one">Shared destination %1$s: %2$d user</item>
+        <item quantity="other">Shared destination %1$s: %2$d users</item>
+    </plurals>
 </resources>
