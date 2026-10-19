@@ -1,79 +1,47 @@
 #!/bin/bash
 
+# Fetches Boost sources: headers plus sources of compiled libraries used by i2pd.
+# These libraries are compiled by ndk-build from the sources (see deps.mk),
+# so no b2/Boost-for-Android toolchain configuration is needed.
+
 set -e
 
 BOOST_VERSION=1.84.0
-BOOST_LIBS=program_options
+BOOST_SHA256=a5800f405508f5df8114558ca9855d2640a2de8f0445f051fa1c7c3383045724
+BOOST_LIBS="program_options json url"
 
-function build_one {
-	echo "Configuring and building..."
-	CXXFLAGS="-std=c++14" \
-	NCPU=$(nproc) \
-	./build-android.sh \
-	--boost=$BOOST_VERSION \
-	--arch=$CPU \
-	--target-version=$API \
-	--with-libraries=$BOOST_LIBS \
-	--layout=system \
-	$ANDROID_NDK_HOME
-}
+DIR="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+DEPS_DIR="$DIR/deps"
+DEST="$DEPS_DIR/boost"
+NAME="boost_${BOOST_VERSION//./_}"
+TARBALL="$DEPS_DIR/$NAME.tar.gz"
+STAMP="$BOOST_VERSION $BOOST_LIBS"
 
-function checkPreRequisites {
-
-	if ! [ -d "boost" ] || ! [ "$(ls -A boost)" ]; then
-		echo -e "\033[31mFailed! Submodule 'boost' not found!\033[0m"
-		echo -e "\033[31mTry to run: 'git submodule update --init'\033[0m"
-		exit
-	fi
-
-	if [ -z "$ANDROID_NDK_HOME" -a "$ANDROID_NDK_HOME" == "" ]; then
-		echo -e "\033[31mFailed! ANDROID_NDK_HOME is empty. Run 'export ANDROID_NDK_HOME=[PATH_TO_NDK]'\033[0m"
-		exit
-	fi
-}
-
-function build {
-	for arg in "$@"; do
-		case "$arg" in
-			x86_64)
-				API=21
-				TARGET=x86_64
-				build_one
-			;;
-			arm64)
-				API=21
-				CPU=arm64-v8a
-				build_one
-			;;
-			x86)
-				API=16
-				CPU=x86
-				build_one
-			;;
-			arm)
-				API=16
-				CPU=armeabi-v7a
-				build_one
-			;;
-			all)
-				API=16
-				build_one
-			;;
-			*)
-			;;
-		esac
-	done
-}
-
-checkPreRequisites
-
-cd boost
-
-# disable verbose output
-sed -i -E -e 's/d\+2/d\+0/' build-android.sh
-
-if (( $# == 0 )); then
-	build all
-else
-	build $@
+if [ -f "$DEST/.version" ] && [ "$(cat "$DEST/.version")" == "$STAMP" ]; then
+	echo "Boost $BOOST_VERSION is already prepared"
+	exit 0
 fi
+
+mkdir -p "$DEPS_DIR"
+
+if [ ! -f "$TARBALL" ]; then
+	echo "Downloading Boost $BOOST_VERSION..."
+	curl -fL --retry 3 -o "$TARBALL.part" "https://archives.boost.io/release/$BOOST_VERSION/source/$NAME.tar.gz"
+	mv "$TARBALL.part" "$TARBALL"
+fi
+
+echo "$BOOST_SHA256  $TARBALL" | sha256sum -c -
+
+echo "Unpacking Boost $BOOST_VERSION..."
+rm -rf "$DEST"
+mkdir -p "$DEST"
+LIB_SOURCES=()
+for lib in $BOOST_LIBS; do
+	LIB_SOURCES+=("$NAME/libs/$lib/src")
+done
+tar -xzf "$TARBALL" -C "$DEST" --strip-components=1 \
+	"$NAME/boost" \
+	"${LIB_SOURCES[@]}" \
+	"$NAME/LICENSE_1_0.txt"
+
+echo "$STAMP" > "$DEST/.version"

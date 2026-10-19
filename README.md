@@ -24,30 +24,26 @@ This repository contains Android application sources of i2pd
 
 ## How to build
 
-### Install g++, OpenJDK 11+, gradle 5.1+
+### Install build tools
+
+OpenJDK 17+, `make`, `cmake`, `perl`, `curl` and `zip` are required.
 
 ```bash
-sudo apt-get install g++ openjdk-11-jdk gradle
+sudo apt-get install openjdk-17-jdk make cmake perl curl zip
 ```
 
-If your system provides gradle with version < 5.1, download it from gradle homepage:
-
-https://gradle.org/install/
+Gradle itself is provided by the wrapper (`./gradlew`).
 
 ### Download and prepare Android SDK for building
 
-Android SDK Available here:
+Android SDK command line tools are available here:
 
-https://developer.android.com/studio#downloads
+https://developer.android.com/studio#command-line-tools-only
 
-Download Android SDK, unpack it to temporary directory `/tmp/anrdoid-sdk` and install it (in `/opt/android-sdk` for example) with required packages
+Install them (to `/opt/android-sdk` for example) together with required packages. The platform must match `compileSdk` and the NDK version must match `ndk` in `gradle/libs.versions.toml`. Build-tools version is the default one of Android Gradle Plugin:
+
 ```bash
-mkdir /tmp/android-sdk
-cd /tmp/android-sdk
-wget https://dl.google.com/android/repository/commandlinetools-linux-8092744_latest.zip
-unzip commandlinetools-linux-8092744_latest.zip
-# install required tools
-./cmdline-tools/bin/sdkmanager --sdk_root=/opt/android-sdk "build-tools;33.0.1" "cmake;3.22.1" "ndk;23.2.8568313"
+./cmdline-tools/bin/sdkmanager --sdk_root=/opt/android-sdk "platforms;android-37.0" "build-tools;36.0.0" "ndk;29.0.14206865"
 ```
 
 ### Clone repository with submodules
@@ -57,35 +53,38 @@ git clone --recurse-submodules https://github.com/PurpleI2P/i2pd-android.git
 cd i2pd-android
 ```
 
+### Build native dependencies
+
+OpenSSL and miniupnpc are built from submodules, Boost sources are downloaded from boost.io (checksum is verified). Results are cached, so the script only rebuilds what changed:
+
+```bash
+export ANDROID_HOME=/opt/android-sdk
+export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/29.0.14206865
+
+binary/jni/build.sh
+```
+
 ### Compile application
 
 ```bash
-# if you are not using Java 11 by default:
-export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-
-export ANDROID_HOME=/opt/android-sdk
-export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/23.2.8568313
-
-pushd binary/jni
-./build.sh -d
-popd
-
-gradle clean assembleDebug
+./gradlew assembleDebug
 ```
 
-You will find APKs in `app/build/outputs/apk`
+You will find APKs in `app/build/outputs/apk`.
+
+For signed release builds create `keystore.properties` in the project root with `storeFile`, `storePassword`, `keyAlias` and `keyPassword`, then run `./gradlew assembleRelease`.
+
+### Standalone binaries
+
+`binary/jni/build.sh -b` builds the i2pd executable for all ABIs into `binary/libs`, `contrib/binary_pack/build-archive` packs them into a zip.
 
 ### Building on Windows
 
-For building on Windows you must use MSYS2 with `mingw64` or `ucrt64` shell and preinstalled `gcc` ( package `mingw-w64-x86_64-gcc` or `mingw-w64-ucrt-x86_64-gcc`).
-
-Java 11 can be downloaded from [jdk.java.com](https://jdk.java.net/java-se-ri/11)
+For building on Windows you must use MSYS2 with `mingw64` or `ucrt64` shell and preinstalled `make`, `perl` and `curl`.
 
 Download Android SDK command line tools for Windows, unpack and install it replacing `--sdk_root=` path.
 
 `ANDROID_HOME` variable must point to SDK using linux-way path, like `/c/dev/android-sdk` when SDK installed to `C:\dev\android-sdk`.
-
-Gradle can be called with `./gradlew` command inside project root, or you can install it using `pacman` and call `gradle` like on linux.
 
 ## Release signing
 

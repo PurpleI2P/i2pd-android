@@ -9,19 +9,13 @@ while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symli
 done
 DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 
-# Checking Android SDK
-if [ -z "$ANDROID_HOME" -a "$ANDROID_HOME" == "" ]; then
-        echo -e "\033[31mFailed! ANDROID_HOME is empty. Run 'export ANDROID_HOME=[PATH_TO_SDK]'\033[0m"
-        exit
-fi
-
 # Checking Android NDK
-if [ -z "$ANDROID_NDK_HOME" -a "$ANDROID_NDK_HOME" == "" ]; then
+if [ -z "$ANDROID_NDK_HOME" ]; then
 	echo -e "\033[31mFailed! ANDROID_NDK_HOME is empty. Run 'export ANDROID_NDK_HOME=[PATH_TO_NDK]'\033[0m"
 	exit 1
 fi
 
-_NDK_OPTS="-j `nproc` NDK_MODULE_PATH=$DIR"
+_NDK_OPTS="-j `nproc` -C $DIR/.."
 
 _help()
 {
@@ -68,22 +62,22 @@ while getopts ":dbcsvxh" option; do
 			exit;;
 		\?) # Invalid option
 			echo "Error: Invalid option. Use $(basename "$SOURCE") -h for help"
-			exit;;
+			exit 1;;
 	esac
 done
 
 # Building
 if [ -z "$_SKIP_LIBS" ]; then
 	echo "Building boost..."
-	./build_boost.sh
+	"$DIR/build_boost.sh"
 	[ $? -ne 0 ] && _failed
 
 	echo "Building openssl..."
-	./build_openssl.sh
+	"$DIR/build_openssl.sh"
 	[ $? -ne 0 ] && _failed
 
 	echo "Building miniupnpc..."
-	./build_miniupnpc.sh
+	"$DIR/build_miniupnpc.sh"
 	[ $? -ne 0 ] && _failed
 fi
 
@@ -97,18 +91,12 @@ if [ ! -z "$_BINARY" ]; then
 	$ANDROID_NDK_HOME/ndk-build $_NDK_OPTS
 fi
 
-if [[ ! -z "$_STRIP" || ! -z "$_MODULE" ]]; then
+if [ ! -z "$_STRIP" ]; then
 	echo "Processing binaries..."
 	pushd $DIR/../libs > /dev/null
 	for xarch in $(ls .); do
-		if [ ! -z "$_STRIP" ]; then
-			echo "Stripping binary..."
-			$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip -s $xarch/i2pd
-		fi
-		if [ ! -z "$_MODULE" ]; then
-			echo "Renaming binary as library..."
-			mv $xarch/i2pd $xarch/libi2pd.so
-		fi
+		echo "Stripping binary..."
+		$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip -s $xarch/i2pd
 	done
 	popd > /dev/null
 fi
