@@ -13,6 +13,7 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import org.purplei2p.i2pd.daemon.api.LogChunk
 import org.purplei2p.i2pd.daemon.api.RouterError
 import org.purplei2p.i2pd.daemon.api.RouterStatus
 import org.purplei2p.i2pd.daemon.api.StartParams
@@ -22,7 +23,7 @@ import org.purplei2p.i2pd.daemon.api.StatusSnapshot
 class RouterSupervisorTest {
 
     private val params = StartParams("/data/i2pd", listOf("--datadir=/data/i2pd"), "english")
-    private val config = SupervisorConfig()
+    private var config = SupervisorConfig()
 
     private class FakeSession(val events: DaemonEvents) : DaemonSession {
         val commands = mutableListOf<String>()
@@ -49,6 +50,8 @@ class RouterSupervisorTest {
             commands += "online=$online"
         }
 
+        override fun readLog(sinceSeq: Long, max: Int): LogChunk? = LogChunk(sinceSeq + 1, emptyList())
+
         override fun kill() {
             killed = true
         }
@@ -73,7 +76,7 @@ class RouterSupervisorTest {
             scope = scope,
             connector = { events -> FakeSession(events).also { sessions += it } },
             prepare = prepare,
-            config = config,
+            config = { config },
             clock = { testScheduler.currentTime },
             ioDispatcher = StandardTestDispatcher(testScheduler),
             onWantedChanged = { wanted += it },
@@ -387,5 +390,46 @@ class RouterSupervisorTest {
         gate.complete(Unit)
         runCurrent()
         assertEquals(Lifecycle.Starting, f.lifecycle)
+    }
+
+    @Test
+    fun `network state is applied to every started router`() = runTest {
+        val f = fixture()
+        f.supervisor.setOnline(false)
+        startRunning(f)
+        assertEquals(listOf("start", "online=false"), f.session.commands)
+
+        f.supervisor.setOnline(true)
+        runCurrent()
+        assertEquals("online=true", f.session.commands.last())
+
+        f.supervisor.restart()
+        runCurrent()
+        f.session.events.onDied()
+        runCurrent()
+        f.session.events.onConnected()
+        f.session.events.onStarted("3.0.0")
+        runCurrent()
+        assertEquals(listOf("start", "online=true"), f.session.commands)
+    }
+
+    @Test
+    fun `changed settings apply without recreating the supervisor`() = runTest {
+        val f = fixture()
+        config = config.copy(autoRestart = false)
+        startRunning(f)
+        f.session.events.onDied()
+        runCurrent()
+        assertNull(f.supervisor.state.value.autoRestartAt)
+
+        config = config.copy(gracefulTimeoutMs = 60_000L)
+        f.supervisor.start()
+        runCurrent()
+        f.session.events.onConnected()
+        f.session.events.onStarted("3.0.0")
+        f.session.events.onStatus(status(transit = 3))
+        f.supervisor.stopGraceful()
+        runCurrent()
+        assertEquals(Lifecycle.Draining(testScheduler.currentTime + 60_000L), f.lifecycle)
     }
 }

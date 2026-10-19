@@ -1,17 +1,21 @@
 package org.purplei2p.i2pd.service
 
+import android.annotation.SuppressLint
 import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ServiceInfo
 import android.os.Build
 import android.os.IBinder
+import android.os.PowerManager
 import android.os.SystemClock
 import androidx.core.app.ServiceCompat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
 /**
@@ -25,6 +29,8 @@ class RouterService : Service() {
     private var lastNotified: RouterState? = null
     private var lastNotifiedAt = 0L
     private var foreground = false
+    private lateinit var networkMonitor: NetworkMonitor
+    private var wakeLock: PowerManager.WakeLock? = null
 
     /** Until the first command is handled an inactive state means "not started yet", not "stop". */
     private var commandHandled = false
@@ -34,8 +40,15 @@ class RouterService : Service() {
         notifications = RouterNotifications(this)
         notifications.createChannels()
         val supervisor = RouterController.supervisor(this)
+        networkMonitor = NetworkMonitor(this) { online -> supervisor.setOnline(online) }
+        networkMonitor.start()
         scope.launch {
             supervisor.state.collect { state -> onState(state) }
+        }
+        scope.launch {
+            combine(supervisor.state, RouterController.settings(this@RouterService).settings) { state, settings ->
+                settings.keepAwake && state.lifecycle.hasRouterProcess
+            }.distinctUntilChanged().collect { keepAwake -> setWakeLock(keepAwake) }
         }
     }
 
@@ -46,6 +59,7 @@ class RouterService : Service() {
         when (intent?.action) {
             null -> if (RouterController.isWanted(this)) supervisor.start() // restarted by the system
             ACTION_SYNC -> Unit
+            ACTION_START -> supervisor.start()
             ACTION_STOP_GRACEFUL -> supervisor.stopGraceful()
             ACTION_STOP_NOW -> supervisor.stopNow()
             ACTION_CANCEL_GRACEFUL -> supervisor.cancelGraceful()
@@ -59,6 +73,8 @@ class RouterService : Service() {
     override fun onBind(intent: Intent?): IBinder? = null
 
     override fun onDestroy() {
+        networkMonitor.stop()
+        setWakeLock(false)
         scope.cancel()
         super.onDestroy()
     }
@@ -89,6 +105,22 @@ class RouterService : Service() {
         lastNotifiedAt = SystemClock.elapsedRealtime()
     }
 
+    // Without it the CPU sleeps in deep sleep: router timers stop and transit tunnels break
+    @SuppressLint("WakelockTimeout", "Wakelock") // held exactly while the router runs, released on stop or destroy
+    private fun setWakeLock(enabled: Boolean) {
+        val current = wakeLock
+        if (enabled && current == null) {
+            val power = getSystemService(PowerManager::class.java)
+            wakeLock = power.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "i2pd:router").apply {
+                setReferenceCounted(false)
+                acquire()
+            }
+        } else if (!enabled && current != null) {
+            if (current.isHeld) current.release()
+            wakeLock = null
+        }
+    }
+
     private fun stopSelfIfIdle(state: RouterState) {
         if (foreground) {
             ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_REMOVE)
@@ -102,6 +134,7 @@ class RouterService : Service() {
 
     companion object {
         const val ACTION_SYNC = "org.purplei2p.i2pd.action.SYNC"
+        const val ACTION_START = "org.purplei2p.i2pd.action.START"
         const val ACTION_STOP_GRACEFUL = "org.purplei2p.i2pd.action.STOP_GRACEFUL"
         const val ACTION_STOP_NOW = "org.purplei2p.i2pd.action.STOP_NOW"
         const val ACTION_CANCEL_GRACEFUL = "org.purplei2p.i2pd.action.CANCEL_GRACEFUL"

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_status">Status</string>
+    <string name="tab_logs">Logs</string>
+    <string name="tab_settings">Settings</string>
+
+    <string name="action_back">Back</string>
+    <string name="action_web_console">Web console</string>
+    <string name="action_share">Share</string>
+    <string name="action_clear">Clear</string>
+    <string name="action_open_settings">Open settings</string>
+    <string name="action_disable">Disable</string>
+
+    <string name="banner_battery">Battery optimization may stop the router in background.</string>
+    <string name="banner_notifications">Notifications are disabled: the router status is not shown.</string>
+
+    <string name="logs_search">Search</string>
+    <string name="logs_level_error">Errors</string>
+    <string name="logs_level_warn">Warnings</string>
+    <string name="logs_level_info">Info</string>
+    <string name="logs_level_debug">Debug</string>
+    <string name="logs_empty">No log entries. The level of detail is set by the loglevel option in i2pd.conf.</string>
+    <string name="logs_router_restarted">— router restarted —</string>
+    <string name="logs_skipped">— %1$d lines skipped —</string>
+    <string name="logs_share_subject">i2pd log</string>
+
+    <string name="settings_section_start">Start</string>
+    <string name="settings_autostart">Start on boot</string>
+    <string name="settings_autostart_summary">Start the router when the device boots</string>
+    <string name="settings_auto_restart">Restart after a crash</string>
+    <string name="settings_auto_restart_summary">Up to 3 attempts within 10 minutes</string>
+    <string name="settings_section_stop">Stop</string>
+    <string name="settings_graceful_timeout">Graceful stop timeout</string>
+    <string name="settings_minutes">%1$d min</string>
+    <string name="settings_section_background">Background work</string>
+    <string name="settings_keep_awake">Keep the device awake</string>
+    <string name="settings_keep_awake_summary">The router keeps working in deep sleep, but the battery drains faster</string>
+    <string name="settings_battery">Battery optimization</string>
+    <string name="settings_battery_on">Enabled: the system may stop the router</string>
+    <string name="settings_battery_off">Disabled for i2pd</string>
+    <string name="settings_section_about">About</string>
+</resources>

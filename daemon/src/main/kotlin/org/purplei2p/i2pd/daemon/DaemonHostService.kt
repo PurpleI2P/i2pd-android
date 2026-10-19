@@ -1,5 +1,6 @@
 package org.purplei2p.i2pd.daemon
 
+import android.annotation.SuppressLint
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
@@ -77,6 +78,8 @@ class DaemonHostService : Service() {
         }
     }
 
+    // Not delegating to the default handler on purpose: it shows the crash dialog, see below
+    @SuppressLint("DefaultUncaughtExceptionDelegation")
     override fun onCreate() {
         super.onCreate()
         // The default handler blocks the crashed thread on the system crash dialog while i2pd keeps

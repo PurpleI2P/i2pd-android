@@ -42,4 +42,5 @@
     <string name="action_stop_now">Остановить сейчас</string>
     <string name="action_restart">Перезапустить</string>
     <string name="action_cancel">Отменить</string>
+    <string name="tile_label">I2P-роутер</string>
 </resources>

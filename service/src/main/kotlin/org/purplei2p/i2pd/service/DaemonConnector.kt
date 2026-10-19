@@ -1,5 +1,6 @@
 package org.purplei2p.i2pd.service
 
+import org.purplei2p.i2pd.daemon.api.LogChunk
 import org.purplei2p.i2pd.daemon.api.StartParams
 import org.purplei2p.i2pd.daemon.api.StatusSnapshot
 
@@ -21,6 +22,9 @@ interface DaemonSession {
     fun reloadTunnels()
 
     fun setOnline(online: Boolean)
+
+    /** Blocking call, null if the router process is not reachable. */
+    fun readLog(sinceSeq: Long, max: Int): LogChunk?
 
     /** Kills the router process immediately. */
     fun kill()

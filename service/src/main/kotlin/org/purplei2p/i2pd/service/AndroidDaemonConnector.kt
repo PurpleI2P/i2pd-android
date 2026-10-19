@@ -11,6 +11,7 @@ import android.util.Log
 import org.purplei2p.i2pd.daemon.DaemonHostService
 import org.purplei2p.i2pd.daemon.api.IDaemonCallback
 import org.purplei2p.i2pd.daemon.api.IDaemonHost
+import org.purplei2p.i2pd.daemon.api.LogChunk
 import org.purplei2p.i2pd.daemon.api.StartParams
 import org.purplei2p.i2pd.daemon.api.StatusSnapshot
 import java.util.concurrent.atomic.AtomicBoolean
@@ -107,6 +108,15 @@ private class AndroidDaemonSession(
     override fun reloadTunnels() = call { it.reloadTunnels() }
 
     override fun setOnline(online: Boolean) = call { it.setOnline(online) }
+
+    override fun readLog(sinceSeq: Long, max: Int): LogChunk? {
+        val current = host ?: return null
+        return try {
+            current.readLog(sinceSeq, max)
+        } catch (e: RemoteException) {
+            null
+        }
+    }
 
     override fun kill() {
         val target = pid
