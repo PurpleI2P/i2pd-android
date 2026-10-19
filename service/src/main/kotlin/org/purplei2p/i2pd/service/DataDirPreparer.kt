@@ -46,12 +46,15 @@ class DataDirPreparer(private val context: Context) {
         )
     }
 
-    /** Copies an asset file or directory; existing files are left untouched. */
+    /**
+     * Copies an asset file or directory; existing files are left untouched, and so are files
+     * the user switched off (tunnel files renamed to *.disabled).
+     */
     private fun copyAsset(assets: AssetManager, path: String, root: File) {
         val children = assets.list(path).orEmpty()
         val target = File(root, path)
         if (children.isEmpty()) {
-            if (target.exists()) return
+            if (target.exists() || File(target.path + DISABLED_SUFFIX).exists()) return
             target.parentFile?.mkdirs()
             val tmp = File(target.path + ".tmp")
             assets.open(path).use { input -> tmp.outputStream().use { input.copyTo(it) } }
@@ -77,6 +80,7 @@ class DataDirPreparer(private val context: Context) {
         const val DATA_DIR_NAME = "i2pd"
         const val ASSETS_STAMP = ".assets-version"
         const val CERTIFICATES = "certificates"
+        const val DISABLED_SUFFIX = ".disabled"
         val ASSETS = listOf("i2pd.conf", "tunnels.conf", "tunnels.d", "addressbook", CERTIFICATES)
     }
 }

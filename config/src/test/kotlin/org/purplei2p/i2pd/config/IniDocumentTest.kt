@@ -81,4 +81,11 @@ class IniDocumentTest {
         assertEquals(text, doc.toString())
         assertEquals(emptyList<IniDocument.EntryRef>(), doc.entries)
     }
+
+    @Test
+    fun `sections added to an empty document start at the first line`() {
+        val doc = IniDocument.parse("")
+        doc.addSection("a", listOf("type" to "server"))
+        assertEquals("[a]\ntype = server\n", doc.toString())
+    }
 }

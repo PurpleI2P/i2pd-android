@@ -12,4 +12,10 @@
         <item quantity="many">и ещё %1$d</item>
         <item quantity="other">и ещё %1$d</item>
     </plurals>
+    <plurals name="tunnels_shared_short">
+        <item quantity="one">Общее назначение %1$s: %2$d участник</item>
+        <item quantity="few">Общее назначение %1$s: %2$d участника</item>
+        <item quantity="many">Общее назначение %1$s: %2$d участников</item>
+        <item quantity="other">Общее назначение %1$s: %2$d участника</item>
+    </plurals>
 </resources>

@@ -42,7 +42,16 @@ object RouterController {
 
     fun dismiss(context: Context) = supervisor(context).dismiss()
 
-    fun reloadTunnels(context: Context) = supervisor(context).reloadTunnels()
+    /** Applies saved tunnel files to the running router without restarting it. */
+    fun reloadTunnels(context: Context) {
+        supervisor(context).reloadTunnels()
+        tunnels(context).markApplied()
+    }
+
+    fun tunnels(context: Context): RouterTunnels = RouterTunnels.get(context)
+
+    /** True while saved tunnel changes are not applied to the running router. */
+    fun tunnelsPendingApply(context: Context): Flow<Boolean> = tunnels(context).pendingApply(state(context))
 
     /** See [RouterSupervisor.runWithRouterStopped]. */
     fun runWithRouterStopped(context: Context, block: suspend () -> Unit): Deferred<Result<Unit>> =
@@ -76,7 +85,10 @@ object RouterController {
             connector = AndroidDaemonConnector(context),
             prepare = {
                 withContext(Dispatchers.IO) {
-                    preparer.prepare().also { RouterConfig.get(context).onRouterStarting() }
+                    preparer.prepare().also {
+                        RouterConfig.get(context).onRouterStarting()
+                        RouterTunnels.get(context).onRouterStarting()
+                    }
                 }
             },
             config = {

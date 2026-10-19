@@ -29,6 +29,7 @@ import androidx.lifecycle.compose.LifecycleResumeEffect
 
 private enum class Tab(val label: Int, val icon: Int) {
     STATUS(R.string.tab_status, R.drawable.ic_nav_status),
+    TUNNELS(R.string.tab_tunnels, R.drawable.ic_nav_tunnels),
     LOGS(R.string.tab_logs, R.drawable.ic_nav_logs),
     SETTINGS(R.string.tab_settings, R.drawable.ic_nav_settings),
 }
@@ -62,6 +63,7 @@ fun AppScaffold() {
         val modifier = Modifier.padding(padding)
         when (tab) {
             Tab.STATUS -> StatusScreen(checks = checks, onOpenWebConsole = { webConsoleUrl = it }, modifier = modifier)
+            Tab.TUNNELS -> TunnelsScreen(modifier = modifier)
             Tab.LOGS -> LogsScreen(modifier = modifier)
             Tab.SETTINGS -> SettingsScreen(checks = checks, modifier = modifier)
         }
