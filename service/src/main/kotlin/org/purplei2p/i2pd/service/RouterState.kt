@@ -20,6 +20,10 @@ sealed interface Lifecycle {
     data object Stopping : Lifecycle
 
     data class Failed(val reason: FailureReason) : Lifecycle
+
+    /** A router process may exist and be talked to. */
+    val hasRouterProcess: Boolean
+        get() = this == Starting || this == Running || this is Draining || this == Stopping
 }
 
 sealed interface FailureReason {

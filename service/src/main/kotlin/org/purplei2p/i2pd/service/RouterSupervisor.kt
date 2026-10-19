@@ -14,8 +14,12 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeoutOrNull
+import org.purplei2p.i2pd.daemon.api.LogChunk
 import org.purplei2p.i2pd.daemon.api.StartParams
 import org.purplei2p.i2pd.daemon.api.StatusSnapshot
+
+/** Log of one router process; seq numbering starts anew in every process. */
+data class SessionLog(val sessionId: Int, val chunk: LogChunk)
 
 data class SupervisorConfig(
     val gracefulTimeoutMs: Long = 10 * 60 * 1000L,
@@ -40,7 +44,8 @@ class RouterSupervisor(
     private val scope: CoroutineScope,
     private val connector: DaemonConnector,
     private val prepare: suspend () -> StartParams,
-    private val config: SupervisorConfig = SupervisorConfig(),
+    /** Read on every use, so changed app settings apply without recreating the supervisor. */
+    private val config: () -> SupervisorConfig = { SupervisorConfig() },
     private val clock: () -> Long = System::currentTimeMillis,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
     /** Whether the user wants the router running; persisted to restore it after the app process is killed. */
@@ -49,11 +54,18 @@ class RouterSupervisor(
     private val _state = MutableStateFlow(RouterState())
     val state: StateFlow<RouterState> = _state.asStateFlow()
 
+    // Volatile: readLog uses them from other threads
+    @Volatile
     private var session: DaemonSession? = null
+
+    @Volatile
     private var sessionId = 0
     private var connected = false
     private var pendingParams: StartParams? = null
     private var lastFatal: String? = null
+
+    /** Last known network state, applied to every started router. */
+    private var online: Boolean? = null
 
     private var prepareJob: Job? = null
     private var timerJob: Job? = null
@@ -123,7 +135,18 @@ class RouterSupervisor(
 
     fun reloadTunnels() = post { if (isRouterUp()) session?.reloadTunnels() }
 
-    fun setOnline(online: Boolean) = post { if (isRouterUp()) session?.setOnline(online) }
+    fun setOnline(online: Boolean) = post {
+        this.online = online
+        if (isRouterUp()) session?.setOnline(online)
+    }
+
+    /** Log lines of the current router process with seq > [sinceSeq], null if no router process. */
+    suspend fun readLog(sinceSeq: Long, max: Int): SessionLog? {
+        val id = sessionId
+        val current = session ?: return null
+        val chunk = withContext(ioDispatcher) { current.readLog(sinceSeq, max) } ?: return null
+        return SessionLog(id, chunk)
+    }
 
     /**
      * Runs [block] on the IO dispatcher while the router is stopped (docs/DESIGN.md §6.6).
@@ -197,7 +220,7 @@ class RouterSupervisor(
         prepareJob = scope.launch {
             val params = try {
                 // A previous process must be gone, otherwise the new bind would reuse it
-                retiring.values.toList().forEach { withTimeoutOrNull(config.killTimeoutMs) { it.await() } }
+                retiring.values.toList().forEach { withTimeoutOrNull(config().killTimeoutMs) { it.await() } }
                 withContext(ioDispatcher) { prepare() }
             } catch (e: CancellationException) {
                 throw e
@@ -218,17 +241,17 @@ class RouterSupervisor(
         update { it.copy(lifecycle = Lifecycle.Starting) }
         session = connector.connect(EventsForSession(id))
         timerJob = scope.launch {
-            delay(config.startTimeoutMs)
+            delay(config().startTimeoutMs)
             failWithLiveSession(FailureReason.StartTimeout)
         }
     }
 
     private fun beginDrain() {
         session?.setAcceptsTransit(false)
-        update { it.copy(lifecycle = Lifecycle.Draining(clock() + config.gracefulTimeoutMs)) }
+        update { it.copy(lifecycle = Lifecycle.Draining(clock() + config().gracefulTimeoutMs)) }
         timerJob?.cancel()
         timerJob = scope.launch {
-            delay(config.gracefulTimeoutMs)
+            delay(config().gracefulTimeoutMs)
             stopNowInternal()
         }
         if (_state.value.status?.tunnelsTransit == 0) stopNowInternal()
@@ -254,9 +277,9 @@ class RouterSupervisor(
                     current.stop()
                     val id = sessionId
                     timerJob = scope.launch {
-                        delay(config.stopTimeoutMs)
+                        delay(config().stopTimeoutMs)
                         current.kill()
-                        delay(config.killTimeoutMs)
+                        delay(config().killTimeoutMs)
                         if (id == sessionId && lifecycle == Lifecycle.Stopping) {
                             retireSession()
                             finishStop()
@@ -325,7 +348,7 @@ class RouterSupervisor(
         timerJob?.cancel()
         closeSession()
         update { it.copy(lifecycle = Lifecycle.Failed(reason), status = null, restartPending = false) }
-        if (reason == FailureReason.Crashed && config.autoRestart && scheduleAutoRestart()) return
+        if (reason == FailureReason.Crashed && config().autoRestart && scheduleAutoRestart()) return
         if (stoppedOperations.isNotEmpty()) {
             runOperations()
         } else if (!_state.value.resumeAfterOperations) {
@@ -335,10 +358,10 @@ class RouterSupervisor(
 
     private fun scheduleAutoRestart(): Boolean {
         val now = clock()
-        while (crashTimes.isNotEmpty() && now - crashTimes.first() > config.autoRestartWindowMs) crashTimes.removeFirst()
+        while (crashTimes.isNotEmpty() && now - crashTimes.first() > config().autoRestartWindowMs) crashTimes.removeFirst()
         val attempt = crashTimes.size
-        if (attempt >= config.autoRestartDelaysMs.size) return false
-        val delayMs = config.autoRestartDelaysMs[attempt]
+        if (attempt >= config().autoRestartDelaysMs.size) return false
+        val delayMs = config().autoRestartDelaysMs[attempt]
         crashTimes.addLast(now)
         update { it.copy(autoRestartAt = now + delayMs) }
         autoRestartJob = scope.launch {
@@ -374,6 +397,7 @@ class RouterSupervisor(
     private fun onStarted(version: String) {
         if (lifecycle != Lifecycle.Starting) return
         timerJob?.cancel()
+        online?.let { session?.setOnline(it) }
         update { it.copy(lifecycle = Lifecycle.Running, version = version) }
     }
 

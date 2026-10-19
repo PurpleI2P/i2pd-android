@@ -259,17 +259,17 @@ stateDiagram-v2
 | Кнопка в UI | `startForegroundService` из активити на переднем плане | Да |
 | Действие в уведомлении | `PendingIntent.getForegroundService` | Да (исключение для действий пользователя с уведомлением) |
 | `BOOT_COMPLETED` | `startForegroundService` из `BootReceiver` | Да, для `specialUse` (запрет на Android 15 касается только `dataSync`, `camera`, `mediaPlayback` и некоторых других типов) |
-| Плитка QS | `TileService.onClick` | **Проверить на 34+.** Запасной вариант — `startActivityAndCollapse(PendingIntent)` на прозрачную trampoline-активити, которая запускает сервис |
+| Плитка QS | `TileService.onClick` | Проверено на устройстве: разрешено. Если система откажет (`ForegroundServiceStartNotAllowedException`), плитка открывает прозрачную `StartRouterActivity` через `startActivityAndCollapse` (на 34+ — с `PendingIntent`). На 34+ ещё не проверено |
 | START_STICKY-перезапуск | система | Да |
 
-Автозапуск при загрузке включается настройкой `autostartOnBoot`, которая хранится в DataStore, а не в файле-флаге в `cacheDir`.
+Автозапуск при загрузке включается настройкой `autostartOnBoot` (SharedPreferences), а не файлом-флагом в `cacheDir`. После обновления приложения (`MY_PACKAGE_REPLACED`, тоже исключение из запрета на FGS из фона) роутер запускается снова, если работал до обновления.
 
 ### 7.4. Wakelock
 
 Без partial wakelock в глубоком сне CPU останавливается: таймеры роутера замирают, транзитные туннели рвутся. Поэтому:
 
 - Настройка «Не давать устройству засыпать», по умолчанию **выкл**. Включение показывает предупреждение о расходе батареи. Wakelock держит супервизор, пока демон в `Running`/`Draining`.
-- Отдельно — «Только при зарядке».
+- Отдельно — «Только при зарядке» (пока не сделано).
 
 ### 7.5. Сеть
 
@@ -358,7 +358,7 @@ filesDir/i2pd/
   addressbook/ netDb/ peerProfiles/ router.keys router.info *.dat ...
 ```
 
-Настройки самого приложения (автозапуск, wakelock, таймаут graceful, автоперезапуск, тема) хранятся в DataStore, а не в `i2pd.conf`.
+Настройки самого приложения (автозапуск, wakelock, таймаут graceful, автоперезапуск, тема) хранятся в SharedPreferences (`AppSettingsStore`), а не в `i2pd.conf`. Не DataStore: `BootReceiver` и сервису значения нужны синхронно.
 
 ### 10.2. Lossless INI
 
@@ -530,7 +530,7 @@ DI — вручную: `AppContainer` в `Application`. Hilt для такого
 
 1. **Каркас:** новые модули, Gradle-обвязка, minSdk 23/target 36, сборка `libi2pd.so` с новым NDK, CI.
 2. **Демон и процессы:** `:native` JNI-мост, `DaemonHostService` в `:router`, AIDL, `RouterService` со стейт-машиной, уведомление. Минимальный экран статуса со старт/стоп/перезапуском. → Здесь проверяем фоновую работу и остановку на устройствах.
-3. **Статусы и логи:** полный `StatusSnapshot`, экран статуса, логи, плитка QS, автозапуск, сеть.
+3. **Статусы и логи:** полный `StatusSnapshot`, экран статуса, логи, плитка QS, автозапуск, сеть, wakelock, настройки приложения, баннеры батареи и уведомлений, веб-консоль.
 4. **Конфигурация:** `:config` (INI + схема + оверлей + валидация), экраны настроек Basic/Advanced/ручной редактор, баннер перезапуска.
 5. **Туннели:** редактор туннелей, `reloadTunnels`.
 6. **Данные:** онбординг, миграция с `/sdcard/i2pd`, экспорт/импорт, управление хранилищем (§10.9).
@@ -538,8 +538,8 @@ DI — вручную: `AppContainer` в `Application`. Hilt для такого
 
 ## 16. Открытые вопросы
 
-1. Запуск FGS из `TileService.onClick` на 34+ — проверить на устройстве, иначе trampoline-активити.
+1. Запуск FGS из `TileService.onClick` на 34+ — проверить на устройстве (запасной путь через trampoline-активити уже есть).
 2. Отключение туннеля: перенос файла в `tunnels.d/disabled/` или комментирование секции?
 3. Нужен ли «Режим только клиента» как пресет (`notransit = true`, `bandwidth = L`, без wakelock) для экономии батареи?
-4. Изменить ли дефолтный `loglevel` с `none` на `warn`, чтобы экран логов был полезен из коробки?
+4. ~~Изменить ли дефолтный `loglevel` с `none` на `warn`?~~ Решено: `warn`, `bandwidth` остаётся `L`.
 5. Апстримить ли в i2pd геттер `GetOptionsDesc()` и поддержку graceful для Android-сборки (§5.6)?

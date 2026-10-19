@@ -44,4 +44,5 @@
     <string name="action_stop_now">Stop now</string>
     <string name="action_restart">Restart</string>
     <string name="action_cancel">Cancel</string>
+    <string name="tile_label">I2P router</string>
 </resources>

@@ -20,11 +20,12 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -34,7 +35,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.delay
 import org.purplei2p.i2pd.daemon.api.ClientService
 import org.purplei2p.i2pd.daemon.api.StatusSnapshot
-import org.purplei2p.i2pd.nativelib.I2pdNative
 import org.purplei2p.i2pd.service.Lifecycle
 import org.purplei2p.i2pd.service.RouterController
 import org.purplei2p.i2pd.service.RouterState
@@ -42,7 +42,7 @@ import org.purplei2p.i2pd.service.RouterStateText
 import org.purplei2p.i2pd.service.R as ServiceR
 
 @Composable
-fun StatusScreen() {
+fun StatusScreen(checks: SystemChecks, onOpenWebConsole: (String) -> Unit, modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val state by RouterController.state(context).collectAsStateWithLifecycle()
     // Ticks for countdowns of graceful stop and automatic restart
@@ -67,31 +67,49 @@ fun StatusScreen() {
         }
     }
 
-    Scaffold { padding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-                .verticalScroll(rememberScrollState())
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
-            StateCard(state, now)
-            Controls(
-                state = state,
-                onStart = start,
-                onStop = { RouterController.stopGraceful(context) },
-                onStopNow = { RouterController.stopNow(context) },
-                onRestart = { RouterController.restart(context) },
-                onCancel = { RouterController.cancelGraceful(context) },
-                onDismiss = { RouterController.dismiss(context) },
-            )
-            state.status?.let { StatusDetails(it) }
-            Text(
-                stringResource(R.string.about_versions, BuildConfig.VERSION_NAME, I2pdNative.version(), I2pdNative.abi()),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+    ) {
+        if (checks.batteryOptimized) {
+            Banner(stringResource(R.string.banner_battery), stringResource(R.string.action_disable)) {
+                requestIgnoreBatteryOptimizations(context)
+            }
+        }
+        if (!checks.notificationsEnabled) {
+            Banner(stringResource(R.string.banner_notifications), stringResource(R.string.action_open_settings)) {
+                openNotificationSettings(context)
+            }
+        }
+        StateCard(state, now)
+        Controls(
+            state = state,
+            onStart = start,
+            onStop = { RouterController.stopGraceful(context) },
+            onStopNow = { RouterController.stopNow(context) },
+            onRestart = { RouterController.restart(context) },
+            onCancel = { RouterController.cancelGraceful(context) },
+            onDismiss = { RouterController.dismiss(context) },
+        )
+        state.status?.webConsoleUrl?.takeIf(::isLoopbackUrl)?.let { url ->
+            OutlinedButton(onClick = { onOpenWebConsole(url) }) { Text(stringResource(R.string.action_web_console)) }
+        }
+        state.status?.let { StatusDetails(it) }
+    }
+}
+
+@Composable
+private fun Banner(text: String, action: String, onAction: () -> Unit) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
+    ) {
+        Column(Modifier.padding(start = 16.dp, end = 8.dp, top = 12.dp, bottom = 4.dp)) {
+            Text(text, style = MaterialTheme.typography.bodyMedium)
+            TextButton(onClick = onAction, modifier = Modifier.align(Alignment.End)) { Text(action) }
         }
     }
 }
