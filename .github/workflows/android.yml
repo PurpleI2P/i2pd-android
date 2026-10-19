@@ -4,67 +4,98 @@ on: [push, pull_request]
 
 jobs:
   build:
+    name: Build APKs
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
       with:
         submodules: 'recursive'
-    - name: Install GNU C++ compiler
+
+    - uses: actions/setup-java@v5
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
+    - name: Install NDK and SDK platform
+      id: ndk
       run: |
-        sudo apt-get update
-        sudo apt-get install -y g++
-    - name: Switch to JDK 11
-      run: export JAVA_HOME=$JAVA_HOME_11_X64
-    - name: Install required Android SDK packages
-      run: $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "cmake;3.22.1" "ndk;23.2.8568313"
-    - name: Build required modules
-      run: |
-        export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/23.2.8568313
-        export ANDROID_NDK_ROOT=$ANDROID_HOME/ndk/23.2.8568313
-        pushd binary/jni
-        ./build.sh
-        popd
-    - name: Change concurrent build processes
-      run: sed -i 's|-j\${\(.*\)}|-j2|g' app/build.gradle
+        NDK_VERSION=$(grep '^ndk *=' gradle/libs.versions.toml | cut -d'"' -f2)
+        COMPILE_SDK=$(grep '^compileSdk *=' gradle/libs.versions.toml | cut -d'"' -f2)
+        $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "ndk;$NDK_VERSION" "platforms;android-$COMPILE_SDK.0"
+        echo "ANDROID_NDK_HOME=$ANDROID_HOME/ndk/$NDK_VERSION" >> $GITHUB_ENV
+        echo "version=$NDK_VERSION" >> $GITHUB_OUTPUT
+
+    - name: Compute native dependencies cache key
+      id: deps-key
+      run: echo "key=${{ steps.ndk.outputs.version }}-$(git submodule status | sha256sum | cut -c1-16)" >> $GITHUB_OUTPUT
+
+    - name: Cache native dependencies
+      uses: actions/cache@v4
+      with:
+        path: |
+          binary/jni/deps
+          binary/jni/openssl/out
+          binary/jni/miniupnp/miniupnpc/out
+        key: native-deps-${{ steps.deps-key.outputs.key }}-${{ hashFiles('binary/jni/build_*.sh') }}
+
+    - name: Build native dependencies
+      run: binary/jni/build.sh
+
+    - uses: gradle/actions/setup-gradle@v4
+
     - name: Build with Gradle
       run: ./gradlew --no-daemon assembleDebug
-    - name: Upload artifacts
+
+    - name: Upload APKs
       uses: actions/upload-artifact@v4
       with:
         name: android-apks
         path: app/build/outputs/apk/debug/*.apk
 
   build-binary:
+    name: Build standalone binaries
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
       with:
         submodules: 'recursive'
-    - name: Install GNU C++ compiler
+
+    - name: Install NDK
+      id: ndk
       run: |
-        sudo apt-get update
-        sudo apt-get install -y g++
-    - name: Switch to JDK 11
-      run: export JAVA_HOME=$JAVA_HOME_11_X64
-    - name: Install required Android SDK packages
-      run: $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "cmake;3.22.1" "ndk;23.2.8568313"
+        NDK_VERSION=$(grep '^ndk *=' gradle/libs.versions.toml | cut -d'"' -f2)
+        $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "ndk;$NDK_VERSION"
+        echo "ANDROID_NDK_HOME=$ANDROID_HOME/ndk/$NDK_VERSION" >> $GITHUB_ENV
+        echo "version=$NDK_VERSION" >> $GITHUB_OUTPUT
+
+    - name: Compute native dependencies cache key
+      id: deps-key
+      run: echo "key=${{ steps.ndk.outputs.version }}-$(git submodule status | sha256sum | cut -c1-16)" >> $GITHUB_OUTPUT
+
+    - name: Cache native dependencies
+      uses: actions/cache@v4
+      with:
+        path: |
+          binary/jni/deps
+          binary/jni/openssl/out
+          binary/jni/miniupnp/miniupnpc/out
+        key: native-deps-${{ steps.deps-key.outputs.key }}-${{ hashFiles('binary/jni/build_*.sh') }}
+
     - name: Build binary with NDK
-      run: |
-        export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/23.2.8568313
-        export ANDROID_NDK_ROOT=$ANDROID_HOME/ndk/23.2.8568313
-        pushd binary/jni
-        ./build.sh -b
-        popd
+      run: binary/jni/build.sh -b
+
     - name: Create package with built binaries
       run: |
         pushd contrib/binary_pack
         ./build-archive
         popd
+
     - name: Upload binaries archive
       uses: actions/upload-artifact@v4
       with:
         name: android-binaries
         path: binary/libs/*
+
     - name: Upload binaries package
       uses: actions/upload-artifact@v4
       with:

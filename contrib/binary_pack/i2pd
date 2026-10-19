@@ -25,9 +25,10 @@ if [ -z $screenfind ]; then
   exit 1;
 fi
 
-if [ -z i2pd-$arch ]; then
-  echo "Can't find i2pd binary for your architecture.";
+binary="$DIR/i2pd-$arch"
+if [ ! -x "$binary" ]; then
+  echo "Can't find i2pd binary for your architecture ($arch).";
   exit 1;
 fi
 
-screen -AmdS i2pd ./i2pd-$arch --datadir=$DIR
+screen -AmdS i2pd "$binary" --datadir="$DIR"

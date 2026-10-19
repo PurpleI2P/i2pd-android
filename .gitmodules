@@ -11,6 +11,3 @@
 [submodule "openssl"]
 	path = binary/jni/openssl
 	url = https://github.com/openssl/openssl.git
-[submodule "boost"]
-	path = binary/jni/boost
-	url = https://github.com/moritz-wundke/Boost-for-Android.git

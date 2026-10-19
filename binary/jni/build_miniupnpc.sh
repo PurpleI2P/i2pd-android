@@ -2,9 +2,18 @@
 
 set -e
 
-CMAKE_VERSION=3.22.1
+cd "$( dirname "${BASH_SOURCE[0]}" )"
+
+API=23
 
 function build_one {
+	local stamp="$NDK_REVISION android-$API"
+	if [ -f "out/$CPU/lib/libminiupnpc.a" ] && [ "$(cat "out/$CPU/.stamp" 2>/dev/null)" == "$stamp" ]; then
+		echo "miniupnpc for $CPU is up to date"
+		return
+	fi
+
+	rm -rf build out/$CPU
 	mkdir -p build out/$CPU
 	cd build
 
@@ -13,7 +22,7 @@ function build_one {
 	-DUPNPC_BUILD_SHARED=False \
 	-DUPNPC_BUILD_TESTS=False \
 	-DUPNPC_BUILD_SAMPLE=False \
-	-DANDROID_NATIVE_API_LEVEL=$API \
+	-DANDROID_PLATFORM=android-$API \
 	-DANDROID_ABI=$CPU \
 	-DCMAKE_BUILD_TYPE=Release \
 	-DANDROID_NDK=$ANDROID_NDK_HOME \
@@ -27,6 +36,8 @@ function build_one {
 
 	cd ..
 	rm -rf build
+
+	echo "$stamp" > "out/$CPU/.stamp"
 }
 
 function checkPreRequisites {
@@ -34,17 +45,22 @@ function checkPreRequisites {
 	if ! [ -d "miniupnp" ] || ! [ "$(ls -A miniupnp)" ]; then
 		echo -e "\033[31mFailed! Submodule 'miniupnp' not found!\033[0m"
 		echo -e "\033[31mTry to run: 'git submodule update --init'\033[0m"
-		exit
+		exit 1
 	fi
 
-	if [ -z "$ANDROID_HOME" -a "$ANDROID_HOME" == "" ]; then
-		echo -e "\033[31mFailed! ANDROID_HOME is empty. Run 'export ANDROID_HOME=[PATH_TO_SDK]'\033[0m"
-		exit
-	fi
-
-	if [ -z "$ANDROID_NDK_HOME" -a "$ANDROID_NDK_HOME" == "" ]; then
+	if [ -z "$ANDROID_NDK_HOME" ]; then
 		echo -e "\033[31mFailed! ANDROID_NDK_HOME is empty. Run 'export ANDROID_NDK_HOME=[PATH_TO_NDK]'\033[0m"
-		exit
+		exit 1
+	fi
+	NDK_REVISION=$(grep 'Pkg.Revision' "$ANDROID_NDK_HOME/source.properties" | sed -E 's/^.*= *//')
+
+	# prefer cmake from PATH, fall back to the newest one from Android SDK
+	if ! command -v cmake > /dev/null && [ -n "$ANDROID_HOME" ] && [ -d "$ANDROID_HOME/cmake" ]; then
+		PATH=$(ls -d "$ANDROID_HOME"/cmake/*/bin | sort -V | tail -1):$PATH
+	fi
+	if ! command -v cmake > /dev/null; then
+		echo -e "\033[31mFailed! cmake not found. Install it or add 'cmake;<version>' package to Android SDK\033[0m"
+		exit 1
 	fi
 }
 
@@ -52,22 +68,18 @@ function build {
 	for arg in "$@"; do
 		case "$arg" in
 			x86_64)
-				API=21
 				CPU=x86_64
 				build_one
 			;;
 			arm64)
-				API=21
 				CPU=arm64-v8a
 				build_one
 			;;
 			arm)
-				API=16
 				CPU=armeabi-v7a
 				build_one
 			;;
 			x86)
-				API=16
 				CPU=x86
 				build_one
 			;;
@@ -80,10 +92,7 @@ function build {
 checkPreRequisites
 
 cd miniupnp/miniupnpc
-rm -rf build out
-
-# add cmake from Android SDK to PATH
-PATH=$ANDROID_HOME/cmake/$CMAKE_VERSION/bin:$PATH
+rm -rf build
 
 if (( $# == 0 )); then
 	build x86_64 arm64 arm x86
