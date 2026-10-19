@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="logs_skipped">
+        <item quantity="one">— пропущена %1$d строка —</item>
+        <item quantity="few">— пропущено %1$d строки —</item>
+        <item quantity="many">— пропущено %1$d строк —</item>
+        <item quantity="other">— пропущено %1$d строки —</item>
+    </plurals>
+    <plurals name="changes_more">
+        <item quantity="one">и ещё %1$d</item>
+        <item quantity="few">и ещё %1$d</item>
+        <item quantity="many">и ещё %1$d</item>
+        <item quantity="other">и ещё %1$d</item>
+    </plurals>
+</resources>

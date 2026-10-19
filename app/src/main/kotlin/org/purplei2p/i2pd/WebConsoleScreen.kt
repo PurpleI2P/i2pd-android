@@ -1,7 +1,6 @@
 package org.purplei2p.i2pd
 
 import android.annotation.SuppressLint
-import android.net.Uri
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -21,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.net.toUri
 
 private val LOOPBACK_HOSTS = setOf("127.0.0.1", "localhost", "[::1]", "::1")
 
@@ -55,4 +55,4 @@ fun WebConsoleScreen(url: String, onBack: () -> Unit) {
 }
 
 /** True if [url] points to this device, so it may be shown in the web console. */
-fun isLoopbackUrl(url: String): Boolean = Uri.parse(url).host in LOOPBACK_HOSTS
+fun isLoopbackUrl(url: String): Boolean = url.toUri().host in LOOPBACK_HOSTS

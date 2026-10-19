@@ -30,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
@@ -117,7 +118,7 @@ private fun LogRow(entry: LogEntry) {
             modifier = Modifier.padding(vertical = 1.dp),
         )
         is LogEntry.RouterRestarted -> Marker(stringResource(R.string.logs_router_restarted))
-        is LogEntry.Skipped -> Marker(stringResource(R.string.logs_skipped, entry.count))
+        is LogEntry.Skipped -> Marker(pluralStringResource(R.plurals.logs_skipped, entry.count.toInt(), entry.count))
     }
 }
 
@@ -148,7 +149,7 @@ private fun shareLog(context: Context, entries: List<LogEntry>) {
             when (entry) {
                 is LogEntry.Line -> out.appendLine(listOfNotNull(entry.time, entry.level?.name?.lowercase(), entry.text).joinToString(" "))
                 is LogEntry.RouterRestarted -> out.appendLine(context.getString(R.string.logs_router_restarted))
-                is LogEntry.Skipped -> out.appendLine(context.getString(R.string.logs_skipped, entry.count))
+                is LogEntry.Skipped -> out.appendLine(context.resources.getQuantityString(R.plurals.logs_skipped, entry.count.toInt(), entry.count))
             }
         }
     }

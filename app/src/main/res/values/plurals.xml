@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="logs_skipped">
+        <item quantity="one">— %1$d line skipped —</item>
+        <item quantity="other">— %1$d lines skipped —</item>
+    </plurals>
+    <plurals name="changes_more">
+        <item quantity="one">and %1$d more</item>
+        <item quantity="other">and %1$d more</item>
+    </plurals>
+</resources>

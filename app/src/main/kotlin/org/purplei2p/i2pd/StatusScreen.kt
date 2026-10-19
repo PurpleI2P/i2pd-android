@@ -84,6 +84,7 @@ fun StatusScreen(checks: SystemChecks, onOpenWebConsole: (String) -> Unit, modif
                 openNotificationSettings(context)
             }
         }
+        RestartBanner()
         StateCard(state, now)
         Controls(
             state = state,

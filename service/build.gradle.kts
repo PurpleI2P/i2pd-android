@@ -23,7 +23,8 @@ android {
 dependencies {
     api(project(":daemon-api"))
     implementation(project(":daemon"))
-    implementation(project(":config"))
+    api(project(":config"))
+    implementation(project(":native"))
 
     implementation(libs.androidx.core.ktx)
     api(libs.kotlinx.coroutines.android)

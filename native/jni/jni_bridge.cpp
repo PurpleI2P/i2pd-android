@@ -14,6 +14,7 @@
 #include <mutex>
 #include <sstream>
 #include <string>
+#include <type_traits>
 #include <vector>
 #include <boost/exception/diagnostic_information.hpp>
 #include <boost/program_options.hpp>
@@ -28,6 +29,15 @@
 #include "NetDb.hpp"
 #include "ClientContext.h"
 #include "log_buffer.h"
+
+namespace i2p
+{
+namespace config
+{
+	// Defined in Config.cpp, not declared in Config.h
+	extern boost::program_options::options_description m_OptionsDesc;
+}
+}
 
 // Keep in sync with org.purplei2p.i2pd.nativelib.I2pdNative
 namespace
@@ -66,6 +76,9 @@ namespace
 
 	i2p::android::LogBuffer g_LogBuffer (kLogCapacity);
 	std::atomic<bool> g_Initialized { false };
+	// config::Init () fills global option descriptions and may run only once per process
+	std::mutex g_ConfigInitMutex;
+	bool g_ConfigInitCalled = false;
 	std::atomic<bool> g_Running { false };
 
 	std::string ToString (JNIEnv * env, jstring s)
@@ -179,6 +192,12 @@ namespace
 		{
 			if (g_Initialized.exchange (true))
 				return "Daemon is already initialized in this process";
+			{
+				std::lock_guard<std::mutex> l(g_ConfigInitMutex);
+				if (g_ConfigInitCalled)
+					return "Options schema was loaded in this process, the daemon cannot be initialized here";
+				g_ConfigInitCalled = true; // Daemon.init calls config::Init
+			}
 
 			i2p::log::SetThrowFunction (OnFatal);
 			std::vector<char *> argv;
@@ -297,6 +316,87 @@ namespace
 		return ToJString (env, ss.str ());
 	}
 
+	void Escape (std::ostringstream& out, const std::string& s)
+	{
+		for (char c: s)
+		{
+			switch (c)
+			{
+				case '\\': out << "\\\\"; break;
+				case '\t': out << "\\t"; break;
+				case '\n': out << "\\n"; break;
+				case '\r': break;
+				default: out << c;
+			}
+		}
+	}
+
+	template<typename T>
+	bool DescribeType (const boost::program_options::value_semantic * semantic, const char * typeName,
+		std::string& type, std::string& defaultValue, bool& hasDefault)
+	{
+		if (!dynamic_cast<const boost::program_options::typed_value<T> *>(semantic)) return false;
+		type = typeName;
+		boost::any value;
+		hasDefault = semantic->apply_default (value);
+		if (hasDefault)
+		{
+			std::ostringstream ss;
+			if constexpr (std::is_same_v<T, bool>)
+				ss << (boost::any_cast<bool>(value) ? "true" : "false");
+			else
+				ss << boost::any_cast<T>(value);
+			defaultValue = ss.str ();
+		}
+		return true;
+	}
+
+	/**
+	 * All i2pd options, one per line: name, type, has default (0/1), default, description.
+	 * Fields are separated by tabs; backslash, tab and newline inside fields are escaped.
+	 * Must not be called in a process that runs the daemon before Init: it calls config::Init itself.
+	 */
+	jstring DescribeOptions (JNIEnv * env, jclass)
+	{
+		try
+		{
+			{
+				std::lock_guard<std::mutex> l(g_ConfigInitMutex);
+				if (!g_ConfigInitCalled)
+				{
+					g_ConfigInitCalled = true;
+					i2p::config::Init ();
+				}
+			}
+			std::ostringstream out;
+			// Group captions are not public in boost, sections come from option name prefixes instead
+			{
+				for (const auto& option: i2p::config::m_OptionsDesc.options ())
+				{
+					const auto * semantic = option->semantic ().get ();
+					std::string type = "string", defaultValue;
+					bool hasDefault = false;
+					DescribeType<bool>(semantic, "bool", type, defaultValue, hasDefault) ||
+					DescribeType<std::string>(semantic, "string", type, defaultValue, hasDefault) ||
+					DescribeType<uint16_t>(semantic, "uint16", type, defaultValue, hasDefault) ||
+					DescribeType<uint32_t>(semantic, "uint32", type, defaultValue, hasDefault) ||
+					DescribeType<uint64_t>(semantic, "uint64", type, defaultValue, hasDefault) ||
+					DescribeType<int>(semantic, "int", type, defaultValue, hasDefault) ||
+					DescribeType<double>(semantic, "double", type, defaultValue, hasDefault);
+					Escape (out, option->long_name ()); out << '\t';
+					out << type << '\t' << (hasDefault ? '1' : '0') << '\t';
+					Escape (out, defaultValue); out << '\t';
+					Escape (out, option->description ()); out << '\n';
+				}
+			}
+			return ToJString (env, out.str ());
+		}
+		catch (...)
+		{
+			return nullptr;
+		}
+	}
+
 	jobjectArray ReadLog (JNIEnv * env, jclass, jlong sinceSeq, jint max, jlongArray joutFirstSeq)
 	{
 		std::vector<std::string> lines;
@@ -332,6 +432,7 @@ namespace
 		{ "setOnline", "(Z)V", reinterpret_cast<void *>(SetOnline) },
 		{ "option", "(Ljava/lang/String;)Ljava/lang/String;", reinterpret_cast<void *>(Option) },
 		{ "readLog", "(JI[J)[Ljava/lang/String;", reinterpret_cast<void *>(ReadLog) },
+		{ "describeOptions", "()Ljava/lang/String;", reinterpret_cast<void *>(DescribeOptions) },
 	};
 }
 

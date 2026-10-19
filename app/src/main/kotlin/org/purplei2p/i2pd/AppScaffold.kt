@@ -3,7 +3,6 @@ package org.purplei2p.i2pd
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.os.PowerManager
 import android.provider.Settings
@@ -25,6 +24,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.net.toUri
 import androidx.lifecycle.compose.LifecycleResumeEffect
 
 private enum class Tab(val label: Int, val icon: Int) {
@@ -90,7 +90,7 @@ private fun readChecks(context: Context) = SystemChecks(
 /** Asks the user to exempt the app from battery optimization. */
 @SuppressLint("BatteryLife")
 fun requestIgnoreBatteryOptimizations(context: Context) {
-    val intent = Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS, Uri.parse("package:${context.packageName}"))
+    val intent = Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS, "package:${context.packageName}".toUri())
     try {
         context.startActivity(intent)
     } catch (e: android.content.ActivityNotFoundException) {
@@ -102,7 +102,7 @@ fun openNotificationSettings(context: Context) {
     val intent = if (Build.VERSION.SDK_INT >= 26) {
         Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
     } else {
-        Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:${context.packageName}"))
+        Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, "package:${context.packageName}".toUri())
     }
     context.startActivity(intent)
 }
