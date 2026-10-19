@@ -66,6 +66,16 @@ object I2pdNative {
     @JvmStatic
     external fun readLog(sinceSeq: Long, max: Int, outFirstSeq: LongArray): Array<String>
 
+    /**
+     * All i2pd options, one per line: name, type, has default (0/1), default, description;
+     * tab separated, with backslash, tab and newline escaped. Null on error.
+     *
+     * Initializes i2pd option descriptions, so after it [init] fails in this process:
+     * call it only where the router does not run (the main process).
+     */
+    @JvmStatic
+    external fun describeOptions(): String?
+
     /** Indexes of [status] array, keep in sync with StatusIndex in jni_bridge.cpp. */
     object Status {
         const val STATUS_V4 = 0

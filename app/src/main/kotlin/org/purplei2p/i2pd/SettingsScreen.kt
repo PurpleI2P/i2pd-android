@@ -1,5 +1,6 @@
 package org.purplei2p.i2pd
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -31,15 +32,51 @@ import org.purplei2p.i2pd.nativelib.I2pdNative
 import org.purplei2p.i2pd.service.AppSettingsStore
 import org.purplei2p.i2pd.service.RouterController
 
-/** Settings of the application; i2pd options come in a later stage. */
+private enum class SettingsPage(val title: Int) {
+    MAIN(R.string.tab_settings),
+    ROUTER_BASIC(R.string.router_basic),
+    ROUTER_ADVANCED(R.string.router_advanced),
+    ROUTER_RAW(R.string.router_raw),
+}
+
+/** Router (i2pd.conf) and application settings. */
 @Composable
 fun SettingsScreen(checks: SystemChecks, modifier: Modifier = Modifier) {
+    var page by rememberSaveable { mutableStateOf(SettingsPage.MAIN) }
+    if (page == SettingsPage.MAIN) {
+        SettingsMain(checks, onOpen = { page = it }, modifier = modifier)
+        return
+    }
+    BackHandler { page = SettingsPage.MAIN }
+    val session = rememberConfigSession()
+    Column(modifier.fillMaxSize()) {
+        Row(Modifier.fillMaxWidth().padding(horizontal = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+            TextButton(onClick = { page = SettingsPage.MAIN }) { Text(stringResource(R.string.action_back)) }
+            Text(stringResource(page.title), style = MaterialTheme.typography.titleMedium)
+        }
+        when (page) {
+            SettingsPage.ROUTER_BASIC -> RouterBasicScreen(session)
+            SettingsPage.ROUTER_ADVANCED -> RouterAdvancedScreen(session)
+            SettingsPage.ROUTER_RAW -> RawConfigScreen()
+            SettingsPage.MAIN -> Unit
+        }
+    }
+}
+
+@Composable
+private fun SettingsMain(checks: SystemChecks, onOpen: (SettingsPage) -> Unit, modifier: Modifier) {
     val context = LocalContext.current
     val store = RouterController.settings(context)
     val settings by store.settings.collectAsStateWithLifecycle()
     var choosingTimeout by rememberSaveable { mutableStateOf(false) }
 
     Column(modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
+        RestartBanner()
+        Section(R.string.settings_section_router)
+        TextRow(stringResource(R.string.router_basic), stringResource(R.string.router_basic_summary)) { onOpen(SettingsPage.ROUTER_BASIC) }
+        TextRow(stringResource(R.string.router_advanced), stringResource(R.string.router_advanced_summary)) { onOpen(SettingsPage.ROUTER_ADVANCED) }
+        TextRow(stringResource(R.string.router_raw), stringResource(R.string.router_raw_summary)) { onOpen(SettingsPage.ROUTER_RAW) }
+
         Section(R.string.settings_section_start)
         SwitchRow(R.string.settings_autostart, R.string.settings_autostart_summary, settings.autostartOnBoot) { value ->
             store.update { it.copy(autostartOnBoot = value) }

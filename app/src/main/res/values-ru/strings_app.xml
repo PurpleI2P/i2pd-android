@@ -21,7 +21,6 @@
     <string name="logs_level_debug">Отладка</string>
     <string name="logs_empty">Записей нет. Подробность задаётся параметром loglevel в i2pd.conf.</string>
     <string name="logs_router_restarted">— роутер перезапущен —</string>
-    <string name="logs_skipped">— пропущено строк: %1$d —</string>
     <string name="logs_share_subject">Лог i2pd</string>
 
     <string name="settings_section_start">Запуск</string>

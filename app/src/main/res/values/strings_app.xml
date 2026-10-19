@@ -21,7 +21,6 @@
     <string name="logs_level_debug">Debug</string>
     <string name="logs_empty">No log entries. The level of detail is set by the loglevel option in i2pd.conf.</string>
     <string name="logs_router_restarted">— router restarted —</string>
-    <string name="logs_skipped">— %1$d lines skipped —</string>
     <string name="logs_share_subject">i2pd log</string>
 
     <string name="settings_section_start">Start</string>

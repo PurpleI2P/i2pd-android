@@ -8,11 +8,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.purplei2p.i2pd.config.OptionChange
 
 /**
  * Entry point for the UI and system triggers. Lives in the main process only.
@@ -50,6 +52,11 @@ object RouterController {
 
     fun settings(context: Context): AppSettingsStore = AppSettingsStore.get(context)
 
+    fun config(context: Context): RouterConfig = RouterConfig.get(context)
+
+    /** Options changed in i2pd.conf after the running router was started; a restart applies them. */
+    fun pendingChanges(context: Context): Flow<List<OptionChange>> = config(context).pendingChanges(state(context))
+
     /** Whether the user left the router running; used to restore it after the app process was killed. */
     fun isWanted(context: Context): Boolean = prefs(context).getBoolean(KEY_WANTED, false)
 
@@ -67,7 +74,11 @@ object RouterController {
         val supervisor = RouterSupervisor(
             scope = scope,
             connector = AndroidDaemonConnector(context),
-            prepare = { withContext(Dispatchers.IO) { preparer.prepare() } },
+            prepare = {
+                withContext(Dispatchers.IO) {
+                    preparer.prepare().also { RouterConfig.get(context).onRouterStarting() }
+                }
+            },
             config = {
                 val current = settings.value
                 SupervisorConfig(

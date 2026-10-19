@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_section_router">Роутер (i2pd.conf)</string>
+    <string name="router_basic">Основные настройки</string>
+    <string name="router_basic_summary">Сеть, транспорты, прокси, сервисы</string>
+    <string name="router_advanced">Все параметры</string>
+    <string name="router_advanced_summary">Каждый параметр этой сборки i2pd</string>
+    <string name="router_raw">Редактировать i2pd.conf</string>
+    <string name="router_raw_summary">Текстовый редактор для опытных пользователей</string>
+
+    <string name="banner_restart">Настройки изменены. Перезапустите роутер, чтобы применить их.</string>
+    <string name="action_revert_changes">Откатить</string>
+
+    <string name="group_network">Сеть</string>
+    <string name="group_transports">Транспорты</string>
+    <string name="group_http_proxy">HTTP-прокси</string>
+    <string name="group_socks_proxy">SOCKS-прокси</string>
+    <string name="group_web_console">Веб-консоль</string>
+    <string name="group_sam">SAM</string>
+    <string name="group_i2cp">I2CP</string>
+    <string name="group_logging">Журнал</string>
+    <string name="group_limits">Ограничения и хранение</string>
+    <string name="section_general">Общие</string>
+
+    <string name="opt_port">Порт роутера</string>
+    <string name="opt_ipv4">IPv4</string>
+    <string name="opt_ipv6">IPv6</string>
+    <string name="opt_bandwidth">Класс полосы</string>
+    <string name="opt_share">Доля для транзита, %</string>
+    <string name="opt_notransit">Отклонять транзит при запуске</string>
+    <string name="opt_floodfill">Floodfill-роутер</string>
+    <string name="opt_ntcp2_enabled">NTCP2</string>
+    <string name="opt_ssu2_enabled">SSU2</string>
+    <string name="opt_upnp_enabled">Проброс портов UPnP</string>
+    <string name="opt_enabled">Включено</string>
+    <string name="opt_address">Адрес</string>
+    <string name="opt_service_port">Порт</string>
+    <string name="opt_outproxy">Outproxy</string>
+    <string name="opt_loglevel">Уровень журнала</string>
+    <string name="opt_limits_transittunnels">Максимум транзитных туннелей</string>
+    <string name="opt_persist_profiles">Хранить профили пиров на диске</string>
+
+    <string name="bandwidth_l">L — 32 КБ/с</string>
+    <string name="bandwidth_o">O — 256 КБ/с</string>
+    <string name="bandwidth_p">P — 2048 КБ/с</string>
+    <string name="bandwidth_x">X — без ограничений</string>
+    <string name="router_port_auto">авто (9111–30776)</string>
+
+    <string name="value_default">%1$s (по умолчанию)</string>
+    <string name="value_empty">не задано</string>
+    <string name="value_custom">Другое значение</string>
+    <string name="action_save">Сохранить</string>
+    <string name="action_reset_default">Сбросить</string>
+    <string name="action_remove">Удалить</string>
+    <string name="action_comment_out">Закомментировать</string>
+    <string name="action_save_anyway">Всё равно сохранить</string>
+    <string name="action_revert">Отменить правки</string>
+
+    <string name="config_loading">Загрузка конфигурации…</string>
+    <string name="config_load_failed">Не удалось загрузить конфигурацию: %1$s</string>
+    <string name="config_issues">Проблемы в i2pd.conf</string>
+    <string name="config_unknown_options">Параметры, неизвестные i2pd %1$s: с ними роутер не запустится</string>
+    <string name="config_issues_on_save">В файле есть проблемы, i2pd может отказаться с ним запускаться.</string>
+
+    <string name="issue_unknown">%1$s: неизвестный параметр</string>
+    <string name="issue_duplicate">%1$s: задан несколько раз</string>
+    <string name="issue_port_conflict">Порт %1$d занят несколькими сервисами: %2$s</string>
+    <string name="issue_not_boolean">%1$s = %2$s: нужно true или false</string>
+    <string name="issue_not_number">%1$s = %2$s: нужно число</string>
+    <string name="issue_out_of_range">%1$s = %2$s: вне допустимого диапазона</string>
+    <string name="issue_not_allowed">%1$s = %2$s: недопустимое значение</string>
+    <string name="issue_reserved_port">%1$s = %2$s: порт зарезервирован другими программами</string>
+    <string name="issue_outside_range">%1$s = %2$s: за пределами рекомендуемого диапазона 9111–30776</string>
+
+    <string name="error_not_boolean">Нужно true или false</string>
+    <string name="error_not_number">Нужно число</string>
+    <string name="error_out_of_range">Вне допустимого диапазона</string>
+    <string name="error_out_of_range_port">1–65535</string>
+    <string name="error_not_allowed">Недопустимое значение</string>
+    <string name="warning_title">Проверьте значение</string>
+    <string name="warning_router_port_range">Выбран порт, который находится за пределами рекомендуемого диапазона (9111–30776). Всё равно сохранить?</string>
+    <string name="warning_reserved_port">Выбранный порт зарезервирован другими программами. Всё равно сохранить?</string>
+</resources>
