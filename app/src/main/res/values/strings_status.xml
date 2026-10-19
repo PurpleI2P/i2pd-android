@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="status_network">Network</string>
+    <string name="status_uptime">Uptime</string>
+    <string name="status_speed">Speed</string>
+    <!-- download, upload, transit -->
+    <string name="status_speed_value">↓ %1$s  ↑ %2$s  transit %3$s</string>
+    <string name="status_traffic">Traffic</string>
+    <string name="status_traffic_value">↓ %1$s  ↑ %2$s  transit %3$s</string>
+    <string name="status_tunnels">Tunnels</string>
+    <!-- inbound, outbound, transit, success rate -->
+    <string name="status_tunnels_value">in %1$d, out %2$d, transit %3$d · success %4$d%%</string>
+    <string name="status_netdb">Network database</string>
+    <!-- routers, floodfills, lease sets -->
+    <string name="status_netdb_value">routers %1$d, floodfills %2$d, lease sets %3$d</string>
+    <string name="status_transit">Transit</string>
+    <string name="status_transit_accepted">accepted</string>
+    <string name="status_transit_declined">declined</string>
+    <string name="status_services">Services</string>
+    <string name="status_services_none">none</string>
+    <string name="service_http_proxy">HTTP proxy</string>
+    <string name="service_socks_proxy">SOCKS proxy</string>
+    <string name="service_sam">SAM</string>
+    <string name="service_bob">BOB</string>
+    <string name="service_i2cp">I2CP</string>
+    <string name="service_web_console">Web console</string>
+    <string name="action_dismiss">Dismiss</string>
+    <!-- app version, i2pd version, ABI -->
+    <string name="about_versions">App %1$s · i2pd %2$s · %3$s</string>
+</resources>

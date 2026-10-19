@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="status_network">Сеть</string>
+    <string name="status_uptime">Время работы</string>
+    <string name="status_speed">Скорость</string>
+    <string name="status_speed_value">↓ %1$s  ↑ %2$s  транзит %3$s</string>
+    <string name="status_traffic">Трафик</string>
+    <string name="status_traffic_value">↓ %1$s  ↑ %2$s  транзит %3$s</string>
+    <string name="status_tunnels">Туннели</string>
+    <string name="status_tunnels_value">вх. %1$d, исх. %2$d, транзит %3$d · успешно %4$d%%</string>
+    <string name="status_netdb">Сетевая база</string>
+    <string name="status_netdb_value">роутеров %1$d, floodfill %2$d, lease set %3$d</string>
+    <string name="status_transit">Транзит</string>
+    <string name="status_transit_accepted">принимается</string>
+    <string name="status_transit_declined">отклоняется</string>
+    <string name="status_services">Сервисы</string>
+    <string name="status_services_none">нет</string>
+    <string name="service_http_proxy">HTTP-прокси</string>
+    <string name="service_socks_proxy">SOCKS-прокси</string>
+    <string name="service_sam">SAM</string>
+    <string name="service_bob">BOB</string>
+    <string name="service_i2cp">I2CP</string>
+    <string name="service_web_console">Веб-консоль</string>
+    <string name="action_dismiss">Скрыть</string>
+    <string name="about_versions">Приложение %1$s · i2pd %2$s · %3$s</string>
+</resources>

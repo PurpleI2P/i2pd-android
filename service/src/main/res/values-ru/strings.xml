@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="channel_status">Состояние роутера</string>
+    <string name="channel_failures">Ошибки роутера</string>
+
+    <string name="state_stopped">Остановлен</string>
+    <string name="state_starting">Запуск…</string>
+    <string name="state_running">Работает</string>
+    <string name="state_draining">Штатная остановка</string>
+    <string name="state_stopping">Остановка…</string>
+    <string name="state_restarting">Перезапуск…</string>
+    <string name="state_maintenance">Обслуживание…</string>
+    <string name="state_failed">Ошибка роутера</string>
+
+    <string name="summary_running">Сеть: %1$s · ↓ %2$s ↑ %3$s · транзит %4$d</string>
+    <string name="summary_draining">Транзитных туннелей: %1$d, осталось %2$s</string>
+    <string name="summary_auto_restart">Роутер упал, перезапуск через %1$s</string>
+
+    <string name="failure_prepare">Не удалось подготовить каталог данных: %1$s</string>
+    <string name="failure_start">Ошибка запуска: %1$s</string>
+    <string name="failure_fatal">Критическая ошибка: %1$s</string>
+    <string name="failure_crashed">Процесс роутера аварийно завершился</string>
+    <string name="failure_start_timeout">Роутер не запустился вовремя</string>
+
+    <string name="network_ok">OK</string>
+    <string name="network_firewalled">За файрволом</string>
+    <string name="network_unknown">Неизвестно</string>
+    <string name="network_proxy">Прокси</string>
+    <string name="network_mesh">Mesh</string>
+    <string name="network_stan">Stan</string>
+    <string name="network_testing">проверка</string>
+    <string name="network_error_clock_skew">рассинхронизация часов</string>
+    <string name="network_error_offline">нет сети</string>
+    <string name="network_error_symmetric_nat">симметричный NAT</string>
+    <string name="network_error_full_cone_nat">full cone NAT</string>
+    <string name="network_error_no_descriptors">нет дескрипторов</string>
+
+    <string name="speed">%1$s/с</string>
+
+    <string name="action_start">Запустить</string>
+    <string name="action_stop">Остановить</string>
+    <string name="action_stop_now">Остановить сейчас</string>
+    <string name="action_restart">Перезапустить</string>
+    <string name="action_cancel">Отменить</string>
+</resources>

@@ -12,6 +12,7 @@ LOCAL_LDLIBS := -lz -llog
 
 LOCAL_SRC_FILES := \
 	jni_bridge.cpp \
+	log_buffer.cpp \
 	$(I2PD_SRC_FILES)
 
 include $(BUILD_SHARED_LIBRARY)
