@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="channel_status">Router status</string>
+    <string name="channel_failures">Router errors</string>
+
+    <string name="state_stopped">Stopped</string>
+    <string name="state_starting">Starting…</string>
+    <string name="state_running">Running</string>
+    <string name="state_draining">Stopping gracefully</string>
+    <string name="state_stopping">Stopping…</string>
+    <string name="state_restarting">Restarting…</string>
+    <string name="state_maintenance">Maintenance…</string>
+    <string name="state_failed">Router error</string>
+
+    <!-- network status, download speed, upload speed, transit tunnels -->
+    <string name="summary_running">Network: %1$s · ↓ %2$s ↑ %3$s · transit %4$d</string>
+    <!-- transit tunnels left, time left -->
+    <string name="summary_draining">Transit tunnels: %1$d, %2$s left</string>
+    <string name="summary_auto_restart">Router crashed, restarting in %1$s</string>
+
+    <string name="failure_prepare">Cannot prepare data directory: %1$s</string>
+    <string name="failure_start">Start failed: %1$s</string>
+    <string name="failure_fatal">Fatal error: %1$s</string>
+    <string name="failure_crashed">Router process crashed</string>
+    <string name="failure_start_timeout">Router did not start in time</string>
+
+    <string name="network_ok">OK</string>
+    <string name="network_firewalled">Firewalled</string>
+    <string name="network_unknown">Unknown</string>
+    <string name="network_proxy">Proxy</string>
+    <string name="network_mesh">Mesh</string>
+    <string name="network_stan">Stan</string>
+    <string name="network_testing">testing</string>
+    <string name="network_error_clock_skew">clock skew</string>
+    <string name="network_error_offline">offline</string>
+    <string name="network_error_symmetric_nat">symmetric NAT</string>
+    <string name="network_error_full_cone_nat">full cone NAT</string>
+    <string name="network_error_no_descriptors">no descriptors</string>
+
+    <string name="speed">%1$s/s</string>
+
+    <string name="action_start">Start</string>
+    <string name="action_stop">Stop</string>
+    <string name="action_stop_now">Stop now</string>
+    <string name="action_restart">Restart</string>
+    <string name="action_cancel">Cancel</string>
+</resources>

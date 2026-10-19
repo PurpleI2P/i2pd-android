@@ -15,6 +15,8 @@ val keystoreProperties = rootProject.file("keystore.properties").takeIf { it.exi
 android {
     namespace = "org.purplei2p.i2pd"
     compileSdk = libs.versions.compileSdk.get().toInt()
+    // Needed to strip native libraries: without it AGP looks for its default NDK and silently packages them unstripped
+    ndkVersion = libs.versions.ndk.get()
 
     defaultConfig {
         applicationId = "org.purplei2p.i2pd"
@@ -58,6 +60,11 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    lint {
+        // New strings are translated to English and Russian first, other languages follow in a later stage
+        warning += "MissingTranslation"
     }
 }
 

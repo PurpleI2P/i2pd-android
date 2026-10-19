@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+        <!-- i2pd global state cannot be re-initialized, so the router lives in its own process
+             and every start uses a fresh one. Bound only by RouterService. -->
+        <service
+            android:name=".DaemonHostService"
+            android:exported="false"
+            android:process=":router" />
+    </application>
+</manifest>
