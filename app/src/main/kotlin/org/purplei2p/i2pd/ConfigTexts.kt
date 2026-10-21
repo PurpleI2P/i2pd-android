@@ -70,6 +70,7 @@ fun groupTitle(group: OptionGroup): Int = when (group) {
     OptionGroup.SOCKS_PROXY -> R.string.group_socks_proxy
     OptionGroup.WEB_CONSOLE -> R.string.group_web_console
     OptionGroup.SAM -> R.string.group_sam
+    OptionGroup.BOB -> R.string.group_bob
     OptionGroup.I2CP -> R.string.group_i2cp
     OptionGroup.LOGGING -> R.string.group_logging
     OptionGroup.LIMITS -> R.string.group_limits

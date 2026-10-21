@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="status_state">Stato</string>
     <string name="status_network">Reto</string>
     <string name="status_uptime">Funkcidaŭro</string>
     <string name="status_speed">Rapido</string>
@@ -10,6 +11,11 @@
     <string name="status_tunnels_value">envenaj %1$d, elirantaj %2$d, transitaj %3$d · sukceso %4$d%%</string>
     <string name="status_netdb">Reta datumbazo</string>
     <string name="status_netdb_value">enkursigiloj %1$d, floodfill %2$d, lease set %3$d</string>
+    <string name="status_graph_title">Rapido dum la lastaj 5 minutoj</string>
+    <string name="status_graph_max">maks. %1$s</string>
+    <string name="status_graph_tunnels_title">Tuneloj dum la lastaj 5 minutoj</string>
+    <string name="status_graph_tunnels_in">Envenaj</string>
+    <string name="status_graph_tunnels_out">Elirantaj</string>
     <string name="status_transit">Transito</string>
     <string name="status_transit_accepted">akceptata</string>
     <string name="status_transit_declined">rifuzata</string>
@@ -19,5 +25,12 @@
     <string name="service_socks_proxy">SOCKS-prokurilo</string>
     <string name="service_web_console">Retkonzolo</string>
     <string name="action_dismiss">Fermi</string>
+    <string name="hint_stop_now">Tuŝu kaj tenu “%1$s” por tuj haltigi la enkursigilon, sen atendi la finon de transitaj tuneloj</string>
+    <string name="hint_got_it">Komprenite</string>
+    <string name="about_website">Retejo</string>
+    <string name="about_source">Fontkodo</string>
+    <string name="about_issues">Raporti problemon</string>
+    <string name="about_licenses">Malfermitkodaj permesiloj</string>
+    <string name="about_licenses_summary">Komponantoj de la aplikaĵo kaj iliaj permesiloj</string>
     <string name="about_versions">Aplikaĵo %1$s · i2pd %2$s · %3$s</string>
 </resources>

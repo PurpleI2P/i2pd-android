@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="status_state">Стан</string>
     <string name="status_network">Мережа</string>
     <string name="status_uptime">Час роботи</string>
     <string name="status_speed">Швидкість</string>
@@ -10,6 +11,11 @@
     <string name="status_tunnels_value">вх. %1$d, вих. %2$d, транзит %3$d · успішність %4$d%%</string>
     <string name="status_netdb">База даних мережі</string>
     <string name="status_netdb_value">роутерів %1$d, floodfill %2$d, lease set %3$d</string>
+    <string name="status_graph_title">Швидкість за 5 хвилин</string>
+    <string name="status_graph_max">макс. %1$s</string>
+    <string name="status_graph_tunnels_title">Тунелі за 5 хвилин</string>
+    <string name="status_graph_tunnels_in">Вх.</string>
+    <string name="status_graph_tunnels_out">Вих.</string>
     <string name="status_transit">Транзит</string>
     <string name="status_transit_accepted">приймається</string>
     <string name="status_transit_declined">відхиляється</string>
@@ -19,5 +25,12 @@
     <string name="service_socks_proxy">SOCKS-проксі</string>
     <string name="service_web_console">Веб-консоль</string>
     <string name="action_dismiss">Закрити</string>
+    <string name="hint_stop_now">Натисніть і утримуйте «%1$s», щоб зупинити роутер одразу, не чекаючи завершення транзитних тунелів</string>
+    <string name="hint_got_it">Зрозуміло</string>
+    <string name="about_website">Сайт</string>
+    <string name="about_source">Вихідний код</string>
+    <string name="about_issues">Повідомити про проблему</string>
+    <string name="about_licenses">Ліцензії відкритого ПЗ</string>
+    <string name="about_licenses_summary">Компоненти застосунку та їхні ліцензії</string>
     <string name="about_versions">Застосунок %1$s · i2pd %2$s · %3$s</string>
 </resources>

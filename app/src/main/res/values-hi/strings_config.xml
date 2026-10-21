@@ -47,6 +47,7 @@
     <string name="config_loading">कॉन्फ़िगरेशन लोड हो रहा है…</string>
     <string name="config_load_failed">कॉन्फ़िगरेशन लोड नहीं हो सका: %1$s</string>
     <string name="config_issues">i2pd.conf में समस्याएँ</string>
+    <string name="config_problems_tab">समस्याएँ (%1$d)</string>
     <string name="config_unknown_options">i2pd %1$s के लिए अज्ञात विकल्प: इनके साथ राउटर शुरू नहीं होगा</string>
     <string name="config_issues_on_save">फ़ाइल में समस्याएँ हैं; i2pd इसके साथ शुरू होने से मना कर सकता है।</string>
     <string name="issue_unknown">%1$s: अज्ञात विकल्प</string>

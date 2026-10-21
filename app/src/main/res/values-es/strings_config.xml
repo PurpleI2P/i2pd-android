@@ -47,6 +47,7 @@
     <string name="config_loading">Cargando configuración…</string>
     <string name="config_load_failed">No se puede cargar la configuración: %1$s</string>
     <string name="config_issues">Problemas en i2pd.conf</string>
+    <string name="config_problems_tab">Problemas (%1$d)</string>
     <string name="config_unknown_options">Opciones desconocidas para i2pd %1$s: el router no se iniciará con ellas</string>
     <string name="config_issues_on_save">El archivo tiene problemas; puede que i2pd no se inicie con él.</string>
     <string name="issue_unknown">%1$s: opción desconocida</string>

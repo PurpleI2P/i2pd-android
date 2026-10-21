@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="status_state">وضعیت</string>
     <string name="status_network">شبکه</string>
     <string name="status_uptime">مدت کارکرد</string>
     <string name="status_speed">سرعت</string>
@@ -10,6 +11,11 @@
     <string name="status_tunnels_value">ورودی %1$d، خروجی %2$d، ترانزیت %3$d · موفقیت %4$d%%</string>
     <string name="status_netdb">پایگاه دادهٔ شبکه</string>
     <string name="status_netdb_value">روترها %1$d، floodfill %2$d، lease set %3$d</string>
+    <string name="status_graph_title">سرعت در ۵ دقیقهٔ اخیر</string>
+    <string name="status_graph_max">بیشینه %1$s</string>
+    <string name="status_graph_tunnels_title">تونل‌ها در ۵ دقیقهٔ اخیر</string>
+    <string name="status_graph_tunnels_in">ورودی</string>
+    <string name="status_graph_tunnels_out">خروجی</string>
     <string name="status_transit">ترانزیت</string>
     <string name="status_transit_accepted">پذیرفته می‌شود</string>
     <string name="status_transit_declined">رد می‌شود</string>
@@ -19,5 +25,12 @@
     <string name="service_socks_proxy">پراکسی SOCKS</string>
     <string name="service_web_console">کنسول وب</string>
     <string name="action_dismiss">بستن</string>
+    <string name="hint_stop_now">برای توقف فوری روتر بدون انتظار برای پایان تونل‌های ترانزیت، «%1$s» را لمس کرده و نگه دارید</string>
+    <string name="hint_got_it">متوجه شدم</string>
+    <string name="about_website">وب‌سایت</string>
+    <string name="about_source">کد منبع</string>
+    <string name="about_issues">گزارش مشکل</string>
+    <string name="about_licenses">مجوزهای متن‌باز</string>
+    <string name="about_licenses_summary">اجزای برنامه و مجوزهای آن‌ها</string>
     <string name="about_versions">برنامه %1$s · i2pd %2$s · %3$s</string>
 </resources>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="status_state">Estado</string>
     <string name="status_network">Rede</string>
     <string name="status_uptime">Tempo ativo</string>
     <string name="status_speed">Velocidade</string>
@@ -10,6 +11,11 @@
     <string name="status_tunnels_value">entrada %1$d, saída %2$d, trânsito %3$d · sucesso %4$d%%</string>
     <string name="status_netdb">Banco de dados da rede</string>
     <string name="status_netdb_value">roteadores %1$d, floodfills %2$d, lease sets %3$d</string>
+    <string name="status_graph_title">Velocidade dos últimos 5 minutos</string>
+    <string name="status_graph_max">máx. %1$s</string>
+    <string name="status_graph_tunnels_title">Túneis dos últimos 5 minutos</string>
+    <string name="status_graph_tunnels_in">Entrada</string>
+    <string name="status_graph_tunnels_out">Saída</string>
     <string name="status_transit">Trânsito</string>
     <string name="status_transit_accepted">aceito</string>
     <string name="status_transit_declined">recusado</string>
@@ -19,5 +25,12 @@
     <string name="service_socks_proxy">Proxy SOCKS</string>
     <string name="service_web_console">Console web</string>
     <string name="action_dismiss">Fechar</string>
+    <string name="hint_stop_now">Toque e mantenha “%1$s” pressionado para parar o roteador na hora, sem esperar o fim dos túneis de trânsito</string>
+    <string name="hint_got_it">Entendi</string>
+    <string name="about_website">Site</string>
+    <string name="about_source">Código-fonte</string>
+    <string name="about_issues">Relatar um problema</string>
+    <string name="about_licenses">Licenças de código aberto</string>
+    <string name="about_licenses_summary">Componentes do app e suas licenças</string>
     <string name="about_versions">App %1$s · i2pd %2$s · %3$s</string>
 </resources>

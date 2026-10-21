@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="status_state">Stan</string>
     <string name="status_network">Sieć</string>
     <string name="status_uptime">Czas działania</string>
     <string name="status_speed">Prędkość</string>
@@ -10,6 +11,11 @@
     <string name="status_tunnels_value">przych. %1$d, wych. %2$d, tranzyt %3$d · powodzenie %4$d%%</string>
     <string name="status_netdb">Baza danych sieci</string>
     <string name="status_netdb_value">routery %1$d, floodfill %2$d, lease sety %3$d</string>
+    <string name="status_graph_title">Prędkość z ostatnich 5 minut</string>
+    <string name="status_graph_max">maks. %1$s</string>
+    <string name="status_graph_tunnels_title">Tunele z ostatnich 5 minut</string>
+    <string name="status_graph_tunnels_in">Przych.</string>
+    <string name="status_graph_tunnels_out">Wych.</string>
     <string name="status_transit">Tranzyt</string>
     <string name="status_transit_accepted">przyjmowany</string>
     <string name="status_transit_declined">odrzucany</string>
@@ -19,5 +25,12 @@
     <string name="service_socks_proxy">Proxy SOCKS</string>
     <string name="service_web_console">Konsola WWW</string>
     <string name="action_dismiss">Zamknij</string>
+    <string name="hint_stop_now">Naciśnij i przytrzymaj „%1$s”, aby zatrzymać router od razu, bez czekania na zakończenie tuneli tranzytowych</string>
+    <string name="hint_got_it">Rozumiem</string>
+    <string name="about_website">Strona internetowa</string>
+    <string name="about_source">Kod źródłowy</string>
+    <string name="about_issues">Zgłoś problem</string>
+    <string name="about_licenses">Licencje open source</string>
+    <string name="about_licenses_summary">Składniki aplikacji i ich licencje</string>
     <string name="about_versions">Aplikacja %1$s · i2pd %2$s · %3$s</string>
 </resources>

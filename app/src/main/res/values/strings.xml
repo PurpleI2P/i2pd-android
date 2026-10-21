@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name" translatable="false">i2pd</string>
+    <string name="app_description" translatable="false">Invisible Internet Protocol</string>
+    <string name="app_description2">Network without borders</string>
 </resources>

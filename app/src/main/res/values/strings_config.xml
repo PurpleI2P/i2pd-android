@@ -17,6 +17,7 @@
     <string name="group_socks_proxy">SOCKS proxy</string>
     <string name="group_web_console">Web console</string>
     <string name="group_sam" translatable="false">SAM</string>
+    <string name="group_bob" translatable="false">BOB</string>
     <string name="group_i2cp" translatable="false">I2CP</string>
     <string name="group_logging">Logging</string>
     <string name="group_limits">Limits and storage</string>
@@ -59,6 +60,7 @@
     <string name="config_loading">Loading configuration…</string>
     <string name="config_load_failed">Cannot load configuration: %1$s</string>
     <string name="config_issues">Problems in i2pd.conf</string>
+    <string name="config_problems_tab">Problems (%1$d)</string>
     <string name="config_unknown_options">Options unknown to i2pd %1$s: the router will not start with them</string>
     <string name="config_issues_on_save">The file has problems; i2pd may refuse to start with it.</string>
 

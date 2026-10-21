@@ -3,7 +3,7 @@ package org.purplei2p.i2pd.config
 enum class OptionLevel { BASIC, ADVANCED, HIDDEN }
 
 /** Groups of the basic settings screen, in display order. */
-enum class OptionGroup { NETWORK, TRANSPORTS, HTTP_PROXY, SOCKS_PROXY, WEB_CONSOLE, SAM, I2CP, LOGGING, LIMITS }
+enum class OptionGroup { NETWORK, TRANSPORTS, HTTP_PROXY, SOCKS_PROXY, WEB_CONSOLE, SAM, BOB, I2CP, LOGGING, LIMITS }
 
 sealed interface OptionWidget {
     data object Switch : OptionWidget
@@ -63,6 +63,9 @@ object OptionOverlay {
 
         OptionUi("sam.enabled", OptionLevel.BASIC, OptionWidget.Switch, OptionGroup.SAM),
         OptionUi("sam.port", OptionLevel.BASIC, OptionWidget.Port, OptionGroup.SAM),
+
+        OptionUi("bob.enabled", OptionLevel.BASIC, OptionWidget.Switch, OptionGroup.BOB),
+        OptionUi("bob.port", OptionLevel.BASIC, OptionWidget.Port, OptionGroup.BOB),
 
         OptionUi("i2cp.enabled", OptionLevel.BASIC, OptionWidget.Switch, OptionGroup.I2CP),
         OptionUi("i2cp.port", OptionLevel.BASIC, OptionWidget.Port, OptionGroup.I2CP),

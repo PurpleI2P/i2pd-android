@@ -22,13 +22,16 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.PrimaryScrollableTabRow
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Switch
+import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -36,6 +39,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
@@ -51,6 +56,7 @@ import kotlinx.coroutines.launch
 import org.purplei2p.i2pd.config.ConfigEditor
 import org.purplei2p.i2pd.config.ConfigIssue
 import org.purplei2p.i2pd.config.IniDocument
+import org.purplei2p.i2pd.config.OptionGroup
 import org.purplei2p.i2pd.config.OptionLevel
 import org.purplei2p.i2pd.config.OptionOverlay
 import org.purplei2p.i2pd.config.OptionSpec
@@ -157,13 +163,29 @@ fun RestartBanner() {
 private const val MAX_SHOWN_CHANGES = 5
 
 @Composable
-fun RouterBasicScreen(session: ConfigSession) {
+fun RouterBasicScreen(session: ConfigSession, focusGroup: OptionGroup? = null) {
     WithEditor(session) { editor ->
         val options = remember(editor) { OptionOverlay.basicOptions(editor.schema) }
-        Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
+        val scroll = rememberScrollState()
+        // Group title offsets, to scroll to the group a service chip of the status screen asked for
+        val offsets = remember { mutableStateMapOf<OptionGroup, Int>() }
+        var focused by rememberSaveable { mutableStateOf(false) }
+        val focusOffset = focusGroup?.let { offsets[it] }
+        LaunchedEffect(focusOffset) {
+            if (focusOffset != null && !focused) {
+                scroll.animateScrollTo(focusOffset)
+                focused = true
+            }
+        }
+        Column(Modifier.fillMaxSize().verticalScroll(scroll)) {
             RestartBanner()
             options.groupBy { it.group }.forEach { (group, items) ->
-                group?.let { SectionTitle(stringResource(groupTitle(it))) }
+                group?.let {
+                    SectionTitle(
+                        stringResource(groupTitle(it)),
+                        Modifier.onGloballyPositioned { coordinates -> offsets[group] = coordinates.positionInParent().y.toInt() },
+                    )
+                }
                 items.forEach { ui -> OptionRow(session, editor, editor.schema[ui.name]!!, ui, showName = false) }
             }
         }
@@ -176,54 +198,91 @@ fun RouterAdvancedScreen(session: ConfigSession) {
         var query by rememberSaveable { mutableStateOf("") }
         val issues = remember(editor) { editor.validate().filter { it !is ConfigIssue.UnknownOption } }
         val unknown = remember(editor) { editor.unknownEntries() }
-        val sections = remember(editor, query) {
+        val problems = issues.size + unknown.size
+        val sections = remember(editor) {
             editor.schema.options
                 .map { it to OptionOverlay.uiFor(it) }
-                .filter { (spec, ui) ->
-                    ui.level != OptionLevel.HIDDEN &&
-                        (query.isBlank() || spec.name.contains(query, true) || spec.description.contains(query, true))
-                }
+                .filter { (_, ui) -> ui.level != OptionLevel.HIDDEN }
                 .groupBy { (spec, _) -> spec.section }
         }
+        val found = remember(sections, query) {
+            sections.mapValues { (_, options) ->
+                options.filter { (spec, _) -> spec.name.contains(query, true) || spec.description.contains(query, true) }
+            }.filterValues { it.isNotEmpty() }
+        }
+        // Tabs: problems first while there are any, then the sections of i2pd.conf in schema order
+        val tabs = remember(sections, problems > 0) { listOfNotNull(PROBLEMS_TAB.takeIf { problems > 0 }) + sections.keys }
+        var selected by rememberSaveable { mutableStateOf(tabs.first()) }
+        if (selected !in tabs) selected = tabs.first()
+        val searching = query.isNotBlank()
+
         // The banner stays outside the lazy list: an item growing from zero height would be scrolled out of view
         Column(Modifier.fillMaxSize()) {
             RestartBanner()
+            OutlinedTextField(
+                value = query,
+                onValueChange = { query = it },
+                label = { Text(stringResource(R.string.logs_search)) },
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+            )
+            // While searching, results of all sections are shown together and the tabs are hidden
+            if (!searching) {
+                PrimaryScrollableTabRow(selectedTabIndex = tabs.indexOf(selected), edgePadding = 16.dp) {
+                    tabs.forEach { tab ->
+                        Tab(
+                            selected = tab == selected,
+                            onClick = { selected = tab },
+                            text = { Text(sectionTabTitle(tab, problems)) },
+                        )
+                    }
+                }
+            }
             LazyColumn(Modifier.fillMaxWidth().weight(1f)) {
-                item {
-                    OutlinedTextField(
-                        value = query,
-                        onValueChange = { query = it },
-                        label = { Text(stringResource(R.string.logs_search)) },
-                        singleLine = true,
-                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
-                    )
-                }
-                if (unknown.isNotEmpty()) {
-                    item { SectionTitle(stringResource(R.string.config_unknown_options, org.purplei2p.i2pd.nativelib.I2pdNative.version())) }
-                    items(unknown, key = { "unknown-${it.line}" }) { entry -> UnknownEntryRow(session, entry) }
-                }
-                if (issues.isNotEmpty()) {
-                    item {
-                        SectionTitle(stringResource(R.string.config_issues))
-                        issues.forEach { issue ->
-                            Text(
-                                issueText(issue),
-                                color = MaterialTheme.colorScheme.error,
-                                style = MaterialTheme.typography.bodyMedium,
-                                modifier = Modifier.padding(horizontal = 16.dp, vertical = 2.dp),
-                            )
+                when {
+                    searching -> found.forEach { (section, options) ->
+                        item(key = "section-$section") { SectionTitle(sectionTitle(section)) }
+                        items(options, key = { it.first.name }) { (spec, ui) -> OptionRow(session, editor, spec, ui, showName = true) }
+                    }
+                    selected == PROBLEMS_TAB -> {
+                        if (unknown.isNotEmpty()) {
+                            item { SectionTitle(stringResource(R.string.config_unknown_options, org.purplei2p.i2pd.nativelib.I2pdNative.version())) }
+                            items(unknown, key = { "unknown-${it.line}" }) { entry -> UnknownEntryRow(session, entry) }
+                        }
+                        if (issues.isNotEmpty()) {
+                            item {
+                                SectionTitle(stringResource(R.string.config_issues))
+                                issues.forEach { issue ->
+                                    Text(
+                                        issueText(issue),
+                                        color = MaterialTheme.colorScheme.error,
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 2.dp),
+                                    )
+                                }
+                            }
                         }
                     }
-                }
-                sections.forEach { (section, options) ->
-                    item(key = "section-$section") {
-                        SectionTitle(if (section.isEmpty()) stringResource(R.string.section_general) else "[$section]")
+                    else -> items(sections[selected].orEmpty(), key = { it.first.name }) { (spec, ui) ->
+                        OptionRow(session, editor, spec, ui, showName = true)
                     }
-                    items(options, key = { it.first.name }) { (spec, ui) -> OptionRow(session, editor, spec, ui, showName = true) }
                 }
             }
         }
     }
+}
+
+/** Not a section name of i2pd.conf: those are lower case words without spaces. */
+private const val PROBLEMS_TAB = " problems"
+
+@Composable
+private fun sectionTitle(section: String): String = if (section.isEmpty()) stringResource(R.string.section_general) else "[$section]"
+
+@Composable
+private fun sectionTabTitle(tab: String, problems: Int): String = when (tab) {
+    PROBLEMS_TAB -> stringResource(R.string.config_problems_tab, problems)
+    "" -> stringResource(R.string.section_general)
+    else -> tab
 }
 
 @Composable
@@ -239,8 +298,8 @@ private fun UnknownEntryRow(session: ConfigSession, entry: IniDocument.EntryRef)
 }
 
 @Composable
-private fun SectionTitle(title: String) {
-    HorizontalDivider()
+private fun SectionTitle(title: String, modifier: Modifier = Modifier) {
+    HorizontalDivider(modifier)
     Text(
         title,
         style = MaterialTheme.typography.titleSmall,

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="status_state">स्थिति</string>
     <string name="status_network">नेटवर्क</string>
     <string name="status_uptime">चालू रहने का समय</string>
     <string name="status_speed">गति</string>
@@ -10,6 +11,11 @@
     <string name="status_tunnels_value">आने वाले %1$d, जाने वाले %2$d, ट्रांज़िट %3$d · सफलता %4$d%%</string>
     <string name="status_netdb">नेटवर्क डेटाबेस</string>
     <string name="status_netdb_value">राउटर %1$d, floodfill %2$d, lease set %3$d</string>
+    <string name="status_graph_title">पिछले 5 मिनट की गति</string>
+    <string name="status_graph_max">अधिकतम %1$s</string>
+    <string name="status_graph_tunnels_title">पिछले 5 मिनट के टनल</string>
+    <string name="status_graph_tunnels_in">आने वाले</string>
+    <string name="status_graph_tunnels_out">जाने वाले</string>
     <string name="status_transit">ट्रांज़िट</string>
     <string name="status_transit_accepted">स्वीकार</string>
     <string name="status_transit_declined">अस्वीकार</string>
@@ -19,5 +25,12 @@
     <string name="service_socks_proxy">SOCKS प्रॉक्सी</string>
     <string name="service_web_console">वेब कंसोल</string>
     <string name="action_dismiss">बंद करें</string>
+    <string name="hint_stop_now">ट्रांज़िट टनल खत्म होने का इंतज़ार किए बिना राउटर को तुरंत रोकने के लिए “%1$s” को दबाकर रखें</string>
+    <string name="hint_got_it">समझ गया</string>
+    <string name="about_website">वेबसाइट</string>
+    <string name="about_source">सोर्स कोड</string>
+    <string name="about_issues">समस्या की रिपोर्ट करें</string>
+    <string name="about_licenses">ओपन सोर्स लाइसेंस</string>
+    <string name="about_licenses_summary">ऐप के घटक और उनके लाइसेंस</string>
     <string name="about_versions">ऐप %1$s · i2pd %2$s · %3$s</string>
 </resources>

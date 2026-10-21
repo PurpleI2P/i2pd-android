@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="status_state">状态</string>
     <string name="status_network">网络</string>
     <string name="status_uptime">运行时间</string>
     <string name="status_speed">速度</string>
@@ -10,6 +11,11 @@
     <string name="status_tunnels_value">入站 %1$d，出站 %2$d，中转 %3$d · 成功率 %4$d%%</string>
     <string name="status_netdb">网络数据库</string>
     <string name="status_netdb_value">路由器 %1$d，floodfill %2$d，lease set %3$d</string>
+    <string name="status_graph_title">最近 5 分钟速度</string>
+    <string name="status_graph_max">最高 %1$s</string>
+    <string name="status_graph_tunnels_title">最近 5 分钟隧道</string>
+    <string name="status_graph_tunnels_in">入站</string>
+    <string name="status_graph_tunnels_out">出站</string>
     <string name="status_transit">中转</string>
     <string name="status_transit_accepted">接受</string>
     <string name="status_transit_declined">拒绝</string>
@@ -19,5 +25,12 @@
     <string name="service_socks_proxy">SOCKS 代理</string>
     <string name="service_web_console">网页控制台</string>
     <string name="action_dismiss">关闭</string>
+    <string name="hint_stop_now">长按“%1$s”可立即停止路由器，无需等待中转隧道结束</string>
+    <string name="hint_got_it">知道了</string>
+    <string name="about_website">网站</string>
+    <string name="about_source">源代码</string>
+    <string name="about_issues">报告问题</string>
+    <string name="about_licenses">开源许可</string>
+    <string name="about_licenses_summary">应用组件及其许可</string>
     <string name="about_versions">应用 %1$s · i2pd %2$s · %3$s</string>
 </resources>

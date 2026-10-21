@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="status_state">State</string>
     <string name="status_network">Network</string>
     <string name="status_uptime">Uptime</string>
     <string name="status_speed">Speed</string>
@@ -13,6 +14,13 @@
     <string name="status_netdb">Network database</string>
     <!-- routers, floodfills, lease sets -->
     <string name="status_netdb_value">routers %1$d, floodfills %2$d, lease sets %3$d</string>
+    <string name="status_graph_title">Speed, last 5 minutes</string>
+    <string name="status_graph_max">max %1$s</string>
+    <string name="status_graph_in" translatable="false">↓</string>
+    <string name="status_graph_out" translatable="false">↑</string>
+    <string name="status_graph_tunnels_title">Tunnels, last 5 minutes</string>
+    <string name="status_graph_tunnels_in">In</string>
+    <string name="status_graph_tunnels_out">Out</string>
     <string name="status_transit">Transit</string>
     <string name="status_transit_accepted">accepted</string>
     <string name="status_transit_declined">declined</string>
@@ -25,6 +33,13 @@
     <string name="service_i2cp" translatable="false">I2CP</string>
     <string name="service_web_console">Web console</string>
     <string name="action_dismiss">Dismiss</string>
+    <string name="hint_stop_now">Touch and hold “%1$s” to stop the router at once, without waiting for transit tunnels to finish</string>
+    <string name="hint_got_it">Got it</string>
+    <string name="about_website">Website</string>
+    <string name="about_source">Source code</string>
+    <string name="about_issues">Report a problem</string>
+    <string name="about_licenses">Open source licenses</string>
+    <string name="about_licenses_summary">Components of the app and their licenses</string>
     <!-- app version, i2pd version, ABI -->
     <string name="about_versions">App %1$s · i2pd %2$s · %3$s</string>
 </resources>

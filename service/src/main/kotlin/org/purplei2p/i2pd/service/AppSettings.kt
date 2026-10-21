@@ -19,6 +19,8 @@ data class AppSettings(
     val theme: ThemeMode = ThemeMode.SYSTEM,
     /** FLAG_SECURE on the app window: no screenshots, screen recording or thumbnail in recents. */
     val secureScreen: Boolean = true,
+    /** The hint about holding Stop to stop at once was shown. */
+    val stopHintShown: Boolean = false,
     /** The first-run screen was shown. */
     val onboardingDone: Boolean = false,
 )
@@ -38,6 +40,7 @@ class AppSettingsStore private constructor(private val prefs: SharedPreferences)
             putBoolean(KEY_KEEP_AWAKE, updated.keepAwake)
             putString(KEY_THEME, updated.theme.name)
             putBoolean(KEY_SECURE_SCREEN, updated.secureScreen)
+            putBoolean(KEY_STOP_HINT_SHOWN, updated.stopHintShown)
             putBoolean(KEY_ONBOARDING_DONE, updated.onboardingDone)
         }
         _settings.value = updated
@@ -50,6 +53,7 @@ class AppSettingsStore private constructor(private val prefs: SharedPreferences)
         keepAwake = prefs.getBoolean(KEY_KEEP_AWAKE, false),
         theme = ThemeMode.entries.firstOrNull { it.name == prefs.getString(KEY_THEME, null) } ?: ThemeMode.SYSTEM,
         secureScreen = prefs.getBoolean(KEY_SECURE_SCREEN, true),
+        stopHintShown = prefs.getBoolean(KEY_STOP_HINT_SHOWN, false),
         onboardingDone = prefs.getBoolean(KEY_ONBOARDING_DONE, false),
     )
 
@@ -60,6 +64,7 @@ class AppSettingsStore private constructor(private val prefs: SharedPreferences)
         private const val KEY_KEEP_AWAKE = "keep_awake"
         private const val KEY_THEME = "theme"
         private const val KEY_SECURE_SCREEN = "secure_screen"
+        private const val KEY_STOP_HINT_SHOWN = "stop_hint_shown"
         private const val KEY_ONBOARDING_DONE = "onboarding_done"
 
         val GRACEFUL_TIMEOUT_CHOICES = listOf(1, 5, 10, 15, 30)

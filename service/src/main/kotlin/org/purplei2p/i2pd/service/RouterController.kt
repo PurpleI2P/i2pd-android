@@ -23,7 +23,7 @@ import org.purplei2p.i2pd.config.OptionChange
  * in the foreground; the service stops itself once the router is inactive.
  */
 object RouterController {
-    private class Runtime(val supervisor: RouterSupervisor, val logs: LogCollector)
+    private class Runtime(val supervisor: RouterSupervisor, val logs: LogCollector, val history: StatusHistory)
 
     @Volatile
     private var runtime: Runtime? = null
@@ -58,6 +58,9 @@ object RouterController {
         supervisor(context).runWithRouterStopped(block)
 
     fun logs(context: Context): LogCollector = runtime(context).logs
+
+    /** Speeds and tunnel counts of the last five minutes of the running router. */
+    fun history(context: Context): StateFlow<List<HistorySample>> = runtime(context).history.samples
 
     fun settings(context: Context): AppSettingsStore = AppSettingsStore.get(context)
 
@@ -113,7 +116,9 @@ object RouterController {
             routerPresent = supervisor.state.map { it.lifecycle.hasRouterProcess },
         )
         logs.start()
-        return Runtime(supervisor, logs)
+        val history = StatusHistory(scope, supervisor.state.map { it.status })
+        history.start()
+        return Runtime(supervisor, logs, history)
     }
 
     /** Starts [RouterService]; false if the system does not allow it right now (app in background). */
