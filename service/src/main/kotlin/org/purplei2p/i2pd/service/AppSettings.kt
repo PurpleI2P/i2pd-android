@@ -14,6 +14,8 @@ data class AppSettings(
     val gracefulTimeoutMinutes: Int = 10,
     /** Hold a partial wake lock while the router runs, so it keeps working in deep sleep. */
     val keepAwake: Boolean = false,
+    /** The first-run screen was shown. */
+    val onboardingDone: Boolean = false,
 )
 
 /** Synchronous SharedPreferences storage: boot receiver and service need the values at once. */
@@ -29,6 +31,7 @@ class AppSettingsStore private constructor(private val prefs: SharedPreferences)
             putBoolean(KEY_AUTO_RESTART, updated.autoRestart)
             putInt(KEY_GRACEFUL_TIMEOUT, updated.gracefulTimeoutMinutes)
             putBoolean(KEY_KEEP_AWAKE, updated.keepAwake)
+            putBoolean(KEY_ONBOARDING_DONE, updated.onboardingDone)
         }
         _settings.value = updated
     }
@@ -38,6 +41,7 @@ class AppSettingsStore private constructor(private val prefs: SharedPreferences)
         autoRestart = prefs.getBoolean(KEY_AUTO_RESTART, true),
         gracefulTimeoutMinutes = prefs.getInt(KEY_GRACEFUL_TIMEOUT, 10),
         keepAwake = prefs.getBoolean(KEY_KEEP_AWAKE, false),
+        onboardingDone = prefs.getBoolean(KEY_ONBOARDING_DONE, false),
     )
 
     companion object {
@@ -45,6 +49,7 @@ class AppSettingsStore private constructor(private val prefs: SharedPreferences)
         private const val KEY_AUTO_RESTART = "auto_restart"
         private const val KEY_GRACEFUL_TIMEOUT = "graceful_timeout_minutes"
         private const val KEY_KEEP_AWAKE = "keep_awake"
+        private const val KEY_ONBOARDING_DONE = "onboarding_done"
 
         val GRACEFUL_TIMEOUT_CHOICES = listOf(1, 5, 10, 15, 30)
 

@@ -26,6 +26,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.net.toUri
 import androidx.lifecycle.compose.LifecycleResumeEffect
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import org.purplei2p.i2pd.service.RouterController
 
 private enum class Tab(val label: Int, val icon: Int) {
     STATUS(R.string.tab_status, R.drawable.ic_nav_status),
@@ -39,6 +41,16 @@ fun AppScaffold() {
     var tab by rememberSaveable { mutableStateOf(Tab.STATUS) }
     var webConsoleUrl by rememberSaveable { mutableStateOf<String?>(null) }
     val checks = rememberSystemChecks()
+    val context = LocalContext.current
+    val settingsStore = RouterController.settings(context)
+    val settings by settingsStore.settings.collectAsStateWithLifecycle()
+
+    if (!settings.onboardingDone) {
+        Scaffold { padding ->
+            OnboardingScreen(checks, onDone = { settingsStore.update { it.copy(onboardingDone = true) } }, modifier = Modifier.padding(padding))
+        }
+        return
+    }
 
     webConsoleUrl?.let { url ->
         BackHandler { webConsoleUrl = null }

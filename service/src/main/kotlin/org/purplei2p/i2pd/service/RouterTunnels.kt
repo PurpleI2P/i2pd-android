@@ -161,6 +161,11 @@ class RouterTunnels private constructor(context: Context) {
         changedSinceApply.value = false
     }
 
+    /** Files were changed outside of this class (import, reset): screens reload. */
+    fun refresh() {
+        _revision.value++
+    }
+
     private fun changed() {
         changedSinceApply.value = true
         _revision.value++
