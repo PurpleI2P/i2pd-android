@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="status_state">Stav</string>
     <string name="status_network">Síť</string>
     <string name="status_uptime">Doba běhu</string>
     <string name="status_speed">Rychlost</string>
@@ -10,6 +11,11 @@
     <string name="status_tunnels_value">příchozí %1$d, odchozí %2$d, tranzit %3$d · úspěšnost %4$d%%</string>
     <string name="status_netdb">Síťová databáze</string>
     <string name="status_netdb_value">routery %1$d, floodfilly %2$d, lease sety %3$d</string>
+    <string name="status_graph_title">Rychlost za posledních 5 minut</string>
+    <string name="status_graph_max">max. %1$s</string>
+    <string name="status_graph_tunnels_title">Tunely za posledních 5 minut</string>
+    <string name="status_graph_tunnels_in">Příchozí</string>
+    <string name="status_graph_tunnels_out">Odchozí</string>
     <string name="status_transit">Tranzit</string>
     <string name="status_transit_accepted">přijímá se</string>
     <string name="status_transit_declined">odmítá se</string>
@@ -19,5 +25,12 @@
     <string name="service_socks_proxy">SOCKS proxy</string>
     <string name="service_web_console">Webová konzole</string>
     <string name="action_dismiss">Zavřít</string>
+    <string name="hint_stop_now">Podržte „%1$s“, chcete-li router zastavit hned, bez čekání na dokončení tranzitních tunelů</string>
+    <string name="hint_got_it">Rozumím</string>
+    <string name="about_website">Web</string>
+    <string name="about_source">Zdrojový kód</string>
+    <string name="about_issues">Nahlásit problém</string>
+    <string name="about_licenses">Licence open source</string>
+    <string name="about_licenses_summary">Součásti aplikace a jejich licence</string>
     <string name="about_versions">Aplikace %1$s · i2pd %2$s · %3$s</string>
 </resources>

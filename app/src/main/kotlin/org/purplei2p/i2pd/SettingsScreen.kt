@@ -20,6 +20,7 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -33,6 +34,7 @@ import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import org.purplei2p.i2pd.config.OptionGroup
 import org.purplei2p.i2pd.nativelib.I2pdNative
 import org.purplei2p.i2pd.service.AppSettingsStore
 import org.purplei2p.i2pd.service.RouterController
@@ -45,29 +47,55 @@ private enum class SettingsPage(val title: Int) {
     ROUTER_RAW(R.string.router_raw),
     STORAGE(R.string.data_storage),
     FILES(R.string.data_files),
+    LICENSES(R.string.about_licenses),
 }
 
-/** Router (i2pd.conf) and application settings. */
+/** Places the settings tab can be opened at from other screens; passed as a saveable string. */
+object SettingsTarget {
+    private const val GROUP = "group:"
+
+    /** A group of the basic router settings. */
+    fun group(group: OptionGroup) = GROUP + group.name
+
+    fun groupOf(target: String): OptionGroup? =
+        target.takeIf { it.startsWith(GROUP) }?.let { name -> OptionGroup.entries.firstOrNull { it.name == name.removePrefix(GROUP) } }
+}
+
+/** Router (i2pd.conf) and application settings. [target] (see SettingsTarget) opens a page at once. */
 @Composable
-fun SettingsScreen(checks: SystemChecks, modifier: Modifier = Modifier) {
+fun SettingsScreen(checks: SystemChecks, target: String?, onTargetOpened: () -> Unit, modifier: Modifier = Modifier) {
     var page by rememberSaveable { mutableStateOf(SettingsPage.MAIN) }
+    var focusGroup by rememberSaveable { mutableStateOf<OptionGroup?>(null) }
+    LaunchedEffect(target) {
+        if (target == null) return@LaunchedEffect
+        SettingsTarget.groupOf(target)?.let {
+            focusGroup = it
+            page = SettingsPage.ROUTER_BASIC
+        }
+        onTargetOpened()
+    }
+    val close = {
+        page = SettingsPage.MAIN
+        focusGroup = null
+    }
     if (page == SettingsPage.MAIN) {
         SettingsMain(checks, onOpen = { page = it }, modifier = modifier)
         return
     }
-    BackHandler { page = SettingsPage.MAIN }
+    BackHandler(onBack = close)
     val session = rememberConfigSession()
     Column(modifier.fillMaxSize()) {
         Row(Modifier.fillMaxWidth().padding(horizontal = 8.dp), verticalAlignment = Alignment.CenterVertically) {
-            TextButton(onClick = { page = SettingsPage.MAIN }) { Text(stringResource(R.string.action_back)) }
+            TextButton(onClick = close) { Text(stringResource(R.string.action_back)) }
             Text(stringResource(page.title), style = MaterialTheme.typography.titleMedium, modifier = Modifier.semantics { heading() })
         }
         when (page) {
-            SettingsPage.ROUTER_BASIC -> RouterBasicScreen(session)
+            SettingsPage.ROUTER_BASIC -> RouterBasicScreen(session, focusGroup)
             SettingsPage.ROUTER_ADVANCED -> RouterAdvancedScreen(session)
             SettingsPage.ROUTER_RAW -> RawConfigScreen()
             SettingsPage.STORAGE -> StorageScreen()
             SettingsPage.FILES -> FilesScreen()
+            SettingsPage.LICENSES -> LicensesScreen()
             SettingsPage.MAIN -> Unit
         }
     }
@@ -124,10 +152,17 @@ private fun SettingsMain(checks: SystemChecks, onOpen: (SettingsPage) -> Unit, m
         }
 
         Section(R.string.settings_section_about)
-        TextRow(
-            title = stringResource(R.string.app_name),
-            summary = stringResource(R.string.about_versions, BuildConfig.VERSION_NAME, I2pdNative.version(), I2pdNative.abi()),
+        AppHeader(Modifier.padding(horizontal = 16.dp, vertical = 8.dp))
+        Text(
+            stringResource(R.string.about_versions, BuildConfig.VERSION_NAME, I2pdNative.version(), I2pdNative.abi()),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
         )
+        TextRow(stringResource(R.string.about_website), WEBSITE_URL) { openUrl(context, WEBSITE_URL) }
+        TextRow(stringResource(R.string.about_source), SOURCE_URL) { openUrl(context, SOURCE_URL) }
+        TextRow(stringResource(R.string.about_issues), ISSUES_URL) { openUrl(context, ISSUES_URL) }
+        TextRow(stringResource(R.string.about_licenses), stringResource(R.string.about_licenses_summary)) { onOpen(SettingsPage.LICENSES) }
     }
 
     if (choosingTimeout) {

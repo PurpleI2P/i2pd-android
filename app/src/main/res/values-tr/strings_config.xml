@@ -47,6 +47,7 @@
     <string name="config_loading">Yapılandırma yükleniyor…</string>
     <string name="config_load_failed">Yapılandırma yüklenemiyor: %1$s</string>
     <string name="config_issues">i2pd.conf dosyasındaki sorunlar</string>
+    <string name="config_problems_tab">Sorunlar (%1$d)</string>
     <string name="config_unknown_options">i2pd %1$s tarafından bilinmeyen seçenekler: yönlendirici bunlarla başlamaz</string>
     <string name="config_issues_on_save">Dosyada sorunlar var; i2pd bununla başlamayabilir.</string>
     <string name="issue_unknown">%1$s: bilinmeyen seçenek</string>

@@ -383,6 +383,7 @@ fun OnboardingScreen(checks: SystemChecks, onDone: () -> Unit, modifier: Modifie
     }
 
     Column(modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(24.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        AppHeader()
         Text(stringResource(R.string.onboarding_title), style = MaterialTheme.typography.headlineSmall)
         Text(stringResource(R.string.onboarding_intro))
         if (Build.VERSION.SDK_INT >= 33) {

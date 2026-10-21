@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="status_state">Status</string>
     <string name="status_network">Network</string>
     <string name="status_uptime">Uptime</string>
     <string name="status_speed">Bilis</string>
@@ -10,6 +11,11 @@
     <string name="status_tunnels_value">papasok %1$d, palabas %2$d, transit %3$d · tagumpay %4$d%%</string>
     <string name="status_netdb">Database ng network</string>
     <string name="status_netdb_value">router %1$d, floodfill %2$d, lease set %3$d</string>
+    <string name="status_graph_title">Bilis sa nakaraang 5 minuto</string>
+    <string name="status_graph_max">max %1$s</string>
+    <string name="status_graph_tunnels_title">Mga tunnel sa nakaraang 5 minuto</string>
+    <string name="status_graph_tunnels_in">Papasok</string>
+    <string name="status_graph_tunnels_out">Palabas</string>
     <string name="status_transit">Transit</string>
     <string name="status_transit_accepted">tinatanggap</string>
     <string name="status_transit_declined">tinatanggihan</string>
@@ -19,5 +25,12 @@
     <string name="service_socks_proxy">SOCKS proxy</string>
     <string name="service_web_console">Web console</string>
     <string name="action_dismiss">Isara</string>
+    <string name="hint_stop_now">Pindutin nang matagal ang “%1$s” para ihinto agad ang router, nang hindi hinihintay matapos ang mga transit tunnel</string>
+    <string name="hint_got_it">Sige</string>
+    <string name="about_website">Website</string>
+    <string name="about_source">Source code</string>
+    <string name="about_issues">Mag-ulat ng problema</string>
+    <string name="about_licenses">Mga open source na lisensya</string>
+    <string name="about_licenses_summary">Mga bahagi ng app at ang kanilang mga lisensya</string>
     <string name="about_versions">App %1$s · i2pd %2$s · %3$s</string>
 </resources>

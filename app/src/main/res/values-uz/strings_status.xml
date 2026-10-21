@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="status_state">Holat</string>
     <string name="status_network">Tarmoq</string>
     <string name="status_uptime">Ishlash vaqti</string>
     <string name="status_speed">Tezlik</string>
@@ -10,6 +11,11 @@
     <string name="status_tunnels_value">kiruvchi %1$d, chiquvchi %2$d, tranzit %3$d · muvaffaqiyat %4$d%%</string>
     <string name="status_netdb">Tarmoq maʼlumotlar bazasi</string>
     <string name="status_netdb_value">routerlar %1$d, floodfill %2$d, lease set %3$d</string>
+    <string name="status_graph_title">So‘nggi 5 daqiqadagi tezlik</string>
+    <string name="status_graph_max">maks. %1$s</string>
+    <string name="status_graph_tunnels_title">So‘nggi 5 daqiqadagi tunnellar</string>
+    <string name="status_graph_tunnels_in">Kiruvchi</string>
+    <string name="status_graph_tunnels_out">Chiquvchi</string>
     <string name="status_transit">Tranzit</string>
     <string name="status_transit_accepted">qabul qilinmoqda</string>
     <string name="status_transit_declined">rad etilmoqda</string>
@@ -19,5 +25,12 @@
     <string name="service_socks_proxy">SOCKS proksi</string>
     <string name="service_web_console">Veb-konsol</string>
     <string name="action_dismiss">Yopish</string>
+    <string name="hint_stop_now">Routerni tranzit tunnellar tugashini kutmasdan darhol to‘xtatish uchun “%1$s” tugmasini bosib turing</string>
+    <string name="hint_got_it">Tushunarli</string>
+    <string name="about_website">Veb-sayt</string>
+    <string name="about_source">Manba kodi</string>
+    <string name="about_issues">Muammo haqida xabar berish</string>
+    <string name="about_licenses">Ochiq kodli litsenziyalar</string>
+    <string name="about_licenses_summary">Ilova komponentlari va ularning litsenziyalari</string>
     <string name="about_versions">Ilova %1$s · i2pd %2$s · %3$s</string>
 </resources>

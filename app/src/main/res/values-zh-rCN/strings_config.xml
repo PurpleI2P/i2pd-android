@@ -47,6 +47,7 @@
     <string name="config_loading">正在加载配置…</string>
     <string name="config_load_failed">无法加载配置：%1$s</string>
     <string name="config_issues">i2pd.conf 中的问题</string>
+    <string name="config_problems_tab">问题 (%1$d)</string>
     <string name="config_unknown_options">i2pd %1$s 不认识的选项：路由器无法带着它们启动</string>
     <string name="config_issues_on_save">文件存在问题；i2pd 可能无法使用它启动。</string>
     <string name="issue_unknown">%1$s：未知选项</string>

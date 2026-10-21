@@ -47,6 +47,7 @@
     <string name="config_loading">Завантаження конфігурації…</string>
     <string name="config_load_failed">Не вдалося завантажити конфігурацію: %1$s</string>
     <string name="config_issues">Проблеми в i2pd.conf</string>
+    <string name="config_problems_tab">Проблеми (%1$d)</string>
     <string name="config_unknown_options">Параметри, невідомі i2pd %1$s: з ними роутер не запуститься</string>
     <string name="config_issues_on_save">У файлі є проблеми; i2pd може не запуститися з ним.</string>
     <string name="issue_unknown">%1$s: невідомий параметр</string>

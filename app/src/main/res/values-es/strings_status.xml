@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="status_state">Estado</string>
     <string name="status_network">Red</string>
     <string name="status_uptime">Tiempo activo</string>
     <string name="status_speed">Velocidad</string>
@@ -10,6 +11,11 @@
     <string name="status_tunnels_value">entrada %1$d, salida %2$d, tránsito %3$d · éxito %4$d%%</string>
     <string name="status_netdb">Base de datos de la red</string>
     <string name="status_netdb_value">routers %1$d, floodfills %2$d, lease sets %3$d</string>
+    <string name="status_graph_title">Velocidad de los últimos 5 minutos</string>
+    <string name="status_graph_max">máx. %1$s</string>
+    <string name="status_graph_tunnels_title">Túneles de los últimos 5 minutos</string>
+    <string name="status_graph_tunnels_in">Entrada</string>
+    <string name="status_graph_tunnels_out">Salida</string>
     <string name="status_transit">Tránsito</string>
     <string name="status_transit_accepted">aceptado</string>
     <string name="status_transit_declined">rechazado</string>
@@ -19,5 +25,12 @@
     <string name="service_socks_proxy">Proxy SOCKS</string>
     <string name="service_web_console">Consola web</string>
     <string name="action_dismiss">Cerrar</string>
+    <string name="hint_stop_now">Mantén pulsado «%1$s» para detener el router al instante, sin esperar a que terminen los túneles de tránsito</string>
+    <string name="hint_got_it">Entendido</string>
+    <string name="about_website">Sitio web</string>
+    <string name="about_source">Código fuente</string>
+    <string name="about_issues">Informar de un problema</string>
+    <string name="about_licenses">Licencias de código abierto</string>
+    <string name="about_licenses_summary">Componentes de la app y sus licencias</string>
     <string name="about_versions">App %1$s · i2pd %2$s · %3$s</string>
 </resources>

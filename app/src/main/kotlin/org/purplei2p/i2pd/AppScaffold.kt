@@ -55,6 +55,13 @@ private enum class Tab(val label: Int, val icon: Int) {
 fun AppScaffold() {
     var tab by rememberSaveable { mutableStateOf(Tab.STATUS) }
     var webConsoleUrl by rememberSaveable { mutableStateOf<String?>(null) }
+    // Where the settings tab should open next, see SettingsTarget
+    var settingsTarget by rememberSaveable { mutableStateOf<String?>(null) }
+    val openSettings = { target: String ->
+        settingsTarget = target
+        tab = Tab.SETTINGS
+    }
+    val settingsOpened = { settingsTarget = null }
     val checks = rememberSystemChecks()
     val context = LocalContext.current
     val settingsStore = RouterController.settings(context)
@@ -92,7 +99,7 @@ fun AppScaffold() {
                 Scaffold(
                     modifier = Modifier.weight(1f),
                     contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Vertical + WindowInsetsSides.End),
-                ) { padding -> TabContent(tab, checks, { webConsoleUrl = it }, padding) }
+                ) { padding -> TabContent(tab, checks, { webConsoleUrl = it }, openSettings, settingsTarget, settingsOpened, padding) }
             }
         } else {
             Scaffold(
@@ -108,7 +115,7 @@ fun AppScaffold() {
                         }
                     }
                 },
-            ) { padding -> TabContent(tab, checks, { webConsoleUrl = it }, padding) }
+            ) { padding -> TabContent(tab, checks, { webConsoleUrl = it }, openSettings, settingsTarget, settingsOpened, padding) }
         }
     }
 }
@@ -119,14 +126,22 @@ private val WIDE_SCREEN = 600.dp
 private val CONTENT_MAX_WIDTH = 840.dp
 
 @Composable
-private fun TabContent(tab: Tab, checks: SystemChecks, onOpenWebConsole: (String) -> Unit, padding: PaddingValues) {
+private fun TabContent(
+    tab: Tab,
+    checks: SystemChecks,
+    onOpenWebConsole: (String) -> Unit,
+    onOpenSettings: (String) -> Unit,
+    settingsTarget: String?,
+    onSettingsOpened: () -> Unit,
+    padding: PaddingValues,
+) {
     Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.TopCenter) {
         val modifier = if (tab == Tab.LOGS) Modifier else Modifier.widthIn(max = CONTENT_MAX_WIDTH)
         when (tab) {
-            Tab.STATUS -> StatusScreen(checks = checks, onOpenWebConsole = onOpenWebConsole, modifier = modifier)
+            Tab.STATUS -> StatusScreen(checks = checks, onOpenWebConsole = onOpenWebConsole, onOpenSettings = onOpenSettings, modifier = modifier)
             Tab.TUNNELS -> TunnelsScreen(modifier = modifier)
             Tab.LOGS -> LogsScreen(modifier = modifier)
-            Tab.SETTINGS -> SettingsScreen(checks = checks, modifier = modifier)
+            Tab.SETTINGS -> SettingsScreen(checks = checks, target = settingsTarget, onTargetOpened = onSettingsOpened, modifier = modifier)
         }
     }
 }
