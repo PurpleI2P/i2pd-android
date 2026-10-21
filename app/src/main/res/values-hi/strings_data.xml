@@ -44,6 +44,7 @@
     <string name="onboarding_intro">i2pd गुमनाम नेटवर्क I2P का राउटर है। यह पृष्ठभूमि में चलता है और आपके ऐप्स को I2P के लिए HTTP और SOCKS प्रॉक्सी देता है।</string>
     <string name="onboarding_notifications">राउटर की स्थिति देखने के लिए सूचनाओं की अनुमति दें</string>
     <string name="onboarding_battery">बैटरी ऑप्टिमाइज़ेशन बंद करें ताकि सिस्टम राउटर को न रोके</string>
+    <string name="onboarding_oem_autostart">%1$s सेटिंग्स में i2pd के लिए ऑटोस्टार्ट की अनुमति दें, नहीं तो फ़र्मवेयर राउटर को रोक सकता है</string>
     <string name="onboarding_migrate">ऐप का पुराना संस्करण इस्तेमाल किया था? उसका डेटा लाएँ (राउटर पहचान, कुंजियाँ, कॉन्फ़िगरेशन)</string>
     <string name="onboarding_allow">अनुमति दें</string>
     <string name="onboarding_migrate_action">लाएँ</string>

@@ -37,6 +37,8 @@
     <string name="settings_battery">Battery optimization</string>
     <string name="settings_battery_on">Enabled: the system may stop the router</string>
     <string name="settings_battery_off">Disabled for i2pd</string>
+    <string name="settings_oem_autostart">Autostart (%1$s)</string>
+    <string name="settings_oem_autostart_summary">The %1$s firmware may not start the router at boot and may close it in background. Allow autostart for i2pd there</string>
     <string name="settings_section_interface">Interface</string>
     <string name="settings_theme">Theme</string>
     <string name="settings_theme_system">As in the system</string>

@@ -33,6 +33,8 @@
     <string name="settings_battery">Battery optimization</string>
     <string name="settings_battery_on">Naka-on: maaaring ihinto ng system ang router</string>
     <string name="settings_battery_off">Naka-off para sa i2pd</string>
+    <string name="settings_oem_autostart">Autostart (%1$s)</string>
+    <string name="settings_oem_autostart_summary">Maaaring hindi simulan ng firmware ng %1$s ang router sa pag-boot at isara ito sa background. Payagan doon ang autostart para sa i2pd</string>
     <string name="settings_section_interface">Interface</string>
     <string name="settings_theme">Tema</string>
     <string name="settings_theme_system">Gaya ng system</string>

@@ -33,6 +33,8 @@
     <string name="settings_battery">بهینه‌سازی باتری</string>
     <string name="settings_battery_on">فعال: سیستم ممکن است روتر را متوقف کند</string>
     <string name="settings_battery_off">برای i2pd غیرفعال است</string>
+    <string name="settings_oem_autostart">اجرای خودکار (%1$s)</string>
+    <string name="settings_oem_autostart_summary">سیستم‌عامل %1$s ممکن است روتر را هنگام روشن شدن اجرا نکند و آن را در پس‌زمینه ببندد. در آنجا اجرای خودکار i2pd را مجاز کنید</string>
     <string name="settings_section_interface">رابط کاربری</string>
     <string name="settings_theme">پوسته</string>
     <string name="settings_theme_system">مانند سیستم</string>

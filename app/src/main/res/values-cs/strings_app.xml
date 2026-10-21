@@ -33,6 +33,8 @@
     <string name="settings_battery">Optimalizace baterie</string>
     <string name="settings_battery_on">Zapnuto: systém může router zastavit</string>
     <string name="settings_battery_off">Vypnuto pro i2pd</string>
+    <string name="settings_oem_autostart">Automatické spouštění (%1$s)</string>
+    <string name="settings_oem_autostart_summary">Firmware %1$s nemusí router spustit po startu a může ho na pozadí ukončovat. Povolte tam automatické spouštění i2pd</string>
     <string name="settings_section_interface">Rozhraní</string>
     <string name="settings_theme">Motiv</string>
     <string name="settings_theme_system">Podle systému</string>

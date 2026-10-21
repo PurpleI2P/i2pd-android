@@ -49,6 +49,7 @@
     <string name="onboarding_intro">i2pd is a router of the I2P anonymous network. It runs in background and gives your apps HTTP and SOCKS proxies into I2P.</string>
     <string name="onboarding_notifications">Allow notifications to see the router state</string>
     <string name="onboarding_battery">Disable battery optimization so the system does not stop the router</string>
+    <string name="onboarding_oem_autostart">Allow autostart for i2pd in the %1$s settings, otherwise the firmware may stop the router</string>
     <string name="onboarding_migrate">Used the old version of the app? Move its data (router identity, keys, configuration)</string>
     <string name="onboarding_allow">Allow</string>
     <string name="onboarding_migrate_action">Move</string>

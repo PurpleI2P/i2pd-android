@@ -44,6 +44,7 @@
     <string name="onboarding_intro">i2pd to router anonimowej sieci I2P. Działa w tle i udostępnia Twoim aplikacjom proxy HTTP i SOCKS do I2P.</string>
     <string name="onboarding_notifications">Zezwól na powiadomienia, aby widzieć stan routera</string>
     <string name="onboarding_battery">Wyłącz optymalizację baterii, aby system nie zatrzymywał routera</string>
+    <string name="onboarding_oem_autostart">Zezwól na autostart i2pd w ustawieniach %1$s, w przeciwnym razie system może zatrzymywać router</string>
     <string name="onboarding_migrate">Używałeś starej wersji aplikacji? Przenieś jej dane (tożsamość routera, klucze, konfigurację)</string>
     <string name="onboarding_allow">Zezwól</string>
     <string name="onboarding_migrate_action">Przenieś</string>

@@ -33,6 +33,8 @@
     <string name="settings_battery">Optimizarea bateriei</string>
     <string name="settings_battery_on">Activată: sistemul poate opri routerul</string>
     <string name="settings_battery_off">Dezactivată pentru i2pd</string>
+    <string name="settings_oem_autostart">Pornire automată (%1$s)</string>
+    <string name="settings_oem_autostart_summary">Sistemul %1$s poate să nu pornească routerul la boot și să-l închidă în fundal. Permite acolo pornirea automată pentru i2pd</string>
     <string name="settings_section_interface">Interfață</string>
     <string name="settings_theme">Temă</string>
     <string name="settings_theme_system">Ca în sistem</string>

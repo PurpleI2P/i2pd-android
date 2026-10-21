@@ -44,6 +44,7 @@
     <string name="onboarding_intro">i2pd estas enkursigilo de la anonima reto I2P. Ĝi funkcias fone kaj donas al viaj aplikaĵoj HTTP- kaj SOCKS-prokurilojn al I2P.</string>
     <string name="onboarding_notifications">Permesu sciigojn por vidi la staton de la enkursigilo</string>
     <string name="onboarding_battery">Malŝaltu la baterian optimumigon, por ke la sistemo ne haltigu la enkursigilon</string>
+    <string name="onboarding_oem_autostart">Permesu aŭtomatan starton por i2pd en la agordoj de %1$s, alie la sistemo povas haltigi la enkursigilon</string>
     <string name="onboarding_migrate">Ĉu vi uzis la malnovan version de la aplikaĵo? Transportu ĝiajn datumojn (identecon de la enkursigilo, ŝlosilojn, agordon)</string>
     <string name="onboarding_allow">Permesi</string>
     <string name="onboarding_migrate_action">Transporti</string>

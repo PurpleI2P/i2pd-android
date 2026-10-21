@@ -33,6 +33,8 @@
     <string name="settings_battery">Optimisation de la batterie</string>
     <string name="settings_battery_on">Activée : le système peut arrêter le routeur</string>
     <string name="settings_battery_off">Désactivée pour i2pd</string>
+    <string name="settings_oem_autostart">Démarrage auto (%1$s)</string>
+    <string name="settings_oem_autostart_summary">Le système %1$s peut ne pas démarrer le routeur au lancement et le fermer en arrière-plan. Autorisez-y le démarrage automatique d\'i2pd</string>
     <string name="settings_section_interface">Interface</string>
     <string name="settings_theme">Thème</string>
     <string name="settings_theme_system">Comme le système</string>

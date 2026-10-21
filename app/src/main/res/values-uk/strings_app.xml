@@ -33,6 +33,8 @@
     <string name="settings_battery">Оптимізація батареї</string>
     <string name="settings_battery_on">Увімкнено: система може зупинити роутер</string>
     <string name="settings_battery_off">Вимкнено для i2pd</string>
+    <string name="settings_oem_autostart">Автозапуск (%1$s)</string>
+    <string name="settings_oem_autostart_summary">Прошивка %1$s може не запускати роутер під час завантаження та закривати його у фоні. Дозвольте там автозапуск для i2pd</string>
     <string name="settings_section_interface">Інтерфейс</string>
     <string name="settings_theme">Тема</string>
     <string name="settings_theme_system">Як у системі</string>

@@ -49,6 +49,7 @@
     <string name="onboarding_intro">i2pd — роутер анонимной сети I2P. Он работает в фоне и даёт вашим приложениям HTTP- и SOCKS-прокси в I2P.</string>
     <string name="onboarding_notifications">Разрешите уведомления, чтобы видеть состояние роутера</string>
     <string name="onboarding_battery">Отключите оптимизацию батареи, чтобы система не останавливала роутер</string>
+    <string name="onboarding_oem_autostart">Разрешите автозапуск для i2pd в настройках %1$s, иначе прошивка может останавливать роутер</string>
     <string name="onboarding_migrate">Пользовались старой версией приложения? Перенесите её данные (личность роутера, ключи, конфигурацию)</string>
     <string name="onboarding_allow">Разрешить</string>
     <string name="onboarding_migrate_action">Перенести</string>

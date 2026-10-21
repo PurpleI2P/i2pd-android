@@ -33,6 +33,8 @@
     <string name="settings_battery">Bateria optimumigo</string>
     <string name="settings_battery_on">Ŝaltita: la sistemo povas haltigi la enkursigilon</string>
     <string name="settings_battery_off">Malŝaltita por i2pd</string>
+    <string name="settings_oem_autostart">Aŭtomata starto (%1$s)</string>
+    <string name="settings_oem_autostart_summary">La sistemo de %1$s eble ne startigos la enkursigilon je lanĉo kaj fermos ĝin fone. Permesu tie aŭtomatan starton por i2pd</string>
     <string name="settings_section_interface">Interfaco</string>
     <string name="settings_theme">Etoso</string>
     <string name="settings_theme_system">Kiel en la sistemo</string>
