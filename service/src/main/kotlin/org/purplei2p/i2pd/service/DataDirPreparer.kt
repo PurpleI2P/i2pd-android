@@ -13,8 +13,9 @@ import java.util.Locale
 /**
  * Prepares the private data directory (filesDir/i2pd) and builds i2pd start parameters.
  *
- * Bundled assets are copied when the app version changes: certificates are replaced,
- * configuration files are copied only if missing, so user changes are kept.
+ * Bundled assets: on the first start of an installation all of them are copied; an app update
+ * only replaces the certificates. Configuration and the address book belong to the user from then
+ * on, files deleted or switched off by the user do not come back.
  */
 class DataDirPreparer(private val context: Context) {
 
@@ -26,11 +27,18 @@ class DataDirPreparer(private val context: Context) {
 
         val stamp = File(root, ASSETS_STAMP)
         val version = appVersionCode().toString()
-        if (stamp.takeIf { it.exists() }?.readText()?.trim() != version) {
-            Log.i(TAG, "Updating bundled assets in $root")
-            File(root, CERTIFICATES).deleteRecursively()
-            for (asset in ASSETS) copyAsset(context.assets, asset, root)
-            stamp.writeText(version)
+        when (stamp.takeIf { it.exists() }?.readText()?.trim()) {
+            version -> Unit
+            null -> {
+                Log.i(TAG, "Copying bundled assets to $root")
+                for (asset in ASSETS) copyAsset(context.assets, asset, root)
+                stamp.writeText(version)
+            }
+            else -> {
+                Log.i(TAG, "App updated, replacing certificates in $root")
+                replaceCertificates()
+                stamp.writeText(version)
+            }
         }
 
         return StartParams(
@@ -75,9 +83,15 @@ class DataDirPreparer(private val context: Context) {
         return PackageInfoCompat.getLongVersionCode(info)
     }
 
-    /** Makes the next [prepare] copy bundled files again (missing ones only, certificates replaced). */
-    fun forgetAssetsVersion() {
-        File(dataDir, ASSETS_STAMP).delete()
+    /** Copies the bundled configuration files that are missing (after "reset to bundled"). */
+    fun restoreConfiguration() {
+        for (asset in CONFIG_ASSETS) copyAsset(context.assets, asset, dataDir)
+    }
+
+    /** Deletes the certificates and copies the bundled ones. */
+    fun replaceCertificates() {
+        File(dataDir, CERTIFICATES).deleteRecursively()
+        copyAsset(context.assets, CERTIFICATES, dataDir)
     }
 
     private companion object {
@@ -86,6 +100,7 @@ class DataDirPreparer(private val context: Context) {
         const val ASSETS_STAMP = ".assets-version"
         const val CERTIFICATES = "certificates"
         const val DISABLED_SUFFIX = ".disabled"
-        val ASSETS = listOf("i2pd.conf", "tunnels.conf", "tunnels.d", "addressbook", CERTIFICATES)
+        val CONFIG_ASSETS = listOf("i2pd.conf", "tunnels.conf", "tunnels.d")
+        val ASSETS = CONFIG_ASSETS + listOf("addressbook", CERTIFICATES)
     }
 }
