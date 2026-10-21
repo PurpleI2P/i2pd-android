@@ -30,6 +30,9 @@
     <string name="settings_section_background">Práce na pozadí</string>
     <string name="settings_keep_awake">Nenechat zařízení usnout</string>
     <string name="settings_keep_awake_summary">Router pracuje i v hlubokém spánku, ale baterie se vybíjí rychleji</string>
+    <string name="settings_keep_awake_off">Ne</string>
+    <string name="settings_keep_awake_always">Vždy</string>
+    <string name="settings_keep_awake_charging">Jen při nabíjení</string>
     <string name="settings_battery">Optimalizace baterie</string>
     <string name="settings_battery_on">Zapnuto: systém může router zastavit</string>
     <string name="settings_battery_off">Vypnuto pro i2pd</string>

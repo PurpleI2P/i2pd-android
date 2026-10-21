@@ -30,6 +30,9 @@
     <string name="settings_section_background">Fona laboro</string>
     <string name="settings_keep_awake">Teni la aparaton veka</string>
     <string name="settings_keep_awake_summary">La enkursigilo funkcias ankaŭ en profunda dormo, sed la baterio malpleniĝas pli rapide</string>
+    <string name="settings_keep_awake_off">Ne</string>
+    <string name="settings_keep_awake_always">Ĉiam</string>
+    <string name="settings_keep_awake_charging">Nur dum ŝargado</string>
     <string name="settings_battery">Bateria optimumigo</string>
     <string name="settings_battery_on">Ŝaltita: la sistemo povas haltigi la enkursigilon</string>
     <string name="settings_battery_off">Malŝaltita por i2pd</string>

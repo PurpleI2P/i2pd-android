@@ -30,6 +30,9 @@
     <string name="settings_section_background">Робота у фоні</string>
     <string name="settings_keep_awake">Не давати пристрою засинати</string>
     <string name="settings_keep_awake_summary">Роутер працює і в глибокому сні, але батарея розряджається швидше</string>
+    <string name="settings_keep_awake_off">Ні</string>
+    <string name="settings_keep_awake_always">Завжди</string>
+    <string name="settings_keep_awake_charging">Лише під час заряджання</string>
     <string name="settings_battery">Оптимізація батареї</string>
     <string name="settings_battery_on">Увімкнено: система може зупинити роутер</string>
     <string name="settings_battery_off">Вимкнено для i2pd</string>

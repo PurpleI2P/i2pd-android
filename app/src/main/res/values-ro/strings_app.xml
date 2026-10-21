@@ -30,6 +30,9 @@
     <string name="settings_section_background">Funcționare în fundal</string>
     <string name="settings_keep_awake">Menține dispozitivul activ</string>
     <string name="settings_keep_awake_summary">Routerul funcționează și în somn profund, dar bateria se descarcă mai repede</string>
+    <string name="settings_keep_awake_off">Nu</string>
+    <string name="settings_keep_awake_always">Întotdeauna</string>
+    <string name="settings_keep_awake_charging">Doar în timpul încărcării</string>
     <string name="settings_battery">Optimizarea bateriei</string>
     <string name="settings_battery_on">Activată: sistemul poate opri routerul</string>
     <string name="settings_battery_off">Dezactivată pentru i2pd</string>

@@ -30,6 +30,9 @@
     <string name="settings_section_background">Paggana sa background</string>
     <string name="settings_keep_awake">Panatilihing gising ang device</string>
     <string name="settings_keep_awake_summary">Gumagana ang router kahit sa deep sleep, pero mas mabilis maubos ang baterya</string>
+    <string name="settings_keep_awake_off">Hindi</string>
+    <string name="settings_keep_awake_always">Palagi</string>
+    <string name="settings_keep_awake_charging">Habang nagcha-charge lang</string>
     <string name="settings_battery">Battery optimization</string>
     <string name="settings_battery_on">Naka-on: maaaring ihinto ng system ang router</string>
     <string name="settings_battery_off">Naka-off para sa i2pd</string>

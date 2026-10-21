@@ -30,6 +30,9 @@
     <string name="settings_section_background">Fonctionnement en arrière-plan</string>
     <string name="settings_keep_awake">Garder l\'appareil éveillé</string>
     <string name="settings_keep_awake_summary">Le routeur continue en veille profonde, mais la batterie se vide plus vite</string>
+    <string name="settings_keep_awake_off">Non</string>
+    <string name="settings_keep_awake_always">Toujours</string>
+    <string name="settings_keep_awake_charging">Seulement en charge</string>
     <string name="settings_battery">Optimisation de la batterie</string>
     <string name="settings_battery_on">Activée : le système peut arrêter le routeur</string>
     <string name="settings_battery_off">Désactivée pour i2pd</string>

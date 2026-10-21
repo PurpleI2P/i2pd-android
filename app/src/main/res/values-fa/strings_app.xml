@@ -30,6 +30,9 @@
     <string name="settings_section_background">کار در پس‌زمینه</string>
     <string name="settings_keep_awake">بیدار نگه داشتن دستگاه</string>
     <string name="settings_keep_awake_summary">روتر در خواب عمیق هم کار می‌کند، اما باتری زودتر خالی می‌شود</string>
+    <string name="settings_keep_awake_off">خیر</string>
+    <string name="settings_keep_awake_always">همیشه</string>
+    <string name="settings_keep_awake_charging">فقط هنگام شارژ</string>
     <string name="settings_battery">بهینه‌سازی باتری</string>
     <string name="settings_battery_on">فعال: سیستم ممکن است روتر را متوقف کند</string>
     <string name="settings_battery_off">برای i2pd غیرفعال است</string>

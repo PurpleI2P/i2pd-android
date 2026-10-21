@@ -30,6 +30,9 @@
     <string name="settings_section_background">Funcionamiento en segundo plano</string>
     <string name="settings_keep_awake">Mantener el dispositivo activo</string>
     <string name="settings_keep_awake_summary">El router sigue funcionando en reposo profundo, pero la batería se agota antes</string>
+    <string name="settings_keep_awake_off">No</string>
+    <string name="settings_keep_awake_always">Siempre</string>
+    <string name="settings_keep_awake_charging">Solo mientras se carga</string>
     <string name="settings_battery">Optimización de batería</string>
     <string name="settings_battery_on">Activada: el sistema puede detener el router</string>
     <string name="settings_battery_off">Desactivada para i2pd</string>
