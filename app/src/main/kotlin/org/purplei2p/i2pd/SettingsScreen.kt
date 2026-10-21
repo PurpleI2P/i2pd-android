@@ -37,6 +37,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.purplei2p.i2pd.config.OptionGroup
 import org.purplei2p.i2pd.nativelib.I2pdNative
 import org.purplei2p.i2pd.service.AppSettingsStore
+import org.purplei2p.i2pd.service.KeepAwake
 import org.purplei2p.i2pd.service.OemAutostart
 import org.purplei2p.i2pd.service.RouterController
 import org.purplei2p.i2pd.service.ThemeMode
@@ -109,6 +110,7 @@ private fun SettingsMain(checks: SystemChecks, onOpen: (SettingsPage) -> Unit, m
     val settings by store.settings.collectAsStateWithLifecycle()
     var choosingTimeout by rememberSaveable { mutableStateOf(false) }
     var choosingTheme by rememberSaveable { mutableStateOf(false) }
+    var choosingKeepAwake by rememberSaveable { mutableStateOf(false) }
 
     Column(modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
         RestartBanner()
@@ -137,9 +139,7 @@ private fun SettingsMain(checks: SystemChecks, onOpen: (SettingsPage) -> Unit, m
         )
 
         Section(R.string.settings_section_background)
-        SwitchRow(R.string.settings_keep_awake, R.string.settings_keep_awake_summary, settings.keepAwake) { value ->
-            store.update { it.copy(keepAwake = value) }
-        }
+        TextRow(stringResource(R.string.settings_keep_awake), stringResource(settings.keepAwake.label)) { choosingKeepAwake = true }
         TextRow(
             title = stringResource(R.string.settings_battery),
             summary = stringResource(if (checks.batteryOptimized) R.string.settings_battery_on else R.string.settings_battery_off),
@@ -185,6 +185,17 @@ private fun SettingsMain(checks: SystemChecks, onOpen: (SettingsPage) -> Unit, m
             onDismiss = { choosingTimeout = false },
         )
     }
+    if (choosingKeepAwake) {
+        ChoiceDialog(
+            title = R.string.settings_keep_awake,
+            description = stringResource(R.string.settings_keep_awake_summary),
+            choices = KeepAwake.entries,
+            selected = settings.keepAwake,
+            label = { stringResource(it.label) },
+            onSelect = { mode -> store.update { it.copy(keepAwake = mode) } },
+            onDismiss = { choosingKeepAwake = false },
+        )
+    }
     if (choosingTheme) {
         ChoiceDialog(
             title = R.string.settings_theme,
@@ -197,6 +208,13 @@ private fun SettingsMain(checks: SystemChecks, onOpen: (SettingsPage) -> Unit, m
     }
 }
 
+private val KeepAwake.label: Int
+    get() = when (this) {
+        KeepAwake.OFF -> R.string.settings_keep_awake_off
+        KeepAwake.ALWAYS -> R.string.settings_keep_awake_always
+        KeepAwake.WHILE_CHARGING -> R.string.settings_keep_awake_charging
+    }
+
 private val ThemeMode.label: Int
     get() = when (this) {
         ThemeMode.SYSTEM -> R.string.settings_theme_system
@@ -207,6 +225,7 @@ private val ThemeMode.label: Int
 @Composable
 private fun <T> ChoiceDialog(
     title: Int,
+    description: String? = null,
     choices: List<T>,
     selected: T,
     label: @Composable (T) -> String,
@@ -218,6 +237,7 @@ private fun <T> ChoiceDialog(
         title = { Text(stringResource(title)) },
         text = {
             Column(Modifier.selectableGroup()) {
+                description?.let { Text(it, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(bottom = 8.dp)) }
                 choices.forEach { choice ->
                     Row(
                         Modifier.fillMaxWidth().selectable(selected = choice == selected, role = Role.RadioButton) {

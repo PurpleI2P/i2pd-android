@@ -9,13 +9,15 @@ import kotlinx.coroutines.flow.asStateFlow
 
 enum class ThemeMode { SYSTEM, LIGHT, DARK }
 
+/** When a partial wake lock is held while the router runs, so it keeps working in deep sleep. */
+enum class KeepAwake { OFF, ALWAYS, WHILE_CHARGING }
+
 /** Settings of the application itself, not of i2pd (those live in i2pd.conf). */
 data class AppSettings(
     val autostartOnBoot: Boolean = false,
     val autoRestart: Boolean = true,
     val gracefulTimeoutMinutes: Int = 10,
-    /** Hold a partial wake lock while the router runs, so it keeps working in deep sleep. */
-    val keepAwake: Boolean = false,
+    val keepAwake: KeepAwake = KeepAwake.OFF,
     val theme: ThemeMode = ThemeMode.SYSTEM,
     /** FLAG_SECURE on the app window: no screenshots, screen recording or thumbnail in recents. */
     val secureScreen: Boolean = true,
@@ -39,7 +41,8 @@ class AppSettingsStore private constructor(private val prefs: SharedPreferences)
             putBoolean(KEY_AUTOSTART, updated.autostartOnBoot)
             putBoolean(KEY_AUTO_RESTART, updated.autoRestart)
             putInt(KEY_GRACEFUL_TIMEOUT, updated.gracefulTimeoutMinutes)
-            putBoolean(KEY_KEEP_AWAKE, updated.keepAwake)
+            putString(KEY_KEEP_AWAKE_MODE, updated.keepAwake.name)
+            remove(KEY_KEEP_AWAKE)
             putString(KEY_THEME, updated.theme.name)
             putBoolean(KEY_SECURE_SCREEN, updated.secureScreen)
             putBoolean(KEY_STOP_HINT_SHOWN, updated.stopHintShown)
@@ -53,7 +56,9 @@ class AppSettingsStore private constructor(private val prefs: SharedPreferences)
         autostartOnBoot = prefs.getBoolean(KEY_AUTOSTART, false),
         autoRestart = prefs.getBoolean(KEY_AUTO_RESTART, true),
         gracefulTimeoutMinutes = prefs.getInt(KEY_GRACEFUL_TIMEOUT, 10),
-        keepAwake = prefs.getBoolean(KEY_KEEP_AWAKE, false),
+        keepAwake = KeepAwake.entries.firstOrNull { it.name == prefs.getString(KEY_KEEP_AWAKE_MODE, null) }
+            // The switch of earlier builds
+            ?: if (prefs.getBoolean(KEY_KEEP_AWAKE, false)) KeepAwake.ALWAYS else KeepAwake.OFF,
         theme = ThemeMode.entries.firstOrNull { it.name == prefs.getString(KEY_THEME, null) } ?: ThemeMode.SYSTEM,
         secureScreen = prefs.getBoolean(KEY_SECURE_SCREEN, true),
         stopHintShown = prefs.getBoolean(KEY_STOP_HINT_SHOWN, false),
@@ -66,6 +71,7 @@ class AppSettingsStore private constructor(private val prefs: SharedPreferences)
         private const val KEY_AUTO_RESTART = "auto_restart"
         private const val KEY_GRACEFUL_TIMEOUT = "graceful_timeout_minutes"
         private const val KEY_KEEP_AWAKE = "keep_awake"
+        private const val KEY_KEEP_AWAKE_MODE = "keep_awake_mode"
         private const val KEY_THEME = "theme"
         private const val KEY_SECURE_SCREEN = "secure_screen"
         private const val KEY_STOP_HINT_SHOWN = "stop_hint_shown"

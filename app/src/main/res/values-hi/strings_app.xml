@@ -30,6 +30,9 @@
     <string name="settings_section_background">पृष्ठभूमि में काम</string>
     <string name="settings_keep_awake">डिवाइस को जगाए रखें</string>
     <string name="settings_keep_awake_summary">राउटर गहरी नींद में भी काम करता है, लेकिन बैटरी जल्दी खत्म होती है</string>
+    <string name="settings_keep_awake_off">नहीं</string>
+    <string name="settings_keep_awake_always">हमेशा</string>
+    <string name="settings_keep_awake_charging">केवल चार्ज होते समय</string>
     <string name="settings_battery">बैटरी ऑप्टिमाइज़ेशन</string>
     <string name="settings_battery_on">चालू: सिस्टम राउटर को रोक सकता है</string>
     <string name="settings_battery_off">i2pd के लिए बंद</string>

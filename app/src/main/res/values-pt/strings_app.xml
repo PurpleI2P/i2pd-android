@@ -30,6 +30,9 @@
     <string name="settings_section_background">Execução em segundo plano</string>
     <string name="settings_keep_awake">Manter o dispositivo ativo</string>
     <string name="settings_keep_awake_summary">O roteador continua funcionando no modo de suspensão profunda, mas a bateria descarrega mais rápido</string>
+    <string name="settings_keep_awake_off">Não</string>
+    <string name="settings_keep_awake_always">Sempre</string>
+    <string name="settings_keep_awake_charging">Somente ao carregar</string>
     <string name="settings_battery">Otimização de bateria</string>
     <string name="settings_battery_on">Ativada: o sistema pode parar o roteador</string>
     <string name="settings_battery_off">Desativada para o i2pd</string>

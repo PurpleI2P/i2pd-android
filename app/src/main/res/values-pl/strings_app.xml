@@ -30,6 +30,9 @@
     <string name="settings_section_background">Praca w tle</string>
     <string name="settings_keep_awake">Nie usypiaj urządzenia</string>
     <string name="settings_keep_awake_summary">Router działa także w głębokim uśpieniu, ale bateria rozładowuje się szybciej</string>
+    <string name="settings_keep_awake_off">Nie</string>
+    <string name="settings_keep_awake_always">Zawsze</string>
+    <string name="settings_keep_awake_charging">Tylko podczas ładowania</string>
     <string name="settings_battery">Optymalizacja baterii</string>
     <string name="settings_battery_on">Włączona: system może zatrzymać router</string>
     <string name="settings_battery_off">Wyłączona dla i2pd</string>

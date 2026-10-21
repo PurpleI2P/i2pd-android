@@ -30,6 +30,9 @@
     <string name="settings_section_background">Fonda ishlash</string>
     <string name="settings_keep_awake">Qurilmani uyquga ketkazmaslik</string>
     <string name="settings_keep_awake_summary">Router chuqur uyquda ham ishlaydi, lekin batareya tezroq tugaydi</string>
+    <string name="settings_keep_awake_off">Yo‘q</string>
+    <string name="settings_keep_awake_always">Doim</string>
+    <string name="settings_keep_awake_charging">Faqat quvvatlanayotganda</string>
     <string name="settings_battery">Batareya optimallashuvi</string>
     <string name="settings_battery_on">Yoqilgan: tizim routerni to‘xtatishi mumkin</string>
     <string name="settings_battery_off">i2pd uchun o‘chirilgan</string>

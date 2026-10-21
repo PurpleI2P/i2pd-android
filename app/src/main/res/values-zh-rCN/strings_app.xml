@@ -30,6 +30,9 @@
     <string name="settings_section_background">后台运行</string>
     <string name="settings_keep_awake">保持设备唤醒</string>
     <string name="settings_keep_awake_summary">路由器在深度睡眠中也能工作，但耗电更快</string>
+    <string name="settings_keep_awake_off">否</string>
+    <string name="settings_keep_awake_always">始终</string>
+    <string name="settings_keep_awake_charging">仅在充电时</string>
     <string name="settings_battery">电池优化</string>
     <string name="settings_battery_on">已开启：系统可能会停止路由器</string>
     <string name="settings_battery_off">已对 i2pd 关闭</string>

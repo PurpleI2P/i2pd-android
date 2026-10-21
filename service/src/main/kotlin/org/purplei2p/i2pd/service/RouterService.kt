@@ -30,6 +30,7 @@ class RouterService : Service() {
     private var lastNotifiedAt = 0L
     private var foreground = false
     private lateinit var networkMonitor: NetworkMonitor
+    private lateinit var powerMonitor: PowerMonitor
     private var wakeLock: PowerManager.WakeLock? = null
 
     /** Until the first command is handled an inactive state means "not started yet", not "stop". */
@@ -42,12 +43,23 @@ class RouterService : Service() {
         val supervisor = RouterController.supervisor(this)
         networkMonitor = NetworkMonitor(this) { online -> supervisor.setOnline(online) }
         networkMonitor.start()
+        powerMonitor = PowerMonitor(this)
+        powerMonitor.start()
         scope.launch {
             supervisor.state.collect { state -> onState(state) }
         }
         scope.launch {
-            combine(supervisor.state, RouterController.settings(this@RouterService).settings) { state, settings ->
-                settings.keepAwake && state.lifecycle.hasRouterProcess
+            combine(
+                supervisor.state,
+                RouterController.settings(this@RouterService).settings,
+                powerMonitor.plugged,
+            ) { state, settings, plugged ->
+                val wanted = when (settings.keepAwake) {
+                    KeepAwake.OFF -> false
+                    KeepAwake.ALWAYS -> true
+                    KeepAwake.WHILE_CHARGING -> plugged
+                }
+                wanted && state.lifecycle.hasRouterProcess
             }.distinctUntilChanged().collect { keepAwake -> setWakeLock(keepAwake) }
         }
     }
@@ -74,6 +86,7 @@ class RouterService : Service() {
 
     override fun onDestroy() {
         networkMonitor.stop()
+        powerMonitor.stop()
         setWakeLock(false)
         scope.cancel()
         super.onDestroy()

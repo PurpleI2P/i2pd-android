@@ -30,6 +30,9 @@
     <string name="settings_section_background">Arka planda çalışma</string>
     <string name="settings_keep_awake">Cihazı uyanık tut</string>
     <string name="settings_keep_awake_summary">Yönlendirici derin uykuda da çalışır, ancak pil daha hızlı biter</string>
+    <string name="settings_keep_awake_off">Hayır</string>
+    <string name="settings_keep_awake_always">Her zaman</string>
+    <string name="settings_keep_awake_charging">Yalnızca şarj olurken</string>
     <string name="settings_battery">Pil optimizasyonu</string>
     <string name="settings_battery_on">Açık: sistem yönlendiriciyi durdurabilir</string>
     <string name="settings_battery_off">i2pd için kapalı</string>
