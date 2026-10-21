@@ -63,6 +63,8 @@ object RouterController {
 
     fun config(context: Context): RouterConfig = RouterConfig.get(context)
 
+    fun data(context: Context): RouterData = RouterData.get(context)
+
     /** Options changed in i2pd.conf after the running router was started; a restart applies them. */
     fun pendingChanges(context: Context): Flow<List<OptionChange>> = config(context).pendingChanges(state(context))
 

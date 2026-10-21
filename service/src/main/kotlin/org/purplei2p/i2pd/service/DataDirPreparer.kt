@@ -75,6 +75,11 @@ class DataDirPreparer(private val context: Context) {
         return PackageInfoCompat.getLongVersionCode(info)
     }
 
+    /** Makes the next [prepare] copy bundled files again (missing ones only, certificates replaced). */
+    fun forgetAssetsVersion() {
+        File(dataDir, ASSETS_STAMP).delete()
+    }
+
     private companion object {
         const val TAG = "i2pd-datadir"
         const val DATA_DIR_NAME = "i2pd"

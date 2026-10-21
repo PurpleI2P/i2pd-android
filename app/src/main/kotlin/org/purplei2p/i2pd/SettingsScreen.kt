@@ -37,6 +37,8 @@ private enum class SettingsPage(val title: Int) {
     ROUTER_BASIC(R.string.router_basic),
     ROUTER_ADVANCED(R.string.router_advanced),
     ROUTER_RAW(R.string.router_raw),
+    STORAGE(R.string.data_storage),
+    FILES(R.string.data_files),
 }
 
 /** Router (i2pd.conf) and application settings. */
@@ -58,6 +60,8 @@ fun SettingsScreen(checks: SystemChecks, modifier: Modifier = Modifier) {
             SettingsPage.ROUTER_BASIC -> RouterBasicScreen(session)
             SettingsPage.ROUTER_ADVANCED -> RouterAdvancedScreen(session)
             SettingsPage.ROUTER_RAW -> RawConfigScreen()
+            SettingsPage.STORAGE -> StorageScreen()
+            SettingsPage.FILES -> FilesScreen()
             SettingsPage.MAIN -> Unit
         }
     }
@@ -76,6 +80,10 @@ private fun SettingsMain(checks: SystemChecks, onOpen: (SettingsPage) -> Unit, m
         TextRow(stringResource(R.string.router_basic), stringResource(R.string.router_basic_summary)) { onOpen(SettingsPage.ROUTER_BASIC) }
         TextRow(stringResource(R.string.router_advanced), stringResource(R.string.router_advanced_summary)) { onOpen(SettingsPage.ROUTER_ADVANCED) }
         TextRow(stringResource(R.string.router_raw), stringResource(R.string.router_raw_summary)) { onOpen(SettingsPage.ROUTER_RAW) }
+
+        Section(R.string.settings_section_data)
+        TextRow(stringResource(R.string.data_storage), stringResource(R.string.data_storage_summary)) { onOpen(SettingsPage.STORAGE) }
+        TextRow(stringResource(R.string.data_files), stringResource(R.string.data_files_summary)) { onOpen(SettingsPage.FILES) }
 
         Section(R.string.settings_section_start)
         SwitchRow(R.string.settings_autostart, R.string.settings_autostart_summary, settings.autostartOnBoot) { value ->

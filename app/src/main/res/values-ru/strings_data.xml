@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_section_data">Данные</string>
+    <string name="data_storage">Хранилище</string>
+    <string name="data_storage_summary">Ключи, сетевая база, конфигурация и другие файлы</string>
+    <string name="data_files">Файлы</string>
+    <string name="data_files_summary">Просмотр каталога данных, загрузка и сохранение файлов</string>
+
+    <string name="data_backup">Создать резервную копию</string>
+    <string name="data_restore">Восстановить из копии</string>
+    <string name="data_migrate">Перенести данные старой версии</string>
+    <string name="data_migrate_summary">Выберите папку i2pd старого приложения во внутренней памяти</string>
+    <string name="data_choose_categories">Что включить</string>
+    <string name="data_continue">Продолжить</string>
+    <string name="data_done_backup">Копия сохранена, файлов: %1$d</string>
+    <string name="files_uploaded">Загружено: %1$s</string>
+    <string name="data_done_import">Импортировано файлов: %1$d, пропущено: %2$d</string>
+    <string name="data_done">Готово</string>
+    <string name="data_failed">Ошибка: %1$s</string>
+    <string name="data_router_restarts">При изменении ключей, сетевой базы, профилей, адресной книги или сессионных тегов роутер на это время останавливается и потом запускается снова.</string>
+    <string name="data_size">%1$s, файлов: %2$d</string>
+
+    <string name="data_cat_router_identity">Личность роутера</string>
+    <string name="data_cat_destination_keys">Ключи назначений</string>
+    <string name="data_cat_config">Конфигурация</string>
+    <string name="data_cat_addressbook">Адресная книга</string>
+    <string name="data_cat_netdb">Сетевая база</string>
+    <string name="data_cat_profiles">Профили пиров</string>
+    <string name="data_cat_tags">Сессионные теги</string>
+    <string name="data_cat_certificates">Сертификаты</string>
+    <string name="data_cat_other">Прочие файлы</string>
+
+    <string name="data_action_clear">Очистить</string>
+    <string name="data_action_reset">Сбросить к встроенным</string>
+    <string name="data_action_new_identity">Создать новую личность</string>
+    <string name="data_confirm_clear">Удалить все файлы раздела «%1$s»?</string>
+    <string name="data_confirm_netdb">При запуске роутер заново загрузит сетевую базу (reseed).</string>
+    <string name="data_confirm_identity">Роутер получит новую личность: другие роутеры и пиры её не знают. Без резервной копии это не отменить.</string>
+    <string name="data_confirm_reset">Ваши изменения раздела «%1$s» будут потеряны.</string>
+
+    <string name="files_upload">Загрузить файл сюда</string>
+    <string name="files_save">Сохранить на устройство</string>
+    <string name="files_delete">Удалить</string>
+    <string name="files_confirm_delete">Удалить %1$s?</string>
+    <string name="files_up">.. (вверх)</string>
+    <string name="files_empty">Папка пуста</string>
+
+    <string name="onboarding_title">Добро пожаловать в i2pd</string>
+    <string name="onboarding_intro">i2pd — роутер анонимной сети I2P. Он работает в фоне и даёт вашим приложениям HTTP- и SOCKS-прокси в I2P.</string>
+    <string name="onboarding_notifications">Разрешите уведомления, чтобы видеть состояние роутера</string>
+    <string name="onboarding_battery">Отключите оптимизацию батареи, чтобы система не останавливала роутер</string>
+    <string name="onboarding_migrate">Пользовались старой версией приложения? Перенесите её данные (личность роутера, ключи, конфигурацию)</string>
+    <string name="onboarding_allow">Разрешить</string>
+    <string name="onboarding_migrate_action">Перенести</string>
+    <string name="onboarding_done_step">Готово</string>
+    <string name="onboarding_start">Запустить роутер</string>
+    <string name="onboarding_skip">Позже</string>
+</resources>

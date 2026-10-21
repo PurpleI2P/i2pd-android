@@ -27,6 +27,7 @@ dependencies {
     implementation(project(":native"))
 
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.documentfile)
     api(libs.kotlinx.coroutines.android)
 
     testImplementation(libs.junit)

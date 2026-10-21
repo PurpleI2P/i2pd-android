@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_section_data">Data</string>
+    <string name="data_storage">Storage</string>
+    <string name="data_storage_summary">Keys, network database, configuration and other files</string>
+    <string name="data_files">Files</string>
+    <string name="data_files_summary">Browse the data directory, upload and save files</string>
+
+    <string name="data_backup">Create backup</string>
+    <string name="data_restore">Restore from backup</string>
+    <string name="data_migrate">Move data from the old version</string>
+    <string name="data_migrate_summary">Pick the i2pd folder of the old app in the internal storage</string>
+    <string name="data_choose_categories">What to include</string>
+    <string name="data_continue">Continue</string>
+    <string name="data_done_backup">Backup saved, files: %1$d</string>
+    <string name="files_uploaded">Uploaded: %1$s</string>
+    <string name="data_done_import">Imported: %1$d, skipped: %2$d</string>
+    <string name="data_done">Done</string>
+    <string name="data_failed">Failed: %1$s</string>
+    <string name="data_router_restarts">Changing keys, network database, profiles, address book or session tags stops the router for that time; it is started again afterwards.</string>
+    <string name="data_size">%1$s, files: %2$d</string>
+
+    <string name="data_cat_router_identity">Router identity</string>
+    <string name="data_cat_destination_keys">Destination keys</string>
+    <string name="data_cat_config">Configuration</string>
+    <string name="data_cat_addressbook">Address book</string>
+    <string name="data_cat_netdb">Network database</string>
+    <string name="data_cat_profiles">Peer profiles</string>
+    <string name="data_cat_tags">Session tags</string>
+    <string name="data_cat_certificates">Certificates</string>
+    <string name="data_cat_other">Other files</string>
+
+    <string name="data_action_clear">Clear</string>
+    <string name="data_action_reset">Reset to bundled</string>
+    <string name="data_action_new_identity">Create new identity</string>
+    <string name="data_confirm_clear">Delete all files of “%1$s”?</string>
+    <string name="data_confirm_netdb">The router downloads the network database again (reseed) on start.</string>
+    <string name="data_confirm_identity">The router gets a new identity: other routers and peers will not know it. This cannot be undone without a backup.</string>
+    <string name="data_confirm_reset">Your changes of “%1$s” will be lost.</string>
+
+    <string name="files_upload">Upload file here</string>
+    <string name="files_save">Save to device</string>
+    <string name="files_delete">Delete</string>
+    <string name="files_confirm_delete">Delete %1$s?</string>
+    <string name="files_up">.. (up)</string>
+    <string name="files_empty">Empty folder</string>
+
+    <string name="onboarding_title">Welcome to i2pd</string>
+    <string name="onboarding_intro">i2pd is a router of the I2P anonymous network. It runs in background and gives your apps HTTP and SOCKS proxies into I2P.</string>
+    <string name="onboarding_notifications">Allow notifications to see the router state</string>
+    <string name="onboarding_battery">Disable battery optimization so the system does not stop the router</string>
+    <string name="onboarding_migrate">Used the old version of the app? Move its data (router identity, keys, configuration)</string>
+    <string name="onboarding_allow">Allow</string>
+    <string name="onboarding_migrate_action">Move</string>
+    <string name="onboarding_done_step">Done</string>
+    <string name="onboarding_start">Start the router</string>
+    <string name="onboarding_skip">Later</string>
+</resources>
