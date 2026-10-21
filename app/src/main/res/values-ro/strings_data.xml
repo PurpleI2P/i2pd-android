@@ -44,6 +44,7 @@
     <string name="onboarding_intro">i2pd este un router al rețelei anonime I2P. Rulează în fundal și oferă aplicațiilor tale proxy-uri HTTP și SOCKS către I2P.</string>
     <string name="onboarding_notifications">Permite notificările pentru a vedea starea routerului</string>
     <string name="onboarding_battery">Dezactivează optimizarea bateriei ca sistemul să nu oprească routerul</string>
+    <string name="onboarding_oem_autostart">Permite pornirea automată pentru i2pd în setările %1$s, altfel sistemul poate opri routerul</string>
     <string name="onboarding_migrate">Ai folosit versiunea veche a aplicației? Mută-i datele (identitatea routerului, cheile, configurația)</string>
     <string name="onboarding_allow">Permite</string>
     <string name="onboarding_migrate_action">Mută</string>

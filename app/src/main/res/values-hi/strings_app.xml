@@ -33,6 +33,8 @@
     <string name="settings_battery">बैटरी ऑप्टिमाइज़ेशन</string>
     <string name="settings_battery_on">चालू: सिस्टम राउटर को रोक सकता है</string>
     <string name="settings_battery_off">i2pd के लिए बंद</string>
+    <string name="settings_oem_autostart">ऑटोस्टार्ट (%1$s)</string>
+    <string name="settings_oem_autostart_summary">%1$s फ़र्मवेयर बूट पर राउटर शुरू नहीं कर सकता और उसे पृष्ठभूमि में बंद कर सकता है। वहाँ i2pd के लिए ऑटोस्टार्ट की अनुमति दें</string>
     <string name="settings_section_interface">इंटरफ़ेस</string>
     <string name="settings_theme">थीम</string>
     <string name="settings_theme_system">सिस्टम के अनुसार</string>

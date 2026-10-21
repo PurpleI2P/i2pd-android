@@ -44,6 +44,7 @@
     <string name="onboarding_intro">i2pd روتر شبکهٔ ناشناس I2P است. در پس‌زمینه اجرا می‌شود و به برنامه‌های شما پراکسی‌های HTTP و SOCKS به I2P می‌دهد.</string>
     <string name="onboarding_notifications">برای دیدن وضعیت روتر اعلان‌ها را مجاز کنید</string>
     <string name="onboarding_battery">بهینه‌سازی باتری را غیرفعال کنید تا سیستم روتر را متوقف نکند</string>
+    <string name="onboarding_oem_autostart">اجرای خودکار i2pd را در تنظیمات %1$s مجاز کنید، وگرنه سیستم ممکن است روتر را متوقف کند</string>
     <string name="onboarding_migrate">از نسخهٔ قدیمی برنامه استفاده می‌کردید؟ داده‌های آن را منتقل کنید (هویت روتر، کلیدها، پیکربندی)</string>
     <string name="onboarding_allow">اجازه دادن</string>
     <string name="onboarding_migrate_action">انتقال</string>

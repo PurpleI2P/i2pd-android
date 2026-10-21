@@ -33,6 +33,8 @@
     <string name="settings_battery">Otimização de bateria</string>
     <string name="settings_battery_on">Ativada: o sistema pode parar o roteador</string>
     <string name="settings_battery_off">Desativada para o i2pd</string>
+    <string name="settings_oem_autostart">Inicialização automática (%1$s)</string>
+    <string name="settings_oem_autostart_summary">O sistema da %1$s pode não iniciar o roteador ao ligar e fechá-lo em segundo plano. Permita lá a inicialização automática do i2pd</string>
     <string name="settings_section_interface">Interface</string>
     <string name="settings_theme">Tema</string>
     <string name="settings_theme_system">Igual ao sistema</string>

@@ -33,6 +33,8 @@
     <string name="settings_battery">电池优化</string>
     <string name="settings_battery_on">已开启：系统可能会停止路由器</string>
     <string name="settings_battery_off">已对 i2pd 关闭</string>
+    <string name="settings_oem_autostart">自启动（%1$s）</string>
+    <string name="settings_oem_autostart_summary">%1$s 系统可能不会在开机时启动路由器，并可能在后台将其关闭。请在其中允许 i2pd 自启动</string>
     <string name="settings_section_interface">界面</string>
     <string name="settings_theme">主题</string>
     <string name="settings_theme_system">跟随系统</string>

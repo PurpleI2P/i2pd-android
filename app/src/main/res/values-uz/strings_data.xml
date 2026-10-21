@@ -44,6 +44,7 @@
     <string name="onboarding_intro">i2pd — anonim I2P tarmog‘ining routeri. U fonda ishlaydi va ilovalaringizga I2P ga HTTP va SOCKS proksilarni taqdim etadi.</string>
     <string name="onboarding_notifications">Router holatini ko‘rish uchun bildirishnomalarga ruxsat bering</string>
     <string name="onboarding_battery">Tizim routerni to‘xtatmasligi uchun batareya optimallashuvini o‘chiring</string>
+    <string name="onboarding_oem_autostart">%1$s sozlamalarida i2pd uchun avtoishga tushirishga ruxsat bering, aks holda proshivka routerni to‘xtatishi mumkin</string>
     <string name="onboarding_migrate">Ilovaning eski versiyasidan foydalanganmisiz? Uning maʼlumotlarini ko‘chiring (router identifikatori, kalitlar, konfiguratsiya)</string>
     <string name="onboarding_allow">Ruxsat berish</string>
     <string name="onboarding_migrate_action">Ko‘chirish</string>

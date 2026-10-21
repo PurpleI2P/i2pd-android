@@ -37,6 +37,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.purplei2p.i2pd.config.OptionGroup
 import org.purplei2p.i2pd.nativelib.I2pdNative
 import org.purplei2p.i2pd.service.AppSettingsStore
+import org.purplei2p.i2pd.service.OemAutostart
 import org.purplei2p.i2pd.service.RouterController
 import org.purplei2p.i2pd.service.ThemeMode
 
@@ -144,6 +145,15 @@ private fun SettingsMain(checks: SystemChecks, onOpen: (SettingsPage) -> Unit, m
             summary = stringResource(if (checks.batteryOptimized) R.string.settings_battery_on else R.string.settings_battery_off),
             onClick = if (checks.batteryOptimized) ({ requestIgnoreBatteryOptimizations(context) }) else null,
         )
+        OemAutostart.current?.let { oem ->
+            TextRow(
+                title = stringResource(R.string.settings_oem_autostart, oem.displayName),
+                summary = stringResource(R.string.settings_oem_autostart_summary, oem.displayName),
+            ) {
+                oem.open(context)
+                store.update { it.copy(oemAutostartOpened = true) }
+            }
+        }
 
         Section(R.string.settings_section_interface)
         TextRow(stringResource(R.string.settings_theme), stringResource(settings.theme.label)) { choosingTheme = true }

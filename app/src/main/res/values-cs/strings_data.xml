@@ -44,6 +44,7 @@
     <string name="onboarding_intro">i2pd je router anonymní sítě I2P. Běží na pozadí a poskytuje vašim aplikacím HTTP a SOCKS proxy do I2P.</string>
     <string name="onboarding_notifications">Povolte oznámení, abyste viděli stav routeru</string>
     <string name="onboarding_battery">Vypněte optimalizaci baterie, aby systém router nezastavoval</string>
+    <string name="onboarding_oem_autostart">Povolte automatické spouštění i2pd v nastavení %1$s, jinak může firmware router zastavovat</string>
     <string name="onboarding_migrate">Používali jste starou verzi aplikace? Přeneste její data (identitu routeru, klíče, konfiguraci)</string>
     <string name="onboarding_allow">Povolit</string>
     <string name="onboarding_migrate_action">Přenést</string>

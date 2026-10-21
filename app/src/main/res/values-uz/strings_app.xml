@@ -33,6 +33,8 @@
     <string name="settings_battery">Batareya optimallashuvi</string>
     <string name="settings_battery_on">Yoqilgan: tizim routerni to‘xtatishi mumkin</string>
     <string name="settings_battery_off">i2pd uchun o‘chirilgan</string>
+    <string name="settings_oem_autostart">Avtoishga tushirish (%1$s)</string>
+    <string name="settings_oem_autostart_summary">%1$s proshivkasi routerni yoqilganda ishga tushirmasligi va fonda yopishi mumkin. U yerda i2pd uchun avtoishga tushirishga ruxsat bering</string>
     <string name="settings_section_interface">Interfeys</string>
     <string name="settings_theme">Mavzu</string>
     <string name="settings_theme_system">Tizimdagidek</string>

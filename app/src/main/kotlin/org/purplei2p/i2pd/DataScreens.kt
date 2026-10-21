@@ -42,11 +42,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.purplei2p.i2pd.config.CategorySize
 import org.purplei2p.i2pd.config.DataCategory
 import org.purplei2p.i2pd.service.DataEntry
+import org.purplei2p.i2pd.service.OemAutostart
 import org.purplei2p.i2pd.service.RouterController
 import org.purplei2p.i2pd.service.RouterData
 import org.purplei2p.i2pd.service.RouterStateText
@@ -392,6 +394,15 @@ fun OnboardingScreen(checks: SystemChecks, onDone: () -> Unit, modifier: Modifie
             }
         }
         Step(stringResource(R.string.onboarding_battery), done = !checks.batteryOptimized) { requestIgnoreBatteryOptimizations(context) }
+        OemAutostart.current?.let { oem ->
+            val store = RouterController.settings(context)
+            val opened by store.settings.collectAsStateWithLifecycle()
+            // Cannot be checked: "done" only means the screen was opened
+            Step(stringResource(R.string.onboarding_oem_autostart, oem.displayName), done = opened.oemAutostartOpened) {
+                oem.open(context)
+                store.update { it.copy(oemAutostartOpened = true) }
+            }
+        }
         Step(stringResource(R.string.onboarding_migrate), done = false, action = R.string.onboarding_migrate_action, enabled = !operation.running) {
             migrate.launch(OLD_DATA_DIR)
         }

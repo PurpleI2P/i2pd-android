@@ -44,6 +44,7 @@
     <string name="onboarding_intro">i2pd, anonim I2P ağının bir yönlendiricisidir. Arka planda çalışır ve uygulamalarınıza I2P\'ye HTTP ve SOCKS proxy\'leri sağlar.</string>
     <string name="onboarding_notifications">Yönlendirici durumunu görmek için bildirimlere izin verin</string>
     <string name="onboarding_battery">Sistemin yönlendiriciyi durdurmaması için pil optimizasyonunu kapatın</string>
+    <string name="onboarding_oem_autostart">%1$s ayarlarında i2pd için otomatik başlatmaya izin verin, aksi halde sistem yönlendiriciyi durdurabilir</string>
     <string name="onboarding_migrate">Uygulamanın eski sürümünü kullandınız mı? Verilerini taşıyın (yönlendirici kimliği, anahtarlar, yapılandırma)</string>
     <string name="onboarding_allow">İzin ver</string>
     <string name="onboarding_migrate_action">Taşı</string>

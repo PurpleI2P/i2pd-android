@@ -44,6 +44,7 @@
     <string name="onboarding_intro">i2pd 是匿名网络 I2P 的路由器。它在后台运行，为您的应用提供通往 I2P 的 HTTP 和 SOCKS 代理。</string>
     <string name="onboarding_notifications">允许通知以查看路由器状态</string>
     <string name="onboarding_battery">关闭电池优化，以免系统停止路由器</string>
+    <string name="onboarding_oem_autostart">请在 %1$s 设置中允许 i2pd 自启动，否则系统可能会停止路由器</string>
     <string name="onboarding_migrate">用过旧版应用？迁移其数据（路由器身份、密钥、配置）</string>
     <string name="onboarding_allow">允许</string>
     <string name="onboarding_migrate_action">迁移</string>

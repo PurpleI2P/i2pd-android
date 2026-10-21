@@ -44,6 +44,7 @@
     <string name="onboarding_intro">O i2pd é um roteador da rede anônima I2P. Ele funciona em segundo plano e oferece aos seus apps proxies HTTP e SOCKS para a I2P.</string>
     <string name="onboarding_notifications">Permita notificações para ver o estado do roteador</string>
     <string name="onboarding_battery">Desative a otimização de bateria para que o sistema não pare o roteador</string>
+    <string name="onboarding_oem_autostart">Permita a inicialização automática do i2pd nas configurações da %1$s; caso contrário, o sistema pode parar o roteador</string>
     <string name="onboarding_migrate">Usava a versão antiga do app? Transfira os dados dela (identidade do roteador, chaves, configuração)</string>
     <string name="onboarding_allow">Permitir</string>
     <string name="onboarding_migrate_action">Transferir</string>
