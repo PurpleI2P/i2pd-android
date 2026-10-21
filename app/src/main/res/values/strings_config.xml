@@ -16,21 +16,21 @@
     <string name="group_http_proxy">HTTP proxy</string>
     <string name="group_socks_proxy">SOCKS proxy</string>
     <string name="group_web_console">Web console</string>
-    <string name="group_sam">SAM</string>
-    <string name="group_i2cp">I2CP</string>
+    <string name="group_sam" translatable="false">SAM</string>
+    <string name="group_i2cp" translatable="false">I2CP</string>
     <string name="group_logging">Logging</string>
     <string name="group_limits">Limits and storage</string>
     <string name="section_general">General</string>
 
     <string name="opt_port">Router port</string>
-    <string name="opt_ipv4">IPv4</string>
-    <string name="opt_ipv6">IPv6</string>
+    <string name="opt_ipv4" translatable="false">IPv4</string>
+    <string name="opt_ipv6" translatable="false">IPv6</string>
     <string name="opt_bandwidth">Bandwidth class</string>
     <string name="opt_share">Share for transit, %</string>
     <string name="opt_notransit">Decline transit tunnels at start</string>
     <string name="opt_floodfill">Floodfill router</string>
-    <string name="opt_ntcp2_enabled">NTCP2</string>
-    <string name="opt_ssu2_enabled">SSU2</string>
+    <string name="opt_ntcp2_enabled" translatable="false">NTCP2</string>
+    <string name="opt_ssu2_enabled" translatable="false">SSU2</string>
     <string name="opt_upnp_enabled">UPnP port forwarding</string>
     <string name="opt_enabled">Enabled</string>
     <string name="opt_address">Address</string>
@@ -75,7 +75,7 @@
     <string name="error_not_boolean">Expected true or false</string>
     <string name="error_not_number">Expected a number</string>
     <string name="error_out_of_range">Out of range</string>
-    <string name="error_out_of_range_port">1–65535</string>
+    <string name="error_out_of_range_port" translatable="false">1–65535</string>
     <string name="error_not_allowed">Not an allowed value</string>
     <string name="warning_title">Check the value</string>
     <string name="warning_router_port_range">The selected port is outside the recommended range (9111–30776). Save it anyway?</string>

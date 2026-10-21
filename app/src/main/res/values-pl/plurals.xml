@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="logs_skipped">
+        <item quantity="one">— pominięto %1$d wiersz —</item>
+        <item quantity="few">— pominięto %1$d wiersze —</item>
+        <item quantity="many">— pominięto %1$d wierszy —</item>
+        <item quantity="other">— pominięto %1$d wiersza —</item>
+    </plurals>
+    <plurals name="changes_more">
+        <item quantity="one">i jeszcze %1$d</item>
+        <item quantity="few">i jeszcze %1$d</item>
+        <item quantity="many">i jeszcze %1$d</item>
+        <item quantity="other">i jeszcze %1$d</item>
+    </plurals>
+    <plurals name="tunnels_shared_short">
+        <item quantity="one">Wspólne miejsce docelowe %1$s: %2$d użytkownik</item>
+        <item quantity="few">Wspólne miejsce docelowe %1$s: %2$d użytkownicy</item>
+        <item quantity="many">Wspólne miejsce docelowe %1$s: %2$d użytkowników</item>
+        <item quantity="other">Wspólne miejsce docelowe %1$s: %2$d użytkownika</item>
+    </plurals>
+</resources>

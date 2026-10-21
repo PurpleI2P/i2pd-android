@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_status">Stato</string>
+    <string name="tab_logs">Protokolo</string>
+    <string name="tab_settings">Agordoj</string>
+    <string name="action_back">Reen</string>
+    <string name="action_web_console">Retkonzolo</string>
+    <string name="action_share">Kunhavigi</string>
+    <string name="action_clear">Viŝi</string>
+    <string name="action_open_settings">Malfermi agordojn</string>
+    <string name="action_disable">Malŝalti</string>
+    <string name="banner_battery">Bateria optimumigo povas haltigi la enkursigilon fone.</string>
+    <string name="banner_notifications">Sciigoj estas malŝaltitaj: la stato de la enkursigilo ne montriĝas.</string>
+    <string name="logs_search">Serĉi</string>
+    <string name="logs_level_error">Eraroj</string>
+    <string name="logs_level_warn">Avertoj</string>
+    <string name="logs_level_info">Informoj</string>
+    <string name="logs_level_debug">Sencimigo</string>
+    <string name="logs_empty">Neniuj eroj. La detalecon difinas la opcio loglevel en i2pd.conf.</string>
+    <string name="logs_router_restarted">— enkursigilo restartigita —</string>
+    <string name="logs_share_subject">Protokolo de i2pd</string>
+    <string name="settings_section_start">Startigo</string>
+    <string name="settings_autostart">Startigi je lanĉo de la aparato</string>
+    <string name="settings_autostart_summary">Startigi la enkursigilon kiam la aparato ŝaltiĝas</string>
+    <string name="settings_auto_restart">Restartigi post kraŝo</string>
+    <string name="settings_auto_restart_summary">Ĝis 3 provoj ene de 10 minutoj</string>
+    <string name="settings_section_stop">Haltigo</string>
+    <string name="settings_graceful_timeout">Tempolimo de milda haltigo</string>
+    <string name="settings_minutes">%1$d min</string>
+    <string name="settings_section_background">Fona laboro</string>
+    <string name="settings_keep_awake">Teni la aparaton veka</string>
+    <string name="settings_keep_awake_summary">La enkursigilo funkcias ankaŭ en profunda dormo, sed la baterio malpleniĝas pli rapide</string>
+    <string name="settings_battery">Bateria optimumigo</string>
+    <string name="settings_battery_on">Ŝaltita: la sistemo povas haltigi la enkursigilon</string>
+    <string name="settings_battery_off">Malŝaltita por i2pd</string>
+    <string name="settings_section_interface">Interfaco</string>
+    <string name="settings_theme">Etoso</string>
+    <string name="settings_theme_system">Kiel en la sistemo</string>
+    <string name="settings_theme_light">Hela</string>
+    <string name="settings_theme_dark">Malhela</string>
+    <string name="settings_secure_screen">Bloki ekrankopiojn</string>
+    <string name="settings_secure_screen_summary">Adresoj, ŝlosiloj kaj protokoloj ne kapteblas, kaj la aplikaĵo estas kaŝita inter lastatempaj aplikaĵoj</string>
+    <string name="settings_section_about">Pri</string>
+</resources>

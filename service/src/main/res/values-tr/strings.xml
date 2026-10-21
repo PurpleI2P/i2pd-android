@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="channel_status">Yönlendirici durumu</string>
+    <string name="channel_failures">Yönlendirici hataları</string>
+    <string name="state_stopped">Durduruldu</string>
+    <string name="state_starting">Başlatılıyor…</string>
+    <string name="state_running">Çalışıyor</string>
+    <string name="state_draining">Kademeli durduruluyor</string>
+    <string name="state_stopping">Durduruluyor…</string>
+    <string name="state_restarting">Yeniden başlatılıyor…</string>
+    <string name="state_maintenance">Bakım…</string>
+    <string name="state_failed">Yönlendirici hatası</string>
+    <string name="summary_running">Ağ: %1$s · ↓ %2$s ↑ %3$s · transit %4$d</string>
+    <string name="summary_draining">Transit tüneller: %1$d, kalan süre %2$s</string>
+    <string name="summary_auto_restart">Yönlendirici çöktü, %1$s içinde yeniden başlatılacak</string>
+    <string name="failure_prepare">Veri dizini hazırlanamıyor: %1$s</string>
+    <string name="failure_start">Başlatma başarısız: %1$s</string>
+    <string name="failure_fatal">Ölümcül hata: %1$s</string>
+    <string name="failure_crashed">Yönlendirici işlemi çöktü</string>
+    <string name="failure_start_timeout">Yönlendirici zamanında başlamadı</string>
+    <string name="network_ok">Tamam</string>
+    <string name="network_firewalled">Güvenlik duvarı arkasında</string>
+    <string name="network_unknown">Bilinmiyor</string>
+    <string name="network_proxy">Proxy</string>
+    <string name="network_mesh">Mesh</string>
+    <string name="network_stan">Stan</string>
+    <string name="network_testing">test ediliyor</string>
+    <string name="network_error_clock_skew">saat sapması</string>
+    <string name="network_error_offline">çevrimdışı</string>
+    <string name="network_error_symmetric_nat">simetrik NAT</string>
+    <string name="network_error_full_cone_nat">full cone NAT</string>
+    <string name="network_error_no_descriptors">tanımlayıcı yok</string>
+    <string name="speed">%1$s/sn</string>
+    <string name="action_start">Başlat</string>
+    <string name="action_stop">Durdur</string>
+    <string name="action_stop_now">Hemen durdur</string>
+    <string name="action_restart">Yeniden başlat</string>
+    <string name="action_cancel">İptal</string>
+    <string name="tile_label">I2P yönlendirici</string>
+</resources>

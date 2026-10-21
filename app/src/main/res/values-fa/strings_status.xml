@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="status_network">شبکه</string>
+    <string name="status_uptime">مدت کارکرد</string>
+    <string name="status_speed">سرعت</string>
+    <string name="status_speed_value">↓ %1$s  ↑ %2$s  ترانزیت %3$s</string>
+    <string name="status_traffic">ترافیک</string>
+    <string name="status_traffic_value">↓ %1$s  ↑ %2$s  ترانزیت %3$s</string>
+    <string name="status_tunnels">تونل‌ها</string>
+    <string name="status_tunnels_value">ورودی %1$d، خروجی %2$d، ترانزیت %3$d · موفقیت %4$d%%</string>
+    <string name="status_netdb">پایگاه دادهٔ شبکه</string>
+    <string name="status_netdb_value">روترها %1$d، floodfill %2$d، lease set %3$d</string>
+    <string name="status_transit">ترانزیت</string>
+    <string name="status_transit_accepted">پذیرفته می‌شود</string>
+    <string name="status_transit_declined">رد می‌شود</string>
+    <string name="status_services">سرویس‌ها</string>
+    <string name="status_services_none">هیچ</string>
+    <string name="service_http_proxy">پراکسی HTTP</string>
+    <string name="service_socks_proxy">پراکسی SOCKS</string>
+    <string name="service_web_console">کنسول وب</string>
+    <string name="action_dismiss">بستن</string>
+    <string name="about_versions">برنامه %1$s · i2pd %2$s · %3$s</string>
+</resources>

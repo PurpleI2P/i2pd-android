@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="channel_status">路由器状态</string>
+    <string name="channel_failures">路由器错误</string>
+    <string name="state_stopped">已停止</string>
+    <string name="state_starting">正在启动…</string>
+    <string name="state_running">运行中</string>
+    <string name="state_draining">正在平稳停止</string>
+    <string name="state_stopping">正在停止…</string>
+    <string name="state_restarting">正在重启…</string>
+    <string name="state_maintenance">维护中…</string>
+    <string name="state_failed">路由器错误</string>
+    <string name="summary_running">网络：%1$s · ↓ %2$s ↑ %3$s · 中转 %4$d</string>
+    <string name="summary_draining">中转隧道：%1$d，剩余 %2$s</string>
+    <string name="summary_auto_restart">路由器崩溃，%1$s 后重启</string>
+    <string name="failure_prepare">无法准备数据目录：%1$s</string>
+    <string name="failure_start">启动失败：%1$s</string>
+    <string name="failure_fatal">致命错误：%1$s</string>
+    <string name="failure_crashed">路由器进程崩溃</string>
+    <string name="failure_start_timeout">路由器未能按时启动</string>
+    <string name="network_ok">正常</string>
+    <string name="network_firewalled">受防火墙限制</string>
+    <string name="network_unknown">未知</string>
+    <string name="network_proxy">代理</string>
+    <string name="network_mesh">Mesh</string>
+    <string name="network_stan">Stan</string>
+    <string name="network_testing">检测中</string>
+    <string name="network_error_clock_skew">时钟偏差</string>
+    <string name="network_error_offline">离线</string>
+    <string name="network_error_symmetric_nat">对称型 NAT</string>
+    <string name="network_error_full_cone_nat">完全锥形 NAT</string>
+    <string name="network_error_no_descriptors">无描述符</string>
+    <string name="speed">%1$s/秒</string>
+    <string name="action_start">启动</string>
+    <string name="action_stop">停止</string>
+    <string name="action_stop_now">立即停止</string>
+    <string name="action_restart">重启</string>
+    <string name="action_cancel">取消</string>
+    <string name="tile_label">I2P 路由器</string>
+</resources>

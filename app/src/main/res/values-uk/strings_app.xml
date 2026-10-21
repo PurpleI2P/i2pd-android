@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_status">Стан</string>
+    <string name="tab_logs">Журнал</string>
+    <string name="tab_settings">Налаштування</string>
+    <string name="action_back">Назад</string>
+    <string name="action_web_console">Веб-консоль</string>
+    <string name="action_share">Поділитися</string>
+    <string name="action_clear">Очистити</string>
+    <string name="action_open_settings">Відкрити налаштування</string>
+    <string name="action_disable">Вимкнути</string>
+    <string name="banner_battery">Оптимізація батареї може зупиняти роутер у фоні.</string>
+    <string name="banner_notifications">Сповіщення вимкнено: стан роутера не показується.</string>
+    <string name="logs_search">Пошук</string>
+    <string name="logs_level_error">Помилки</string>
+    <string name="logs_level_warn">Попередження</string>
+    <string name="logs_level_info">Інформація</string>
+    <string name="logs_level_debug">Налагодження</string>
+    <string name="logs_empty">Записів немає. Детальність задається параметром loglevel в i2pd.conf.</string>
+    <string name="logs_router_restarted">— роутер перезапущено —</string>
+    <string name="logs_share_subject">Журнал i2pd</string>
+    <string name="settings_section_start">Запуск</string>
+    <string name="settings_autostart">Запускати під час завантаження</string>
+    <string name="settings_autostart_summary">Запускати роутер після увімкнення пристрою</string>
+    <string name="settings_auto_restart">Перезапускати після збою</string>
+    <string name="settings_auto_restart_summary">До 3 спроб за 10 хвилин</string>
+    <string name="settings_section_stop">Зупинка</string>
+    <string name="settings_graceful_timeout">Час плавної зупинки</string>
+    <string name="settings_minutes">%1$d хв</string>
+    <string name="settings_section_background">Робота у фоні</string>
+    <string name="settings_keep_awake">Не давати пристрою засинати</string>
+    <string name="settings_keep_awake_summary">Роутер працює і в глибокому сні, але батарея розряджається швидше</string>
+    <string name="settings_battery">Оптимізація батареї</string>
+    <string name="settings_battery_on">Увімкнено: система може зупинити роутер</string>
+    <string name="settings_battery_off">Вимкнено для i2pd</string>
+    <string name="settings_section_interface">Інтерфейс</string>
+    <string name="settings_theme">Тема</string>
+    <string name="settings_theme_system">Як у системі</string>
+    <string name="settings_theme_light">Світла</string>
+    <string name="settings_theme_dark">Темна</string>
+    <string name="settings_secure_screen">Заборонити знімки екрана</string>
+    <string name="settings_secure_screen_summary">Адреси, ключі та журнал не можна зняти з екрана, у недавніх застосунках вміст приховано</string>
+    <string name="settings_section_about">Про застосунок</string>
+</resources>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="status_network">Network</string>
+    <string name="status_uptime">Uptime</string>
+    <string name="status_speed">Bilis</string>
+    <string name="status_speed_value">↓ %1$s  ↑ %2$s  transit %3$s</string>
+    <string name="status_traffic">Trapiko</string>
+    <string name="status_traffic_value">↓ %1$s  ↑ %2$s  transit %3$s</string>
+    <string name="status_tunnels">Mga tunnel</string>
+    <string name="status_tunnels_value">papasok %1$d, palabas %2$d, transit %3$d · tagumpay %4$d%%</string>
+    <string name="status_netdb">Database ng network</string>
+    <string name="status_netdb_value">router %1$d, floodfill %2$d, lease set %3$d</string>
+    <string name="status_transit">Transit</string>
+    <string name="status_transit_accepted">tinatanggap</string>
+    <string name="status_transit_declined">tinatanggihan</string>
+    <string name="status_services">Mga serbisyo</string>
+    <string name="status_services_none">wala</string>
+    <string name="service_http_proxy">HTTP proxy</string>
+    <string name="service_socks_proxy">SOCKS proxy</string>
+    <string name="service_web_console">Web console</string>
+    <string name="action_dismiss">Isara</string>
+    <string name="about_versions">App %1$s · i2pd %2$s · %3$s</string>
+</resources>

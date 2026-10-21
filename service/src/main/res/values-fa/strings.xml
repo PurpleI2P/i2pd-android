@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="channel_status">وضعیت روتر</string>
+    <string name="channel_failures">خطاهای روتر</string>
+    <string name="state_stopped">متوقف</string>
+    <string name="state_starting">در حال شروع…</string>
+    <string name="state_running">در حال اجرا</string>
+    <string name="state_draining">در حال توقف تدریجی</string>
+    <string name="state_stopping">در حال توقف…</string>
+    <string name="state_restarting">در حال راه‌اندازی مجدد…</string>
+    <string name="state_maintenance">نگهداری…</string>
+    <string name="state_failed">خطای روتر</string>
+    <string name="summary_running">شبکه: %1$s · ↓ %2$s ↑ %3$s · ترانزیت %4$d</string>
+    <string name="summary_draining">تونل‌های ترانزیت: %1$d، %2$s مانده</string>
+    <string name="summary_auto_restart">روتر از کار افتاد، راه‌اندازی مجدد تا %1$s دیگر</string>
+    <string name="failure_prepare">آماده‌سازی پوشهٔ داده ممکن نیست: %1$s</string>
+    <string name="failure_start">شروع ناموفق بود: %1$s</string>
+    <string name="failure_fatal">خطای مهلک: %1$s</string>
+    <string name="failure_crashed">فرایند روتر از کار افتاد</string>
+    <string name="failure_start_timeout">روتر به‌موقع شروع نشد</string>
+    <string name="network_ok">خوب</string>
+    <string name="network_firewalled">پشت دیوار آتش</string>
+    <string name="network_unknown">نامشخص</string>
+    <string name="network_proxy">پراکسی</string>
+    <string name="network_mesh">Mesh</string>
+    <string name="network_stan">Stan</string>
+    <string name="network_testing">در حال آزمایش</string>
+    <string name="network_error_clock_skew">اختلاف ساعت</string>
+    <string name="network_error_offline">آفلاین</string>
+    <string name="network_error_symmetric_nat">NAT متقارن</string>
+    <string name="network_error_full_cone_nat">NAT مخروطی کامل</string>
+    <string name="network_error_no_descriptors">بدون توصیف‌گر</string>
+    <string name="speed">%1$s/ثانیه</string>
+    <string name="action_start">شروع</string>
+    <string name="action_stop">توقف</string>
+    <string name="action_stop_now">توقف فوری</string>
+    <string name="action_restart">راه‌اندازی مجدد</string>
+    <string name="action_cancel">لغو</string>
+    <string name="tile_label">روتر I2P</string>
+</resources>

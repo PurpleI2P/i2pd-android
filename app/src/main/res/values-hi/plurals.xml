@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="logs_skipped">
+        <item quantity="one">— %1$d पंक्ति छोड़ी गई —</item>
+        <item quantity="other">— %1$d पंक्तियाँ छोड़ी गईं —</item>
+    </plurals>
+    <plurals name="changes_more">
+        <item quantity="one">और %1$d</item>
+        <item quantity="other">और %1$d</item>
+    </plurals>
+    <plurals name="tunnels_shared_short">
+        <item quantity="one">साझा गंतव्य %1$s: %2$d उपयोगकर्ता</item>
+        <item quantity="other">साझा गंतव्य %1$s: %2$d उपयोगकर्ता</item>
+    </plurals>
+</resources>

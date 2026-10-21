@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="channel_status">Stato de la enkursigilo</string>
+    <string name="channel_failures">Eraroj de la enkursigilo</string>
+    <string name="state_stopped">Haltigita</string>
+    <string name="state_starting">Startiĝas…</string>
+    <string name="state_running">Funkcias</string>
+    <string name="state_draining">Milde haltiĝas</string>
+    <string name="state_stopping">Haltiĝas…</string>
+    <string name="state_restarting">Restartiĝas…</string>
+    <string name="state_maintenance">Prizorgado…</string>
+    <string name="state_failed">Eraro de la enkursigilo</string>
+    <string name="summary_running">Reto: %1$s · ↓ %2$s ↑ %3$s · transito %4$d</string>
+    <string name="summary_draining">Transitaj tuneloj: %1$d, restas %2$s</string>
+    <string name="summary_auto_restart">La enkursigilo kraŝis, restarto post %1$s</string>
+    <string name="failure_prepare">Ne eblas prepari la datumdosierujon: %1$s</string>
+    <string name="failure_start">Startigo malsukcesis: %1$s</string>
+    <string name="failure_fatal">Fatala eraro: %1$s</string>
+    <string name="failure_crashed">La procezo de la enkursigilo kraŝis</string>
+    <string name="failure_start_timeout">La enkursigilo ne startis ĝustatempe</string>
+    <string name="network_ok">Bone</string>
+    <string name="network_firewalled">Malantaŭ fajroŝirmilo</string>
+    <string name="network_unknown">Nekonata</string>
+    <string name="network_proxy">Prokurilo</string>
+    <string name="network_mesh">Mesh</string>
+    <string name="network_stan">Stan</string>
+    <string name="network_testing">testado</string>
+    <string name="network_error_clock_skew">horloĝa malakordo</string>
+    <string name="network_error_offline">senkonekte</string>
+    <string name="network_error_symmetric_nat">simetria NAT</string>
+    <string name="network_error_full_cone_nat">full cone NAT</string>
+    <string name="network_error_no_descriptors">neniuj priskribiloj</string>
+    <string name="speed">%1$s/s</string>
+    <string name="action_start">Startigi</string>
+    <string name="action_stop">Haltigi</string>
+    <string name="action_stop_now">Haltigi nun</string>
+    <string name="action_restart">Restartigi</string>
+    <string name="action_cancel">Nuligi</string>
+    <string name="tile_label">I2P-enkursigilo</string>
+</resources>

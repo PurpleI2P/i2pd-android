@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="logs_skipped">
+        <item quantity="one">— %1$d ligne ignorée —</item>
+        <item quantity="many">— %1$d lignes ignorées —</item>
+        <item quantity="other">— %1$d lignes ignorées —</item>
+    </plurals>
+    <plurals name="changes_more">
+        <item quantity="one">et %1$d de plus</item>
+        <item quantity="many">et %1$d de plus</item>
+        <item quantity="other">et %1$d de plus</item>
+    </plurals>
+    <plurals name="tunnels_shared_short">
+        <item quantity="one">Destination partagée %1$s : %2$d utilisateur</item>
+        <item quantity="many">Destination partagée %1$s : %2$d utilisateurs</item>
+        <item quantity="other">Destination partagée %1$s : %2$d utilisateurs</item>
+    </plurals>
+</resources>

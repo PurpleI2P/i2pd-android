@@ -29,6 +29,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.LiveRegionMode
+import androidx.compose.ui.semantics.liveRegion
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -94,10 +97,8 @@ fun StatusScreen(checks: SystemChecks, onOpenWebConsole: (String) -> Unit, modif
             onRestart = { RouterController.restart(context) },
             onCancel = { RouterController.cancelGraceful(context) },
             onDismiss = { RouterController.dismiss(context) },
+            onWebConsole = state.status?.webConsoleUrl?.takeIf(::isLoopbackUrl)?.let { url -> { onOpenWebConsole(url) } },
         )
-        state.status?.webConsoleUrl?.takeIf(::isLoopbackUrl)?.let { url ->
-            OutlinedButton(onClick = { onOpenWebConsole(url) }) { Text(stringResource(R.string.action_web_console)) }
-        }
         state.status?.let { StatusDetails(it) }
     }
 }
@@ -129,7 +130,12 @@ private fun StateCard(state: RouterState, now: Long) {
     ) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
             Text(stringResource(R.string.app_name), style = MaterialTheme.typography.labelLarge)
-            Text(RouterStateText.title(context, state), style = MaterialTheme.typography.headlineSmall)
+            // Announced by TalkBack when the router state changes; the summary with its countdown is not
+            Text(
+                RouterStateText.title(context, state),
+                style = MaterialTheme.typography.headlineSmall,
+                modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite },
+            )
             RouterStateText.summary(context, state, now)?.let { Text(it, style = MaterialTheme.typography.bodyMedium) }
         }
     }
@@ -145,7 +151,9 @@ private fun Controls(
     onRestart: () -> Unit,
     onCancel: () -> Unit,
     onDismiss: () -> Unit,
+    onWebConsole: (() -> Unit)?,
 ) {
+    // One flowing row: everything fits on a line in landscape and wraps on narrow screens
     FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         when (state.lifecycle) {
             Lifecycle.Stopped -> if (!state.isActive) {
@@ -169,6 +177,7 @@ private fun Controls(
                 }
             }
         }
+        onWebConsole?.let { OutlinedButton(onClick = it) { Text(stringResource(R.string.action_web_console)) } }
     }
 }
 

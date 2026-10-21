@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="logs_skipped">
+        <item quantity="one">— %1$d qator o‘tkazib yuborildi —</item>
+        <item quantity="other">— %1$d qator o‘tkazib yuborildi —</item>
+    </plurals>
+    <plurals name="changes_more">
+        <item quantity="one">va yana %1$d ta</item>
+        <item quantity="other">va yana %1$d ta</item>
+    </plurals>
+    <plurals name="tunnels_shared_short">
+        <item quantity="one">Umumiy manzil %1$s: %2$d foydalanuvchi</item>
+        <item quantity="other">Umumiy manzil %1$s: %2$d foydalanuvchi</item>
+    </plurals>
+</resources>

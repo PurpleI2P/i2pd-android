@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="status_network">网络</string>
+    <string name="status_uptime">运行时间</string>
+    <string name="status_speed">速度</string>
+    <string name="status_speed_value">↓ %1$s  ↑ %2$s  中转 %3$s</string>
+    <string name="status_traffic">流量</string>
+    <string name="status_traffic_value">↓ %1$s  ↑ %2$s  中转 %3$s</string>
+    <string name="status_tunnels">隧道</string>
+    <string name="status_tunnels_value">入站 %1$d，出站 %2$d，中转 %3$d · 成功率 %4$d%%</string>
+    <string name="status_netdb">网络数据库</string>
+    <string name="status_netdb_value">路由器 %1$d，floodfill %2$d，lease set %3$d</string>
+    <string name="status_transit">中转</string>
+    <string name="status_transit_accepted">接受</string>
+    <string name="status_transit_declined">拒绝</string>
+    <string name="status_services">服务</string>
+    <string name="status_services_none">无</string>
+    <string name="service_http_proxy">HTTP 代理</string>
+    <string name="service_socks_proxy">SOCKS 代理</string>
+    <string name="service_web_console">网页控制台</string>
+    <string name="action_dismiss">关闭</string>
+    <string name="about_versions">应用 %1$s · i2pd %2$s · %3$s</string>
+</resources>

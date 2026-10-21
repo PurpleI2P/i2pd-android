@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_status">وضعیت</string>
+    <string name="tab_logs">گزارش‌ها</string>
+    <string name="tab_settings">تنظیمات</string>
+    <string name="action_back">بازگشت</string>
+    <string name="action_web_console">کنسول وب</string>
+    <string name="action_share">هم‌رسانی</string>
+    <string name="action_clear">پاک کردن</string>
+    <string name="action_open_settings">باز کردن تنظیمات</string>
+    <string name="action_disable">غیرفعال کردن</string>
+    <string name="banner_battery">بهینه‌سازی باتری ممکن است روتر را در پس‌زمینه متوقف کند.</string>
+    <string name="banner_notifications">اعلان‌ها خاموش است: وضعیت روتر نمایش داده نمی‌شود.</string>
+    <string name="logs_search">جستجو</string>
+    <string name="logs_level_error">خطاها</string>
+    <string name="logs_level_warn">هشدارها</string>
+    <string name="logs_level_info">اطلاعات</string>
+    <string name="logs_level_debug">اشکال‌زدایی</string>
+    <string name="logs_empty">ورودی‌ای نیست. میزان جزئیات با گزینهٔ loglevel در i2pd.conf تعیین می‌شود.</string>
+    <string name="logs_router_restarted">— روتر دوباره راه‌اندازی شد —</string>
+    <string name="logs_share_subject">گزارش i2pd</string>
+    <string name="settings_section_start">شروع</string>
+    <string name="settings_autostart">شروع هنگام روشن شدن</string>
+    <string name="settings_autostart_summary">روتر را هنگام روشن شدن دستگاه شروع کن</string>
+    <string name="settings_auto_restart">راه‌اندازی مجدد پس از خرابی</string>
+    <string name="settings_auto_restart_summary">حداکثر ۳ تلاش در ۱۰ دقیقه</string>
+    <string name="settings_section_stop">توقف</string>
+    <string name="settings_graceful_timeout">مهلت توقف تدریجی</string>
+    <string name="settings_minutes">%1$d دقیقه</string>
+    <string name="settings_section_background">کار در پس‌زمینه</string>
+    <string name="settings_keep_awake">بیدار نگه داشتن دستگاه</string>
+    <string name="settings_keep_awake_summary">روتر در خواب عمیق هم کار می‌کند، اما باتری زودتر خالی می‌شود</string>
+    <string name="settings_battery">بهینه‌سازی باتری</string>
+    <string name="settings_battery_on">فعال: سیستم ممکن است روتر را متوقف کند</string>
+    <string name="settings_battery_off">برای i2pd غیرفعال است</string>
+    <string name="settings_section_interface">رابط کاربری</string>
+    <string name="settings_theme">پوسته</string>
+    <string name="settings_theme_system">مانند سیستم</string>
+    <string name="settings_theme_light">روشن</string>
+    <string name="settings_theme_dark">تیره</string>
+    <string name="settings_secure_screen">جلوگیری از عکس صفحه</string>
+    <string name="settings_secure_screen_summary">از نشانی‌ها، کلیدها و گزارش‌ها نمی‌توان عکس گرفت و برنامه در برنامه‌های اخیر پنهان است</string>
+    <string name="settings_section_about">درباره</string>
+</resources>

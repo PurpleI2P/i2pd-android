@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="logs_skipped">
+        <item quantity="one">— пропущено %1$d рядок —</item>
+        <item quantity="few">— пропущено %1$d рядки —</item>
+        <item quantity="many">— пропущено %1$d рядків —</item>
+        <item quantity="other">— пропущено %1$d рядка —</item>
+    </plurals>
+    <plurals name="changes_more">
+        <item quantity="one">і ще %1$d</item>
+        <item quantity="few">і ще %1$d</item>
+        <item quantity="many">і ще %1$d</item>
+        <item quantity="other">і ще %1$d</item>
+    </plurals>
+    <plurals name="tunnels_shared_short">
+        <item quantity="one">Спільна адреса %1$s: %2$d користувач</item>
+        <item quantity="few">Спільна адреса %1$s: %2$d користувачі</item>
+        <item quantity="many">Спільна адреса %1$s: %2$d користувачів</item>
+        <item quantity="other">Спільна адреса %1$s: %2$d користувача</item>
+    </plurals>
+</resources>

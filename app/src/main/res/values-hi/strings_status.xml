@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="status_network">नेटवर्क</string>
+    <string name="status_uptime">चालू रहने का समय</string>
+    <string name="status_speed">गति</string>
+    <string name="status_speed_value">↓ %1$s  ↑ %2$s  ट्रांज़िट %3$s</string>
+    <string name="status_traffic">ट्रैफ़िक</string>
+    <string name="status_traffic_value">↓ %1$s  ↑ %2$s  ट्रांज़िट %3$s</string>
+    <string name="status_tunnels">टनल</string>
+    <string name="status_tunnels_value">आने वाले %1$d, जाने वाले %2$d, ट्रांज़िट %3$d · सफलता %4$d%%</string>
+    <string name="status_netdb">नेटवर्क डेटाबेस</string>
+    <string name="status_netdb_value">राउटर %1$d, floodfill %2$d, lease set %3$d</string>
+    <string name="status_transit">ट्रांज़िट</string>
+    <string name="status_transit_accepted">स्वीकार</string>
+    <string name="status_transit_declined">अस्वीकार</string>
+    <string name="status_services">सेवाएँ</string>
+    <string name="status_services_none">कोई नहीं</string>
+    <string name="service_http_proxy">HTTP प्रॉक्सी</string>
+    <string name="service_socks_proxy">SOCKS प्रॉक्सी</string>
+    <string name="service_web_console">वेब कंसोल</string>
+    <string name="action_dismiss">बंद करें</string>
+    <string name="about_versions">ऐप %1$s · i2pd %2$s · %3$s</string>
+</resources>

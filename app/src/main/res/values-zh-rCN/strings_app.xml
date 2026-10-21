@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_status">状态</string>
+    <string name="tab_logs">日志</string>
+    <string name="tab_settings">设置</string>
+    <string name="action_back">返回</string>
+    <string name="action_web_console">网页控制台</string>
+    <string name="action_share">分享</string>
+    <string name="action_clear">清除</string>
+    <string name="action_open_settings">打开设置</string>
+    <string name="action_disable">停用</string>
+    <string name="banner_battery">电池优化可能会在后台停止路由器。</string>
+    <string name="banner_notifications">通知已关闭：不会显示路由器状态。</string>
+    <string name="logs_search">搜索</string>
+    <string name="logs_level_error">错误</string>
+    <string name="logs_level_warn">警告</string>
+    <string name="logs_level_info">信息</string>
+    <string name="logs_level_debug">调试</string>
+    <string name="logs_empty">暂无日志。详细程度由 i2pd.conf 中的 loglevel 选项设置。</string>
+    <string name="logs_router_restarted">— 路由器已重启 —</string>
+    <string name="logs_share_subject">i2pd 日志</string>
+    <string name="settings_section_start">启动</string>
+    <string name="settings_autostart">开机启动</string>
+    <string name="settings_autostart_summary">设备开机时启动路由器</string>
+    <string name="settings_auto_restart">崩溃后重启</string>
+    <string name="settings_auto_restart_summary">10 分钟内最多尝试 3 次</string>
+    <string name="settings_section_stop">停止</string>
+    <string name="settings_graceful_timeout">平稳停止超时</string>
+    <string name="settings_minutes">%1$d 分钟</string>
+    <string name="settings_section_background">后台运行</string>
+    <string name="settings_keep_awake">保持设备唤醒</string>
+    <string name="settings_keep_awake_summary">路由器在深度睡眠中也能工作，但耗电更快</string>
+    <string name="settings_battery">电池优化</string>
+    <string name="settings_battery_on">已开启：系统可能会停止路由器</string>
+    <string name="settings_battery_off">已对 i2pd 关闭</string>
+    <string name="settings_section_interface">界面</string>
+    <string name="settings_theme">主题</string>
+    <string name="settings_theme_system">跟随系统</string>
+    <string name="settings_theme_light">浅色</string>
+    <string name="settings_theme_dark">深色</string>
+    <string name="settings_secure_screen">禁止截屏</string>
+    <string name="settings_secure_screen_summary">地址、密钥和日志无法被截取，应用在最近任务中隐藏内容</string>
+    <string name="settings_section_about">关于</string>
+</resources>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="status_network">Red</string>
+    <string name="status_uptime">Tiempo activo</string>
+    <string name="status_speed">Velocidad</string>
+    <string name="status_speed_value">↓ %1$s  ↑ %2$s  tránsito %3$s</string>
+    <string name="status_traffic">Tráfico</string>
+    <string name="status_traffic_value">↓ %1$s  ↑ %2$s  tránsito %3$s</string>
+    <string name="status_tunnels">Túneles</string>
+    <string name="status_tunnels_value">entrada %1$d, salida %2$d, tránsito %3$d · éxito %4$d%%</string>
+    <string name="status_netdb">Base de datos de la red</string>
+    <string name="status_netdb_value">routers %1$d, floodfills %2$d, lease sets %3$d</string>
+    <string name="status_transit">Tránsito</string>
+    <string name="status_transit_accepted">aceptado</string>
+    <string name="status_transit_declined">rechazado</string>
+    <string name="status_services">Servicios</string>
+    <string name="status_services_none">ninguno</string>
+    <string name="service_http_proxy">Proxy HTTP</string>
+    <string name="service_socks_proxy">Proxy SOCKS</string>
+    <string name="service_web_console">Consola web</string>
+    <string name="action_dismiss">Cerrar</string>
+    <string name="about_versions">App %1$s · i2pd %2$s · %3$s</string>
+</resources>

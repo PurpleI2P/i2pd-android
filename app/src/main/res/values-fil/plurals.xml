@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="logs_skipped">
+        <item quantity="one">— %1$d linya ang nilaktawan —</item>
+        <item quantity="other">— %1$d linya ang nilaktawan —</item>
+    </plurals>
+    <plurals name="changes_more">
+        <item quantity="one">at %1$d pa</item>
+        <item quantity="other">at %1$d pa</item>
+    </plurals>
+    <plurals name="tunnels_shared_short">
+        <item quantity="one">Pinagsasaluhang destination %1$s: %2$d user</item>
+        <item quantity="other">Pinagsasaluhang destination %1$s: %2$d user</item>
+    </plurals>
+</resources>

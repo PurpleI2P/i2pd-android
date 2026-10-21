@@ -20,9 +20,9 @@
     <string name="status_services_none">none</string>
     <string name="service_http_proxy">HTTP proxy</string>
     <string name="service_socks_proxy">SOCKS proxy</string>
-    <string name="service_sam">SAM</string>
-    <string name="service_bob">BOB</string>
-    <string name="service_i2cp">I2CP</string>
+    <string name="service_sam" translatable="false">SAM</string>
+    <string name="service_bob" translatable="false">BOB</string>
+    <string name="service_i2cp" translatable="false">I2CP</string>
     <string name="service_web_console">Web console</string>
     <string name="action_dismiss">Dismiss</string>
     <!-- app version, i2pd version, ABI -->

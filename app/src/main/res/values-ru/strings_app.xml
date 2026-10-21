@@ -37,5 +37,12 @@
     <string name="settings_battery">Оптимизация батареи</string>
     <string name="settings_battery_on">Включена: система может остановить роутер</string>
     <string name="settings_battery_off">Отключена для i2pd</string>
+    <string name="settings_section_interface">Интерфейс</string>
+    <string name="settings_theme">Тема</string>
+    <string name="settings_theme_system">Как в системе</string>
+    <string name="settings_theme_light">Светлая</string>
+    <string name="settings_theme_dark">Тёмная</string>
+    <string name="settings_secure_screen">Запретить скриншоты</string>
+    <string name="settings_secure_screen_summary">Адреса, ключи и логи нельзя снять с экрана, в недавних приложениях содержимое скрыто</string>
     <string name="settings_section_about">О приложении</string>
 </resources>

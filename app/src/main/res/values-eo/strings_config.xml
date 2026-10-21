@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_section_router">Enkursigilo (i2pd.conf)</string>
+    <string name="router_basic">Bazaj agordoj</string>
+    <string name="router_basic_summary">Reto, transportoj, prokuriloj, servoj</string>
+    <string name="router_advanced">Ĉiuj opcioj</string>
+    <string name="router_advanced_summary">Ĉiu opcio de ĉi tiu kompilaĵo de i2pd</string>
+    <string name="router_raw">Redakti i2pd.conf</string>
+    <string name="router_raw_summary">Tekstredaktilo por spertaj uzantoj</string>
+    <string name="banner_restart">La agordo ŝanĝiĝis. Restartigu la enkursigilon por apliki ĝin.</string>
+    <string name="action_revert_changes">Malfari</string>
+    <string name="group_network">Reto</string>
+    <string name="group_transports">Transportoj</string>
+    <string name="group_http_proxy">HTTP-prokurilo</string>
+    <string name="group_socks_proxy">SOCKS-prokurilo</string>
+    <string name="group_web_console">Retkonzolo</string>
+    <string name="group_logging">Protokolado</string>
+    <string name="group_limits">Limoj kaj konservado</string>
+    <string name="section_general">Ĝenerale</string>
+    <string name="opt_port">Pordo de la enkursigilo</string>
+    <string name="opt_bandwidth">Klaso de kapacito</string>
+    <string name="opt_share">Parto por transito, %</string>
+    <string name="opt_notransit">Rifuzi transitajn tunelojn je starto</string>
+    <string name="opt_floodfill">Floodfill-enkursigilo</string>
+    <string name="opt_upnp_enabled">Pordoplusendo per UPnP</string>
+    <string name="opt_enabled">Ŝaltita</string>
+    <string name="opt_address">Adreso</string>
+    <string name="opt_service_port">Pordo</string>
+    <string name="opt_outproxy">Elira prokurilo</string>
+    <string name="opt_loglevel">Protokola nivelo</string>
+    <string name="opt_limits_transittunnels">Maksimumo de transitaj tuneloj</string>
+    <string name="opt_persist_profiles">Konservi profilojn de samtavolanoj sur disko</string>
+    <string name="bandwidth_l">L — 32 KB/s</string>
+    <string name="bandwidth_o">O — 256 KB/s</string>
+    <string name="bandwidth_p">P — 2048 KB/s</string>
+    <string name="bandwidth_x">X — senlima</string>
+    <string name="router_port_auto">aŭtomate (9111–30776)</string>
+    <string name="value_default">%1$s (implicite)</string>
+    <string name="value_empty">ne agordita</string>
+    <string name="value_custom">Alia valoro</string>
+    <string name="action_save">Konservi</string>
+    <string name="action_reset_default">Restarigi implicitan</string>
+    <string name="action_remove">Forigi</string>
+    <string name="action_comment_out">Komentigi</string>
+    <string name="action_save_anyway">Tamen konservi</string>
+    <string name="action_revert">Malfari</string>
+    <string name="config_loading">Ŝargado de agordo…</string>
+    <string name="config_load_failed">Ne eblas ŝargi la agordon: %1$s</string>
+    <string name="config_issues">Problemoj en i2pd.conf</string>
+    <string name="config_unknown_options">Opcioj nekonataj al i2pd %1$s: la enkursigilo ne startos kun ili</string>
+    <string name="config_issues_on_save">La dosiero havas problemojn; i2pd eble ne startos kun ĝi.</string>
+    <string name="issue_unknown">%1$s: nekonata opcio</string>
+    <string name="issue_duplicate">%1$s: agordita plurfoje</string>
+    <string name="issue_port_conflict">Pordon %1$d uzas %2$s</string>
+    <string name="issue_not_boolean">%1$s = %2$s: atendata true aŭ false</string>
+    <string name="issue_not_number">%1$s = %2$s: atendata nombro</string>
+    <string name="issue_out_of_range">%1$s = %2$s: ekster la intervalo</string>
+    <string name="issue_not_allowed">%1$s = %2$s: nepermesata valoro</string>
+    <string name="issue_reserved_port">%1$s = %2$s: la pordo estas rezervita por alia programaro</string>
+    <string name="issue_outside_range">%1$s = %2$s: ekster la rekomendata intervalo 9111–30776</string>
+    <string name="error_not_boolean">Atendata true aŭ false</string>
+    <string name="error_not_number">Atendata nombro</string>
+    <string name="error_out_of_range">Ekster la intervalo</string>
+    <string name="error_not_allowed">Nepermesata valoro</string>
+    <string name="warning_title">Kontrolu la valoron</string>
+    <string name="warning_router_port_range">La elektita pordo estas ekster la rekomendata intervalo (9111–30776). Ĉu tamen konservi?</string>
+    <string name="warning_reserved_port">La elektita pordo estas rezervita por alia programaro. Ĉu tamen konservi?</string>
+</resources>

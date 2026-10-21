@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="channel_status">राउटर की स्थिति</string>
+    <string name="channel_failures">राउटर त्रुटियाँ</string>
+    <string name="state_stopped">रुका हुआ</string>
+    <string name="state_starting">शुरू हो रहा है…</string>
+    <string name="state_running">चल रहा है</string>
+    <string name="state_draining">धीरे-धीरे रुक रहा है</string>
+    <string name="state_stopping">रुक रहा है…</string>
+    <string name="state_restarting">फिर से शुरू हो रहा है…</string>
+    <string name="state_maintenance">रखरखाव…</string>
+    <string name="state_failed">राउटर त्रुटि</string>
+    <string name="summary_running">नेटवर्क: %1$s · ↓ %2$s ↑ %3$s · ट्रांज़िट %4$d</string>
+    <string name="summary_draining">ट्रांज़िट टनल: %1$d, %2$s बाकी</string>
+    <string name="summary_auto_restart">राउटर क्रैश हो गया, %1$s में फिर से शुरू होगा</string>
+    <string name="failure_prepare">डेटा फ़ोल्डर तैयार नहीं किया जा सका: %1$s</string>
+    <string name="failure_start">शुरू करना विफल: %1$s</string>
+    <string name="failure_fatal">गंभीर त्रुटि: %1$s</string>
+    <string name="failure_crashed">राउटर प्रक्रिया क्रैश हो गई</string>
+    <string name="failure_start_timeout">राउटर समय पर शुरू नहीं हुआ</string>
+    <string name="network_ok">ठीक</string>
+    <string name="network_firewalled">फ़ायरवॉल के पीछे</string>
+    <string name="network_unknown">अज्ञात</string>
+    <string name="network_proxy">प्रॉक्सी</string>
+    <string name="network_mesh">Mesh</string>
+    <string name="network_stan">Stan</string>
+    <string name="network_testing">जाँच हो रही है</string>
+    <string name="network_error_clock_skew">घड़ी में अंतर</string>
+    <string name="network_error_offline">ऑफ़लाइन</string>
+    <string name="network_error_symmetric_nat">सिमेट्रिक NAT</string>
+    <string name="network_error_full_cone_nat">फ़ुल कोन NAT</string>
+    <string name="network_error_no_descriptors">कोई डिस्क्रिप्टर नहीं</string>
+    <string name="speed">%1$s/से</string>
+    <string name="action_start">शुरू करें</string>
+    <string name="action_stop">रोकें</string>
+    <string name="action_stop_now">अभी रोकें</string>
+    <string name="action_restart">फिर से शुरू करें</string>
+    <string name="action_cancel">रद्द करें</string>
+    <string name="tile_label">I2P राउटर</string>
+</resources>

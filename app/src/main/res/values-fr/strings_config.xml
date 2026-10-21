@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_section_router">Routeur (i2pd.conf)</string>
+    <string name="router_basic">Paramètres de base</string>
+    <string name="router_basic_summary">Réseau, transports, proxys, services</string>
+    <string name="router_advanced">Toutes les options</string>
+    <string name="router_advanced_summary">Chaque option de cette version d\'i2pd</string>
+    <string name="router_raw">Modifier i2pd.conf</string>
+    <string name="router_raw_summary">Éditeur de texte pour utilisateurs avancés</string>
+    <string name="banner_restart">La configuration a changé. Redémarrez le routeur pour l\'appliquer.</string>
+    <string name="action_revert_changes">Annuler les modifications</string>
+    <string name="group_network">Réseau</string>
+    <string name="group_transports">Transports</string>
+    <string name="group_http_proxy">Proxy HTTP</string>
+    <string name="group_socks_proxy">Proxy SOCKS</string>
+    <string name="group_web_console">Console web</string>
+    <string name="group_logging">Journalisation</string>
+    <string name="group_limits">Limites et stockage</string>
+    <string name="section_general">Général</string>
+    <string name="opt_port">Port du routeur</string>
+    <string name="opt_bandwidth">Classe de bande passante</string>
+    <string name="opt_share">Part pour le transit, %</string>
+    <string name="opt_notransit">Refuser les tunnels de transit au démarrage</string>
+    <string name="opt_floodfill">Routeur floodfill</string>
+    <string name="opt_upnp_enabled">Redirection de ports UPnP</string>
+    <string name="opt_enabled">Activé</string>
+    <string name="opt_address">Adresse</string>
+    <string name="opt_service_port">Port</string>
+    <string name="opt_outproxy">Outproxy</string>
+    <string name="opt_loglevel">Niveau de journalisation</string>
+    <string name="opt_limits_transittunnels">Nombre maximal de tunnels de transit</string>
+    <string name="opt_persist_profiles">Conserver les profils des pairs sur le disque</string>
+    <string name="bandwidth_l">L — 32 Ko/s</string>
+    <string name="bandwidth_o">O — 256 Ko/s</string>
+    <string name="bandwidth_p">P — 2048 Ko/s</string>
+    <string name="bandwidth_x">X — illimité</string>
+    <string name="router_port_auto">auto (9111–30776)</string>
+    <string name="value_default">%1$s (par défaut)</string>
+    <string name="value_empty">non défini</string>
+    <string name="value_custom">Autre valeur</string>
+    <string name="action_save">Enregistrer</string>
+    <string name="action_reset_default">Rétablir la valeur par défaut</string>
+    <string name="action_remove">Supprimer</string>
+    <string name="action_comment_out">Mettre en commentaire</string>
+    <string name="action_save_anyway">Enregistrer quand même</string>
+    <string name="action_revert">Annuler les modifications</string>
+    <string name="config_loading">Chargement de la configuration…</string>
+    <string name="config_load_failed">Impossible de charger la configuration : %1$s</string>
+    <string name="config_issues">Problèmes dans i2pd.conf</string>
+    <string name="config_unknown_options">Options inconnues d\'i2pd %1$s : le routeur ne démarrera pas avec elles</string>
+    <string name="config_issues_on_save">Le fichier contient des problèmes ; i2pd risque de ne pas démarrer avec.</string>
+    <string name="issue_unknown">%1$s : option inconnue</string>
+    <string name="issue_duplicate">%1$s : défini plusieurs fois</string>
+    <string name="issue_port_conflict">Le port %1$d est utilisé par %2$s</string>
+    <string name="issue_not_boolean">%1$s = %2$s : true ou false attendu</string>
+    <string name="issue_not_number">%1$s = %2$s : nombre attendu</string>
+    <string name="issue_out_of_range">%1$s = %2$s : hors limites</string>
+    <string name="issue_not_allowed">%1$s = %2$s : valeur non autorisée</string>
+    <string name="issue_reserved_port">%1$s = %2$s : port réservé à d\'autres logiciels</string>
+    <string name="issue_outside_range">%1$s = %2$s : hors de la plage recommandée 9111–30776</string>
+    <string name="error_not_boolean">true ou false attendu</string>
+    <string name="error_not_number">Nombre attendu</string>
+    <string name="error_out_of_range">Hors limites</string>
+    <string name="error_not_allowed">Valeur non autorisée</string>
+    <string name="warning_title">Vérifiez la valeur</string>
+    <string name="warning_router_port_range">Le port choisi est hors de la plage recommandée (9111–30776). L\'enregistrer quand même ?</string>
+    <string name="warning_reserved_port">Le port choisi est réservé à d\'autres logiciels. L\'enregistrer quand même ?</string>
+</resources>

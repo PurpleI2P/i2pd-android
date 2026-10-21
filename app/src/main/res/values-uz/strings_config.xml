@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_section_router">Router (i2pd.conf)</string>
+    <string name="router_basic">Asosiy sozlamalar</string>
+    <string name="router_basic_summary">Tarmoq, transportlar, proksilar, xizmatlar</string>
+    <string name="router_advanced">Barcha parametrlar</string>
+    <string name="router_advanced_summary">Ushbu i2pd yig‘masining har bir parametri</string>
+    <string name="router_raw">i2pd.conf ni tahrirlash</string>
+    <string name="router_raw_summary">Tajribali foydalanuvchilar uchun matn muharriri</string>
+    <string name="banner_restart">Konfiguratsiya o‘zgardi. Qo‘llash uchun routerni qayta ishga tushiring.</string>
+    <string name="action_revert_changes">Bekor qilish</string>
+    <string name="group_network">Tarmoq</string>
+    <string name="group_transports">Transportlar</string>
+    <string name="group_http_proxy">HTTP proksi</string>
+    <string name="group_socks_proxy">SOCKS proksi</string>
+    <string name="group_web_console">Veb-konsol</string>
+    <string name="group_logging">Jurnal</string>
+    <string name="group_limits">Cheklovlar va xotira</string>
+    <string name="section_general">Umumiy</string>
+    <string name="opt_port">Router porti</string>
+    <string name="opt_bandwidth">O‘tkazuvchanlik sinfi</string>
+    <string name="opt_share">Tranzit ulushi, %</string>
+    <string name="opt_notransit">Ishga tushganda tranzit tunnellarni rad etish</string>
+    <string name="opt_floodfill">Floodfill router</string>
+    <string name="opt_upnp_enabled">UPnP portni yo‘naltirish</string>
+    <string name="opt_enabled">Yoqilgan</string>
+    <string name="opt_address">Manzil</string>
+    <string name="opt_service_port">Port</string>
+    <string name="opt_outproxy">Outproxy</string>
+    <string name="opt_loglevel">Jurnal darajasi</string>
+    <string name="opt_limits_transittunnels">Tranzit tunnellarning eng ko‘p soni</string>
+    <string name="opt_persist_profiles">Tugun profillarini diskda saqlash</string>
+    <string name="bandwidth_l">L — 32 KB/s</string>
+    <string name="bandwidth_o">O — 256 KB/s</string>
+    <string name="bandwidth_p">P — 2048 KB/s</string>
+    <string name="bandwidth_x">X — cheklovsiz</string>
+    <string name="router_port_auto">avto (9111–30776)</string>
+    <string name="value_default">%1$s (standart)</string>
+    <string name="value_empty">belgilanmagan</string>
+    <string name="value_custom">Boshqa qiymat</string>
+    <string name="action_save">Saqlash</string>
+    <string name="action_reset_default">Standartga qaytarish</string>
+    <string name="action_remove">Olib tashlash</string>
+    <string name="action_comment_out">Izohga aylantirish</string>
+    <string name="action_save_anyway">Baribir saqlash</string>
+    <string name="action_revert">Bekor qilish</string>
+    <string name="config_loading">Konfiguratsiya yuklanmoqda…</string>
+    <string name="config_load_failed">Konfiguratsiyani yuklab bo‘lmadi: %1$s</string>
+    <string name="config_issues">i2pd.conf dagi muammolar</string>
+    <string name="config_unknown_options">i2pd %1$s uchun nomaʼlum parametrlar: router ular bilan ishga tushmaydi</string>
+    <string name="config_issues_on_save">Faylda muammolar bor; i2pd u bilan ishga tushmasligi mumkin.</string>
+    <string name="issue_unknown">%1$s: nomaʼlum parametr</string>
+    <string name="issue_duplicate">%1$s: bir necha marta belgilangan</string>
+    <string name="issue_port_conflict">%1$d portidan %2$s foydalanmoqda</string>
+    <string name="issue_not_boolean">%1$s = %2$s: true yoki false kutilgan</string>
+    <string name="issue_not_number">%1$s = %2$s: son kutilgan</string>
+    <string name="issue_out_of_range">%1$s = %2$s: ruxsat etilgan oraliqdan tashqarida</string>
+    <string name="issue_not_allowed">%1$s = %2$s: ruxsat etilmagan qiymat</string>
+    <string name="issue_reserved_port">%1$s = %2$s: port boshqa dasturlar uchun ajratilgan</string>
+    <string name="issue_outside_range">%1$s = %2$s: tavsiya etilgan 9111–30776 oralig‘idan tashqarida</string>
+    <string name="error_not_boolean">true yoki false kutilgan</string>
+    <string name="error_not_number">Son kutilgan</string>
+    <string name="error_out_of_range">Oraliqdan tashqarida</string>
+    <string name="error_not_allowed">Ruxsat etilmagan qiymat</string>
+    <string name="warning_title">Qiymatni tekshiring</string>
+    <string name="warning_router_port_range">Tanlangan port tavsiya etilgan oraliqdan (9111–30776) tashqarida. Baribir saqlansinmi?</string>
+    <string name="warning_reserved_port">Tanlangan port boshqa dasturlar uchun ajratilgan. Baribir saqlansinmi?</string>
+</resources>

@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.HorizontalDivider
@@ -26,11 +28,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.purplei2p.i2pd.nativelib.I2pdNative
 import org.purplei2p.i2pd.service.AppSettingsStore
 import org.purplei2p.i2pd.service.RouterController
+import org.purplei2p.i2pd.service.ThemeMode
 
 private enum class SettingsPage(val title: Int) {
     MAIN(R.string.tab_settings),
@@ -54,7 +60,7 @@ fun SettingsScreen(checks: SystemChecks, modifier: Modifier = Modifier) {
     Column(modifier.fillMaxSize()) {
         Row(Modifier.fillMaxWidth().padding(horizontal = 8.dp), verticalAlignment = Alignment.CenterVertically) {
             TextButton(onClick = { page = SettingsPage.MAIN }) { Text(stringResource(R.string.action_back)) }
-            Text(stringResource(page.title), style = MaterialTheme.typography.titleMedium)
+            Text(stringResource(page.title), style = MaterialTheme.typography.titleMedium, modifier = Modifier.semantics { heading() })
         }
         when (page) {
             SettingsPage.ROUTER_BASIC -> RouterBasicScreen(session)
@@ -73,6 +79,7 @@ private fun SettingsMain(checks: SystemChecks, onOpen: (SettingsPage) -> Unit, m
     val store = RouterController.settings(context)
     val settings by store.settings.collectAsStateWithLifecycle()
     var choosingTimeout by rememberSaveable { mutableStateOf(false) }
+    var choosingTheme by rememberSaveable { mutableStateOf(false) }
 
     Column(modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
         RestartBanner()
@@ -110,6 +117,12 @@ private fun SettingsMain(checks: SystemChecks, onOpen: (SettingsPage) -> Unit, m
             onClick = if (checks.batteryOptimized) ({ requestIgnoreBatteryOptimizations(context) }) else null,
         )
 
+        Section(R.string.settings_section_interface)
+        TextRow(stringResource(R.string.settings_theme), stringResource(settings.theme.label)) { choosingTheme = true }
+        SwitchRow(R.string.settings_secure_screen, R.string.settings_secure_screen_summary, settings.secureScreen) { value ->
+            store.update { it.copy(secureScreen = value) }
+        }
+
         Section(R.string.settings_section_about)
         TextRow(
             title = stringResource(R.string.app_name),
@@ -118,30 +131,66 @@ private fun SettingsMain(checks: SystemChecks, onOpen: (SettingsPage) -> Unit, m
     }
 
     if (choosingTimeout) {
-        AlertDialog(
-            onDismissRequest = { choosingTimeout = false },
-            title = { Text(stringResource(R.string.settings_graceful_timeout)) },
-            text = {
-                Column {
-                    AppSettingsStore.GRACEFUL_TIMEOUT_CHOICES.forEach { minutes ->
-                        Row(
-                            Modifier.fillMaxWidth().selectable(selected = minutes == settings.gracefulTimeoutMinutes) {
-                                store.update { it.copy(gracefulTimeoutMinutes = minutes) }
-                                choosingTimeout = false
-                            }.padding(vertical = 8.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            RadioButton(selected = minutes == settings.gracefulTimeoutMinutes, onClick = null)
-                            Text(stringResource(R.string.settings_minutes, minutes), Modifier.padding(start = 16.dp))
-                        }
-                    }
-                }
-            },
-            confirmButton = {
-                TextButton(onClick = { choosingTimeout = false }) { Text(stringResource(android.R.string.cancel)) }
-            },
+        ChoiceDialog(
+            title = R.string.settings_graceful_timeout,
+            choices = AppSettingsStore.GRACEFUL_TIMEOUT_CHOICES,
+            selected = settings.gracefulTimeoutMinutes,
+            label = { stringResource(R.string.settings_minutes, it) },
+            onSelect = { minutes -> store.update { it.copy(gracefulTimeoutMinutes = minutes) } },
+            onDismiss = { choosingTimeout = false },
         )
     }
+    if (choosingTheme) {
+        ChoiceDialog(
+            title = R.string.settings_theme,
+            choices = ThemeMode.entries,
+            selected = settings.theme,
+            label = { stringResource(it.label) },
+            onSelect = { theme -> store.update { it.copy(theme = theme) } },
+            onDismiss = { choosingTheme = false },
+        )
+    }
+}
+
+private val ThemeMode.label: Int
+    get() = when (this) {
+        ThemeMode.SYSTEM -> R.string.settings_theme_system
+        ThemeMode.LIGHT -> R.string.settings_theme_light
+        ThemeMode.DARK -> R.string.settings_theme_dark
+    }
+
+@Composable
+private fun <T> ChoiceDialog(
+    title: Int,
+    choices: List<T>,
+    selected: T,
+    label: @Composable (T) -> String,
+    onSelect: (T) -> Unit,
+    onDismiss: () -> Unit,
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(stringResource(title)) },
+        text = {
+            Column(Modifier.selectableGroup()) {
+                choices.forEach { choice ->
+                    Row(
+                        Modifier.fillMaxWidth().selectable(selected = choice == selected, role = Role.RadioButton) {
+                            onSelect(choice)
+                            onDismiss()
+                        }.padding(vertical = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        RadioButton(selected = choice == selected, onClick = null)
+                        Text(label(choice), Modifier.padding(start = 16.dp))
+                    }
+                }
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = onDismiss) { Text(stringResource(android.R.string.cancel)) }
+        },
+    )
 }
 
 @Composable
@@ -151,21 +200,22 @@ private fun Section(title: Int) {
         stringResource(title),
         style = MaterialTheme.typography.titleSmall,
         color = MaterialTheme.colorScheme.primary,
-        modifier = Modifier.padding(start = 16.dp, top = 16.dp, bottom = 4.dp),
+        modifier = Modifier.padding(start = 16.dp, top = 16.dp, bottom = 4.dp).semantics { heading() },
     )
 }
 
 @Composable
 private fun SwitchRow(title: Int, summary: Int, checked: Boolean, onChange: (Boolean) -> Unit) {
     Row(
-        Modifier.fillMaxWidth().clickable { onChange(!checked) }.padding(horizontal = 16.dp, vertical = 12.dp),
+        Modifier.fillMaxWidth().toggleable(value = checked, role = Role.Switch, onValueChange = onChange)
+            .padding(horizontal = 16.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Column(Modifier.weight(1f)) {
             Text(stringResource(title), style = MaterialTheme.typography.bodyLarge)
             Text(stringResource(summary), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
-        Switch(checked = checked, onCheckedChange = onChange, modifier = Modifier.padding(start = 16.dp))
+        Switch(checked = checked, onCheckedChange = null, modifier = Modifier.padding(start = 16.dp))
     }
 }
 

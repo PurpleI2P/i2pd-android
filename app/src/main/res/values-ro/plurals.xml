@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="logs_skipped">
+        <item quantity="one">— %1$d rând omis —</item>
+        <item quantity="few">— %1$d rânduri omise —</item>
+        <item quantity="other">— %1$d de rânduri omise —</item>
+    </plurals>
+    <plurals name="changes_more">
+        <item quantity="one">și încă %1$d</item>
+        <item quantity="few">și încă %1$d</item>
+        <item quantity="other">și încă %1$d</item>
+    </plurals>
+    <plurals name="tunnels_shared_short">
+        <item quantity="one">Destinație comună %1$s: %2$d utilizator</item>
+        <item quantity="few">Destinație comună %1$s: %2$d utilizatori</item>
+        <item quantity="other">Destinație comună %1$s: %2$d de utilizatori</item>
+    </plurals>
+</resources>

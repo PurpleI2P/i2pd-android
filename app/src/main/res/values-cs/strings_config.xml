@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_section_router">Router (i2pd.conf)</string>
+    <string name="router_basic">Základní nastavení</string>
+    <string name="router_basic_summary">Síť, transporty, proxy, služby</string>
+    <string name="router_advanced">Všechny volby</string>
+    <string name="router_advanced_summary">Každá volba tohoto sestavení i2pd</string>
+    <string name="router_raw">Upravit i2pd.conf</string>
+    <string name="router_raw_summary">Textový editor pro zkušené uživatele</string>
+    <string name="banner_restart">Konfigurace se změnila. Restartujte router, aby se použila.</string>
+    <string name="action_revert_changes">Vrátit</string>
+    <string name="group_network">Síť</string>
+    <string name="group_transports">Transporty</string>
+    <string name="group_http_proxy">HTTP proxy</string>
+    <string name="group_socks_proxy">SOCKS proxy</string>
+    <string name="group_web_console">Webová konzole</string>
+    <string name="group_logging">Protokolování</string>
+    <string name="group_limits">Limity a úložiště</string>
+    <string name="section_general">Obecné</string>
+    <string name="opt_port">Port routeru</string>
+    <string name="opt_bandwidth">Třída šířky pásma</string>
+    <string name="opt_share">Podíl pro tranzit, %</string>
+    <string name="opt_notransit">Odmítat tranzitní tunely po startu</string>
+    <string name="opt_floodfill">Floodfill router</string>
+    <string name="opt_upnp_enabled">Přesměrování portů UPnP</string>
+    <string name="opt_enabled">Zapnuto</string>
+    <string name="opt_address">Adresa</string>
+    <string name="opt_service_port">Port</string>
+    <string name="opt_outproxy">Outproxy</string>
+    <string name="opt_loglevel">Úroveň protokolu</string>
+    <string name="opt_limits_transittunnels">Maximum tranzitních tunelů</string>
+    <string name="opt_persist_profiles">Ukládat profily uzlů na disk</string>
+    <string name="bandwidth_l">L — 32 KB/s</string>
+    <string name="bandwidth_o">O — 256 KB/s</string>
+    <string name="bandwidth_p">P — 2048 KB/s</string>
+    <string name="bandwidth_x">X — bez omezení</string>
+    <string name="router_port_auto">auto (9111–30776)</string>
+    <string name="value_default">%1$s (výchozí)</string>
+    <string name="value_empty">nenastaveno</string>
+    <string name="value_custom">Jiná hodnota</string>
+    <string name="action_save">Uložit</string>
+    <string name="action_reset_default">Obnovit výchozí</string>
+    <string name="action_remove">Odstranit</string>
+    <string name="action_comment_out">Zakomentovat</string>
+    <string name="action_save_anyway">Přesto uložit</string>
+    <string name="action_revert">Vrátit</string>
+    <string name="config_loading">Načítání konfigurace…</string>
+    <string name="config_load_failed">Nelze načíst konfiguraci: %1$s</string>
+    <string name="config_issues">Problémy v i2pd.conf</string>
+    <string name="config_unknown_options">Volby neznámé pro i2pd %1$s: router se s nimi nespustí</string>
+    <string name="config_issues_on_save">Soubor obsahuje problémy; i2pd se s ním nemusí spustit.</string>
+    <string name="issue_unknown">%1$s: neznámá volba</string>
+    <string name="issue_duplicate">%1$s: nastaveno víckrát</string>
+    <string name="issue_port_conflict">Port %1$d používá %2$s</string>
+    <string name="issue_not_boolean">%1$s = %2$s: očekáváno true nebo false</string>
+    <string name="issue_not_number">%1$s = %2$s: očekáváno číslo</string>
+    <string name="issue_out_of_range">%1$s = %2$s: mimo rozsah</string>
+    <string name="issue_not_allowed">%1$s = %2$s: nepovolená hodnota</string>
+    <string name="issue_reserved_port">%1$s = %2$s: port je vyhrazen pro jiný software</string>
+    <string name="issue_outside_range">%1$s = %2$s: mimo doporučený rozsah 9111–30776</string>
+    <string name="error_not_boolean">Očekáváno true nebo false</string>
+    <string name="error_not_number">Očekáváno číslo</string>
+    <string name="error_out_of_range">Mimo rozsah</string>
+    <string name="error_not_allowed">Nepovolená hodnota</string>
+    <string name="warning_title">Zkontrolujte hodnotu</string>
+    <string name="warning_router_port_range">Zvolený port je mimo doporučený rozsah (9111–30776). Přesto uložit?</string>
+    <string name="warning_reserved_port">Zvolený port je vyhrazen pro jiný software. Přesto uložit?</string>
+</resources>

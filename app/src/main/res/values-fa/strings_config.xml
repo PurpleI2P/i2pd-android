@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_section_router">روتر (i2pd.conf)</string>
+    <string name="router_basic">تنظیمات پایه</string>
+    <string name="router_basic_summary">شبکه، انتقال‌ها، پراکسی‌ها، سرویس‌ها</string>
+    <string name="router_advanced">همهٔ گزینه‌ها</string>
+    <string name="router_advanced_summary">همهٔ گزینه‌های این نسخه از i2pd</string>
+    <string name="router_raw">ویرایش i2pd.conf</string>
+    <string name="router_raw_summary">ویرایشگر متن برای کاربران باتجربه</string>
+    <string name="banner_restart">پیکربندی تغییر کرد. برای اعمال آن روتر را دوباره راه‌اندازی کنید.</string>
+    <string name="action_revert_changes">بازگردانی</string>
+    <string name="group_network">شبکه</string>
+    <string name="group_transports">انتقال‌ها</string>
+    <string name="group_http_proxy">پراکسی HTTP</string>
+    <string name="group_socks_proxy">پراکسی SOCKS</string>
+    <string name="group_web_console">کنسول وب</string>
+    <string name="group_logging">گزارش‌گیری</string>
+    <string name="group_limits">محدودیت‌ها و ذخیره‌سازی</string>
+    <string name="section_general">عمومی</string>
+    <string name="opt_port">درگاه روتر</string>
+    <string name="opt_bandwidth">ردهٔ پهنای باند</string>
+    <string name="opt_share">سهم ترانزیت، %</string>
+    <string name="opt_notransit">رد تونل‌های ترانزیت هنگام شروع</string>
+    <string name="opt_floodfill">روتر floodfill</string>
+    <string name="opt_upnp_enabled">هدایت درگاه UPnP</string>
+    <string name="opt_enabled">فعال</string>
+    <string name="opt_address">نشانی</string>
+    <string name="opt_service_port">درگاه</string>
+    <string name="opt_outproxy">پراکسی خروجی</string>
+    <string name="opt_loglevel">سطح گزارش</string>
+    <string name="opt_limits_transittunnels">بیشینهٔ تونل‌های ترانزیت</string>
+    <string name="opt_persist_profiles">نگهداری نمایه‌های همتایان روی دیسک</string>
+    <string name="bandwidth_l">L — ۳۲ KB/s</string>
+    <string name="bandwidth_o">O — ۲۵۶ KB/s</string>
+    <string name="bandwidth_p">P — ۲۰۴۸ KB/s</string>
+    <string name="bandwidth_x">X — نامحدود</string>
+    <string name="router_port_auto">خودکار (9111–30776)</string>
+    <string name="value_default">%1$s (پیش‌فرض)</string>
+    <string name="value_empty">تنظیم نشده</string>
+    <string name="value_custom">مقدار دیگر</string>
+    <string name="action_save">ذخیره</string>
+    <string name="action_reset_default">بازنشانی به پیش‌فرض</string>
+    <string name="action_remove">حذف</string>
+    <string name="action_comment_out">تبدیل به توضیح</string>
+    <string name="action_save_anyway">با این حال ذخیره کن</string>
+    <string name="action_revert">بازگردانی</string>
+    <string name="config_loading">در حال بارگیری پیکربندی…</string>
+    <string name="config_load_failed">بارگیری پیکربندی ممکن نیست: %1$s</string>
+    <string name="config_issues">مشکلات i2pd.conf</string>
+    <string name="config_unknown_options">گزینه‌های ناشناخته برای i2pd %1$s: روتر با آن‌ها شروع نمی‌شود</string>
+    <string name="config_issues_on_save">پرونده مشکل دارد؛ ممکن است i2pd با آن شروع نشود.</string>
+    <string name="issue_unknown">%1$s: گزینهٔ ناشناخته</string>
+    <string name="issue_duplicate">%1$s: بیش از یک بار تنظیم شده</string>
+    <string name="issue_port_conflict">درگاه %1$d را %2$s استفاده می‌کند</string>
+    <string name="issue_not_boolean">%1$s = %2$s: باید true یا false باشد</string>
+    <string name="issue_not_number">%1$s = %2$s: باید عدد باشد</string>
+    <string name="issue_out_of_range">%1$s = %2$s: خارج از محدوده</string>
+    <string name="issue_not_allowed">%1$s = %2$s: مقدار مجاز نیست</string>
+    <string name="issue_reserved_port">%1$s = %2$s: درگاه برای نرم‌افزار دیگری رزرو شده</string>
+    <string name="issue_outside_range">%1$s = %2$s: خارج از محدودهٔ پیشنهادی 9111–30776</string>
+    <string name="error_not_boolean">باید true یا false باشد</string>
+    <string name="error_not_number">باید عدد باشد</string>
+    <string name="error_out_of_range">خارج از محدوده</string>
+    <string name="error_not_allowed">مقدار مجاز نیست</string>
+    <string name="warning_title">مقدار را بررسی کنید</string>
+    <string name="warning_router_port_range">درگاه انتخاب‌شده خارج از محدودهٔ پیشنهادی (9111–30776) است. با این حال ذخیره شود؟</string>
+    <string name="warning_reserved_port">درگاه انتخاب‌شده برای نرم‌افزار دیگری رزرو شده است. با این حال ذخیره شود؟</string>
+</resources>

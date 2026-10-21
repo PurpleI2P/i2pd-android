@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="status_network">Síť</string>
+    <string name="status_uptime">Doba běhu</string>
+    <string name="status_speed">Rychlost</string>
+    <string name="status_speed_value">↓ %1$s  ↑ %2$s  tranzit %3$s</string>
+    <string name="status_traffic">Provoz</string>
+    <string name="status_traffic_value">↓ %1$s  ↑ %2$s  tranzit %3$s</string>
+    <string name="status_tunnels">Tunely</string>
+    <string name="status_tunnels_value">příchozí %1$d, odchozí %2$d, tranzit %3$d · úspěšnost %4$d%%</string>
+    <string name="status_netdb">Síťová databáze</string>
+    <string name="status_netdb_value">routery %1$d, floodfilly %2$d, lease sety %3$d</string>
+    <string name="status_transit">Tranzit</string>
+    <string name="status_transit_accepted">přijímá se</string>
+    <string name="status_transit_declined">odmítá se</string>
+    <string name="status_services">Služby</string>
+    <string name="status_services_none">žádné</string>
+    <string name="service_http_proxy">HTTP proxy</string>
+    <string name="service_socks_proxy">SOCKS proxy</string>
+    <string name="service_web_console">Webová konzole</string>
+    <string name="action_dismiss">Zavřít</string>
+    <string name="about_versions">Aplikace %1$s · i2pd %2$s · %3$s</string>
+</resources>

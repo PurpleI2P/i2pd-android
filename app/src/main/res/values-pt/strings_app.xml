@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_status">Estado</string>
+    <string name="tab_logs">Logs</string>
+    <string name="tab_settings">Configurações</string>
+    <string name="action_back">Voltar</string>
+    <string name="action_web_console">Console web</string>
+    <string name="action_share">Compartilhar</string>
+    <string name="action_clear">Limpar</string>
+    <string name="action_open_settings">Abrir configurações</string>
+    <string name="action_disable">Desativar</string>
+    <string name="banner_battery">A otimização de bateria pode parar o roteador em segundo plano.</string>
+    <string name="banner_notifications">As notificações estão desativadas: o estado do roteador não é exibido.</string>
+    <string name="logs_search">Pesquisar</string>
+    <string name="logs_level_error">Erros</string>
+    <string name="logs_level_warn">Avisos</string>
+    <string name="logs_level_info">Info</string>
+    <string name="logs_level_debug">Depuração</string>
+    <string name="logs_empty">Nenhuma entrada. O nível de detalhe é definido pela opção loglevel no i2pd.conf.</string>
+    <string name="logs_router_restarted">— roteador reiniciado —</string>
+    <string name="logs_share_subject">Log do i2pd</string>
+    <string name="settings_section_start">Início</string>
+    <string name="settings_autostart">Iniciar com o sistema</string>
+    <string name="settings_autostart_summary">Iniciar o roteador quando o dispositivo ligar</string>
+    <string name="settings_auto_restart">Reiniciar após falha</string>
+    <string name="settings_auto_restart_summary">Até 3 tentativas em 10 minutos</string>
+    <string name="settings_section_stop">Parada</string>
+    <string name="settings_graceful_timeout">Tempo limite da parada gradual</string>
+    <string name="settings_minutes">%1$d min</string>
+    <string name="settings_section_background">Execução em segundo plano</string>
+    <string name="settings_keep_awake">Manter o dispositivo ativo</string>
+    <string name="settings_keep_awake_summary">O roteador continua funcionando no modo de suspensão profunda, mas a bateria descarrega mais rápido</string>
+    <string name="settings_battery">Otimização de bateria</string>
+    <string name="settings_battery_on">Ativada: o sistema pode parar o roteador</string>
+    <string name="settings_battery_off">Desativada para o i2pd</string>
+    <string name="settings_section_interface">Interface</string>
+    <string name="settings_theme">Tema</string>
+    <string name="settings_theme_system">Igual ao sistema</string>
+    <string name="settings_theme_light">Claro</string>
+    <string name="settings_theme_dark">Escuro</string>
+    <string name="settings_secure_screen">Bloquear capturas de tela</string>
+    <string name="settings_secure_screen_summary">Endereços, chaves e logs não podem ser capturados, e o app fica oculto nos apps recentes</string>
+    <string name="settings_section_about">Sobre</string>
+</resources>

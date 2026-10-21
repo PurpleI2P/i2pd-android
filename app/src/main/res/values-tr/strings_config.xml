@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_section_router">Yönlendirici (i2pd.conf)</string>
+    <string name="router_basic">Temel ayarlar</string>
+    <string name="router_basic_summary">Ağ, taşıma protokolleri, proxy\'ler, hizmetler</string>
+    <string name="router_advanced">Tüm seçenekler</string>
+    <string name="router_advanced_summary">Bu i2pd sürümünün tüm seçenekleri</string>
+    <string name="router_raw">i2pd.conf dosyasını düzenle</string>
+    <string name="router_raw_summary">Deneyimli kullanıcılar için metin düzenleyici</string>
+    <string name="banner_restart">Yapılandırma değişti. Uygulamak için yönlendiriciyi yeniden başlatın.</string>
+    <string name="action_revert_changes">Geri al</string>
+    <string name="group_network">Ağ</string>
+    <string name="group_transports">Taşıma protokolleri</string>
+    <string name="group_http_proxy">HTTP proxy</string>
+    <string name="group_socks_proxy">SOCKS proxy</string>
+    <string name="group_web_console">Web konsolu</string>
+    <string name="group_logging">Günlük kaydı</string>
+    <string name="group_limits">Sınırlar ve depolama</string>
+    <string name="section_general">Genel</string>
+    <string name="opt_port">Yönlendirici bağlantı noktası</string>
+    <string name="opt_bandwidth">Bant genişliği sınıfı</string>
+    <string name="opt_share">Transit payı, %</string>
+    <string name="opt_notransit">Başlangıçta transit tünelleri reddet</string>
+    <string name="opt_floodfill">Floodfill yönlendirici</string>
+    <string name="opt_upnp_enabled">UPnP bağlantı noktası yönlendirme</string>
+    <string name="opt_enabled">Açık</string>
+    <string name="opt_address">Adres</string>
+    <string name="opt_service_port">Bağlantı noktası</string>
+    <string name="opt_outproxy">Outproxy</string>
+    <string name="opt_loglevel">Günlük düzeyi</string>
+    <string name="opt_limits_transittunnels">En fazla transit tünel</string>
+    <string name="opt_persist_profiles">Eş profillerini diskte sakla</string>
+    <string name="bandwidth_l">L — 32 KB/sn</string>
+    <string name="bandwidth_o">O — 256 KB/sn</string>
+    <string name="bandwidth_p">P — 2048 KB/sn</string>
+    <string name="bandwidth_x">X — sınırsız</string>
+    <string name="router_port_auto">otomatik (9111–30776)</string>
+    <string name="value_default">%1$s (varsayılan)</string>
+    <string name="value_empty">ayarlanmadı</string>
+    <string name="value_custom">Başka değer</string>
+    <string name="action_save">Kaydet</string>
+    <string name="action_reset_default">Varsayılana sıfırla</string>
+    <string name="action_remove">Kaldır</string>
+    <string name="action_comment_out">Yorum satırı yap</string>
+    <string name="action_save_anyway">Yine de kaydet</string>
+    <string name="action_revert">Geri al</string>
+    <string name="config_loading">Yapılandırma yükleniyor…</string>
+    <string name="config_load_failed">Yapılandırma yüklenemiyor: %1$s</string>
+    <string name="config_issues">i2pd.conf dosyasındaki sorunlar</string>
+    <string name="config_unknown_options">i2pd %1$s tarafından bilinmeyen seçenekler: yönlendirici bunlarla başlamaz</string>
+    <string name="config_issues_on_save">Dosyada sorunlar var; i2pd bununla başlamayabilir.</string>
+    <string name="issue_unknown">%1$s: bilinmeyen seçenek</string>
+    <string name="issue_duplicate">%1$s: birden fazla kez ayarlanmış</string>
+    <string name="issue_port_conflict">%1$d bağlantı noktası %2$s tarafından kullanılıyor</string>
+    <string name="issue_not_boolean">%1$s = %2$s: true veya false bekleniyor</string>
+    <string name="issue_not_number">%1$s = %2$s: sayı bekleniyor</string>
+    <string name="issue_out_of_range">%1$s = %2$s: aralık dışında</string>
+    <string name="issue_not_allowed">%1$s = %2$s: izin verilmeyen değer</string>
+    <string name="issue_reserved_port">%1$s = %2$s: bağlantı noktası başka yazılımlara ayrılmış</string>
+    <string name="issue_outside_range">%1$s = %2$s: önerilen 9111–30776 aralığının dışında</string>
+    <string name="error_not_boolean">true veya false bekleniyor</string>
+    <string name="error_not_number">Sayı bekleniyor</string>
+    <string name="error_out_of_range">Aralık dışında</string>
+    <string name="error_not_allowed">İzin verilmeyen değer</string>
+    <string name="warning_title">Değeri kontrol edin</string>
+    <string name="warning_router_port_range">Seçilen bağlantı noktası önerilen aralığın (9111–30776) dışında. Yine de kaydedilsin mi?</string>
+    <string name="warning_reserved_port">Seçilen bağlantı noktası başka yazılımlara ayrılmış. Yine de kaydedilsin mi?</string>
+</resources>

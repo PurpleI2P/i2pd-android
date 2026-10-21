@@ -7,9 +7,23 @@ import android.os.Build
 import android.os.PowerManager
 import android.provider.Settings
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.only
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationRail
+import androidx.compose.material3.NavigationRailItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,11 +32,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.net.toUri
 import androidx.lifecycle.compose.LifecycleResumeEffect
@@ -58,23 +73,57 @@ fun AppScaffold() {
         return
     }
 
-    Scaffold(
-        bottomBar = {
-            NavigationBar {
-                Tab.entries.forEach { item ->
-                    NavigationBarItem(
-                        selected = tab == item,
-                        onClick = { tab = item },
-                        icon = { Icon(painterResource(item.icon), contentDescription = null) },
-                        label = { Text(stringResource(item.label)) },
-                    )
+    BoxWithConstraints(Modifier.fillMaxSize()) {
+        // Tablets and landscape phones: navigation rail at the side instead of the bottom bar
+        if (maxWidth >= WIDE_SCREEN) {
+            Row(Modifier.fillMaxSize()) {
+                NavigationRail {
+                    Spacer(Modifier.weight(1f))
+                    Tab.entries.forEach { item ->
+                        NavigationRailItem(
+                            selected = tab == item,
+                            onClick = { tab = item },
+                            icon = { Icon(painterResource(item.icon), contentDescription = null) },
+                            label = { Text(stringResource(item.label)) },
+                        )
+                    }
+                    Spacer(Modifier.weight(1f))
                 }
+                Scaffold(
+                    modifier = Modifier.weight(1f),
+                    contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Vertical + WindowInsetsSides.End),
+                ) { padding -> TabContent(tab, checks, { webConsoleUrl = it }, padding) }
             }
-        },
-    ) { padding ->
-        val modifier = Modifier.padding(padding)
+        } else {
+            Scaffold(
+                bottomBar = {
+                    NavigationBar {
+                        Tab.entries.forEach { item ->
+                            NavigationBarItem(
+                                selected = tab == item,
+                                onClick = { tab = item },
+                                icon = { Icon(painterResource(item.icon), contentDescription = null) },
+                                label = { Text(stringResource(item.label)) },
+                            )
+                        }
+                    }
+                },
+            ) { padding -> TabContent(tab, checks, { webConsoleUrl = it }, padding) }
+        }
+    }
+}
+
+private val WIDE_SCREEN = 600.dp
+
+/** Lists and forms get unreadable when stretched over a whole tablet, logs use all the width. */
+private val CONTENT_MAX_WIDTH = 840.dp
+
+@Composable
+private fun TabContent(tab: Tab, checks: SystemChecks, onOpenWebConsole: (String) -> Unit, padding: PaddingValues) {
+    Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.TopCenter) {
+        val modifier = if (tab == Tab.LOGS) Modifier else Modifier.widthIn(max = CONTENT_MAX_WIDTH)
         when (tab) {
-            Tab.STATUS -> StatusScreen(checks = checks, onOpenWebConsole = { webConsoleUrl = it }, modifier = modifier)
+            Tab.STATUS -> StatusScreen(checks = checks, onOpenWebConsole = onOpenWebConsole, modifier = modifier)
             Tab.TUNNELS -> TunnelsScreen(modifier = modifier)
             Tab.LOGS -> LogsScreen(modifier = modifier)
             Tab.SETTINGS -> SettingsScreen(checks = checks, modifier = modifier)

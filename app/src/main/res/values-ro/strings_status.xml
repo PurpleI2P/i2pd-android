@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="status_network">Rețea</string>
+    <string name="status_uptime">Timp de funcționare</string>
+    <string name="status_speed">Viteză</string>
+    <string name="status_speed_value">↓ %1$s  ↑ %2$s  tranzit %3$s</string>
+    <string name="status_traffic">Trafic</string>
+    <string name="status_traffic_value">↓ %1$s  ↑ %2$s  tranzit %3$s</string>
+    <string name="status_tunnels">Tuneluri</string>
+    <string name="status_tunnels_value">intrare %1$d, ieșire %2$d, tranzit %3$d · reușită %4$d%%</string>
+    <string name="status_netdb">Baza de date a rețelei</string>
+    <string name="status_netdb_value">routere %1$d, floodfill %2$d, lease set-uri %3$d</string>
+    <string name="status_transit">Tranzit</string>
+    <string name="status_transit_accepted">acceptat</string>
+    <string name="status_transit_declined">refuzat</string>
+    <string name="status_services">Servicii</string>
+    <string name="status_services_none">niciunul</string>
+    <string name="service_http_proxy">Proxy HTTP</string>
+    <string name="service_socks_proxy">Proxy SOCKS</string>
+    <string name="service_web_console">Consolă web</string>
+    <string name="action_dismiss">Închide</string>
+    <string name="about_versions">Aplicație %1$s · i2pd %2$s · %3$s</string>
+</resources>

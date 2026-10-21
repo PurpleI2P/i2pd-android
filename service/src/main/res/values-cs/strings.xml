@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="channel_status">Stav routeru</string>
+    <string name="channel_failures">Chyby routeru</string>
+    <string name="state_stopped">Zastaveno</string>
+    <string name="state_starting">Spouštění…</string>
+    <string name="state_running">Běží</string>
+    <string name="state_draining">Šetrné zastavování</string>
+    <string name="state_stopping">Zastavování…</string>
+    <string name="state_restarting">Restartování…</string>
+    <string name="state_maintenance">Údržba…</string>
+    <string name="state_failed">Chyba routeru</string>
+    <string name="summary_running">Síť: %1$s · ↓ %2$s ↑ %3$s · tranzit %4$d</string>
+    <string name="summary_draining">Tranzitní tunely: %1$d, zbývá %2$s</string>
+    <string name="summary_auto_restart">Router spadl, restart za %1$s</string>
+    <string name="failure_prepare">Nelze připravit datový adresář: %1$s</string>
+    <string name="failure_start">Spuštění selhalo: %1$s</string>
+    <string name="failure_fatal">Kritická chyba: %1$s</string>
+    <string name="failure_crashed">Proces routeru spadl</string>
+    <string name="failure_start_timeout">Router se nespustil včas</string>
+    <string name="network_ok">OK</string>
+    <string name="network_firewalled">Za firewallem</string>
+    <string name="network_unknown">Neznámý</string>
+    <string name="network_proxy">Proxy</string>
+    <string name="network_mesh">Mesh</string>
+    <string name="network_stan">Stan</string>
+    <string name="network_testing">testování</string>
+    <string name="network_error_clock_skew">nesoulad hodin</string>
+    <string name="network_error_offline">offline</string>
+    <string name="network_error_symmetric_nat">symetrický NAT</string>
+    <string name="network_error_full_cone_nat">full cone NAT</string>
+    <string name="network_error_no_descriptors">žádné deskriptory</string>
+    <string name="speed">%1$s/s</string>
+    <string name="action_start">Spustit</string>
+    <string name="action_stop">Zastavit</string>
+    <string name="action_stop_now">Zastavit hned</string>
+    <string name="action_restart">Restartovat</string>
+    <string name="action_cancel">Zrušit</string>
+    <string name="tile_label">I2P router</string>
+</resources>

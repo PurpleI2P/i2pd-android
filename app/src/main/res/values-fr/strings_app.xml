@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_status">État</string>
+    <string name="tab_logs">Journaux</string>
+    <string name="tab_settings">Paramètres</string>
+    <string name="action_back">Retour</string>
+    <string name="action_web_console">Console web</string>
+    <string name="action_share">Partager</string>
+    <string name="action_clear">Effacer</string>
+    <string name="action_open_settings">Ouvrir les paramètres</string>
+    <string name="action_disable">Désactiver</string>
+    <string name="banner_battery">L\'optimisation de la batterie peut arrêter le routeur en arrière-plan.</string>
+    <string name="banner_notifications">Les notifications sont désactivées : l\'état du routeur n\'est pas affiché.</string>
+    <string name="logs_search">Rechercher</string>
+    <string name="logs_level_error">Erreurs</string>
+    <string name="logs_level_warn">Avertissements</string>
+    <string name="logs_level_info">Infos</string>
+    <string name="logs_level_debug">Débogage</string>
+    <string name="logs_empty">Aucune entrée. Le niveau de détail est défini par l\'option loglevel dans i2pd.conf.</string>
+    <string name="logs_router_restarted">— routeur redémarré —</string>
+    <string name="logs_share_subject">Journal i2pd</string>
+    <string name="settings_section_start">Démarrage</string>
+    <string name="settings_autostart">Démarrer au lancement de l\'appareil</string>
+    <string name="settings_autostart_summary">Démarrer le routeur quand l\'appareil s\'allume</string>
+    <string name="settings_auto_restart">Redémarrer après un plantage</string>
+    <string name="settings_auto_restart_summary">Jusqu\'à 3 tentatives en 10 minutes</string>
+    <string name="settings_section_stop">Arrêt</string>
+    <string name="settings_graceful_timeout">Délai de l\'arrêt progressif</string>
+    <string name="settings_minutes">%1$d min</string>
+    <string name="settings_section_background">Fonctionnement en arrière-plan</string>
+    <string name="settings_keep_awake">Garder l\'appareil éveillé</string>
+    <string name="settings_keep_awake_summary">Le routeur continue en veille profonde, mais la batterie se vide plus vite</string>
+    <string name="settings_battery">Optimisation de la batterie</string>
+    <string name="settings_battery_on">Activée : le système peut arrêter le routeur</string>
+    <string name="settings_battery_off">Désactivée pour i2pd</string>
+    <string name="settings_section_interface">Interface</string>
+    <string name="settings_theme">Thème</string>
+    <string name="settings_theme_system">Comme le système</string>
+    <string name="settings_theme_light">Clair</string>
+    <string name="settings_theme_dark">Sombre</string>
+    <string name="settings_secure_screen">Bloquer les captures d\'écran</string>
+    <string name="settings_secure_screen_summary">Les adresses, clés et journaux ne peuvent pas être capturés, et l\'application est masquée dans les applications récentes</string>
+    <string name="settings_section_about">À propos</string>
+</resources>

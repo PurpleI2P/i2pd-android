@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="channel_status">Router holati</string>
+    <string name="channel_failures">Router xatolari</string>
+    <string name="state_stopped">To‘xtatilgan</string>
+    <string name="state_starting">Ishga tushirilmoqda…</string>
+    <string name="state_running">Ishlamoqda</string>
+    <string name="state_draining">Asta-sekin to‘xtatilmoqda</string>
+    <string name="state_stopping">To‘xtatilmoqda…</string>
+    <string name="state_restarting">Qayta ishga tushirilmoqda…</string>
+    <string name="state_maintenance">Texnik xizmat…</string>
+    <string name="state_failed">Router xatosi</string>
+    <string name="summary_running">Tarmoq: %1$s · ↓ %2$s ↑ %3$s · tranzit %4$d</string>
+    <string name="summary_draining">Tranzit tunnellar: %1$d, %2$s qoldi</string>
+    <string name="summary_auto_restart">Router ishdan chiqdi, %1$s dan keyin qayta ishga tushadi</string>
+    <string name="failure_prepare">Maʼlumotlar katalogini tayyorlab bo‘lmadi: %1$s</string>
+    <string name="failure_start">Ishga tushirib bo‘lmadi: %1$s</string>
+    <string name="failure_fatal">Jiddiy xato: %1$s</string>
+    <string name="failure_crashed">Router jarayoni ishdan chiqdi</string>
+    <string name="failure_start_timeout">Router o‘z vaqtida ishga tushmadi</string>
+    <string name="network_ok">OK</string>
+    <string name="network_firewalled">Xavfsizlik devori ortida</string>
+    <string name="network_unknown">Nomaʼlum</string>
+    <string name="network_proxy">Proksi</string>
+    <string name="network_mesh">Mesh</string>
+    <string name="network_stan">Stan</string>
+    <string name="network_testing">tekshirilmoqda</string>
+    <string name="network_error_clock_skew">soat farqi</string>
+    <string name="network_error_offline">oflayn</string>
+    <string name="network_error_symmetric_nat">simmetrik NAT</string>
+    <string name="network_error_full_cone_nat">full cone NAT</string>
+    <string name="network_error_no_descriptors">deskriptorlar yo‘q</string>
+    <string name="speed">%1$s/s</string>
+    <string name="action_start">Ishga tushirish</string>
+    <string name="action_stop">To‘xtatish</string>
+    <string name="action_stop_now">Hozir to‘xtatish</string>
+    <string name="action_restart">Qayta ishga tushirish</string>
+    <string name="action_cancel">Bekor qilish</string>
+    <string name="tile_label">I2P router</string>
+</resources>

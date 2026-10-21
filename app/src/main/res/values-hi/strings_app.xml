@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_status">स्थिति</string>
+    <string name="tab_logs">लॉग</string>
+    <string name="tab_settings">सेटिंग्स</string>
+    <string name="action_back">वापस</string>
+    <string name="action_web_console">वेब कंसोल</string>
+    <string name="action_share">शेयर करें</string>
+    <string name="action_clear">साफ़ करें</string>
+    <string name="action_open_settings">सेटिंग्स खोलें</string>
+    <string name="action_disable">बंद करें</string>
+    <string name="banner_battery">बैटरी ऑप्टिमाइज़ेशन पृष्ठभूमि में राउटर को रोक सकता है।</string>
+    <string name="banner_notifications">सूचनाएँ बंद हैं: राउटर की स्थिति नहीं दिखाई जाती।</string>
+    <string name="logs_search">खोजें</string>
+    <string name="logs_level_error">त्रुटियाँ</string>
+    <string name="logs_level_warn">चेतावनियाँ</string>
+    <string name="logs_level_info">जानकारी</string>
+    <string name="logs_level_debug">डीबग</string>
+    <string name="logs_empty">कोई प्रविष्टि नहीं। विवरण का स्तर i2pd.conf में loglevel विकल्प से तय होता है।</string>
+    <string name="logs_router_restarted">— राउटर फिर से शुरू हुआ —</string>
+    <string name="logs_share_subject">i2pd लॉग</string>
+    <string name="settings_section_start">शुरुआत</string>
+    <string name="settings_autostart">डिवाइस चालू होने पर शुरू करें</string>
+    <string name="settings_autostart_summary">डिवाइस बूट होने पर राउटर शुरू करें</string>
+    <string name="settings_auto_restart">क्रैश के बाद फिर से शुरू करें</string>
+    <string name="settings_auto_restart_summary">10 मिनट में अधिकतम 3 प्रयास</string>
+    <string name="settings_section_stop">रोकना</string>
+    <string name="settings_graceful_timeout">धीरे-धीरे रोकने की समय सीमा</string>
+    <string name="settings_minutes">%1$d मिनट</string>
+    <string name="settings_section_background">पृष्ठभूमि में काम</string>
+    <string name="settings_keep_awake">डिवाइस को जगाए रखें</string>
+    <string name="settings_keep_awake_summary">राउटर गहरी नींद में भी काम करता है, लेकिन बैटरी जल्दी खत्म होती है</string>
+    <string name="settings_battery">बैटरी ऑप्टिमाइज़ेशन</string>
+    <string name="settings_battery_on">चालू: सिस्टम राउटर को रोक सकता है</string>
+    <string name="settings_battery_off">i2pd के लिए बंद</string>
+    <string name="settings_section_interface">इंटरफ़ेस</string>
+    <string name="settings_theme">थीम</string>
+    <string name="settings_theme_system">सिस्टम के अनुसार</string>
+    <string name="settings_theme_light">हल्की</string>
+    <string name="settings_theme_dark">गहरी</string>
+    <string name="settings_secure_screen">स्क्रीनशॉट रोकें</string>
+    <string name="settings_secure_screen_summary">पते, कुंजियाँ और लॉग कैप्चर नहीं किए जा सकते, और ऐप हाल के ऐप्स में छिपा रहता है</string>
+    <string name="settings_section_about">जानकारी</string>
+</resources>

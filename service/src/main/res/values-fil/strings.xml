@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="channel_status">Status ng router</string>
+    <string name="channel_failures">Mga error ng router</string>
+    <string name="state_stopped">Nakahinto</string>
+    <string name="state_starting">Sinisimulan…</string>
+    <string name="state_running">Tumatakbo</string>
+    <string name="state_draining">Unti-unting humihinto</string>
+    <string name="state_stopping">Humihinto…</string>
+    <string name="state_restarting">Nire-restart…</string>
+    <string name="state_maintenance">Maintenance…</string>
+    <string name="state_failed">Error ng router</string>
+    <string name="summary_running">Network: %1$s · ↓ %2$s ↑ %3$s · transit %4$d</string>
+    <string name="summary_draining">Mga transit tunnel: %1$d, %2$s na lang</string>
+    <string name="summary_auto_restart">Nag-crash ang router, magre-restart sa loob ng %1$s</string>
+    <string name="failure_prepare">Hindi maihanda ang data directory: %1$s</string>
+    <string name="failure_start">Hindi nasimulan: %1$s</string>
+    <string name="failure_fatal">Malubhang error: %1$s</string>
+    <string name="failure_crashed">Nag-crash ang proseso ng router</string>
+    <string name="failure_start_timeout">Hindi nagsimula ang router sa takdang oras</string>
+    <string name="network_ok">OK</string>
+    <string name="network_firewalled">Nasa likod ng firewall</string>
+    <string name="network_unknown">Hindi alam</string>
+    <string name="network_proxy">Proxy</string>
+    <string name="network_mesh">Mesh</string>
+    <string name="network_stan">Stan</string>
+    <string name="network_testing">sinusubok</string>
+    <string name="network_error_clock_skew">hindi tugmang orasan</string>
+    <string name="network_error_offline">offline</string>
+    <string name="network_error_symmetric_nat">symmetric NAT</string>
+    <string name="network_error_full_cone_nat">full cone NAT</string>
+    <string name="network_error_no_descriptors">walang descriptor</string>
+    <string name="speed">%1$s/s</string>
+    <string name="action_start">Simulan</string>
+    <string name="action_stop">Ihinto</string>
+    <string name="action_stop_now">Ihinto ngayon</string>
+    <string name="action_restart">I-restart</string>
+    <string name="action_cancel">Kanselahin</string>
+    <string name="tile_label">I2P router</string>
+</resources>
