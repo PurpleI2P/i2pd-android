@@ -17,9 +17,6 @@
     <string name="status_services_none">нет</string>
     <string name="service_http_proxy">HTTP-прокси</string>
     <string name="service_socks_proxy">SOCKS-прокси</string>
-    <string name="service_sam">SAM</string>
-    <string name="service_bob">BOB</string>
-    <string name="service_i2cp">I2CP</string>
     <string name="service_web_console">Веб-консоль</string>
     <string name="action_dismiss">Скрыть</string>
     <string name="about_versions">Приложение %1$s · i2pd %2$s · %3$s</string>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="channel_status">État du routeur</string>
+    <string name="channel_failures">Erreurs du routeur</string>
+    <string name="state_stopped">Arrêté</string>
+    <string name="state_starting">Démarrage…</string>
+    <string name="state_running">En marche</string>
+    <string name="state_draining">Arrêt progressif</string>
+    <string name="state_stopping">Arrêt…</string>
+    <string name="state_restarting">Redémarrage…</string>
+    <string name="state_maintenance">Maintenance…</string>
+    <string name="state_failed">Erreur du routeur</string>
+    <string name="summary_running">Réseau : %1$s · ↓ %2$s ↑ %3$s · transit %4$d</string>
+    <string name="summary_draining">Tunnels de transit : %1$d, %2$s restant</string>
+    <string name="summary_auto_restart">Le routeur a planté, redémarrage dans %1$s</string>
+    <string name="failure_prepare">Impossible de préparer le dossier de données : %1$s</string>
+    <string name="failure_start">Échec du démarrage : %1$s</string>
+    <string name="failure_fatal">Erreur fatale : %1$s</string>
+    <string name="failure_crashed">Le processus du routeur a planté</string>
+    <string name="failure_start_timeout">Le routeur n\'a pas démarré à temps</string>
+    <string name="network_ok">OK</string>
+    <string name="network_firewalled">Derrière un pare-feu</string>
+    <string name="network_unknown">Inconnu</string>
+    <string name="network_proxy">Proxy</string>
+    <string name="network_mesh">Mesh</string>
+    <string name="network_stan">Stan</string>
+    <string name="network_testing">test en cours</string>
+    <string name="network_error_clock_skew">décalage d\'horloge</string>
+    <string name="network_error_offline">hors ligne</string>
+    <string name="network_error_symmetric_nat">NAT symétrique</string>
+    <string name="network_error_full_cone_nat">NAT full cone</string>
+    <string name="network_error_no_descriptors">aucun descripteur</string>
+    <string name="speed">%1$s/s</string>
+    <string name="action_start">Démarrer</string>
+    <string name="action_stop">Arrêter</string>
+    <string name="action_stop_now">Arrêter maintenant</string>
+    <string name="action_restart">Redémarrer</string>
+    <string name="action_cancel">Annuler</string>
+    <string name="tile_label">Routeur I2P</string>
+</resources>

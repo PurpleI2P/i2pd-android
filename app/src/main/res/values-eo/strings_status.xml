@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="status_network">Reto</string>
+    <string name="status_uptime">Funkcidaŭro</string>
+    <string name="status_speed">Rapido</string>
+    <string name="status_speed_value">↓ %1$s  ↑ %2$s  transito %3$s</string>
+    <string name="status_traffic">Trafiko</string>
+    <string name="status_traffic_value">↓ %1$s  ↑ %2$s  transito %3$s</string>
+    <string name="status_tunnels">Tuneloj</string>
+    <string name="status_tunnels_value">envenaj %1$d, elirantaj %2$d, transitaj %3$d · sukceso %4$d%%</string>
+    <string name="status_netdb">Reta datumbazo</string>
+    <string name="status_netdb_value">enkursigiloj %1$d, floodfill %2$d, lease set %3$d</string>
+    <string name="status_transit">Transito</string>
+    <string name="status_transit_accepted">akceptata</string>
+    <string name="status_transit_declined">rifuzata</string>
+    <string name="status_services">Servoj</string>
+    <string name="status_services_none">neniu</string>
+    <string name="service_http_proxy">HTTP-prokurilo</string>
+    <string name="service_socks_proxy">SOCKS-prokurilo</string>
+    <string name="service_web_console">Retkonzolo</string>
+    <string name="action_dismiss">Fermi</string>
+    <string name="about_versions">Aplikaĵo %1$s · i2pd %2$s · %3$s</string>
+</resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="logs_skipped">
+        <item quantity="one">— %1$d linio preterlasita —</item>
+        <item quantity="other">— %1$d linioj preterlasitaj —</item>
+    </plurals>
+    <plurals name="changes_more">
+        <item quantity="one">kaj %1$d plia</item>
+        <item quantity="other">kaj %1$d pliaj</item>
+    </plurals>
+    <plurals name="tunnels_shared_short">
+        <item quantity="one">Komuna celo %1$s: %2$d uzanto</item>
+        <item quantity="other">Komuna celo %1$s: %2$d uzantoj</item>
+    </plurals>
+</resources>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="status_network">Ağ</string>
+    <string name="status_uptime">Çalışma süresi</string>
+    <string name="status_speed">Hız</string>
+    <string name="status_speed_value">↓ %1$s  ↑ %2$s  transit %3$s</string>
+    <string name="status_traffic">Trafik</string>
+    <string name="status_traffic_value">↓ %1$s  ↑ %2$s  transit %3$s</string>
+    <string name="status_tunnels">Tüneller</string>
+    <string name="status_tunnels_value">gelen %1$d, giden %2$d, transit %3$d · başarı %%%4$d</string>
+    <string name="status_netdb">Ağ veritabanı</string>
+    <string name="status_netdb_value">yönlendirici %1$d, floodfill %2$d, lease set %3$d</string>
+    <string name="status_transit">Transit</string>
+    <string name="status_transit_accepted">kabul ediliyor</string>
+    <string name="status_transit_declined">reddediliyor</string>
+    <string name="status_services">Hizmetler</string>
+    <string name="status_services_none">yok</string>
+    <string name="service_http_proxy">HTTP proxy</string>
+    <string name="service_socks_proxy">SOCKS proxy</string>
+    <string name="service_web_console">Web konsolu</string>
+    <string name="action_dismiss">Kapat</string>
+    <string name="about_versions">Uygulama %1$s · i2pd %2$s · %3$s</string>
+</resources>

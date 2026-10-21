@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_section_router">Router (i2pd.conf)</string>
+    <string name="router_basic">Setări de bază</string>
+    <string name="router_basic_summary">Rețea, transporturi, proxy-uri, servicii</string>
+    <string name="router_advanced">Toate opțiunile</string>
+    <string name="router_advanced_summary">Fiecare opțiune a acestei versiuni i2pd</string>
+    <string name="router_raw">Editează i2pd.conf</string>
+    <string name="router_raw_summary">Editor text pentru utilizatori avansați</string>
+    <string name="banner_restart">Configurația s-a schimbat. Repornește routerul pentru a o aplica.</string>
+    <string name="action_revert_changes">Anulează modificările</string>
+    <string name="group_network">Rețea</string>
+    <string name="group_transports">Transporturi</string>
+    <string name="group_http_proxy">Proxy HTTP</string>
+    <string name="group_socks_proxy">Proxy SOCKS</string>
+    <string name="group_web_console">Consolă web</string>
+    <string name="group_logging">Jurnalizare</string>
+    <string name="group_limits">Limite și stocare</string>
+    <string name="section_general">General</string>
+    <string name="opt_port">Portul routerului</string>
+    <string name="opt_bandwidth">Clasa de lățime de bandă</string>
+    <string name="opt_share">Cotă pentru tranzit, %</string>
+    <string name="opt_notransit">Refuză tunelurile de tranzit la pornire</string>
+    <string name="opt_floodfill">Router floodfill</string>
+    <string name="opt_upnp_enabled">Redirecționare porturi UPnP</string>
+    <string name="opt_enabled">Activat</string>
+    <string name="opt_address">Adresă</string>
+    <string name="opt_service_port">Port</string>
+    <string name="opt_outproxy">Outproxy</string>
+    <string name="opt_loglevel">Nivel de jurnalizare</string>
+    <string name="opt_limits_transittunnels">Număr maxim de tuneluri de tranzit</string>
+    <string name="opt_persist_profiles">Păstrează profilurile nodurilor pe disc</string>
+    <string name="bandwidth_l">L — 32 KB/s</string>
+    <string name="bandwidth_o">O — 256 KB/s</string>
+    <string name="bandwidth_p">P — 2048 KB/s</string>
+    <string name="bandwidth_x">X — nelimitat</string>
+    <string name="router_port_auto">auto (9111–30776)</string>
+    <string name="value_default">%1$s (implicit)</string>
+    <string name="value_empty">nesetat</string>
+    <string name="value_custom">Altă valoare</string>
+    <string name="action_save">Salvează</string>
+    <string name="action_reset_default">Revino la implicit</string>
+    <string name="action_remove">Elimină</string>
+    <string name="action_comment_out">Comentează</string>
+    <string name="action_save_anyway">Salvează oricum</string>
+    <string name="action_revert">Anulează modificările</string>
+    <string name="config_loading">Se încarcă configurația…</string>
+    <string name="config_load_failed">Nu se poate încărca configurația: %1$s</string>
+    <string name="config_issues">Probleme în i2pd.conf</string>
+    <string name="config_unknown_options">Opțiuni necunoscute pentru i2pd %1$s: routerul nu va porni cu ele</string>
+    <string name="config_issues_on_save">Fișierul are probleme; i2pd s-ar putea să nu pornească cu el.</string>
+    <string name="issue_unknown">%1$s: opțiune necunoscută</string>
+    <string name="issue_duplicate">%1$s: setată de mai multe ori</string>
+    <string name="issue_port_conflict">Portul %1$d este folosit de %2$s</string>
+    <string name="issue_not_boolean">%1$s = %2$s: se aștepta true sau false</string>
+    <string name="issue_not_number">%1$s = %2$s: se aștepta un număr</string>
+    <string name="issue_out_of_range">%1$s = %2$s: în afara intervalului</string>
+    <string name="issue_not_allowed">%1$s = %2$s: valoare nepermisă</string>
+    <string name="issue_reserved_port">%1$s = %2$s: port rezervat pentru alte programe</string>
+    <string name="issue_outside_range">%1$s = %2$s: în afara intervalului recomandat 9111–30776</string>
+    <string name="error_not_boolean">Se aștepta true sau false</string>
+    <string name="error_not_number">Se aștepta un număr</string>
+    <string name="error_out_of_range">În afara intervalului</string>
+    <string name="error_not_allowed">Valoare nepermisă</string>
+    <string name="warning_title">Verifică valoarea</string>
+    <string name="warning_router_port_range">Portul ales este în afara intervalului recomandat (9111–30776). Îl salvezi oricum?</string>
+    <string name="warning_reserved_port">Portul ales este rezervat pentru alte programe. Îl salvezi oricum?</string>
+</resources>

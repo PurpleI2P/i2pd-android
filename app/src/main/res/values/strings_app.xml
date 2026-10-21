@@ -37,5 +37,12 @@
     <string name="settings_battery">Battery optimization</string>
     <string name="settings_battery_on">Enabled: the system may stop the router</string>
     <string name="settings_battery_off">Disabled for i2pd</string>
+    <string name="settings_section_interface">Interface</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_theme_system">As in the system</string>
+    <string name="settings_theme_light">Light</string>
+    <string name="settings_theme_dark">Dark</string>
+    <string name="settings_secure_screen">Block screenshots</string>
+    <string name="settings_secure_screen_summary">Addresses, keys and logs cannot be captured, and the app is hidden in recent apps</string>
     <string name="settings_section_about">About</string>
 </resources>

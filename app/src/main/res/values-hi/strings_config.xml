@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_section_router">राउटर (i2pd.conf)</string>
+    <string name="router_basic">बुनियादी सेटिंग्स</string>
+    <string name="router_basic_summary">नेटवर्क, ट्रांसपोर्ट, प्रॉक्सी, सेवाएँ</string>
+    <string name="router_advanced">सभी विकल्प</string>
+    <string name="router_advanced_summary">इस i2pd बिल्ड का हर विकल्प</string>
+    <string name="router_raw">i2pd.conf संपादित करें</string>
+    <string name="router_raw_summary">अनुभवी उपयोगकर्ताओं के लिए टेक्स्ट एडिटर</string>
+    <string name="banner_restart">कॉन्फ़िगरेशन बदल गया। इसे लागू करने के लिए राउटर फिर से शुरू करें।</string>
+    <string name="action_revert_changes">वापस लें</string>
+    <string name="group_network">नेटवर्क</string>
+    <string name="group_transports">ट्रांसपोर्ट</string>
+    <string name="group_http_proxy">HTTP प्रॉक्सी</string>
+    <string name="group_socks_proxy">SOCKS प्रॉक्सी</string>
+    <string name="group_web_console">वेब कंसोल</string>
+    <string name="group_logging">लॉगिंग</string>
+    <string name="group_limits">सीमाएँ और भंडारण</string>
+    <string name="section_general">सामान्य</string>
+    <string name="opt_port">राउटर पोर्ट</string>
+    <string name="opt_bandwidth">बैंडविड्थ श्रेणी</string>
+    <string name="opt_share">ट्रांज़िट के लिए हिस्सा, %</string>
+    <string name="opt_notransit">शुरू होने पर ट्रांज़िट टनल अस्वीकार करें</string>
+    <string name="opt_floodfill">Floodfill राउटर</string>
+    <string name="opt_upnp_enabled">UPnP पोर्ट फ़ॉरवर्डिंग</string>
+    <string name="opt_enabled">चालू</string>
+    <string name="opt_address">पता</string>
+    <string name="opt_service_port">पोर्ट</string>
+    <string name="opt_outproxy">आउटप्रॉक्सी</string>
+    <string name="opt_loglevel">लॉग स्तर</string>
+    <string name="opt_limits_transittunnels">अधिकतम ट्रांज़िट टनल</string>
+    <string name="opt_persist_profiles">पीयर प्रोफ़ाइल डिस्क पर रखें</string>
+    <string name="bandwidth_l">L — 32 KB/से</string>
+    <string name="bandwidth_o">O — 256 KB/से</string>
+    <string name="bandwidth_p">P — 2048 KB/से</string>
+    <string name="bandwidth_x">X — असीमित</string>
+    <string name="router_port_auto">स्वचालित (9111–30776)</string>
+    <string name="value_default">%1$s (डिफ़ॉल्ट)</string>
+    <string name="value_empty">सेट नहीं</string>
+    <string name="value_custom">अन्य मान</string>
+    <string name="action_save">सहेजें</string>
+    <string name="action_reset_default">डिफ़ॉल्ट पर रीसेट करें</string>
+    <string name="action_remove">हटाएँ</string>
+    <string name="action_comment_out">टिप्पणी बनाएँ</string>
+    <string name="action_save_anyway">फिर भी सहेजें</string>
+    <string name="action_revert">वापस लें</string>
+    <string name="config_loading">कॉन्फ़िगरेशन लोड हो रहा है…</string>
+    <string name="config_load_failed">कॉन्फ़िगरेशन लोड नहीं हो सका: %1$s</string>
+    <string name="config_issues">i2pd.conf में समस्याएँ</string>
+    <string name="config_unknown_options">i2pd %1$s के लिए अज्ञात विकल्प: इनके साथ राउटर शुरू नहीं होगा</string>
+    <string name="config_issues_on_save">फ़ाइल में समस्याएँ हैं; i2pd इसके साथ शुरू होने से मना कर सकता है।</string>
+    <string name="issue_unknown">%1$s: अज्ञात विकल्प</string>
+    <string name="issue_duplicate">%1$s: एक से अधिक बार सेट</string>
+    <string name="issue_port_conflict">पोर्ट %1$d का उपयोग %2$s कर रहा है</string>
+    <string name="issue_not_boolean">%1$s = %2$s: true या false अपेक्षित</string>
+    <string name="issue_not_number">%1$s = %2$s: संख्या अपेक्षित</string>
+    <string name="issue_out_of_range">%1$s = %2$s: सीमा से बाहर</string>
+    <string name="issue_not_allowed">%1$s = %2$s: अनुमत मान नहीं</string>
+    <string name="issue_reserved_port">%1$s = %2$s: पोर्ट अन्य सॉफ़्टवेयर के लिए आरक्षित है</string>
+    <string name="issue_outside_range">%1$s = %2$s: अनुशंसित सीमा 9111–30776 से बाहर</string>
+    <string name="error_not_boolean">true या false अपेक्षित</string>
+    <string name="error_not_number">संख्या अपेक्षित</string>
+    <string name="error_out_of_range">सीमा से बाहर</string>
+    <string name="error_not_allowed">अनुमत मान नहीं</string>
+    <string name="warning_title">मान जाँचें</string>
+    <string name="warning_router_port_range">चुना गया पोर्ट अनुशंसित सीमा (9111–30776) से बाहर है। फिर भी सहेजें?</string>
+    <string name="warning_reserved_port">चुना गया पोर्ट अन्य सॉफ़्टवेयर के लिए आरक्षित है। फिर भी सहेजें?</string>
+</resources>

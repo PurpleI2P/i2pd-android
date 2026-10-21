@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="logs_skipped">
+        <item quantity="one">— %1$d خط رد شد —</item>
+        <item quantity="other">— %1$d خط رد شد —</item>
+    </plurals>
+    <plurals name="changes_more">
+        <item quantity="one">و %1$d مورد دیگر</item>
+        <item quantity="other">و %1$d مورد دیگر</item>
+    </plurals>
+    <plurals name="tunnels_shared_short">
+        <item quantity="one">مقصد مشترک %1$s: %2$d کاربر</item>
+        <item quantity="other">مقصد مشترک %1$s: %2$d کاربر</item>
+    </plurals>
+</resources>

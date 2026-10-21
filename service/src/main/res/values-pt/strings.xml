@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="channel_status">Estado do roteador</string>
+    <string name="channel_failures">Erros do roteador</string>
+    <string name="state_stopped">Parado</string>
+    <string name="state_starting">Iniciando…</string>
+    <string name="state_running">Em execução</string>
+    <string name="state_draining">Parando gradualmente</string>
+    <string name="state_stopping">Parando…</string>
+    <string name="state_restarting">Reiniciando…</string>
+    <string name="state_maintenance">Manutenção…</string>
+    <string name="state_failed">Erro do roteador</string>
+    <string name="summary_running">Rede: %1$s · ↓ %2$s ↑ %3$s · trânsito %4$d</string>
+    <string name="summary_draining">Túneis de trânsito: %1$d, faltam %2$s</string>
+    <string name="summary_auto_restart">O roteador travou, reiniciando em %1$s</string>
+    <string name="failure_prepare">Não foi possível preparar a pasta de dados: %1$s</string>
+    <string name="failure_start">Falha ao iniciar: %1$s</string>
+    <string name="failure_fatal">Erro fatal: %1$s</string>
+    <string name="failure_crashed">O processo do roteador travou</string>
+    <string name="failure_start_timeout">O roteador não iniciou a tempo</string>
+    <string name="network_ok">OK</string>
+    <string name="network_firewalled">Atrás de firewall</string>
+    <string name="network_unknown">Desconhecido</string>
+    <string name="network_proxy">Proxy</string>
+    <string name="network_mesh">Mesh</string>
+    <string name="network_stan">Stan</string>
+    <string name="network_testing">testando</string>
+    <string name="network_error_clock_skew">relógio dessincronizado</string>
+    <string name="network_error_offline">offline</string>
+    <string name="network_error_symmetric_nat">NAT simétrico</string>
+    <string name="network_error_full_cone_nat">NAT full cone</string>
+    <string name="network_error_no_descriptors">sem descritores</string>
+    <string name="speed">%1$s/s</string>
+    <string name="action_start">Iniciar</string>
+    <string name="action_stop">Parar</string>
+    <string name="action_stop_now">Parar agora</string>
+    <string name="action_restart">Reiniciar</string>
+    <string name="action_cancel">Cancelar</string>
+    <string name="tile_label">Roteador I2P</string>
+</resources>

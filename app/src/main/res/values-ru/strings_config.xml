@@ -16,21 +16,15 @@
     <string name="group_http_proxy">HTTP-прокси</string>
     <string name="group_socks_proxy">SOCKS-прокси</string>
     <string name="group_web_console">Веб-консоль</string>
-    <string name="group_sam">SAM</string>
-    <string name="group_i2cp">I2CP</string>
     <string name="group_logging">Журнал</string>
     <string name="group_limits">Ограничения и хранение</string>
     <string name="section_general">Общие</string>
 
     <string name="opt_port">Порт роутера</string>
-    <string name="opt_ipv4">IPv4</string>
-    <string name="opt_ipv6">IPv6</string>
     <string name="opt_bandwidth">Класс полосы</string>
     <string name="opt_share">Доля для транзита, %</string>
     <string name="opt_notransit">Отклонять транзит при запуске</string>
     <string name="opt_floodfill">Floodfill-роутер</string>
-    <string name="opt_ntcp2_enabled">NTCP2</string>
-    <string name="opt_ssu2_enabled">SSU2</string>
     <string name="opt_upnp_enabled">Проброс портов UPnP</string>
     <string name="opt_enabled">Включено</string>
     <string name="opt_address">Адрес</string>
@@ -75,7 +69,6 @@
     <string name="error_not_boolean">Нужно true или false</string>
     <string name="error_not_number">Нужно число</string>
     <string name="error_out_of_range">Вне допустимого диапазона</string>
-    <string name="error_out_of_range_port">1–65535</string>
     <string name="error_not_allowed">Недопустимое значение</string>
     <string name="warning_title">Проверьте значение</string>
     <string name="warning_router_port_range">Выбран порт, который находится за пределами рекомендуемого диапазона (9111–30776). Всё равно сохранить?</string>

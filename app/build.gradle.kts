@@ -62,9 +62,9 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    lint {
-        // New strings are translated to English and Russian first, other languages follow in a later stage
-        warning += "MissingTranslation"
+    androidResources {
+        // Per-app language picker of Android 13+; the locales are taken from res/values-*
+        generateLocaleConfig = true
     }
 }
 

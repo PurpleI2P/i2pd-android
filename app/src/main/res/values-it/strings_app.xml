@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_status">Stato</string>
+    <string name="tab_logs">Log</string>
+    <string name="tab_settings">Impostazioni</string>
+    <string name="action_back">Indietro</string>
+    <string name="action_web_console">Console web</string>
+    <string name="action_share">Condividi</string>
+    <string name="action_clear">Cancella</string>
+    <string name="action_open_settings">Apri impostazioni</string>
+    <string name="action_disable">Disattiva</string>
+    <string name="banner_battery">L\'ottimizzazione della batteria può arrestare il router in background.</string>
+    <string name="banner_notifications">Le notifiche sono disattivate: lo stato del router non viene mostrato.</string>
+    <string name="logs_search">Cerca</string>
+    <string name="logs_level_error">Errori</string>
+    <string name="logs_level_warn">Avvisi</string>
+    <string name="logs_level_info">Info</string>
+    <string name="logs_level_debug">Debug</string>
+    <string name="logs_empty">Nessuna voce. Il livello di dettaglio è impostato dall\'opzione loglevel in i2pd.conf.</string>
+    <string name="logs_router_restarted">— router riavviato —</string>
+    <string name="logs_share_subject">Log di i2pd</string>
+    <string name="settings_section_start">Avvio</string>
+    <string name="settings_autostart">Avvia all\'accensione</string>
+    <string name="settings_autostart_summary">Avvia il router quando il dispositivo si accende</string>
+    <string name="settings_auto_restart">Riavvia dopo un blocco</string>
+    <string name="settings_auto_restart_summary">Fino a 3 tentativi in 10 minuti</string>
+    <string name="settings_section_stop">Arresto</string>
+    <string name="settings_graceful_timeout">Timeout dell\'arresto graduale</string>
+    <string name="settings_minutes">%1$d min</string>
+    <string name="settings_section_background">Funzionamento in background</string>
+    <string name="settings_keep_awake">Mantieni attivo il dispositivo</string>
+    <string name="settings_keep_awake_summary">Il router continua a funzionare in sospensione profonda, ma la batteria si scarica più in fretta</string>
+    <string name="settings_battery">Ottimizzazione della batteria</string>
+    <string name="settings_battery_on">Attiva: il sistema può arrestare il router</string>
+    <string name="settings_battery_off">Disattivata per i2pd</string>
+    <string name="settings_section_interface">Interfaccia</string>
+    <string name="settings_theme">Tema</string>
+    <string name="settings_theme_system">Come il sistema</string>
+    <string name="settings_theme_light">Chiaro</string>
+    <string name="settings_theme_dark">Scuro</string>
+    <string name="settings_secure_screen">Blocca screenshot</string>
+    <string name="settings_secure_screen_summary">Indirizzi, chiavi e log non possono essere catturati e l\'app è nascosta nelle app recenti</string>
+    <string name="settings_section_about">Informazioni</string>
+</resources>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_section_router">Роутер (i2pd.conf)</string>
+    <string name="router_basic">Основні налаштування</string>
+    <string name="router_basic_summary">Мережа, транспорти, проксі, служби</string>
+    <string name="router_advanced">Усі параметри</string>
+    <string name="router_advanced_summary">Кожен параметр цієї збірки i2pd</string>
+    <string name="router_raw">Редагувати i2pd.conf</string>
+    <string name="router_raw_summary">Текстовий редактор для досвідчених користувачів</string>
+    <string name="banner_restart">Конфігурацію змінено. Перезапустіть роутер, щоб застосувати її.</string>
+    <string name="action_revert_changes">Скасувати зміни</string>
+    <string name="group_network">Мережа</string>
+    <string name="group_transports">Транспорти</string>
+    <string name="group_http_proxy">HTTP-проксі</string>
+    <string name="group_socks_proxy">SOCKS-проксі</string>
+    <string name="group_web_console">Веб-консоль</string>
+    <string name="group_logging">Журнал</string>
+    <string name="group_limits">Обмеження та сховище</string>
+    <string name="section_general">Загальні</string>
+    <string name="opt_port">Порт роутера</string>
+    <string name="opt_bandwidth">Клас пропускної здатності</string>
+    <string name="opt_share">Частка для транзиту, %</string>
+    <string name="opt_notransit">Відхиляти транзитні тунелі під час запуску</string>
+    <string name="opt_floodfill">Floodfill-роутер</string>
+    <string name="opt_upnp_enabled">Переадресація портів UPnP</string>
+    <string name="opt_enabled">Увімкнено</string>
+    <string name="opt_address">Адреса</string>
+    <string name="opt_service_port">Порт</string>
+    <string name="opt_outproxy">Вихідний проксі</string>
+    <string name="opt_loglevel">Рівень журналу</string>
+    <string name="opt_limits_transittunnels">Максимум транзитних тунелів</string>
+    <string name="opt_persist_profiles">Зберігати профілі вузлів на диску</string>
+    <string name="bandwidth_l">L — 32 КБ/с</string>
+    <string name="bandwidth_o">O — 256 КБ/с</string>
+    <string name="bandwidth_p">P — 2048 КБ/с</string>
+    <string name="bandwidth_x">X — без обмежень</string>
+    <string name="router_port_auto">авто (9111–30776)</string>
+    <string name="value_default">%1$s (за замовчуванням)</string>
+    <string name="value_empty">не задано</string>
+    <string name="value_custom">Інше значення</string>
+    <string name="action_save">Зберегти</string>
+    <string name="action_reset_default">Скинути до типового</string>
+    <string name="action_remove">Видалити</string>
+    <string name="action_comment_out">Закоментувати</string>
+    <string name="action_save_anyway">Усе одно зберегти</string>
+    <string name="action_revert">Скасувати зміни</string>
+    <string name="config_loading">Завантаження конфігурації…</string>
+    <string name="config_load_failed">Не вдалося завантажити конфігурацію: %1$s</string>
+    <string name="config_issues">Проблеми в i2pd.conf</string>
+    <string name="config_unknown_options">Параметри, невідомі i2pd %1$s: з ними роутер не запуститься</string>
+    <string name="config_issues_on_save">У файлі є проблеми; i2pd може не запуститися з ним.</string>
+    <string name="issue_unknown">%1$s: невідомий параметр</string>
+    <string name="issue_duplicate">%1$s: задано більше одного разу</string>
+    <string name="issue_port_conflict">Порт %1$d використовує %2$s</string>
+    <string name="issue_not_boolean">%1$s = %2$s: очікується true або false</string>
+    <string name="issue_not_number">%1$s = %2$s: очікується число</string>
+    <string name="issue_out_of_range">%1$s = %2$s: поза допустимими межами</string>
+    <string name="issue_not_allowed">%1$s = %2$s: недопустиме значення</string>
+    <string name="issue_reserved_port">%1$s = %2$s: порт зарезервовано для іншого ПЗ</string>
+    <string name="issue_outside_range">%1$s = %2$s: поза рекомендованим діапазоном 9111–30776</string>
+    <string name="error_not_boolean">Очікується true або false</string>
+    <string name="error_not_number">Очікується число</string>
+    <string name="error_out_of_range">Поза допустимими межами</string>
+    <string name="error_not_allowed">Недопустиме значення</string>
+    <string name="warning_title">Перевірте значення</string>
+    <string name="warning_router_port_range">Вибрано порт поза рекомендованим діапазоном (9111–30776). Усе одно зберегти?</string>
+    <string name="warning_reserved_port">Вибраний порт зарезервовано для іншого ПЗ. Усе одно зберегти?</string>
+</resources>

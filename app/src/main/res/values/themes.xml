@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Window theme until Compose draws: follows the night mode, so a dark start has no white flash -->
+    <style name="Theme.I2pd" parent="@android:style/Theme.Material.Light.NoActionBar" />
+    <!-- Set by MainActivity when the theme is chosen in the app settings instead of following the system -->
+    <style name="Theme.I2pd.Light" parent="@android:style/Theme.Material.Light.NoActionBar" />
+    <style name="Theme.I2pd.Dark" parent="@android:style/Theme.Material.NoActionBar" />
+</resources>

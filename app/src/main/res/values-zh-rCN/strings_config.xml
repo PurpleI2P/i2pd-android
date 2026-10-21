@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_section_router">路由器 (i2pd.conf)</string>
+    <string name="router_basic">基本设置</string>
+    <string name="router_basic_summary">网络、传输、代理、服务</string>
+    <string name="router_advanced">全部选项</string>
+    <string name="router_advanced_summary">此 i2pd 版本的每个选项</string>
+    <string name="router_raw">编辑 i2pd.conf</string>
+    <string name="router_raw_summary">面向高级用户的文本编辑器</string>
+    <string name="banner_restart">配置已更改。重启路由器以应用。</string>
+    <string name="action_revert_changes">撤销</string>
+    <string name="group_network">网络</string>
+    <string name="group_transports">传输</string>
+    <string name="group_http_proxy">HTTP 代理</string>
+    <string name="group_socks_proxy">SOCKS 代理</string>
+    <string name="group_web_console">网页控制台</string>
+    <string name="group_logging">日志</string>
+    <string name="group_limits">限制与存储</string>
+    <string name="section_general">常规</string>
+    <string name="opt_port">路由器端口</string>
+    <string name="opt_bandwidth">带宽等级</string>
+    <string name="opt_share">中转份额，%</string>
+    <string name="opt_notransit">启动时拒绝中转隧道</string>
+    <string name="opt_floodfill">Floodfill 路由器</string>
+    <string name="opt_upnp_enabled">UPnP 端口转发</string>
+    <string name="opt_enabled">已启用</string>
+    <string name="opt_address">地址</string>
+    <string name="opt_service_port">端口</string>
+    <string name="opt_outproxy">出口代理</string>
+    <string name="opt_loglevel">日志级别</string>
+    <string name="opt_limits_transittunnels">最大中转隧道数</string>
+    <string name="opt_persist_profiles">在磁盘上保存节点档案</string>
+    <string name="bandwidth_l">L — 32 KB/秒</string>
+    <string name="bandwidth_o">O — 256 KB/秒</string>
+    <string name="bandwidth_p">P — 2048 KB/秒</string>
+    <string name="bandwidth_x">X — 不限</string>
+    <string name="router_port_auto">自动 (9111–30776)</string>
+    <string name="value_default">%1$s（默认）</string>
+    <string name="value_empty">未设置</string>
+    <string name="value_custom">其他值</string>
+    <string name="action_save">保存</string>
+    <string name="action_reset_default">恢复默认</string>
+    <string name="action_remove">移除</string>
+    <string name="action_comment_out">注释掉</string>
+    <string name="action_save_anyway">仍然保存</string>
+    <string name="action_revert">撤销</string>
+    <string name="config_loading">正在加载配置…</string>
+    <string name="config_load_failed">无法加载配置：%1$s</string>
+    <string name="config_issues">i2pd.conf 中的问题</string>
+    <string name="config_unknown_options">i2pd %1$s 不认识的选项：路由器无法带着它们启动</string>
+    <string name="config_issues_on_save">文件存在问题；i2pd 可能无法使用它启动。</string>
+    <string name="issue_unknown">%1$s：未知选项</string>
+    <string name="issue_duplicate">%1$s：设置了多次</string>
+    <string name="issue_port_conflict">端口 %1$d 已被 %2$s 使用</string>
+    <string name="issue_not_boolean">%1$s = %2$s：应为 true 或 false</string>
+    <string name="issue_not_number">%1$s = %2$s：应为数字</string>
+    <string name="issue_out_of_range">%1$s = %2$s：超出范围</string>
+    <string name="issue_not_allowed">%1$s = %2$s：不允许的值</string>
+    <string name="issue_reserved_port">%1$s = %2$s：该端口为其他软件保留</string>
+    <string name="issue_outside_range">%1$s = %2$s：超出推荐范围 9111–30776</string>
+    <string name="error_not_boolean">应为 true 或 false</string>
+    <string name="error_not_number">应为数字</string>
+    <string name="error_out_of_range">超出范围</string>
+    <string name="error_not_allowed">不允许的值</string>
+    <string name="warning_title">请检查该值</string>
+    <string name="warning_router_port_range">所选端口超出推荐范围 (9111–30776)。仍要保存吗？</string>
+    <string name="warning_reserved_port">所选端口为其他软件保留。仍要保存吗？</string>
+</resources>

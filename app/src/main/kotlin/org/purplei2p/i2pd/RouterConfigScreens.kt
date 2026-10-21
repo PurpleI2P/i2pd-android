@@ -12,6 +12,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
@@ -37,6 +39,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -240,7 +245,7 @@ private fun SectionTitle(title: String) {
         title,
         style = MaterialTheme.typography.titleSmall,
         color = MaterialTheme.colorScheme.primary,
-        modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 4.dp),
+        modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 4.dp).semantics { heading() },
     )
 }
 
@@ -254,7 +259,11 @@ private fun OptionRow(session: ConfigSession, editor: ConfigEditor, spec: Option
 
     Row(
         Modifier.fillMaxWidth()
-            .clickable { if (switch) session.set(spec.name, (!checked).toString()) else editing = true }
+            .then(
+                // One focusable element for TalkBack: the row toggles, the switch only shows the state
+                if (switch) Modifier.toggleable(checked, role = Role.Switch) { session.set(spec.name, it.toString()) }
+                else Modifier.clickable { editing = true },
+            )
             .padding(horizontal = 16.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -272,7 +281,7 @@ private fun OptionRow(session: ConfigSession, editor: ConfigEditor, spec: Option
             }
         }
         if (switch) {
-            Switch(checked = checked, onCheckedChange = { session.set(spec.name, it.toString()) }, modifier = Modifier.padding(start = 16.dp))
+            Switch(checked = checked, onCheckedChange = null, modifier = Modifier.padding(start = 16.dp))
         }
     }
 
@@ -312,12 +321,12 @@ private fun OptionDialog(
         onDismissRequest = onDismiss,
         title = { Text(optionLabel(spec.name)) },
         text = {
-            Column(Modifier.verticalScroll(rememberScrollState())) {
+            Column(Modifier.verticalScroll(rememberScrollState()).selectableGroup()) {
                 val widget = ui.widget
                 if (widget is OptionWidget.Choice) {
                     widget.values.forEach { choice ->
                         Row(
-                            Modifier.fillMaxWidth().selectable(selected = text == choice) { text = choice }.padding(vertical = 6.dp),
+                            Modifier.fillMaxWidth().selectable(selected = text == choice, role = Role.RadioButton) { text = choice }.padding(vertical = 6.dp),
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             RadioButton(selected = text == choice, onClick = null)

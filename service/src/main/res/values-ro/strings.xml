@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="channel_status">Starea routerului</string>
+    <string name="channel_failures">Erori ale routerului</string>
+    <string name="state_stopped">Oprit</string>
+    <string name="state_starting">Se pornește…</string>
+    <string name="state_running">Rulează</string>
+    <string name="state_draining">Oprire treptată</string>
+    <string name="state_stopping">Se oprește…</string>
+    <string name="state_restarting">Se repornește…</string>
+    <string name="state_maintenance">Întreținere…</string>
+    <string name="state_failed">Eroare a routerului</string>
+    <string name="summary_running">Rețea: %1$s · ↓ %2$s ↑ %3$s · tranzit %4$d</string>
+    <string name="summary_draining">Tuneluri de tranzit: %1$d, au rămas %2$s</string>
+    <string name="summary_auto_restart">Routerul s-a blocat, repornire în %1$s</string>
+    <string name="failure_prepare">Nu se poate pregăti directorul de date: %1$s</string>
+    <string name="failure_start">Pornirea a eșuat: %1$s</string>
+    <string name="failure_fatal">Eroare fatală: %1$s</string>
+    <string name="failure_crashed">Procesul routerului s-a blocat</string>
+    <string name="failure_start_timeout">Routerul nu a pornit la timp</string>
+    <string name="network_ok">OK</string>
+    <string name="network_firewalled">În spatele unui firewall</string>
+    <string name="network_unknown">Necunoscut</string>
+    <string name="network_proxy">Proxy</string>
+    <string name="network_mesh">Mesh</string>
+    <string name="network_stan">Stan</string>
+    <string name="network_testing">se testează</string>
+    <string name="network_error_clock_skew">ceas desincronizat</string>
+    <string name="network_error_offline">offline</string>
+    <string name="network_error_symmetric_nat">NAT simetric</string>
+    <string name="network_error_full_cone_nat">NAT full cone</string>
+    <string name="network_error_no_descriptors">fără descriptori</string>
+    <string name="speed">%1$s/s</string>
+    <string name="action_start">Pornește</string>
+    <string name="action_stop">Oprește</string>
+    <string name="action_stop_now">Oprește acum</string>
+    <string name="action_restart">Repornește</string>
+    <string name="action_cancel">Anulează</string>
+    <string name="tile_label">Router I2P</string>
+</resources>

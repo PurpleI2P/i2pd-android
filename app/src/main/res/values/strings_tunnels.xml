@@ -43,7 +43,7 @@
     <string name="tunnel_type_http">HTTP server</string>
     <string name="tunnel_type_irc">IRC server</string>
     <string name="tunnel_type_udpserver">UDP server</string>
-    <string name="tunnel_type_websocks">Websocks</string>
+    <string name="tunnel_type_websocks" translatable="false">Websocks</string>
     <string name="tunnel_type_torrents">Torrents</string>
 
     <string name="tparam_destination">Destination (.i2p or .b32.i2p)</string>

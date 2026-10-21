@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_status">Holat</string>
+    <string name="tab_logs">Jurnal</string>
+    <string name="tab_settings">Sozlamalar</string>
+    <string name="action_back">Orqaga</string>
+    <string name="action_web_console">Veb-konsol</string>
+    <string name="action_share">Ulashish</string>
+    <string name="action_clear">Tozalash</string>
+    <string name="action_open_settings">Sozlamalarni ochish</string>
+    <string name="action_disable">O‘chirish</string>
+    <string name="banner_battery">Batareya optimallashuvi routerni fonda to‘xtatishi mumkin.</string>
+    <string name="banner_notifications">Bildirishnomalar o‘chirilgan: router holati ko‘rsatilmaydi.</string>
+    <string name="logs_search">Qidirish</string>
+    <string name="logs_level_error">Xatolar</string>
+    <string name="logs_level_warn">Ogohlantirishlar</string>
+    <string name="logs_level_info">Maʼlumot</string>
+    <string name="logs_level_debug">Nosozliklarni tuzatish</string>
+    <string name="logs_empty">Yozuvlar yo‘q. Batafsillik darajasi i2pd.conf dagi loglevel parametri bilan belgilanadi.</string>
+    <string name="logs_router_restarted">— router qayta ishga tushirildi —</string>
+    <string name="logs_share_subject">i2pd jurnali</string>
+    <string name="settings_section_start">Ishga tushirish</string>
+    <string name="settings_autostart">Yoqilganda ishga tushirish</string>
+    <string name="settings_autostart_summary">Qurilma yoqilganda routerni ishga tushirish</string>
+    <string name="settings_auto_restart">Nosozlikdan keyin qayta ishga tushirish</string>
+    <string name="settings_auto_restart_summary">10 daqiqa ichida 3 tagacha urinish</string>
+    <string name="settings_section_stop">To‘xtatish</string>
+    <string name="settings_graceful_timeout">Asta-sekin to‘xtatish vaqti</string>
+    <string name="settings_minutes">%1$d daq</string>
+    <string name="settings_section_background">Fonda ishlash</string>
+    <string name="settings_keep_awake">Qurilmani uyquga ketkazmaslik</string>
+    <string name="settings_keep_awake_summary">Router chuqur uyquda ham ishlaydi, lekin batareya tezroq tugaydi</string>
+    <string name="settings_battery">Batareya optimallashuvi</string>
+    <string name="settings_battery_on">Yoqilgan: tizim routerni to‘xtatishi mumkin</string>
+    <string name="settings_battery_off">i2pd uchun o‘chirilgan</string>
+    <string name="settings_section_interface">Interfeys</string>
+    <string name="settings_theme">Mavzu</string>
+    <string name="settings_theme_system">Tizimdagidek</string>
+    <string name="settings_theme_light">Yorug‘</string>
+    <string name="settings_theme_dark">Qorong‘i</string>
+    <string name="settings_secure_screen">Skrinshotlarni taqiqlash</string>
+    <string name="settings_secure_screen_summary">Manzillar, kalitlar va jurnalni ekrandan olib bo‘lmaydi, ilova so‘nggi ilovalarda yashiriladi</string>
+    <string name="settings_section_about">Ilova haqida</string>
+</resources>

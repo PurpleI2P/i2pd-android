@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="logs_skipped">
+        <item quantity="one">— přeskočen %1$d řádek —</item>
+        <item quantity="few">— přeskočeny %1$d řádky —</item>
+        <item quantity="many">— přeskočeno %1$d řádku —</item>
+        <item quantity="other">— přeskočeno %1$d řádků —</item>
+    </plurals>
+    <plurals name="changes_more">
+        <item quantity="one">a ještě %1$d</item>
+        <item quantity="few">a ještě %1$d</item>
+        <item quantity="many">a ještě %1$d</item>
+        <item quantity="other">a ještě %1$d</item>
+    </plurals>
+    <plurals name="tunnels_shared_short">
+        <item quantity="one">Sdílený cíl %1$s: %2$d uživatel</item>
+        <item quantity="few">Sdílený cíl %1$s: %2$d uživatelé</item>
+        <item quantity="many">Sdílený cíl %1$s: %2$d uživatele</item>
+        <item quantity="other">Sdílený cíl %1$s: %2$d uživatelů</item>
+    </plurals>
+</resources>

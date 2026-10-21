@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_section_router">Router (i2pd.conf)</string>
+    <string name="router_basic">Ustawienia podstawowe</string>
+    <string name="router_basic_summary">Sieć, transporty, proxy, usługi</string>
+    <string name="router_advanced">Wszystkie opcje</string>
+    <string name="router_advanced_summary">Każda opcja tej kompilacji i2pd</string>
+    <string name="router_raw">Edytuj i2pd.conf</string>
+    <string name="router_raw_summary">Edytor tekstowy dla zaawansowanych użytkowników</string>
+    <string name="banner_restart">Konfiguracja została zmieniona. Uruchom router ponownie, aby ją zastosować.</string>
+    <string name="action_revert_changes">Cofnij</string>
+    <string name="group_network">Sieć</string>
+    <string name="group_transports">Transporty</string>
+    <string name="group_http_proxy">Proxy HTTP</string>
+    <string name="group_socks_proxy">Proxy SOCKS</string>
+    <string name="group_web_console">Konsola WWW</string>
+    <string name="group_logging">Logowanie</string>
+    <string name="group_limits">Limity i przechowywanie</string>
+    <string name="section_general">Ogólne</string>
+    <string name="opt_port">Port routera</string>
+    <string name="opt_bandwidth">Klasa przepustowości</string>
+    <string name="opt_share">Udział dla tranzytu, %</string>
+    <string name="opt_notransit">Odrzucaj tunele tranzytowe przy starcie</string>
+    <string name="opt_floodfill">Router floodfill</string>
+    <string name="opt_upnp_enabled">Przekierowanie portów UPnP</string>
+    <string name="opt_enabled">Włączone</string>
+    <string name="opt_address">Adres</string>
+    <string name="opt_service_port">Port</string>
+    <string name="opt_outproxy">Outproxy</string>
+    <string name="opt_loglevel">Poziom logowania</string>
+    <string name="opt_limits_transittunnels">Maksymalna liczba tuneli tranzytowych</string>
+    <string name="opt_persist_profiles">Zapisuj profile węzłów na dysku</string>
+    <string name="bandwidth_l">L — 32 KB/s</string>
+    <string name="bandwidth_o">O — 256 KB/s</string>
+    <string name="bandwidth_p">P — 2048 KB/s</string>
+    <string name="bandwidth_x">X — bez limitu</string>
+    <string name="router_port_auto">auto (9111–30776)</string>
+    <string name="value_default">%1$s (domyślnie)</string>
+    <string name="value_empty">nie ustawiono</string>
+    <string name="value_custom">Inna wartość</string>
+    <string name="action_save">Zapisz</string>
+    <string name="action_reset_default">Przywróć domyślne</string>
+    <string name="action_remove">Usuń</string>
+    <string name="action_comment_out">Zakomentuj</string>
+    <string name="action_save_anyway">Zapisz mimo to</string>
+    <string name="action_revert">Cofnij</string>
+    <string name="config_loading">Wczytywanie konfiguracji…</string>
+    <string name="config_load_failed">Nie można wczytać konfiguracji: %1$s</string>
+    <string name="config_issues">Problemy w i2pd.conf</string>
+    <string name="config_unknown_options">Opcje nieznane dla i2pd %1$s: router z nimi się nie uruchomi</string>
+    <string name="config_issues_on_save">Plik zawiera problemy; i2pd może się z nim nie uruchomić.</string>
+    <string name="issue_unknown">%1$s: nieznana opcja</string>
+    <string name="issue_duplicate">%1$s: ustawiona więcej niż raz</string>
+    <string name="issue_port_conflict">Port %1$d jest używany przez %2$s</string>
+    <string name="issue_not_boolean">%1$s = %2$s: oczekiwano true lub false</string>
+    <string name="issue_not_number">%1$s = %2$s: oczekiwano liczby</string>
+    <string name="issue_out_of_range">%1$s = %2$s: poza zakresem</string>
+    <string name="issue_not_allowed">%1$s = %2$s: niedozwolona wartość</string>
+    <string name="issue_reserved_port">%1$s = %2$s: port zarezerwowany dla innego oprogramowania</string>
+    <string name="issue_outside_range">%1$s = %2$s: poza zalecanym zakresem 9111–30776</string>
+    <string name="error_not_boolean">Oczekiwano true lub false</string>
+    <string name="error_not_number">Oczekiwano liczby</string>
+    <string name="error_out_of_range">Poza zakresem</string>
+    <string name="error_not_allowed">Niedozwolona wartość</string>
+    <string name="warning_title">Sprawdź wartość</string>
+    <string name="warning_router_port_range">Wybrany port jest poza zalecanym zakresem (9111–30776). Zapisać mimo to?</string>
+    <string name="warning_reserved_port">Wybrany port jest zarezerwowany dla innego oprogramowania. Zapisać mimo to?</string>
+</resources>

@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Checkbox
@@ -38,6 +39,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.CoroutineScope
@@ -141,7 +143,7 @@ fun StorageScreen() {
 
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
         operation.message?.let {
-            Text(it.text(), style = MaterialTheme.typography.bodyMedium, modifier = Modifier.fillMaxWidth().clickable { operation.message = null }.padding(16.dp))
+            Text(it.text(), style = MaterialTheme.typography.bodyMedium, modifier = Modifier.fillMaxWidth().clickable(onClickLabel = stringResource(R.string.action_dismiss)) { operation.message = null }.padding(16.dp))
         }
         Text(
             stringResource(R.string.data_router_restarts),
@@ -162,6 +164,12 @@ fun StorageScreen() {
             onClick = { picking = PendingTransfer(TransferKind.MIGRATE, RouterData.MIGRATION_DEFAULT) },
             modifier = Modifier.padding(horizontal = 8.dp),
         ) { Text(stringResource(R.string.data_migrate)) }
+        Text(
+            stringResource(R.string.data_migrate_summary),
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp),
+        )
 
         DataCategory.entries.forEach { category ->
             HorizontalDivider()
@@ -261,7 +269,7 @@ private fun CategoryDialog(initial: Set<DataCategory>, allowed: List<DataCategor
             Column(Modifier.verticalScroll(rememberScrollState())) {
                 allowed.forEach { category ->
                     Row(
-                        Modifier.fillMaxWidth().clickable { chosen = if (category in chosen) chosen - category else chosen + category },
+                        Modifier.fillMaxWidth().toggleable(category in chosen, role = Role.Checkbox) { on -> chosen = if (on) chosen + category else chosen - category },
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Checkbox(checked = category in chosen, onCheckedChange = null)
@@ -298,7 +306,7 @@ fun FilesScreen() {
     LazyColumn(Modifier.fillMaxSize()) {
         item {
             operation.message?.let {
-                Text(it.text(), modifier = Modifier.fillMaxWidth().clickable { operation.message = null }.padding(16.dp))
+                Text(it.text(), modifier = Modifier.fillMaxWidth().clickable(onClickLabel = stringResource(R.string.action_dismiss)) { operation.message = null }.padding(16.dp))
             }
             Text("/${dir}", fontFamily = FontFamily.Monospace, modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp))
             Row(Modifier.padding(horizontal = 8.dp)) {

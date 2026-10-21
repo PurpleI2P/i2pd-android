@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_section_router">Router (i2pd.conf)</string>
+    <string name="router_basic">Mga pangunahing setting</string>
+    <string name="router_basic_summary">Network, mga transport, mga proxy, mga serbisyo</string>
+    <string name="router_advanced">Lahat ng opsyon</string>
+    <string name="router_advanced_summary">Bawat opsyon ng build na ito ng i2pd</string>
+    <string name="router_raw">I-edit ang i2pd.conf</string>
+    <string name="router_raw_summary">Text editor para sa mga bihasang user</string>
+    <string name="banner_restart">Nagbago ang configuration. I-restart ang router para mailapat ito.</string>
+    <string name="action_revert_changes">Ibalik</string>
+    <string name="group_network">Network</string>
+    <string name="group_transports">Mga transport</string>
+    <string name="group_http_proxy">HTTP proxy</string>
+    <string name="group_socks_proxy">SOCKS proxy</string>
+    <string name="group_web_console">Web console</string>
+    <string name="group_logging">Pag-log</string>
+    <string name="group_limits">Mga limitasyon at storage</string>
+    <string name="section_general">Pangkalahatan</string>
+    <string name="opt_port">Port ng router</string>
+    <string name="opt_bandwidth">Klase ng bandwidth</string>
+    <string name="opt_share">Bahagi para sa transit, %</string>
+    <string name="opt_notransit">Tanggihan ang mga transit tunnel sa simula</string>
+    <string name="opt_floodfill">Floodfill router</string>
+    <string name="opt_upnp_enabled">UPnP port forwarding</string>
+    <string name="opt_enabled">Naka-on</string>
+    <string name="opt_address">Address</string>
+    <string name="opt_service_port">Port</string>
+    <string name="opt_outproxy">Outproxy</string>
+    <string name="opt_loglevel">Antas ng log</string>
+    <string name="opt_limits_transittunnels">Pinakamaraming transit tunnel</string>
+    <string name="opt_persist_profiles">Itago sa disk ang mga profile ng peer</string>
+    <string name="bandwidth_l">L — 32 KB/s</string>
+    <string name="bandwidth_o">O — 256 KB/s</string>
+    <string name="bandwidth_p">P — 2048 KB/s</string>
+    <string name="bandwidth_x">X — walang limitasyon</string>
+    <string name="router_port_auto">auto (9111–30776)</string>
+    <string name="value_default">%1$s (default)</string>
+    <string name="value_empty">hindi nakatakda</string>
+    <string name="value_custom">Ibang value</string>
+    <string name="action_save">I-save</string>
+    <string name="action_reset_default">Ibalik sa default</string>
+    <string name="action_remove">Alisin</string>
+    <string name="action_comment_out">Gawing comment</string>
+    <string name="action_save_anyway">I-save pa rin</string>
+    <string name="action_revert">Ibalik</string>
+    <string name="config_loading">Nilo-load ang configuration…</string>
+    <string name="config_load_failed">Hindi ma-load ang configuration: %1$s</string>
+    <string name="config_issues">Mga problema sa i2pd.conf</string>
+    <string name="config_unknown_options">Mga opsyong hindi kilala ng i2pd %1$s: hindi magsisimula ang router kasama ang mga ito</string>
+    <string name="config_issues_on_save">May mga problema ang file; maaaring hindi magsimula ang i2pd dito.</string>
+    <string name="issue_unknown">%1$s: hindi kilalang opsyon</string>
+    <string name="issue_duplicate">%1$s: itinakda nang higit sa isang beses</string>
+    <string name="issue_port_conflict">Ginagamit ng %2$s ang port %1$d</string>
+    <string name="issue_not_boolean">%1$s = %2$s: inaasahan ang true o false</string>
+    <string name="issue_not_number">%1$s = %2$s: inaasahan ang numero</string>
+    <string name="issue_out_of_range">%1$s = %2$s: labas sa saklaw</string>
+    <string name="issue_not_allowed">%1$s = %2$s: hindi pinapayagang value</string>
+    <string name="issue_reserved_port">%1$s = %2$s: nakalaan ang port para sa ibang software</string>
+    <string name="issue_outside_range">%1$s = %2$s: labas sa inirerekomendang saklaw na 9111–30776</string>
+    <string name="error_not_boolean">Inaasahan ang true o false</string>
+    <string name="error_not_number">Inaasahan ang numero</string>
+    <string name="error_out_of_range">Labas sa saklaw</string>
+    <string name="error_not_allowed">Hindi pinapayagang value</string>
+    <string name="warning_title">Suriin ang value</string>
+    <string name="warning_router_port_range">Labas sa inirerekomendang saklaw (9111–30776) ang napiling port. I-save pa rin?</string>
+    <string name="warning_reserved_port">Nakalaan para sa ibang software ang napiling port. I-save pa rin?</string>
+</resources>

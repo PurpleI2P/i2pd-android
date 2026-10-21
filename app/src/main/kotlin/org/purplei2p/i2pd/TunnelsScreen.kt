@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
@@ -46,6 +47,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -123,7 +127,7 @@ fun TunnelsScreen(modifier: Modifier = Modifier) {
             Text(
                 message,
                 color = MaterialTheme.colorScheme.error,
-                modifier = Modifier.fillMaxWidth().clickable { session.error = null }.padding(16.dp),
+                modifier = Modifier.fillMaxWidth().clickable(onClickLabel = stringResource(R.string.action_dismiss)) { session.error = null }.padding(16.dp),
             )
         }
         val set = session.set
@@ -184,9 +188,14 @@ private fun TunnelList(set: TunnelSet, session: TunnelsSession, onOpen: (Tunnels
                 val fileIssues = issues.filter { it.file == file.path }
                 Card(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 6.dp)) {
                     Column(Modifier.padding(vertical = 8.dp)) {
-                        Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Row(
+                            Modifier.fillMaxWidth()
+                                .toggleable(file.enabled, role = Role.Switch) { on -> session.run({ session.tunnels.setEnabled(file.path, on) }) }
+                                .padding(horizontal = 16.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
                             Text(file.path.removeSuffix(RouterTunnels.DISABLED), fontFamily = FontFamily.Monospace, modifier = Modifier.weight(1f))
-                            Switch(checked = file.enabled, onCheckedChange = { on -> session.run({ session.tunnels.setEnabled(file.path, on) }) })
+                            Switch(checked = file.enabled, onCheckedChange = null)
                         }
                         if (!file.enabled) {
                             Text(
@@ -362,7 +371,7 @@ private fun TunnelForm(
             set.sharedDestinations[keys]?.let { Text(stringResource(R.string.tunnels_shared_warning), style = MaterialTheme.typography.bodySmall) }
         }
 
-        Text(stringResource(R.string.tunnels_i2cp), style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary)
+        Text(stringResource(R.string.tunnels_i2cp), style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary, modifier = Modifier.semantics { heading() })
         val i2cpFrom = info?.sharesDestinationWith
         if (i2cpFrom != null) {
             Text(stringResource(R.string.tunnels_i2cp_from, i2cpFrom), style = MaterialTheme.typography.bodySmall)
@@ -370,7 +379,7 @@ private fun TunnelForm(
             TunnelParams.i2cp.forEach { param -> ParamField(type, param, values, paramErrors[param.key]) }
         }
 
-        Text(stringResource(R.string.tunnels_other), style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary)
+        Text(stringResource(R.string.tunnels_other), style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary, modifier = Modifier.semantics { heading() })
         others.toList().forEachIndexed { index, (key, value) ->
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text("$key = $value", fontFamily = FontFamily.Monospace, style = MaterialTheme.typography.bodySmall, modifier = Modifier.weight(1f))
@@ -444,9 +453,12 @@ private fun ParamField(type: TunnelType, param: TunnelParam, values: MutableMap<
     val label = tunnelParamLabel(param.key, type)
     if (param.kind == TunnelParamKind.BOOL) {
         val checked = (values[param.key] ?: param.default).let { it == "true" || it == "1" }
-        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            Modifier.fillMaxWidth().toggleable(checked, role = Role.Switch) { values[param.key] = it.toString() },
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
             Text(label, Modifier.weight(1f))
-            Switch(checked = checked, onCheckedChange = { values[param.key] = it.toString() })
+            Switch(checked = checked, onCheckedChange = null)
         }
         return
     }
@@ -486,7 +498,7 @@ private fun AddressRow(keys: String, encrypted: Boolean, clientAuth: Boolean) {
         value = RouterController.tunnels(context).address(keys, encrypted, clientAuth)
     }
     Column {
-        Text(stringResource(R.string.tunnels_address), style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary)
+        Text(stringResource(R.string.tunnels_address), style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary, modifier = Modifier.semantics { heading() })
         val current = address
         if (current == null) {
             Text(stringResource(R.string.tunnels_address_pending), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)

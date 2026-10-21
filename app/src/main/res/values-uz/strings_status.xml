@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="status_network">Tarmoq</string>
+    <string name="status_uptime">Ishlash vaqti</string>
+    <string name="status_speed">Tezlik</string>
+    <string name="status_speed_value">↓ %1$s  ↑ %2$s  tranzit %3$s</string>
+    <string name="status_traffic">Trafik</string>
+    <string name="status_traffic_value">↓ %1$s  ↑ %2$s  tranzit %3$s</string>
+    <string name="status_tunnels">Tunnellar</string>
+    <string name="status_tunnels_value">kiruvchi %1$d, chiquvchi %2$d, tranzit %3$d · muvaffaqiyat %4$d%%</string>
+    <string name="status_netdb">Tarmoq maʼlumotlar bazasi</string>
+    <string name="status_netdb_value">routerlar %1$d, floodfill %2$d, lease set %3$d</string>
+    <string name="status_transit">Tranzit</string>
+    <string name="status_transit_accepted">qabul qilinmoqda</string>
+    <string name="status_transit_declined">rad etilmoqda</string>
+    <string name="status_services">Xizmatlar</string>
+    <string name="status_services_none">yo‘q</string>
+    <string name="service_http_proxy">HTTP proksi</string>
+    <string name="service_socks_proxy">SOCKS proksi</string>
+    <string name="service_web_console">Veb-konsol</string>
+    <string name="action_dismiss">Yopish</string>
+    <string name="about_versions">Ilova %1$s · i2pd %2$s · %3$s</string>
+</resources>

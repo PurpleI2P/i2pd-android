@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="logs_skipped">
+        <item quantity="one">— %1$d satır atlandı —</item>
+        <item quantity="other">— %1$d satır atlandı —</item>
+    </plurals>
+    <plurals name="changes_more">
+        <item quantity="one">ve %1$d tane daha</item>
+        <item quantity="other">ve %1$d tane daha</item>
+    </plurals>
+    <plurals name="tunnels_shared_short">
+        <item quantity="one">Ortak hedef %1$s: %2$d kullanıcı</item>
+        <item quantity="other">Ortak hedef %1$s: %2$d kullanıcı</item>
+    </plurals>
+</resources>

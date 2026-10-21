@@ -43,7 +43,6 @@
     <string name="tunnel_type_http">HTTP-сервер</string>
     <string name="tunnel_type_irc">IRC-сервер</string>
     <string name="tunnel_type_udpserver">UDP-сервер</string>
-    <string name="tunnel_type_websocks">Websocks</string>
     <string name="tunnel_type_torrents">Торренты</string>
 
     <string name="tparam_destination">Назначение (.i2p или .b32.i2p)</string>

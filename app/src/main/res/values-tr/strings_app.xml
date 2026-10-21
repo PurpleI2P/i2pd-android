@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_status">Durum</string>
+    <string name="tab_logs">Günlük</string>
+    <string name="tab_settings">Ayarlar</string>
+    <string name="action_back">Geri</string>
+    <string name="action_web_console">Web konsolu</string>
+    <string name="action_share">Paylaş</string>
+    <string name="action_clear">Temizle</string>
+    <string name="action_open_settings">Ayarları aç</string>
+    <string name="action_disable">Devre dışı bırak</string>
+    <string name="banner_battery">Pil optimizasyonu yönlendiriciyi arka planda durdurabilir.</string>
+    <string name="banner_notifications">Bildirimler kapalı: yönlendirici durumu gösterilmiyor.</string>
+    <string name="logs_search">Ara</string>
+    <string name="logs_level_error">Hatalar</string>
+    <string name="logs_level_warn">Uyarılar</string>
+    <string name="logs_level_info">Bilgi</string>
+    <string name="logs_level_debug">Hata ayıklama</string>
+    <string name="logs_empty">Kayıt yok. Ayrıntı düzeyi i2pd.conf dosyasındaki loglevel seçeneğiyle belirlenir.</string>
+    <string name="logs_router_restarted">— yönlendirici yeniden başlatıldı —</string>
+    <string name="logs_share_subject">i2pd günlüğü</string>
+    <string name="settings_section_start">Başlatma</string>
+    <string name="settings_autostart">Açılışta başlat</string>
+    <string name="settings_autostart_summary">Cihaz açıldığında yönlendiriciyi başlat</string>
+    <string name="settings_auto_restart">Çökmeden sonra yeniden başlat</string>
+    <string name="settings_auto_restart_summary">10 dakika içinde en fazla 3 deneme</string>
+    <string name="settings_section_stop">Durdurma</string>
+    <string name="settings_graceful_timeout">Kademeli durdurma süresi</string>
+    <string name="settings_minutes">%1$d dk</string>
+    <string name="settings_section_background">Arka planda çalışma</string>
+    <string name="settings_keep_awake">Cihazı uyanık tut</string>
+    <string name="settings_keep_awake_summary">Yönlendirici derin uykuda da çalışır, ancak pil daha hızlı biter</string>
+    <string name="settings_battery">Pil optimizasyonu</string>
+    <string name="settings_battery_on">Açık: sistem yönlendiriciyi durdurabilir</string>
+    <string name="settings_battery_off">i2pd için kapalı</string>
+    <string name="settings_section_interface">Arayüz</string>
+    <string name="settings_theme">Tema</string>
+    <string name="settings_theme_system">Sistemdeki gibi</string>
+    <string name="settings_theme_light">Açık</string>
+    <string name="settings_theme_dark">Koyu</string>
+    <string name="settings_secure_screen">Ekran görüntüsünü engelle</string>
+    <string name="settings_secure_screen_summary">Adresler, anahtarlar ve günlükler ekrandan alınamaz, uygulama son uygulamalarda gizlenir</string>
+    <string name="settings_section_about">Hakkında</string>
+</resources>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_status">Stare</string>
+    <string name="tab_logs">Jurnal</string>
+    <string name="tab_settings">Setări</string>
+    <string name="action_back">Înapoi</string>
+    <string name="action_web_console">Consolă web</string>
+    <string name="action_share">Distribuie</string>
+    <string name="action_clear">Golește</string>
+    <string name="action_open_settings">Deschide setările</string>
+    <string name="action_disable">Dezactivează</string>
+    <string name="banner_battery">Optimizarea bateriei poate opri routerul în fundal.</string>
+    <string name="banner_notifications">Notificările sunt dezactivate: starea routerului nu este afișată.</string>
+    <string name="logs_search">Caută</string>
+    <string name="logs_level_error">Erori</string>
+    <string name="logs_level_warn">Avertismente</string>
+    <string name="logs_level_info">Informații</string>
+    <string name="logs_level_debug">Depanare</string>
+    <string name="logs_empty">Nicio intrare. Nivelul de detaliu se setează cu opțiunea loglevel din i2pd.conf.</string>
+    <string name="logs_router_restarted">— router repornit —</string>
+    <string name="logs_share_subject">Jurnal i2pd</string>
+    <string name="settings_section_start">Pornire</string>
+    <string name="settings_autostart">Pornește la boot</string>
+    <string name="settings_autostart_summary">Pornește routerul când dispozitivul pornește</string>
+    <string name="settings_auto_restart">Repornește după o blocare</string>
+    <string name="settings_auto_restart_summary">Până la 3 încercări în 10 minute</string>
+    <string name="settings_section_stop">Oprire</string>
+    <string name="settings_graceful_timeout">Durata opririi treptate</string>
+    <string name="settings_minutes">%1$d min</string>
+    <string name="settings_section_background">Funcționare în fundal</string>
+    <string name="settings_keep_awake">Menține dispozitivul activ</string>
+    <string name="settings_keep_awake_summary">Routerul funcționează și în somn profund, dar bateria se descarcă mai repede</string>
+    <string name="settings_battery">Optimizarea bateriei</string>
+    <string name="settings_battery_on">Activată: sistemul poate opri routerul</string>
+    <string name="settings_battery_off">Dezactivată pentru i2pd</string>
+    <string name="settings_section_interface">Interfață</string>
+    <string name="settings_theme">Temă</string>
+    <string name="settings_theme_system">Ca în sistem</string>
+    <string name="settings_theme_light">Luminoasă</string>
+    <string name="settings_theme_dark">Întunecată</string>
+    <string name="settings_secure_screen">Blochează capturile de ecran</string>
+    <string name="settings_secure_screen_summary">Adresele, cheile și jurnalul nu pot fi capturate, iar aplicația este ascunsă în aplicațiile recente</string>
+    <string name="settings_section_about">Despre</string>
+</resources>

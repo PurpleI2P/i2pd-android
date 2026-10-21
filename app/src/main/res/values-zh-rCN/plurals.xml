@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="logs_skipped">
+        <item quantity="other">— 已跳过 %1$d 行 —</item>
+    </plurals>
+    <plurals name="changes_more">
+        <item quantity="other">等另外 %1$d 项</item>
+    </plurals>
+    <plurals name="tunnels_shared_short">
+        <item quantity="other">共享目标 %1$s：%2$d 个使用者</item>
+    </plurals>
+</resources>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_status">Stav</string>
+    <string name="tab_logs">Protokol</string>
+    <string name="tab_settings">Nastavení</string>
+    <string name="action_back">Zpět</string>
+    <string name="action_web_console">Webová konzole</string>
+    <string name="action_share">Sdílet</string>
+    <string name="action_clear">Vymazat</string>
+    <string name="action_open_settings">Otevřít nastavení</string>
+    <string name="action_disable">Vypnout</string>
+    <string name="banner_battery">Optimalizace baterie může zastavovat router na pozadí.</string>
+    <string name="banner_notifications">Oznámení jsou vypnutá: stav routeru se nezobrazuje.</string>
+    <string name="logs_search">Hledat</string>
+    <string name="logs_level_error">Chyby</string>
+    <string name="logs_level_warn">Varování</string>
+    <string name="logs_level_info">Informace</string>
+    <string name="logs_level_debug">Ladění</string>
+    <string name="logs_empty">Žádné záznamy. Úroveň podrobností nastavuje volba loglevel v i2pd.conf.</string>
+    <string name="logs_router_restarted">— router restartován —</string>
+    <string name="logs_share_subject">Protokol i2pd</string>
+    <string name="settings_section_start">Spouštění</string>
+    <string name="settings_autostart">Spouštět po startu</string>
+    <string name="settings_autostart_summary">Spustit router po zapnutí zařízení</string>
+    <string name="settings_auto_restart">Restartovat po pádu</string>
+    <string name="settings_auto_restart_summary">Až 3 pokusy během 10 minut</string>
+    <string name="settings_section_stop">Zastavení</string>
+    <string name="settings_graceful_timeout">Časový limit šetrného zastavení</string>
+    <string name="settings_minutes">%1$d min</string>
+    <string name="settings_section_background">Práce na pozadí</string>
+    <string name="settings_keep_awake">Nenechat zařízení usnout</string>
+    <string name="settings_keep_awake_summary">Router pracuje i v hlubokém spánku, ale baterie se vybíjí rychleji</string>
+    <string name="settings_battery">Optimalizace baterie</string>
+    <string name="settings_battery_on">Zapnuto: systém může router zastavit</string>
+    <string name="settings_battery_off">Vypnuto pro i2pd</string>
+    <string name="settings_section_interface">Rozhraní</string>
+    <string name="settings_theme">Motiv</string>
+    <string name="settings_theme_system">Podle systému</string>
+    <string name="settings_theme_light">Světlý</string>
+    <string name="settings_theme_dark">Tmavý</string>
+    <string name="settings_secure_screen">Blokovat snímky obrazovky</string>
+    <string name="settings_secure_screen_summary">Adresy, klíče a protokoly nelze zachytit a aplikace je skrytá v nedávných aplikacích</string>
+    <string name="settings_section_about">O aplikaci</string>
+</resources>
