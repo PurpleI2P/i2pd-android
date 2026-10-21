@@ -181,7 +181,7 @@ stateDiagram-v2
 2. **`RouterService`**: `startForeground(...)` с текстом «Запуск…» и переход в `Preparing`.
 3. **Подготовка (IO-диспетчер):**
    - создание datadir;
-   - копирование ассетов: сертификаты обновляются всегда при смене версии, конфиги копируются только если их нет (логика `assets.ready` переносится в Kotlin);
+   - копирование ассетов: при первом запуске установки копируется всё; при обновлении приложения заменяются только сертификаты, конфиги и адресная книга не трогаются (удалённые или отключённые пользователем файлы не возвращаются);
    - предварительная валидация `i2pd.conf` по схеме (§10.5), чтобы ловить ошибки до запуска.
 4. **`bindService(DaemonHostService)`** с `BIND_AUTO_CREATE | BIND_IMPORTANT`, затем `linkToDeath`. Переход в `Starting`.
 5. **`host.start(params)`**: в `:router` на отдельном потоке выполняются `init()` и `start()`, результат приходит в `IDaemonCallback.onStarted()` или `onStartFailed(msg)`.
@@ -353,7 +353,7 @@ data class RouterState(
 filesDir/i2pd/
   i2pd.conf            ← правит GUI
   tunnels.conf         ← правит GUI
-  tunnels.d/*.conf     ← правит GUI; файлы из ассетов (Telegram, IRC) копируются один раз
+  tunnels.d/*.conf     ← правит GUI; файлы из ассетов (Telegram, IRC) копируются только при первом запуске
   certificates/        ← из ассетов, обновляется при смене версии
   addressbook/ netDb/ peerProfiles/ router.keys router.info *.dat ...
 ```

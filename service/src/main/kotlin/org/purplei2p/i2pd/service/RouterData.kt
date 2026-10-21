@@ -47,14 +47,16 @@ class RouterData private constructor(private val context: Context) {
     }
 
     /**
-     * Puts bundled configuration or certificates back: the files are deleted and copied from the APK again.
-     * Other categories cannot be reset.
+     * Puts bundled configuration or certificates back: the files of [category] are deleted and copied
+     * from the APK again. Other categories cannot be reset.
      */
     suspend fun resetToBundled(category: DataCategory) = change(setOf(category)) {
-        require(category == DataCategory.CONFIG || category == DataCategory.CERTIFICATES)
         DataLayout.clear(root, setOf(category))
-        preparer.forgetAssetsVersion()
-        preparer.prepare()
+        when (category) {
+            DataCategory.CONFIG -> preparer.restoreConfiguration()
+            DataCategory.CERTIFICATES -> preparer.replaceCertificates()
+            else -> throw IllegalArgumentException("$category cannot be reset")
+        }
     }
 
     suspend fun exportZip(target: Uri, categories: Set<DataCategory>): Int = withContext(Dispatchers.IO) {
