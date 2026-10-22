@@ -121,6 +121,85 @@ class TunnelsTest {
     }
 
     @Test
+    fun `torrents RPC port counts as a local port, a switched off RPC does not`() {
+        val t = TunnelFile.parse(
+            "tunnels.d/t.conf",
+            "[t]\ntype = torrents\ntorrentsdir = /d\nrpcport = 7070\n[quiet]\ntype = torrents\ntorrentsdir = /e\nrpcport = 0\n",
+        )
+        assertEquals(
+            listOf(TunnelIssue.PortConflict("tunnels.d/t.conf", "t", 7070, listOf("http"))),
+            TunnelFile.portConflicts(listOf(t), mapOf("http" to 7070, "socksproxy" to 0)),
+        )
+        assertTrue(TunnelType.TORRENTS.creatable)
+    }
+
+    @Test
+    fun `commented sections are found up to a blank line or a real section`() {
+        val file = TunnelFile.parse(
+            "tunnels.d/irc.conf",
+            "[a]\ntype = client\nport = 1\n\n# IRC network\n#[irc]\n#type = client\n# the address\n;port = 6668\n\n#[empty]\n# no entries\n\n[b]\ntype = socks\n",
+        )
+        assertEquals(listOf("a", "b"), file.tunnels.map { it.name })
+        val irc = file.commentedTunnels.single()
+        assertEquals("irc", irc.name)
+        assertEquals(mapOf("type" to "client", "port" to "6668"), irc.values)
+        assertEquals(TunnelType.CLIENT, irc.type)
+        assertEquals(5, irc.line)
+        assertEquals(setOf("a", "b", "irc"), file.allNames)
+    }
+
+    @Test
+    fun `switching a tunnel off and on gives the same text`() {
+        val text = "[first]\ntype = client\nkeys = shared.dat\n# keep 2 hops\n\ninbound.length = 2\n\n[second]\ntype = client\nkeys = shared.dat\n"
+        val file = TunnelFile.parse("tunnels.d/t.conf", text)
+        assertTrue(file.commentOut("first"))
+        assertEquals(
+            "#[first]\n#type = client\n#keys = shared.dat\n## keep 2 hops\n#\n#inbound.length = 2\n\n[second]\ntype = client\nkeys = shared.dat\n",
+            file.document.toString(),
+        )
+        assertEquals(listOf("second"), file.tunnels.map { it.name })
+        assertEquals(listOf("first"), file.commentedTunnels.map { it.name })
+        assertEquals("2", file.commentedTunnels.single().values["inbound.length"])
+
+        assertTrue(file.uncomment("first"))
+        assertEquals(text, file.document.toString())
+        assertEquals(listOf("first", "second"), file.tunnels.map { it.name })
+    }
+
+    @Test
+    fun `every tunnel of the bundled Telegram file switches off and on without changes`() {
+        val asset = java.io.File("../app/src/main/assets/tunnels.d/Telegram.conf")
+        org.junit.Assume.assumeTrue(asset.isFile)
+        val text = asset.readText()
+        val names = TunnelFile.parse("tunnels.d/Telegram.conf", text).tunnels.map { it.name }
+        assertTrue(names.size > 1)
+        for (name in names) {
+            val file = TunnelFile.parse("tunnels.d/Telegram.conf", text)
+            assertTrue(file.commentOut(name))
+            assertEquals(names - name, file.tunnels.map { it.name })
+            assertEquals(listOf(name), file.commentedTunnels.map { it.name })
+            assertTrue(file.uncomment(name))
+            assertEquals(name, text, file.document.toString())
+        }
+    }
+
+    @Test
+    fun `links with "=" in comments are not taken for entries`() {
+        val file = TunnelFile.parse("tunnels.conf", "#[tg]\n#type = client\n#port = 3447\n# https://t.me/proxy?server=127.0.0.1&port=3447\n")
+        assertEquals(mapOf("type" to "client", "port" to "3447"), file.commentedTunnels.single().values)
+        assertTrue(file.uncomment("tg"))
+        assertEquals("[tg]\ntype = client\nport = 3447\n# https://t.me/proxy?server=127.0.0.1&port=3447\n", file.document.toString())
+    }
+
+    @Test
+    fun `plain text comments stay comments when a hand written block is switched on`() {
+        val file = TunnelFile.parse("tunnels.conf", "#[irc]\n# IRC client\n#type = client\n#  port = 6668\n")
+        assertTrue(file.uncomment("irc"))
+        assertEquals("[irc]\n# IRC client\ntype = client\nport = 6668\n", file.document.toString())
+        assertEquals(emptyList<Int>(), file.document.invalidLines())
+    }
+
+    @Test
     fun `sections can be added, renamed and removed`() {
         val file = TunnelFile.parse("tunnels.conf", "[a]\ntype = client\n# about a\n\n[b]\ntype = server\n")
         file.document.renameSection("a", "first")

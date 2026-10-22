@@ -2,6 +2,10 @@
 <resources>
     <string name="tab_tunnels">تونل‌ها</string>
     <string name="tunnels_add">افزودن تونل</string>
+    <string name="tunnels_add_file">پروندهٔ جدید</string>
+    <string name="tunnels_append_to">تونل به انتهای %1$s افزوده می‌شود.</string>
+    <string name="tunnels_commented">غیرفعال (توضیح‌شده)</string>
+    <string name="tunnels_disable_primary">%1$s مقصد و گزینه‌های I2CP را برای %2$s تعیین می‌کند. اگر غیرفعال شود، بعدی جای آن را می‌گیرد. غیرفعال شود؟</string>
     <string name="tunnels_empty">هنوز تونلی نیست</string>
     <string name="tunnels_file_disabled">غیرفعال: i2pd این پرونده را نادیده می‌گیرد</string>
     <string name="tunnels_edit_file">ویرایش پرونده</string>
@@ -30,6 +34,7 @@
     <string name="tunnels_copied">کپی شد</string>
     <string name="tunnels_type_readonly">نوع قابل تغییر نیست؛ به‌جای آن تونل جدیدی بسازید</string>
     <string name="tunnels_websocks_deprecated">تونل‌های websocks منسوخ شده‌اند، i2pd آن‌ها را شروع نمی‌کند</string>
+    <string name="tunnels_torrents_hint">سرور RPC با کلاینت‌های Transmission سازگار است. رابط وب پرونده‌های پوشهٔ torrents/web در پوشهٔ داده را ارائه می‌کند.</string>
     <string name="tunnels_copy">کپی</string>
     <string name="proxy_name_httpproxy">پراکسی HTTP (i2pd.conf)</string>
     <string name="proxy_name_socksproxy">پراکسی SOCKS (i2pd.conf)</string>
@@ -60,6 +65,12 @@
     <string name="tparam_ssl">TLS به سرویس</string>
     <string name="tparam_torrentsdir">پوشهٔ تورنت‌ها</string>
     <string name="tparam_trackers">ردیاب‌ها</string>
+    <string name="tparam_rpcport">درگاه RPC (۰ — خاموش)</string>
+    <string name="tparam_rpcaddress">نشانی RPC</string>
+    <string name="tparam_rpcauth">محافظت RPC با گذرواژه</string>
+    <string name="tparam_rpcuser">کاربر RPC</string>
+    <string name="tparam_rpcpass">گذرواژهٔ RPC</string>
+    <string name="tparam_web">رابط وب از طریق RPC</string>
     <string name="tparam_inbound_length">طول ورودی</string>
     <string name="tparam_inbound_quantity">تعداد ورودی</string>
     <string name="tparam_outbound_length">طول خروجی</string>
@@ -68,7 +79,23 @@
     <string name="tparam_outbound_variance">نوسان طول خروجی</string>
     <string name="tparam_leaseset_type">نوع lease set</string>
     <string name="tparam_leaseset_enc">انواع رمزگذاری lease set</string>
-    <string name="tparam_dont_publish">lease set منتشر نشود</string>
+    <string name="tunnels_more_params">پارامترهای بیشتر</string>
+    <string name="tunnels_expert_title">پارامترهای تنظیم دقیق</string>
+    <string name="tunnels_expert_text">این پارامترها برای کاربران باتجربه است. مقادیر نادرست ممکن است تونل را از کار بیندازد یا ناشناسی شما را تضعیف کند. فقط اگر می‌دانید چه می‌کنند تغییرشان دهید.</string>
+    <string name="tunnels_expert_confirm">می‌دانم چه می‌کنم</string>
+    <string name="tparam_signaturetype">نوع امضای کلیدهای جدید</string>
+    <string name="tparam_cryptotype">نوع رمزگذاری کلیدهای جدید</string>
+    <string name="tparam_matchtunnels">تطبیق تونل‌ها با مقصد</string>
+    <string name="tparam_keepaliveinterval">فاصلهٔ keep-alive، ثانیه (۰ — خاموش)</string>
+    <string name="tparam_connecttimeout">مهلت اتصال، ثانیه (۰ — پیش‌فرض)</string>
+    <string name="tparam_closeidletime">بستن مقصد بیکار، میلی‌ثانیه (۰ — هرگز)</string>
+    <string name="tparam_newdestonresume">مقصد جدید هنگام ازسرگیری</string>
+    <string name="tparam_gzip">فشرده‌سازی gzip</string>
+    <string name="tparam_datagramversion">نسخهٔ دیتاگرام</string>
+    <string name="tparam_maxwindow">بیشینهٔ دیتاگرام‌های تأییدنشده</string>
+    <string name="tparam_enableuniquelocal">نشانی محلی یکتا برای هر کلاینت</string>
+    <string name="tparam_dhtfile">پروندهٔ DHT</string>
+    <string name="tparam_rpcpath">مسیر RPC</string>
     <string name="tissue_invalid_line">%1$s، خط %2$d: خط کلید = مقدار نیست، ممکن است i2pd پرونده را نادیده بگیرد</string>
     <string name="tissue_outside_section">%1$s: %2$s بیرون از هر تونلی است</string>
     <string name="tissue_duplicate_section">%1$s: تونل %2$s دو بار تعریف شده</string>
@@ -78,4 +105,5 @@
     <string name="tissue_missing_param">%1$s: %2$s لازم است</string>
     <string name="tissue_invalid_value">%1$s: %2$s = %3$s معتبر نیست</string>
     <string name="tissue_port_conflict">%1$s: درگاه %2$d را %3$s هم استفاده می‌کند</string>
+    <string name="tissue_unread_key">%1$s: i2pd برای این نوع تونل %2$s را نمی‌خواند</string>
 </resources>

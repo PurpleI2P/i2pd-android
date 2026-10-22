@@ -2,6 +2,10 @@
 <resources>
     <string name="tab_tunnels">Tüneller</string>
     <string name="tunnels_add">Tünel ekle</string>
+    <string name="tunnels_add_file">Yeni dosya</string>
+    <string name="tunnels_append_to">Tünel %1$s dosyasının sonuna eklenir.</string>
+    <string name="tunnels_commented">Devre dışı (yorum satırı)</string>
+    <string name="tunnels_disable_primary">%1$s, %2$s için hedefi ve I2CP seçeneklerini belirler. Kapatılırsa sıradaki devralır. Kapatılsın mı?</string>
     <string name="tunnels_empty">Henüz tünel yok</string>
     <string name="tunnels_file_disabled">Devre dışı: i2pd bu dosyayı atlar</string>
     <string name="tunnels_edit_file">Dosyayı düzenle</string>
@@ -30,6 +34,7 @@
     <string name="tunnels_copied">Kopyalandı</string>
     <string name="tunnels_type_readonly">Tür değiştirilemez; bunun yerine yeni bir tünel oluşturun</string>
     <string name="tunnels_websocks_deprecated">websocks tünelleri kullanımdan kaldırıldı, i2pd bunları başlatmaz</string>
+    <string name="tunnels_torrents_hint">RPC sunucusu Transmission istemcileriyle uyumludur. Web arayüzü, veri dizinindeki torrents/web klasörünün dosyalarını sunar.</string>
     <string name="tunnels_copy">Kopyala</string>
     <string name="proxy_name_httpproxy">HTTP proxy (i2pd.conf)</string>
     <string name="proxy_name_socksproxy">SOCKS proxy (i2pd.conf)</string>
@@ -60,6 +65,12 @@
     <string name="tparam_ssl">Hizmete TLS</string>
     <string name="tparam_torrentsdir">Torrent dizini</string>
     <string name="tparam_trackers">İzleyiciler</string>
+    <string name="tparam_rpcport">RPC bağlantı noktası (0 — kapalı)</string>
+    <string name="tparam_rpcaddress">RPC adresi</string>
+    <string name="tparam_rpcauth">RPC parola koruması</string>
+    <string name="tparam_rpcuser">RPC kullanıcısı</string>
+    <string name="tparam_rpcpass">RPC parolası</string>
+    <string name="tparam_web">RPC üzerinden web arayüzü</string>
     <string name="tparam_inbound_length">Gelen uzunluğu</string>
     <string name="tparam_inbound_quantity">Gelen sayısı</string>
     <string name="tparam_outbound_length">Giden uzunluğu</string>
@@ -68,7 +79,23 @@
     <string name="tparam_outbound_variance">Giden uzunluk sapması</string>
     <string name="tparam_leaseset_type">Lease set türü</string>
     <string name="tparam_leaseset_enc">Lease set şifreleme türleri</string>
-    <string name="tparam_dont_publish">Lease set\'i yayımlama</string>
+    <string name="tunnels_more_params">Ek parametreler</string>
+    <string name="tunnels_expert_title">İnce ayar parametreleri</string>
+    <string name="tunnels_expert_text">Bu parametreler deneyimli kullanıcılar içindir. Yanlış değerler tüneli bozabilir veya anonimliğinizi zayıflatabilir. Yalnızca ne yaptıklarını biliyorsanız değiştirin.</string>
+    <string name="tunnels_expert_confirm">Ne yaptığımı biliyorum</string>
+    <string name="tparam_signaturetype">Yeni anahtarların imza türü</string>
+    <string name="tparam_cryptotype">Yeni anahtarların şifreleme türü</string>
+    <string name="tparam_matchtunnels">Tünelleri hedefle eşleştir</string>
+    <string name="tparam_keepaliveinterval">Keep-alive aralığı, sn (0 — kapalı)</string>
+    <string name="tparam_connecttimeout">Bağlantı zaman aşımı, sn (0 — varsayılan)</string>
+    <string name="tparam_closeidletime">Boşta hedefi kapat, ms (0 — asla)</string>
+    <string name="tparam_newdestonresume">Devam ederken yeni hedef</string>
+    <string name="tparam_gzip">Gzip sıkıştırma</string>
+    <string name="tparam_datagramversion">Datagram sürümü</string>
+    <string name="tparam_maxwindow">En fazla onaylanmamış datagram</string>
+    <string name="tparam_enableuniquelocal">Her istemci için benzersiz yerel adres</string>
+    <string name="tparam_dhtfile">DHT dosyası</string>
+    <string name="tparam_rpcpath">RPC yolu</string>
     <string name="tissue_invalid_line">%1$s, satır %2$d: anahtar = değer satırı değil, i2pd dosyayı atlayabilir</string>
     <string name="tissue_outside_section">%1$s: %2$s hiçbir tünelin içinde değil</string>
     <string name="tissue_duplicate_section">%1$s: %2$s tüneli iki kez tanımlanmış</string>
@@ -78,4 +105,5 @@
     <string name="tissue_missing_param">%1$s: %2$s gerekli</string>
     <string name="tissue_invalid_value">%1$s: %2$s = %3$s geçerli değil</string>
     <string name="tissue_port_conflict">%1$s: %2$d bağlantı noktasını %3$s de kullanıyor</string>
+    <string name="tissue_unread_key">%1$s: i2pd bu tünel türü için %2$s değerini okumaz</string>
 </resources>

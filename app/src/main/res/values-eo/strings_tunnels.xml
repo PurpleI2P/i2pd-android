@@ -2,6 +2,10 @@
 <resources>
     <string name="tab_tunnels">Tuneloj</string>
     <string name="tunnels_add">Aldoni tunelon</string>
+    <string name="tunnels_add_file">Nova dosiero</string>
+    <string name="tunnels_append_to">La tunelo aldoniĝas al la fino de %1$s.</string>
+    <string name="tunnels_commented">Malŝaltita (komentigita)</string>
+    <string name="tunnels_disable_primary">%1$s difinas la celon kaj la I2CP-opciojn por %2$s. Se ĝi estas malŝaltita, la sekva el ili transprenas. Ĉu malŝalti?</string>
     <string name="tunnels_empty">Ankoraŭ neniuj tuneloj</string>
     <string name="tunnels_file_disabled">Malŝaltita: i2pd preterlasas ĉi tiun dosieron</string>
     <string name="tunnels_edit_file">Redakti dosieron</string>
@@ -30,6 +34,7 @@
     <string name="tunnels_copied">Kopiite</string>
     <string name="tunnels_type_readonly">La tipo ne ŝanĝeblas; kreu novan tunelon anstataŭe</string>
     <string name="tunnels_websocks_deprecated">websocks-tuneloj estas malrekomenditaj, i2pd ne startigas ilin</string>
+    <string name="tunnels_torrents_hint">La RPC-servilo kongruas kun klientoj de Transmission. La retinterfaco servas la dosierojn de la dosierujo torrents/web en la datumdosierujo.</string>
     <string name="tunnels_copy">Kopii</string>
     <string name="proxy_name_httpproxy">HTTP-prokurilo (i2pd.conf)</string>
     <string name="proxy_name_socksproxy">SOCKS-prokurilo (i2pd.conf)</string>
@@ -60,6 +65,12 @@
     <string name="tparam_ssl">TLS al la servo</string>
     <string name="tparam_torrentsdir">Dosierujo de torentoj</string>
     <string name="tparam_trackers">Spuriloj</string>
+    <string name="tparam_rpcport">RPC-pordo (0 — malŝaltita)</string>
+    <string name="tparam_rpcaddress">RPC-adreso</string>
+    <string name="tparam_rpcauth">Protekto de RPC per pasvorto</string>
+    <string name="tparam_rpcuser">RPC-uzanto</string>
+    <string name="tparam_rpcpass">RPC-pasvorto</string>
+    <string name="tparam_web">Retinterfaco per RPC</string>
     <string name="tparam_inbound_length">Longo de envenaj</string>
     <string name="tparam_inbound_quantity">Nombro de envenaj</string>
     <string name="tparam_outbound_length">Longo de elirantaj</string>
@@ -68,7 +79,23 @@
     <string name="tparam_outbound_variance">Varianco de longo de elirantaj</string>
     <string name="tparam_leaseset_type">Tipo de lease set</string>
     <string name="tparam_leaseset_enc">Ĉifradaj tipoj de lease set</string>
-    <string name="tparam_dont_publish">Ne publikigi lease set</string>
+    <string name="tunnels_more_params">Pliaj parametroj</string>
+    <string name="tunnels_expert_title">Parametroj de fajna agordo</string>
+    <string name="tunnels_expert_text">Ĉi tiuj parametroj estas por spertaj uzantoj. Malĝustaj valoroj povas rompi la tunelon aŭ malfortigi vian anonimecon. Ŝanĝu ilin nur se vi scias, kion ili faras.</string>
+    <string name="tunnels_expert_confirm">Mi scias, kion mi faras</string>
+    <string name="tparam_signaturetype">Subskriba tipo de novaj ŝlosiloj</string>
+    <string name="tparam_cryptotype">Ĉifrada tipo de novaj ŝlosiloj</string>
+    <string name="tparam_matchtunnels">Kongruigi tunelojn kun la celo</string>
+    <string name="tparam_keepaliveinterval">Keep-alive-intervalo, s (0 — malŝaltita)</string>
+    <string name="tparam_connecttimeout">Konekta tempolimo, s (0 — implicita)</string>
+    <string name="tparam_closeidletime">Fermi neaktivan celon, ms (0 — neniam)</string>
+    <string name="tparam_newdestonresume">Nova celo je rekomenco</string>
+    <string name="tparam_gzip">Gzip-densigo</string>
+    <string name="tparam_datagramversion">Versio de datagramoj</string>
+    <string name="tparam_maxwindow">Maksimumo de nekonfirmitaj datagramoj</string>
+    <string name="tparam_enableuniquelocal">Unika loka adreso por ĉiu kliento</string>
+    <string name="tparam_dhtfile">DHT-dosiero</string>
+    <string name="tparam_rpcpath">RPC-vojo</string>
     <string name="tissue_invalid_line">%1$s, linio %2$d: ne linio ŝlosilo = valoro, i2pd povas preterlasi la dosieron</string>
     <string name="tissue_outside_section">%1$s: %2$s estas ekster ajna tunelo</string>
     <string name="tissue_duplicate_section">%1$s: tunelo %2$s estas difinita dufoje</string>
@@ -78,4 +105,5 @@
     <string name="tissue_missing_param">%1$s: %2$s estas deviga</string>
     <string name="tissue_invalid_value">%1$s: %2$s = %3$s ne validas</string>
     <string name="tissue_port_conflict">%1$s: pordon %2$d uzas ankaŭ %3$s</string>
+    <string name="tissue_unread_key">%1$s: i2pd ne legas %2$s por ĉi tiu tipo de tunelo</string>
 </resources>

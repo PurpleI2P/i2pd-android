@@ -2,6 +2,10 @@
 <resources>
     <string name="tab_tunnels">Mga tunnel</string>
     <string name="tunnels_add">Magdagdag ng tunnel</string>
+    <string name="tunnels_add_file">Bagong file</string>
+    <string name="tunnels_append_to">Idaragdag ang tunnel sa dulo ng %1$s.</string>
+    <string name="tunnels_commented">Naka-disable (ginawang comment)</string>
+    <string name="tunnels_disable_primary">Itinatakda ng %1$s ang destination at mga opsyon ng I2CP para sa %2$s. Kapag na-off ito, ang susunod sa kanila ang hahalili. I-off?</string>
     <string name="tunnels_empty">Wala pang tunnel</string>
     <string name="tunnels_file_disabled">Naka-disable: nilalaktawan ng i2pd ang file na ito</string>
     <string name="tunnels_edit_file">I-edit ang file</string>
@@ -30,6 +34,7 @@
     <string name="tunnels_copied">Nakopya</string>
     <string name="tunnels_type_readonly">Hindi mababago ang uri; gumawa na lang ng bagong tunnel</string>
     <string name="tunnels_websocks_deprecated">Luma na ang mga websocks tunnel, hindi ito sinisimulan ng i2pd</string>
+    <string name="tunnels_torrents_hint">Compatible ang RPC server sa mga Transmission client. Inihahain ng web interface ang mga file ng folder na torrents/web sa data directory.</string>
     <string name="tunnels_copy">Kopyahin</string>
     <string name="proxy_name_httpproxy">HTTP proxy (i2pd.conf)</string>
     <string name="proxy_name_socksproxy">SOCKS proxy (i2pd.conf)</string>
@@ -60,6 +65,12 @@
     <string name="tparam_ssl">TLS papunta sa serbisyo</string>
     <string name="tparam_torrentsdir">Directory ng mga torrent</string>
     <string name="tparam_trackers">Mga tracker</string>
+    <string name="tparam_rpcport">RPC port (0 — naka-off)</string>
+    <string name="tparam_rpcaddress">RPC address</string>
+    <string name="tparam_rpcauth">Proteksyon ng RPC gamit ang password</string>
+    <string name="tparam_rpcuser">RPC user</string>
+    <string name="tparam_rpcpass">RPC password</string>
+    <string name="tparam_web">Web interface sa pamamagitan ng RPC</string>
     <string name="tparam_inbound_length">Haba ng papasok</string>
     <string name="tparam_inbound_quantity">Dami ng papasok</string>
     <string name="tparam_outbound_length">Haba ng palabas</string>
@@ -68,7 +79,23 @@
     <string name="tparam_outbound_variance">Pagkakaiba ng haba ng palabas</string>
     <string name="tparam_leaseset_type">Uri ng lease set</string>
     <string name="tparam_leaseset_enc">Mga uri ng encryption ng lease set</string>
-    <string name="tparam_dont_publish">Huwag i-publish ang lease set</string>
+    <string name="tunnels_more_params">Mga karagdagang parameter</string>
+    <string name="tunnels_expert_title">Mga parameter ng pinong pag-tune</string>
+    <string name="tunnels_expert_text">Para sa mga bihasang user ang mga parameter na ito. Maaaring masira ng maling value ang tunnel o humina ang iyong anonymity. Baguhin lang kung alam mo ang ginagawa nila.</string>
+    <string name="tunnels_expert_confirm">Alam ko ang ginagawa ko</string>
+    <string name="tparam_signaturetype">Uri ng pirma ng mga bagong key</string>
+    <string name="tparam_cryptotype">Uri ng encryption ng mga bagong key</string>
+    <string name="tparam_matchtunnels">Itugma ang mga tunnel sa destination</string>
+    <string name="tparam_keepaliveinterval">Agwat ng keep-alive, s (0 — naka-off)</string>
+    <string name="tparam_connecttimeout">Timeout ng koneksyon, s (0 — default)</string>
+    <string name="tparam_closeidletime">Isara ang destination kapag idle, ms (0 — hindi kailanman)</string>
+    <string name="tparam_newdestonresume">Bagong destination sa pagpapatuloy</string>
+    <string name="tparam_gzip">Gzip compression</string>
+    <string name="tparam_datagramversion">Bersyon ng datagram</string>
+    <string name="tparam_maxwindow">Pinakamaraming hindi kinumpirmang datagram</string>
+    <string name="tparam_enableuniquelocal">Natatanging lokal na address bawat client</string>
+    <string name="tparam_dhtfile">DHT file</string>
+    <string name="tparam_rpcpath">RPC path</string>
     <string name="tissue_invalid_line">%1$s, linya %2$d: hindi linyang key = value, maaaring laktawan ng i2pd ang file</string>
     <string name="tissue_outside_section">%1$s: nasa labas ng anumang tunnel ang %2$s</string>
     <string name="tissue_duplicate_section">%1$s: dalawang beses na tinukoy ang tunnel na %2$s</string>
@@ -78,4 +105,5 @@
     <string name="tissue_missing_param">%1$s: kailangan ang %2$s</string>
     <string name="tissue_invalid_value">%1$s: hindi wasto ang %2$s = %3$s</string>
     <string name="tissue_port_conflict">%1$s: ginagamit din ng %3$s ang port %2$d</string>
+    <string name="tissue_unread_key">%1$s: hindi binabasa ng i2pd ang %2$s para sa uri ng tunnel na ito</string>
 </resources>

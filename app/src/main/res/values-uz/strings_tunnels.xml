@@ -2,6 +2,10 @@
 <resources>
     <string name="tab_tunnels">Tunnellar</string>
     <string name="tunnels_add">Tunnel qo‘shish</string>
+    <string name="tunnels_add_file">Yangi fayl</string>
+    <string name="tunnels_append_to">Tunnel %1$s oxiriga qo‘shiladi.</string>
+    <string name="tunnels_commented">O‘chirilgan (izohga aylantirilgan)</string>
+    <string name="tunnels_disable_primary">%1$s %2$s uchun manzil va I2CP parametrlarini belgilaydi. O‘chirilsa, ulardan keyingisi o‘z zimmasiga oladi. O‘chirilsinmi?</string>
     <string name="tunnels_empty">Hozircha tunnellar yo‘q</string>
     <string name="tunnels_file_disabled">O‘chirilgan: i2pd bu faylni o‘tkazib yuboradi</string>
     <string name="tunnels_edit_file">Faylni tahrirlash</string>
@@ -30,6 +34,7 @@
     <string name="tunnels_copied">Nusxalandi</string>
     <string name="tunnels_type_readonly">Turni o‘zgartirib bo‘lmaydi; yangi tunnel yarating</string>
     <string name="tunnels_websocks_deprecated">websocks tunnellari eskirgan, i2pd ularni ishga tushirmaydi</string>
+    <string name="tunnels_torrents_hint">RPC server Transmission mijozlari bilan mos. Veb-interfeys maʼlumotlar katalogidagi torrents/web jildi fayllarini beradi.</string>
     <string name="tunnels_copy">Nusxalash</string>
     <string name="proxy_name_httpproxy">HTTP proksi (i2pd.conf)</string>
     <string name="proxy_name_socksproxy">SOCKS proksi (i2pd.conf)</string>
@@ -60,6 +65,12 @@
     <string name="tparam_ssl">Xizmatga TLS</string>
     <string name="tparam_torrentsdir">Torrentlar katalogi</string>
     <string name="tparam_trackers">Trekerlar</string>
+    <string name="tparam_rpcport">RPC porti (0 — o‘chirilgan)</string>
+    <string name="tparam_rpcaddress">RPC manzili</string>
+    <string name="tparam_rpcauth">RPC parol bilan himoyasi</string>
+    <string name="tparam_rpcuser">RPC foydalanuvchisi</string>
+    <string name="tparam_rpcpass">RPC paroli</string>
+    <string name="tparam_web">RPC orqali veb-interfeys</string>
     <string name="tparam_inbound_length">Kiruvchi uzunlik</string>
     <string name="tparam_inbound_quantity">Kiruvchi soni</string>
     <string name="tparam_outbound_length">Chiquvchi uzunlik</string>
@@ -68,7 +79,23 @@
     <string name="tparam_outbound_variance">Chiquvchi uzunlik tafovuti</string>
     <string name="tparam_leaseset_type">Lease set turi</string>
     <string name="tparam_leaseset_enc">Lease set shifrlash turlari</string>
-    <string name="tparam_dont_publish">Lease set ni eʼlon qilmaslik</string>
+    <string name="tunnels_more_params">Qo‘shimcha parametrlar</string>
+    <string name="tunnels_expert_title">Nozik sozlash parametrlari</string>
+    <string name="tunnels_expert_text">Bu parametrlar tajribali foydalanuvchilar uchun. Noto‘g‘ri qiymatlar tunnelni buzishi yoki anonimlikni susaytirishi mumkin. Ular nima qilishini bilsangizgina o‘zgartiring.</string>
+    <string name="tunnels_expert_confirm">Nima qilayotganimni bilaman</string>
+    <string name="tparam_signaturetype">Yangi kalitlarning imzo turi</string>
+    <string name="tparam_cryptotype">Yangi kalitlarning shifrlash turi</string>
+    <string name="tparam_matchtunnels">Tunnellarni manzil bilan moslashtirish</string>
+    <string name="tparam_keepaliveinterval">Keep-alive oralig‘i, s (0 — o‘chiq)</string>
+    <string name="tparam_connecttimeout">Ulanish vaqti chegarasi, s (0 — standart)</string>
+    <string name="tparam_closeidletime">Bo‘sh turganda manzilni yopish, ms (0 — hech qachon)</string>
+    <string name="tparam_newdestonresume">Davom ettirilganda yangi manzil</string>
+    <string name="tparam_gzip">Gzip siqish</string>
+    <string name="tparam_datagramversion">Datagramma versiyasi</string>
+    <string name="tparam_maxwindow">Tasdiqlanmagan datagrammalarning eng ko‘p soni</string>
+    <string name="tparam_enableuniquelocal">Har bir mijoz uchun noyob mahalliy manzil</string>
+    <string name="tparam_dhtfile">DHT fayli</string>
+    <string name="tparam_rpcpath">RPC yo‘li</string>
     <string name="tissue_invalid_line">%1$s, %2$d-qator: kalit = qiymat qatori emas, i2pd faylni o‘tkazib yuborishi mumkin</string>
     <string name="tissue_outside_section">%1$s: %2$s hech qaysi tunnelga tegishli emas</string>
     <string name="tissue_duplicate_section">%1$s: %2$s tunneli ikki marta aniqlangan</string>
@@ -78,4 +105,5 @@
     <string name="tissue_missing_param">%1$s: %2$s talab qilinadi</string>
     <string name="tissue_invalid_value">%1$s: %2$s = %3$s yaroqsiz</string>
     <string name="tissue_port_conflict">%1$s: %2$d portidan %3$s ham foydalanmoqda</string>
+    <string name="tissue_unread_key">%1$s: i2pd bu tunnel turi uchun %2$s ni o‘qimaydi</string>
 </resources>
