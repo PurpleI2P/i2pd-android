@@ -106,4 +106,34 @@
     <string name="tissue_invalid_value">%1$s: %2$s = %3$s nu este valid</string>
     <string name="tissue_port_conflict">%1$s: portul %2$d este folosit și de %3$s</string>
     <string name="tissue_unread_key">%1$s: i2pd nu citește %2$s pentru acest tip de tunel</string>
+    <string name="torrents_open">Torrente</string>
+    <string name="torrents_magnet">Link magnet</string>
+    <string name="torrents_add">Adaugă</string>
+    <string name="torrents_add_file">Adaugă fișier .torrent</string>
+    <string name="torrents_added">Adăugat: %1$s</string>
+    <string name="torrents_duplicate">Deja adăugat: %1$s</string>
+    <string name="torrents_failed">Eroare: %1$s</string>
+    <string name="torrents_file_too_large">Fișierul este prea mare pentru un .torrent</string>
+    <string name="torrents_router_stopped">Routerul nu rulează</string>
+    <string name="torrents_unreachable">Nu se poate contacta serverul RPC al tunelului (%1$s). Verifică dacă routerul rulează și tunelurile sunt aplicate.</string>
+    <string name="torrents_empty">Încă nu există torrente</string>
+    <string name="torrents_metadata">Se obțin metadatele</string>
+    <string name="torrents_peers">parteneri %1$d (↓%2$d ↑%3$d)</string>
+    <string name="torrents_eta">au rămas %1$s</string>
+    <string name="torrents_ratio">raport %1$.2f</string>
+    <string name="torrents_reannounce">Reanunță</string>
+    <string name="torrents_remove_confirm">Elimini %1$s?</string>
+    <string name="torrents_remove_data">Șterge și fișierele descărcate</string>
+    <string name="torrents_stats">Torrente: %1$d, active: %2$d · ↓ %3$s ↑ %4$s</string>
+    <string name="torrents_dht">Noduri DHT: %1$d</string>
+    <string name="torrent_status_stopped">Oprit</string>
+    <string name="torrent_status_queued_verify">În coadă pentru verificare</string>
+    <string name="torrent_status_verifying">Verificare</string>
+    <string name="torrent_status_queued_download">În coadă pentru descărcare</string>
+    <string name="torrent_status_downloading">Se descarcă</string>
+    <string name="torrent_status_queued_seed">În coadă pentru distribuire</string>
+    <string name="torrent_status_seeding">Se distribuie</string>
+    <string name="tunnels_add_tracker">Adaugă un tracker:</string>
+    <string name="tunnels_rpcport_hint">Fără port RPC, ecranul de torrente al aplicației nu este disponibil.</string>
+    <string name="tunnels_rpcport_suggest">Poți folosi portul</string>
 </resources>

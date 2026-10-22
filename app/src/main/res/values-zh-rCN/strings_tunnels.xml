@@ -106,4 +106,34 @@
     <string name="tissue_invalid_value">%1$s：%2$s = %3$s 无效</string>
     <string name="tissue_port_conflict">%1$s：端口 %2$d 也被 %3$s 使用</string>
     <string name="tissue_unread_key">%1$s：i2pd 不会为此隧道类型读取 %2$s</string>
+    <string name="torrents_open">种子</string>
+    <string name="torrents_magnet">磁力链接</string>
+    <string name="torrents_add">添加</string>
+    <string name="torrents_add_file">添加 .torrent 文件</string>
+    <string name="torrents_added">已添加：%1$s</string>
+    <string name="torrents_duplicate">已存在：%1$s</string>
+    <string name="torrents_failed">错误：%1$s</string>
+    <string name="torrents_file_too_large">文件太大，不是 .torrent 文件</string>
+    <string name="torrents_router_stopped">路由器未运行</string>
+    <string name="torrents_unreachable">无法连接隧道的 RPC 服务器（%1$s）。请检查路由器是否运行以及隧道是否已应用。</string>
+    <string name="torrents_empty">暂无种子</string>
+    <string name="torrents_metadata">正在获取元数据</string>
+    <string name="torrents_peers">对等节点 %1$d（↓%2$d ↑%3$d）</string>
+    <string name="torrents_eta">剩余 %1$s</string>
+    <string name="torrents_ratio">分享率 %1$.2f</string>
+    <string name="torrents_reannounce">重新汇报</string>
+    <string name="torrents_remove_confirm">删除 %1$s？</string>
+    <string name="torrents_remove_data">同时删除已下载的文件</string>
+    <string name="torrents_stats">种子：%1$d，活动：%2$d · ↓ %3$s ↑ %4$s</string>
+    <string name="torrents_dht">DHT 节点：%1$d</string>
+    <string name="torrent_status_stopped">已停止</string>
+    <string name="torrent_status_queued_verify">排队校验</string>
+    <string name="torrent_status_verifying">校验中</string>
+    <string name="torrent_status_queued_download">排队下载</string>
+    <string name="torrent_status_downloading">下载中</string>
+    <string name="torrent_status_queued_seed">排队做种</string>
+    <string name="torrent_status_seeding">做种中</string>
+    <string name="tunnels_add_tracker">添加 Tracker：</string>
+    <string name="tunnels_rpcport_hint">没有 RPC 端口，应用中的种子界面不可用。</string>
+    <string name="tunnels_rpcport_suggest">可以使用端口</string>
 </resources>

@@ -106,4 +106,34 @@
     <string name="tissue_invalid_value">%1$s: hindi wasto ang %2$s = %3$s</string>
     <string name="tissue_port_conflict">%1$s: ginagamit din ng %3$s ang port %2$d</string>
     <string name="tissue_unread_key">%1$s: hindi binabasa ng i2pd ang %2$s para sa uri ng tunnel na ito</string>
+    <string name="torrents_open">Mga torrent</string>
+    <string name="torrents_magnet">Magnet link</string>
+    <string name="torrents_add">Idagdag</string>
+    <string name="torrents_add_file">Magdagdag ng .torrent file</string>
+    <string name="torrents_added">Naidagdag: %1$s</string>
+    <string name="torrents_duplicate">Naidagdag na: %1$s</string>
+    <string name="torrents_failed">Error: %1$s</string>
+    <string name="torrents_file_too_large">Masyadong malaki ang file para sa .torrent file</string>
+    <string name="torrents_router_stopped">Hindi tumatakbo ang router</string>
+    <string name="torrents_unreachable">Hindi maabot ang RPC server ng tunnel (%1$s). Tiyaking tumatakbo ang router at nailapat ang mga tunnel.</string>
+    <string name="torrents_empty">Wala pang torrent</string>
+    <string name="torrents_metadata">Kinukuha ang metadata</string>
+    <string name="torrents_peers">mga peer %1$d (↓%2$d ↑%3$d)</string>
+    <string name="torrents_eta">%1$s na lang</string>
+    <string name="torrents_ratio">ratio %1$.2f</string>
+    <string name="torrents_reannounce">I-announce muli</string>
+    <string name="torrents_remove_confirm">Alisin ang %1$s?</string>
+    <string name="torrents_remove_data">Burahin din ang mga na-download na file</string>
+    <string name="torrents_stats">Mga torrent: %1$d, aktibo: %2$d · ↓ %3$s ↑ %4$s</string>
+    <string name="torrents_dht">Mga DHT node: %1$d</string>
+    <string name="torrent_status_stopped">Nakahinto</string>
+    <string name="torrent_status_queued_verify">Nakapila para i-verify</string>
+    <string name="torrent_status_verifying">Vine-verify</string>
+    <string name="torrent_status_queued_download">Nakapila para i-download</string>
+    <string name="torrent_status_downloading">Dina-download</string>
+    <string name="torrent_status_queued_seed">Nakapila para mag-seed</string>
+    <string name="torrent_status_seeding">Nagse-seed</string>
+    <string name="tunnels_add_tracker">Magdagdag ng tracker:</string>
+    <string name="tunnels_rpcport_hint">Kung walang RPC port, hindi magagamit ang torrents screen ng app.</string>
+    <string name="tunnels_rpcport_suggest">Maaari mong gamitin ang port</string>
 </resources>

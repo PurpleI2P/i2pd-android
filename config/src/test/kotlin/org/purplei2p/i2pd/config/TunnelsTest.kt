@@ -200,6 +200,20 @@ class TunnelsTest {
     }
 
     @Test
+    fun `known trackers are added once in the comma separated list`() {
+        val r4sas = "http://opentracker.r4sas.i2p/a"
+        assertEquals(r4sas, TorrentTrackers.add("", r4sas))
+        val two = TorrentTrackers.add("http://tracker.example.i2p/announce", r4sas)
+        assertEquals("http://tracker.example.i2p/announce,$r4sas", two)
+        // Already there, also with spaces or another case: nothing added, the entry stays as written
+        assertEquals(
+            "http://tracker.example.i2p/announce,HTTP://opentracker.r4sas.i2p/a",
+            TorrentTrackers.add("http://tracker.example.i2p/announce, HTTP://opentracker.r4sas.i2p/a", r4sas),
+        )
+        assertEquals(listOf("DgTrack", "Skank", "InsulaOcculta"), TorrentTrackers.missing(two).map { it.first })
+    }
+
+    @Test
     fun `sections can be added, renamed and removed`() {
         val file = TunnelFile.parse("tunnels.conf", "[a]\ntype = client\n# about a\n\n[b]\ntype = server\n")
         file.document.renameSection("a", "first")

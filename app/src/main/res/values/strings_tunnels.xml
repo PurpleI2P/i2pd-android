@@ -112,4 +112,34 @@
     <string name="tissue_invalid_value">%1$s: %2$s = %3$s is not valid</string>
     <string name="tissue_port_conflict">%1$s: port %2$d is also used by %3$s</string>
     <string name="tissue_unread_key">%1$s: i2pd does not read %2$s for this tunnel type</string>
+    <string name="torrents_open">Torrents</string>
+    <string name="torrents_magnet">Magnet link</string>
+    <string name="torrents_add">Add</string>
+    <string name="torrents_add_file">Add .torrent file</string>
+    <string name="torrents_added">Added: %1$s</string>
+    <string name="torrents_duplicate">Already added: %1$s</string>
+    <string name="torrents_failed">Error: %1$s</string>
+    <string name="torrents_file_too_large">The file is too large for a .torrent file</string>
+    <string name="torrents_router_stopped">The router is not running</string>
+    <string name="torrents_unreachable">Cannot reach the RPC server of the tunnel (%1$s). Check that the router is running and the tunnels are applied.</string>
+    <string name="torrents_empty">No torrents yet</string>
+    <string name="torrents_metadata">Getting metadata</string>
+    <string name="torrents_peers">peers %1$d (↓%2$d ↑%3$d)</string>
+    <string name="torrents_eta">%1$s left</string>
+    <string name="torrents_ratio">ratio %1$.2f</string>
+    <string name="torrents_reannounce">Reannounce</string>
+    <string name="torrents_remove_confirm">Remove %1$s?</string>
+    <string name="torrents_remove_data">Also delete downloaded files</string>
+    <string name="torrents_stats">Torrents: %1$d, active: %2$d · ↓ %3$s ↑ %4$s</string>
+    <string name="torrents_dht">DHT nodes: %1$d</string>
+    <string name="torrent_status_stopped">Stopped</string>
+    <string name="torrent_status_queued_verify">Queued to verify</string>
+    <string name="torrent_status_verifying">Verifying</string>
+    <string name="torrent_status_queued_download">Queued to download</string>
+    <string name="torrent_status_downloading">Downloading</string>
+    <string name="torrent_status_queued_seed">Queued to seed</string>
+    <string name="torrent_status_seeding">Seeding</string>
+    <string name="tunnels_add_tracker">Add a tracker:</string>
+    <string name="tunnels_rpcport_hint">Without an RPC port the torrents screen of the app is not available.</string>
+    <string name="tunnels_rpcport_suggest">You can use port</string>
 </resources>

@@ -106,4 +106,34 @@
     <string name="tissue_invalid_value">%1$s: %2$s = %3$s — недопустиме значення</string>
     <string name="tissue_port_conflict">%1$s: порт %2$d також використовує %3$s</string>
     <string name="tissue_unread_key">%1$s: i2pd не читає %2$s для цього типу тунелю</string>
+    <string name="torrents_open">Торенти</string>
+    <string name="torrents_magnet">Magnet-посилання</string>
+    <string name="torrents_add">Додати</string>
+    <string name="torrents_add_file">Додати .torrent-файл</string>
+    <string name="torrents_added">Додано: %1$s</string>
+    <string name="torrents_duplicate">Уже додано: %1$s</string>
+    <string name="torrents_failed">Помилка: %1$s</string>
+    <string name="torrents_file_too_large">Файл завеликий для .torrent-файлу</string>
+    <string name="torrents_router_stopped">Роутер не запущено</string>
+    <string name="torrents_unreachable">Немає зв\'язку з RPC-сервером тунелю (%1$s). Перевірте, що роутер запущено і тунелі застосовано.</string>
+    <string name="torrents_empty">Торентів поки немає</string>
+    <string name="torrents_metadata">Отримання метаданих</string>
+    <string name="torrents_peers">піри %1$d (↓%2$d ↑%3$d)</string>
+    <string name="torrents_eta">залишилось %1$s</string>
+    <string name="torrents_ratio">рейтинг %1$.2f</string>
+    <string name="torrents_reannounce">Переанонсувати</string>
+    <string name="torrents_remove_confirm">Видалити %1$s?</string>
+    <string name="torrents_remove_data">Видалити й завантажені файли</string>
+    <string name="torrents_stats">Торентів: %1$d, активних: %2$d · ↓ %3$s ↑ %4$s</string>
+    <string name="torrents_dht">Вузлів DHT: %1$d</string>
+    <string name="torrent_status_stopped">Зупинено</string>
+    <string name="torrent_status_queued_verify">У черзі на перевірку</string>
+    <string name="torrent_status_verifying">Перевірка</string>
+    <string name="torrent_status_queued_download">У черзі на завантаження</string>
+    <string name="torrent_status_downloading">Завантаження</string>
+    <string name="torrent_status_queued_seed">У черзі на роздачу</string>
+    <string name="torrent_status_seeding">Роздача</string>
+    <string name="tunnels_add_tracker">Додати трекер:</string>
+    <string name="tunnels_rpcport_hint">Без RPC-порту екран торентів у застосунку недоступний.</string>
+    <string name="tunnels_rpcport_suggest">Можна вказати порт</string>
 </resources>

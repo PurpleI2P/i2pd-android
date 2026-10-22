@@ -106,4 +106,34 @@
     <string name="tissue_invalid_value">%1$s: %2$s = %3$s معتبر نیست</string>
     <string name="tissue_port_conflict">%1$s: درگاه %2$d را %3$s هم استفاده می‌کند</string>
     <string name="tissue_unread_key">%1$s: i2pd برای این نوع تونل %2$s را نمی‌خواند</string>
+    <string name="torrents_open">تورنت‌ها</string>
+    <string name="torrents_magnet">پیوند مگنت</string>
+    <string name="torrents_add">افزودن</string>
+    <string name="torrents_add_file">افزودن پروندهٔ ‎.torrent</string>
+    <string name="torrents_added">افزوده شد: %1$s</string>
+    <string name="torrents_duplicate">از قبل افزوده شده: %1$s</string>
+    <string name="torrents_failed">خطا: %1$s</string>
+    <string name="torrents_file_too_large">پرونده برای یک پروندهٔ ‎.torrent بیش از حد بزرگ است</string>
+    <string name="torrents_router_stopped">روتر اجرا نمی‌شود</string>
+    <string name="torrents_unreachable">دسترسی به سرور RPC تونل ممکن نیست (%1$s). بررسی کنید روتر در حال اجرا است و تونل‌ها اعمال شده‌اند.</string>
+    <string name="torrents_empty">هنوز تورنتی نیست</string>
+    <string name="torrents_metadata">در حال دریافت فراداده</string>
+    <string name="torrents_peers">همتایان %1$d (↓%2$d ↑%3$d)</string>
+    <string name="torrents_eta">%1$s مانده</string>
+    <string name="torrents_ratio">نسبت %1$.2f</string>
+    <string name="torrents_reannounce">اعلام دوباره</string>
+    <string name="torrents_remove_confirm">%1$s حذف شود؟</string>
+    <string name="torrents_remove_data">پرونده‌های بارگیری‌شده هم حذف شوند</string>
+    <string name="torrents_stats">تورنت‌ها: %1$d، فعال: %2$d · ↓ %3$s ↑ %4$s</string>
+    <string name="torrents_dht">گره‌های DHT: %1$d</string>
+    <string name="torrent_status_stopped">متوقف</string>
+    <string name="torrent_status_queued_verify">در صف بررسی</string>
+    <string name="torrent_status_verifying">در حال بررسی</string>
+    <string name="torrent_status_queued_download">در صف بارگیری</string>
+    <string name="torrent_status_downloading">در حال بارگیری</string>
+    <string name="torrent_status_queued_seed">در صف اشتراک‌گذاری</string>
+    <string name="torrent_status_seeding">در حال اشتراک‌گذاری</string>
+    <string name="tunnels_add_tracker">افزودن ردیاب:</string>
+    <string name="tunnels_rpcport_hint">بدون درگاه RPC صفحهٔ تورنت‌های برنامه در دسترس نیست.</string>
+    <string name="tunnels_rpcport_suggest">می‌توانید از این درگاه استفاده کنید</string>
 </resources>
