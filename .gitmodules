@@ -4,7 +4,7 @@
 [submodule "i2pd"]
 	path = binary/jni/i2pd
 	url = https://github.com/PurpleI2P/i2pd.git
-	branch = openssl
+	branch = 3.0.0-1
 [submodule "miniupnp"]
 	path = binary/jni/miniupnp
 	url = https://github.com/miniupnp/miniupnp.git
