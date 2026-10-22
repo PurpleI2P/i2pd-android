@@ -21,6 +21,7 @@ import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -60,6 +61,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.purplei2p.i2pd.config.CommentedTunnel
+import org.purplei2p.i2pd.config.TorrentTrackers
 import org.purplei2p.i2pd.config.TunnelFile
 import org.purplei2p.i2pd.config.TunnelInfo
 import org.purplei2p.i2pd.config.TunnelIssue
@@ -74,7 +76,7 @@ import org.purplei2p.i2pd.service.TunnelSet
 
 /** Where the tunnels tab is: the list, a tunnel form (existing or new) or a raw file editor. */
 private data class TunnelsPage(val kind: Kind, val path: String = "", val name: String = "", val type: String = "") {
-    enum class Kind { LIST, EDIT, NEW, RAW }
+    enum class Kind { LIST, EDIT, NEW, RAW, TORRENTS }
 
     companion object {
         val LIST = TunnelsPage(Kind.LIST)
@@ -155,6 +157,11 @@ fun TunnelsScreen(modifier: Modifier = Modifier) {
                 // Empty path: a new file in tunnels.d
                 target = page.path.takeIf { it.isNotEmpty() }?.let { set.file(it) },
             )
+            TunnelsPage.Kind.TORRENTS -> {
+                val info = set.file(page.path)?.get(page.name)
+                if (info == null) LaunchedEffect(Unit) { page = TunnelsPage.LIST }
+                else TorrentsScreen(info, onBack = { page = TunnelsPage.LIST })
+            }
             TunnelsPage.Kind.RAW -> TunnelFileEditor(session, page.path, onClose = { page = TunnelsPage.LIST })
         }
     }
@@ -225,6 +232,7 @@ private fun TunnelList(set: TunnelSet, session: TunnelsSession, onOpen: (Tunnels
                                 is TunnelInfo -> TunnelRow(
                                     set, file, tunnel, fileIssues.filter { it.tunnel == tunnel.name },
                                     onClick = { onOpen(TunnelsPage(TunnelsPage.Kind.EDIT, file.path, tunnel.name)) },
+                                    onTorrents = { onOpen(TunnelsPage(TunnelsPage.Kind.TORRENTS, file.path, tunnel.name)) },
                                     onDisable = {
                                         if (tunnel.dependents.isNotEmpty()) disablingPrimary = file.path to tunnel
                                         else session.run({ session.tunnels.setTunnelEnabled(file.path, tunnel.name, false) })
@@ -324,7 +332,15 @@ private fun CommentedTunnelRow(tunnel: CommentedTunnel, onEnable: () -> Unit) {
 }
 
 @Composable
-private fun TunnelRow(set: TunnelSet, file: TunnelFile, info: TunnelInfo, issues: List<TunnelIssue>, onClick: () -> Unit, onDisable: () -> Unit) {
+private fun TunnelRow(
+    set: TunnelSet,
+    file: TunnelFile,
+    info: TunnelInfo,
+    issues: List<TunnelIssue>,
+    onClick: () -> Unit,
+    onDisable: () -> Unit,
+    onTorrents: () -> Unit,
+) {
     Column(Modifier.fillMaxWidth().clickable(onClick = onClick).padding(horizontal = 16.dp, vertical = 4.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(info.name, fontWeight = FontWeight.Medium, modifier = Modifier.weight(1f))
@@ -345,6 +361,10 @@ private fun TunnelRow(set: TunnelSet, file: TunnelFile, info: TunnelInfo, issues
             Text(stringResource(R.string.tunnels_i2cp_from, it), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
         issues.forEach { IssueText(it, padding = false) }
+        // The client needs the RPC server: only with a port
+        if (info.type == TunnelType.TORRENTS && (info.values["rpcport"]?.toIntOrNull() ?: 0) > 0) {
+            OutlinedButton(onClick = onTorrents) { Text(stringResource(R.string.torrents_open)) }
+        }
     }
 }
 
@@ -392,7 +412,11 @@ private fun TunnelForm(
         mutableStateMapOf<String, String>().apply {
             info?.values?.forEach { (k, v) -> if (k in formKeys) put(k, v) }
             // A new torrents tunnel downloads into the private data directory: no storage permission needed
-            if (info == null && type == TunnelType.TORRENTS) put("torrentsdir", torrentsDirDefault(context))
+            if (info == null && type == TunnelType.TORRENTS) {
+                put("torrentsdir", torrentsDirDefault(context))
+                // Without a leading "/": i2pd prepends one itself, the RPC is then at /transmission/rpc
+                put("rpcpath", "transmission")
+            }
         }
     }
     val others = remember { mutableStateListOf<Pair<String, String>>().apply { info?.values?.forEach { (k, v) -> if (k !in formKeys) add(k to v) } } }
@@ -449,7 +473,11 @@ private fun TunnelForm(
             supportingText = { nameError?.let { Text(stringResource(it)) } },
             modifier = Modifier.fillMaxWidth(),
         )
-        mainParams.forEach { param -> ParamField(type, param, values, paramErrors[param.key]) }
+        mainParams.forEach { param ->
+            ParamField(type, param, values, paramErrors[param.key])
+            if (type == TunnelType.TORRENTS && param.key == "trackers") TrackerButtons(values)
+            if (type == TunnelType.TORRENTS && param.key == "rpcport") RpcPortHint(values)
+        }
 
         val keys = values["keys"].orEmpty()
         if (keys.isNotEmpty() && TunnelFile.isSharedKeys(keys)) {
@@ -560,6 +588,35 @@ private suspend fun saveTunnel(
     current.keys.filter { key -> others.none { it.first == key } }.forEach { file.remove(name, it) }
     for ((key, value) in others) if (current[key] != value) file.set(name, key, value)
     tunnels.save(file)
+}
+
+/** Without an RPC port the torrents screen cannot connect: says so and offers 9191 with a tap. */
+@Composable
+private fun RpcPortHint(values: MutableMap<String, String>) {
+    if ((values["rpcport"]?.toIntOrNull() ?: 0) > 0) return
+    Text(stringResource(R.string.tunnels_rpcport_hint), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.error)
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Text(stringResource(R.string.tunnels_rpcport_suggest), style = MaterialTheme.typography.bodySmall)
+        TextButton(onClick = { values["rpcport"] = SUGGESTED_RPC_PORT }) { Text(SUGGESTED_RPC_PORT) }
+    }
+}
+
+private const val SUGGESTED_RPC_PORT = "9191"
+
+/** One button per well-known tracker not in the list yet; a tap appends it ("a,b,c", no spaces). */
+@Composable
+private fun TrackerButtons(values: MutableMap<String, String>) {
+    val missing = TorrentTrackers.missing(values["trackers"].orEmpty())
+    if (missing.isEmpty()) return
+    Text(stringResource(R.string.tunnels_add_tracker), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+    FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        missing.forEach { (name, url) ->
+            AssistChip(
+                onClick = { values["trackers"] = TorrentTrackers.add(values["trackers"].orEmpty(), url) },
+                label = { Text("+ $name") },
+            )
+        }
+    }
 }
 
 /**

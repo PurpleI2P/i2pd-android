@@ -106,4 +106,34 @@
     <string name="tissue_invalid_value">%1$s: %2$s = %3$s ne validas</string>
     <string name="tissue_port_conflict">%1$s: pordon %2$d uzas ankaŭ %3$s</string>
     <string name="tissue_unread_key">%1$s: i2pd ne legas %2$s por ĉi tiu tipo de tunelo</string>
+    <string name="torrents_open">Torentoj</string>
+    <string name="torrents_magnet">Magnet-ligilo</string>
+    <string name="torrents_add">Aldoni</string>
+    <string name="torrents_add_file">Aldoni .torrent-dosieron</string>
+    <string name="torrents_added">Aldonita: %1$s</string>
+    <string name="torrents_duplicate">Jam aldonita: %1$s</string>
+    <string name="torrents_failed">Eraro: %1$s</string>
+    <string name="torrents_file_too_large">La dosiero estas tro granda por .torrent-dosiero</string>
+    <string name="torrents_router_stopped">La enkursigilo ne funkcias</string>
+    <string name="torrents_unreachable">Ne eblas atingi la RPC-servilon de la tunelo (%1$s). Kontrolu, ke la enkursigilo funkcias kaj la tuneloj estas aplikitaj.</string>
+    <string name="torrents_empty">Ankoraŭ neniuj torentoj</string>
+    <string name="torrents_metadata">Ricevado de metadatumoj</string>
+    <string name="torrents_peers">samtavolanoj %1$d (↓%2$d ↑%3$d)</string>
+    <string name="torrents_eta">restas %1$s</string>
+    <string name="torrents_ratio">proporcio %1$.2f</string>
+    <string name="torrents_reannounce">Reanonci</string>
+    <string name="torrents_remove_confirm">Ĉu forigi %1$s?</string>
+    <string name="torrents_remove_data">Forigi ankaŭ la elŝutitajn dosierojn</string>
+    <string name="torrents_stats">Torentoj: %1$d, aktivaj: %2$d · ↓ %3$s ↑ %4$s</string>
+    <string name="torrents_dht">DHT-nodoj: %1$d</string>
+    <string name="torrent_status_stopped">Haltigita</string>
+    <string name="torrent_status_queued_verify">En vico por kontrolo</string>
+    <string name="torrent_status_verifying">Kontrolado</string>
+    <string name="torrent_status_queued_download">En vico por elŝuto</string>
+    <string name="torrent_status_downloading">Elŝutado</string>
+    <string name="torrent_status_queued_seed">En vico por disdono</string>
+    <string name="torrent_status_seeding">Disdonado</string>
+    <string name="tunnels_add_tracker">Aldoni spurilon:</string>
+    <string name="tunnels_rpcport_hint">Sen RPC-pordo la torenta ekrano de la aplikaĵo ne disponeblas.</string>
+    <string name="tunnels_rpcport_suggest">Vi povas uzi la pordon</string>
 </resources>

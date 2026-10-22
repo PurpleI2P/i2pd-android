@@ -106,4 +106,34 @@
     <string name="tissue_invalid_value">%1$s: %2$s = %3$s मान्य नहीं है</string>
     <string name="tissue_port_conflict">%1$s: पोर्ट %2$d का उपयोग %3$s भी करता है</string>
     <string name="tissue_unread_key">%1$s: i2pd इस टनल प्रकार के लिए %2$s नहीं पढ़ता</string>
+    <string name="torrents_open">टोरेंट</string>
+    <string name="torrents_magnet">मैग्नेट लिंक</string>
+    <string name="torrents_add">जोड़ें</string>
+    <string name="torrents_add_file">.torrent फ़ाइल जोड़ें</string>
+    <string name="torrents_added">जोड़ा गया: %1$s</string>
+    <string name="torrents_duplicate">पहले से जोड़ा गया: %1$s</string>
+    <string name="torrents_failed">त्रुटि: %1$s</string>
+    <string name="torrents_file_too_large">फ़ाइल .torrent फ़ाइल के लिए बहुत बड़ी है</string>
+    <string name="torrents_router_stopped">राउटर नहीं चल रहा है</string>
+    <string name="torrents_unreachable">टनल के RPC सर्वर से संपर्क नहीं हो सका (%1$s)। जाँचें कि राउटर चल रहा है और टनल लागू हैं।</string>
+    <string name="torrents_empty">अभी कोई टोरेंट नहीं</string>
+    <string name="torrents_metadata">मेटाडेटा प्राप्त हो रहा है</string>
+    <string name="torrents_peers">पीयर %1$d (↓%2$d ↑%3$d)</string>
+    <string name="torrents_eta">%1$s बाकी</string>
+    <string name="torrents_ratio">अनुपात %1$.2f</string>
+    <string name="torrents_reannounce">फिर से घोषित करें</string>
+    <string name="torrents_remove_confirm">%1$s हटाएँ?</string>
+    <string name="torrents_remove_data">डाउनलोड की गई फ़ाइलें भी हटाएँ</string>
+    <string name="torrents_stats">टोरेंट: %1$d, सक्रिय: %2$d · ↓ %3$s ↑ %4$s</string>
+    <string name="torrents_dht">DHT नोड: %1$d</string>
+    <string name="torrent_status_stopped">रुका हुआ</string>
+    <string name="torrent_status_queued_verify">जाँच की कतार में</string>
+    <string name="torrent_status_verifying">जाँच हो रही है</string>
+    <string name="torrent_status_queued_download">डाउनलोड की कतार में</string>
+    <string name="torrent_status_downloading">डाउनलोड हो रहा है</string>
+    <string name="torrent_status_queued_seed">सीडिंग की कतार में</string>
+    <string name="torrent_status_seeding">सीडिंग</string>
+    <string name="tunnels_add_tracker">ट्रैकर जोड़ें:</string>
+    <string name="tunnels_rpcport_hint">RPC पोर्ट के बिना ऐप की टोरेंट स्क्रीन उपलब्ध नहीं है।</string>
+    <string name="tunnels_rpcport_suggest">आप यह पोर्ट उपयोग कर सकते हैं</string>
 </resources>

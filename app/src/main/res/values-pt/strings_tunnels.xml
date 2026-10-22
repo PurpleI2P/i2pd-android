@@ -106,4 +106,34 @@
     <string name="tissue_invalid_value">%1$s: %2$s = %3$s não é válido</string>
     <string name="tissue_port_conflict">%1$s: a porta %2$d também é usada por %3$s</string>
     <string name="tissue_unread_key">%1$s: o i2pd não lê %2$s para este tipo de túnel</string>
+    <string name="torrents_open">Torrents</string>
+    <string name="torrents_magnet">Link magnet</string>
+    <string name="torrents_add">Adicionar</string>
+    <string name="torrents_add_file">Adicionar arquivo .torrent</string>
+    <string name="torrents_added">Adicionado: %1$s</string>
+    <string name="torrents_duplicate">Já adicionado: %1$s</string>
+    <string name="torrents_failed">Erro: %1$s</string>
+    <string name="torrents_file_too_large">Arquivo grande demais para um .torrent</string>
+    <string name="torrents_router_stopped">O roteador não está em execução</string>
+    <string name="torrents_unreachable">Não foi possível alcançar o servidor RPC do túnel (%1$s). Verifique se o roteador está rodando e os túneis aplicados.</string>
+    <string name="torrents_empty">Nenhum torrent ainda</string>
+    <string name="torrents_metadata">Obtendo metadados</string>
+    <string name="torrents_peers">pares %1$d (↓%2$d ↑%3$d)</string>
+    <string name="torrents_eta">faltam %1$s</string>
+    <string name="torrents_ratio">proporção %1$.2f</string>
+    <string name="torrents_reannounce">Reanunciar</string>
+    <string name="torrents_remove_confirm">Remover %1$s?</string>
+    <string name="torrents_remove_data">Excluir também os arquivos baixados</string>
+    <string name="torrents_stats">Torrents: %1$d, ativos: %2$d · ↓ %3$s ↑ %4$s</string>
+    <string name="torrents_dht">Nós DHT: %1$d</string>
+    <string name="torrent_status_stopped">Parado</string>
+    <string name="torrent_status_queued_verify">Na fila para verificar</string>
+    <string name="torrent_status_verifying">Verificando</string>
+    <string name="torrent_status_queued_download">Na fila para baixar</string>
+    <string name="torrent_status_downloading">Baixando</string>
+    <string name="torrent_status_queued_seed">Na fila para semear</string>
+    <string name="torrent_status_seeding">Semeando</string>
+    <string name="tunnels_add_tracker">Adicionar um tracker:</string>
+    <string name="tunnels_rpcport_hint">Sem porta RPC, a tela de torrents do app não fica disponível.</string>
+    <string name="tunnels_rpcport_suggest">Você pode usar a porta</string>
 </resources>

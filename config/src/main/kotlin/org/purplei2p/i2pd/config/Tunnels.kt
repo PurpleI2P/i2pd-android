@@ -151,6 +151,8 @@ object TunnelParams {
             bool("dht", "true"),
             // RPC server only with a port; "web" serves the files of <datadir>/torrents/web through it
             port("rpcport", default = "0", min = 0),
+            // i2pd serves "/" + rpcpath + "/rpc": "transmission" gives the usual /transmission/rpc
+            text("rpcpath", default = ""),
             text("rpcaddress", default = "127.0.0.1"),
             bool("rpcauth", "false"),
             text("rpcuser", default = ""),
@@ -158,7 +160,6 @@ object TunnelParams {
             bool("web", "true"),
             signatureType,
             text("dhtfile", default = "", level = ADV),
-            text("rpcpath", default = "", level = ADV),
         )
     }
 
@@ -510,4 +511,34 @@ object SharedDestinations {
         }
         return users.filterValues { it.size > 1 }
     }
+}
+
+/**
+ * Well-known I2P trackers offered in the form of a torrents tunnel. "trackers" lists announce URLs
+ * separated by commas without spaces.
+ */
+object TorrentTrackers {
+    val KNOWN: List<Pair<String, String>> = listOf(
+        "DgTrack" to "http://opentracker.dg2.i2p/a",
+        "R4SAS" to "http://opentracker.r4sas.i2p/a",
+        "Skank" to "http://opentracker.skank.i2p/a",
+        "InsulaOcculta" to "http://tracker.insulaocculta.i2p/a",
+    )
+
+    fun parse(trackers: String): List<String> = trackers.split(',').map { it.trim() }.filter { it.isNotEmpty() }
+
+    /** Known trackers not in [trackers] yet (compared without case and a trailing "/"). */
+    fun missing(trackers: String): List<Pair<String, String>> {
+        val present = parse(trackers).map(::normalize).toSet()
+        return KNOWN.filter { normalize(it.second) !in present }
+    }
+
+    /** [trackers] with [url] appended, in the "a,b,c" form; unchanged if it is already there. */
+    fun add(trackers: String, url: String): String {
+        val list = parse(trackers)
+        if (list.any { normalize(it) == normalize(url) }) return list.joinToString(",")
+        return (list + url).joinToString(",")
+    }
+
+    private fun normalize(url: String) = url.trim().trimEnd('/').lowercase()
 }
