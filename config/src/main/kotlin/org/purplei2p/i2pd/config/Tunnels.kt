@@ -17,8 +17,8 @@ enum class TunnelType(val id: String, val kind: Kind, val creatable: Boolean = t
     /** Deprecated in i2pd: such tunnels are not started. */
     WEBSOCKS("websocks", Kind.CLIENT, creatable = false),
 
-    /** Needs a directory for torrents, so it is edited as is, not created from the form. */
-    TORRENTS("torrents", Kind.OTHER, creatable = false);
+    /** BitTorrent client of i2pd 3.0 with an optional Transmission-compatible RPC server. */
+    TORRENTS("torrents", Kind.OTHER);
 
     enum class Kind { CLIENT, SERVER, OTHER }
 
@@ -29,7 +29,13 @@ enum class TunnelType(val id: String, val kind: Kind, val creatable: Boolean = t
 
 enum class TunnelParamKind { TEXT, PORT, BOOL, NUMBER, DESTINATION, KEYS, SIGNATURE_TYPE }
 
-/** A tunnel parameter with the default i2pd uses when it is not set. */
+/** Where a parameter is shown in the tunnel form: right away or in its "additional" part. */
+enum class TunnelParamLevel { MAIN, ADVANCED }
+
+/**
+ * A tunnel parameter with the default i2pd uses when it is not set. [serverDefault] differs for
+ * tunnels whose I2CP options are read as a server's (server types and torrents).
+ */
 data class TunnelParam(
     val key: String,
     val kind: TunnelParamKind,
@@ -37,28 +43,78 @@ data class TunnelParam(
     val default: String? = null,
     val min: Long = 0,
     val max: Long = 65535,
-)
+    val level: TunnelParamLevel = TunnelParamLevel.MAIN,
+    val serverDefault: String? = null,
+) {
+    fun defaultFor(type: TunnelType): String? =
+        if (serverDefault != null && TunnelParams.readsAsServer(type)) serverDefault else default
+}
 
-/** Parameters shown in tunnel forms; everything else is kept and shown as "other parameters". */
+/**
+ * Every parameter ClientContext::ReadTunnels reads for a tunnel type, with the defaults of the i2pd
+ * code (TunnelSourcesTest checks the list against the sources of the submodule). Parameters the form
+ * does not know are kept and shown as "other parameters"; keys i2pd does not read are reported.
+ */
 object TunnelParams {
-    private fun text(key: String, required: Boolean = false, default: String? = null) = TunnelParam(key, TunnelParamKind.TEXT, required, default)
-    private fun port(key: String, required: Boolean = false, default: String? = null, min: Long = 1) =
-        TunnelParam(key, TunnelParamKind.PORT, required, default, min = min)
-    private fun bool(key: String, default: String) = TunnelParam(key, TunnelParamKind.BOOL, default = default)
-    private fun number(key: String, default: String, min: Long, max: Long) = TunnelParam(key, TunnelParamKind.NUMBER, default = default, min = min, max = max)
+    private fun text(key: String, required: Boolean = false, default: String? = null, level: TunnelParamLevel = TunnelParamLevel.MAIN) =
+        TunnelParam(key, TunnelParamKind.TEXT, required, default, level = level)
+    private fun port(key: String, required: Boolean = false, default: String? = null, min: Long = 1, level: TunnelParamLevel = TunnelParamLevel.MAIN) =
+        TunnelParam(key, TunnelParamKind.PORT, required, default, min = min, level = level)
+    private fun bool(key: String, default: String, level: TunnelParamLevel = TunnelParamLevel.MAIN, serverDefault: String? = null) =
+        TunnelParam(key, TunnelParamKind.BOOL, default = default, level = level, serverDefault = serverDefault)
+    private fun number(key: String, default: String, min: Long, max: Long, level: TunnelParamLevel = TunnelParamLevel.MAIN) =
+        TunnelParam(key, TunnelParamKind.NUMBER, default = default, min = min, max = max, level = level)
+
+    private val ADV = TunnelParamLevel.ADVANCED
+    private const val UNLIMITED = Int.MAX_VALUE.toLong()
 
     private val keysTransient = TunnelParam("keys", TunnelParamKind.KEYS, default = "transient")
     private val keysRequired = TunnelParam("keys", TunnelParamKind.KEYS, required = true)
+    private val signatureType = TunnelParam("signaturetype", TunnelParamKind.SIGNATURE_TYPE, default = "7", level = ADV)
+    private val cryptoType = text("cryptotype", default = "0", level = ADV)
 
-    fun main(type: TunnelType): List<TunnelParam> = when (type) {
-        TunnelType.CLIENT, TunnelType.UDP_CLIENT -> listOf(
+    // Client tunnels: socks and httpproxy read the same section fields as client
+    private val clientAdvanced = listOf(
+        signatureType,
+        cryptoType,
+        bool("matchtunnels", "false", ADV),
+    )
+    private val tcpClientAdvanced = listOf(
+        number("connecttimeout", "0", 0, UNLIMITED, ADV),
+        number("i2cp.closeIdleTime", "0", 0, UNLIMITED, ADV),
+        bool("i2cp.newDestOnResume", "false", ADV),
+    )
+    private val keepAlive = number("keepaliveinterval", "0", 0, UNLIMITED, ADV)
+    private val maxWindow = number("maxwindow", "1000", 500, 8192, ADV)
+
+    /** Parameters of [type], main and additional, I2CP options apart. */
+    fun params(type: TunnelType): List<TunnelParam> = when (type) {
+        TunnelType.CLIENT -> listOf(
             TunnelParam("destination", TunnelParamKind.DESTINATION, required = true),
             port("destinationport", default = "0", min = 0),
             text("address", default = "127.0.0.1"),
             port("port", required = true),
             keysTransient,
+        ) + clientAdvanced + keepAlive + tcpClientAdvanced
+        TunnelType.UDP_CLIENT -> listOf(
+            TunnelParam("destination", TunnelParamKind.DESTINATION, required = true),
+            port("destinationport", default = "0", min = 0),
+            text("address", default = "127.0.0.1"),
+            port("port", required = true),
+            keysTransient,
+        ) + clientAdvanced + listOf(
+            keepAlive,
+            bool("gzip", "true", ADV),
+            number("datagramversion", "3", 1, 3, ADV),
+            maxWindow,
         )
-        TunnelType.SOCKS -> listOf(text("address", default = "127.0.0.1"), port("port", required = true), keysTransient, text("outproxy", default = ""))
+        TunnelType.SOCKS -> listOf(
+            text("address", default = "127.0.0.1"),
+            port("port", required = true),
+            keysTransient,
+            text("outproxy", default = ""),
+            port("destinationport", default = "0", min = 0, level = ADV),
+        ) + clientAdvanced + tcpClientAdvanced
         TunnelType.HTTP_PROXY -> listOf(
             text("address", default = "127.0.0.1"),
             port("port", required = true),
@@ -66,7 +122,7 @@ object TunnelParams {
             text("outproxy", default = ""),
             bool("addresshelper", "true"),
             bool("senduseragent", "false"),
-        )
+        ) + clientAdvanced + tcpClientAdvanced
         TunnelType.SERVER, TunnelType.HTTP, TunnelType.IRC, TunnelType.UDP_SERVER -> buildList {
             add(text("host", required = true))
             add(port("port", required = true))
@@ -79,12 +135,38 @@ object TunnelParams {
             }
             if (type == TunnelType.IRC) add(text("webircpassword", default = ""))
             if (type != TunnelType.UDP_SERVER) add(bool("ssl", "false"))
+            add(signatureType)
+            add(cryptoType)
+            add(bool("gzip", "false", ADV))
+            add(text("address", default = "", level = ADV))
+            add(bool("enableuniquelocal", "true", ADV))
+            if (type == TunnelType.UDP_SERVER) add(maxWindow)
         }
-        TunnelType.WEBSOCKS -> listOf(text("address", default = "127.0.0.1"), port("port", required = true), keysTransient)
-        TunnelType.TORRENTS -> listOf(text("torrentsdir", required = true), keysTransient, text("trackers", default = ""))
+        // Not started by i2pd any more, read like a client tunnel
+        TunnelType.WEBSOCKS -> listOf(text("address", default = "127.0.0.1"), port("port", required = true), keysTransient) + clientAdvanced
+        TunnelType.TORRENTS -> listOf(
+            text("torrentsdir", required = true),
+            keysTransient,
+            text("trackers", default = ""),
+            bool("dht", "true"),
+            // RPC server only with a port; "web" serves the files of <datadir>/torrents/web through it
+            port("rpcport", default = "0", min = 0),
+            text("rpcaddress", default = "127.0.0.1"),
+            bool("rpcauth", "false"),
+            text("rpcuser", default = ""),
+            text("rpcpass", default = ""),
+            bool("web", "true"),
+            signatureType,
+            text("dhtfile", default = "", level = ADV),
+            text("rpcpath", default = "", level = ADV),
+        )
     }
 
-    /** I2CP options read for every tunnel (ClientContext::ReadI2CPOptions), most common first. */
+    fun main(type: TunnelType): List<TunnelParam> = params(type).filter { it.level == TunnelParamLevel.MAIN }
+
+    fun advanced(type: TunnelType): List<TunnelParam> = params(type).filter { it.level == TunnelParamLevel.ADVANCED }
+
+    /** I2CP options read for every tunnel (ClientContext::ReadI2CPOptions), most common ones in the main part. */
     val i2cp: List<TunnelParam> = listOf(
         number("inbound.length", "3", 0, 8),
         number("inbound.quantity", "5", 1, 16),
@@ -93,19 +175,54 @@ object TunnelParams {
         number("inbound.lengthVariance", "0", -3, 3),
         number("outbound.lengthVariance", "0", -3, 3),
         text("i2cp.leaseSetType", default = "3"),
-        text("i2cp.leaseSetEncType", default = ""),
-        bool("i2cp.dontPublishLeaseSet", "false"),
+        TunnelParam("i2cp.leaseSetEncType", TunnelParamKind.TEXT, default = "6,4,0", serverDefault = "6,4"),
+        number("i2cp.leaseSetAuthType", "0", 0, 2, ADV),
+        text("i2cp.leaseSetPrivKey", default = "", level = ADV),
+        text("explicitPeers", default = "", level = ADV),
+        text("trustedRouters", default = "", level = ADV),
+        text("inbound.randomKey", default = "", level = ADV),
+        text("outbound.randomKey", default = "", level = ADV),
+        number("latency.min", "0", 0, UNLIMITED, ADV),
+        number("latency.max", "0", 0, UNLIMITED, ADV),
+        number("crypto.tagsToSend", "40", 1, UNLIMITED, ADV),
+        text("crypto.ratchet.inboundTags", default = "", level = ADV),
+        number("i2p.streaming.initialAckDelay", "200", 0, UNLIMITED, ADV),
+        number("i2p.streaming.maxOutboundSpeed", "1730000000", 0, UNLIMITED, ADV),
+        number("i2p.streaming.maxInboundSpeed", "1730000000", 0, UNLIMITED, ADV),
+        number("i2p.streaming.maxConcurrentStreams", "2048", 0, UNLIMITED, ADV),
+        number("i2p.streaming.maxConnsPerMinute", "0", 0, UNLIMITED, ADV),
+        bool("i2p.streaming.answerPings", "false", ADV, serverDefault = "true"),
+        bool("i2p.streaming.dontSign", "false", ADV),
+        number("i2p.streaming.profile", "1", 1, 2, ADV),
+        number("i2p.streaming.maxWindowSize", "512", 1, UNLIMITED, ADV),
+        number("i2p.streaming.maxResends", "10", 1, UNLIMITED, ADV),
     )
+
+    /** Client authorization keys of an encrypted lease set: i2cp.leaseSetClient.dh.<n> and .psk.<n>. */
+    val I2CP_GROUPS = listOf("i2cp.leaseSetClient.dh", "i2cp.leaseSetClient.psk")
+
+    /** Read by i2pd, not shown in the form: old name of accesslist, used when accesslist is empty. */
+    private val HIDDEN_SERVER = setOf("whitelist")
+
+    /** ReadI2CPOptions is called with isServer for server tunnels and torrents. */
+    fun readsAsServer(type: TunnelType): Boolean = type.kind == TunnelType.Kind.SERVER || type == TunnelType.TORRENTS
+
+    /** Keys handled by the form of [type]; "type" itself is not editable. */
+    fun formKeys(type: TunnelType): Set<String> = (params(type) + i2cp).map { it.key }.toSet() + "type"
+
+    /** Whether i2pd reads [key] for a tunnel of [type]. */
+    fun isRead(type: TunnelType, key: String): Boolean =
+        key in formKeys(type) || I2CP_GROUPS.any { key.startsWith(it) } ||
+            (type.kind == TunnelType.Kind.SERVER && key in HIDDEN_SERVER)
+
+    /** Every key read for some tunnel type, group prefixes included: compared with the i2pd sources. */
+    val allKeys: Set<String>
+        get() = TunnelType.entries.flatMap { formKeys(it) }.toSet() + I2CP_GROUPS + HIDDEN_SERVER
 
     /**
      * Signature types i2pd generates keys for: RSA (4..6) and EdDSA-ph (8) silently become DSA (0).
-     * Checked although not in the form.
      */
     val SIGNATURE_TYPES = setOf(0L, 1L, 2L, 3L, 7L, 9L, 10L, 11L)
-    val checkedOther: List<TunnelParam> = listOf(TunnelParam("signaturetype", TunnelParamKind.SIGNATURE_TYPE))
-
-    /** Keys handled by the form of [type]; "type" itself is not editable. */
-    fun formKeys(type: TunnelType): Set<String> = (main(type) + i2cp).map { it.key }.toSet() + "type"
 }
 
 /**
@@ -122,9 +239,16 @@ data class TunnelInfo(
     val sharesDestinationWith: String?,
     /** Later tunnels of the same file taking the destination (and I2CP options) of this one. */
     val dependents: List<String>,
+    /** Line of the section header, to order tunnels with commented ones as in the file. */
+    val line: Int = 0,
 ) {
     val type: TunnelType? get() = TunnelType.of(typeName)
     val keys: String? get() = values["keys"]
+}
+
+/** A tunnel switched off by commenting out its lines ("#[name]", "#type = client", ...). */
+data class CommentedTunnel(val name: String, val values: Map<String, String>, val line: Int) {
+    val type: TunnelType? get() = TunnelType.of(values["type"])
 }
 
 sealed interface TunnelIssue {
@@ -141,6 +265,9 @@ sealed interface TunnelIssue {
 
     /** Several enabled tunnels (or main config services) listen on one local port. */
     data class PortConflict(override val file: String, val section: String, val port: Int, val others: List<String>) : TunnelIssue
+
+    /** A key i2pd does not read for this tunnel type: a typo or an option of another type, ignored. */
+    data class UnreadKey(override val file: String, val section: String, val key: String) : TunnelIssue
 }
 
 /**
@@ -170,9 +297,28 @@ class TunnelFile(val path: String, val document: IniDocument) {
                 }
             }
             return byName.map { (name, values) ->
-                TunnelInfo(name, values["type"], values, shares[name], dependents[name].orEmpty())
+                TunnelInfo(name, values["type"], values, shares[name], dependents[name].orEmpty(), document.sectionLine(name))
             }
         }
+
+    /** Tunnels switched off by commenting out their section; i2pd does not see them. */
+    val commentedTunnels: List<CommentedTunnel>
+        get() = document.commentedSections.map { section ->
+            CommentedTunnel(section.name, section.entries.groupBy({ it.first }, { it.second }).mapValues { it.value.first() }, section.lines.first)
+        }
+
+    /** Names of all tunnels of the file, commented ones included: a new tunnel must not repeat them. */
+    val allNames: Set<String> get() = tunnels.map { it.name }.toSet() + commentedTunnels.map { it.name }
+
+    /** Switches tunnel [name] off by commenting out its section, which keeps the order of the file. */
+    fun commentOut(name: String): Boolean = document.commentOutSection(name)
+
+    /** Switches the commented tunnel [name] on again (the first one with this name). */
+    fun uncomment(name: String): Boolean {
+        val section = document.commentedSections.firstOrNull { it.name == name } ?: return false
+        document.uncommentSection(section)
+        return true
+    }
 
     operator fun get(name: String): TunnelInfo? = tunnels.firstOrNull { it.name == name }
 
@@ -202,13 +348,17 @@ class TunnelFile(val path: String, val document: IniDocument) {
             when {
                 tunnel.typeName == null -> issues += TunnelIssue.MissingType(path, tunnel.name)
                 type == null -> issues += TunnelIssue.UnknownType(path, tunnel.name, tunnel.typeName)
-                else -> for (param in TunnelParams.main(type) + TunnelParams.i2cp + TunnelParams.checkedOther) {
-                    val value = tunnel.values[param.key]
-                    if (value == null) {
-                        if (param.required) issues += TunnelIssue.MissingParam(path, tunnel.name, param.key)
-                        continue
+                else -> {
+                    for (param in TunnelParams.params(type) + TunnelParams.i2cp) {
+                        val value = tunnel.values[param.key]
+                        if (value == null) {
+                            if (param.required) issues += TunnelIssue.MissingParam(path, tunnel.name, param.key)
+                            continue
+                        }
+                        validateParam(param, value)?.let { issues += TunnelIssue.InvalidValue(path, tunnel.name, param.key, value, it) }
                     }
-                    validateParam(param, value)?.let { issues += TunnelIssue.InvalidValue(path, tunnel.name, param.key, value, it) }
+                    tunnel.values.keys.filterNot { TunnelParams.isRead(type, it) }
+                        .forEach { issues += TunnelIssue.UnreadKey(path, tunnel.name, it) }
                 }
             }
         }
@@ -248,16 +398,19 @@ class TunnelFile(val path: String, val document: IniDocument) {
         }
 
         /**
-         * Local ports of enabled client tunnels used more than once, among tunnels and the given
-         * main config services (name to port).
+         * Local ports of enabled client tunnels and torrents RPC servers used more than once, among
+         * tunnels and the given main config services (name to port).
          */
         fun portConflicts(files: List<TunnelFile>, services: Map<String, Int>): List<TunnelIssue.PortConflict> {
             val listeners = mutableMapOf<Int, MutableList<Pair<String?, String>>>() // port -> (file, name)
             services.forEach { (name, port) -> listeners.getOrPut(port) { mutableListOf() } += null to name }
             for (file in files.filter { it.enabled }) {
                 for (tunnel in file.tunnels) {
-                    if (tunnel.type?.kind != TunnelType.Kind.CLIENT) continue
-                    val port = tunnel.values["port"]?.toIntOrNull() ?: continue
+                    val port = when {
+                        tunnel.type?.kind == TunnelType.Kind.CLIENT -> tunnel.values["port"]?.toIntOrNull()
+                        tunnel.type == TunnelType.TORRENTS -> tunnel.values["rpcport"]?.toIntOrNull()?.takeIf { it > 0 }
+                        else -> null
+                    } ?: continue
                     listeners.getOrPut(port) { mutableListOf() } += file.path to tunnel.name
                 }
             }

@@ -2,6 +2,10 @@
 <resources>
     <string name="tab_tunnels">Tuneluri</string>
     <string name="tunnels_add">Adaugă tunel</string>
+    <string name="tunnels_add_file">Fișier nou</string>
+    <string name="tunnels_append_to">Tunelul se adaugă la sfârșitul %1$s.</string>
+    <string name="tunnels_commented">Dezactivat (comentat)</string>
+    <string name="tunnels_disable_primary">%1$s setează destinația și opțiunile I2CP pentru %2$s. Dacă îl dezactivezi, următorul dintre ele preia rolul. Îl dezactivezi?</string>
     <string name="tunnels_empty">Încă nu există tuneluri</string>
     <string name="tunnels_file_disabled">Dezactivat: i2pd omite acest fișier</string>
     <string name="tunnels_edit_file">Editează fișierul</string>
@@ -30,6 +34,7 @@
     <string name="tunnels_copied">Copiat</string>
     <string name="tunnels_type_readonly">Tipul nu poate fi schimbat; creează un tunel nou</string>
     <string name="tunnels_websocks_deprecated">Tunelurile websocks sunt învechite, i2pd nu le pornește</string>
+    <string name="tunnels_torrents_hint">Serverul RPC este compatibil cu clienții Transmission. Interfața web servește fișierele din dosarul torrents/web al directorului de date.</string>
     <string name="tunnels_copy">Copiază</string>
     <string name="proxy_name_httpproxy">Proxy HTTP (i2pd.conf)</string>
     <string name="proxy_name_socksproxy">Proxy SOCKS (i2pd.conf)</string>
@@ -60,6 +65,12 @@
     <string name="tparam_ssl">TLS către serviciu</string>
     <string name="tparam_torrentsdir">Director de torrente</string>
     <string name="tparam_trackers">Trackere</string>
+    <string name="tparam_rpcport">Port RPC (0 — dezactivat)</string>
+    <string name="tparam_rpcaddress">Adresă RPC</string>
+    <string name="tparam_rpcauth">Protecție RPC cu parolă</string>
+    <string name="tparam_rpcuser">Utilizator RPC</string>
+    <string name="tparam_rpcpass">Parolă RPC</string>
+    <string name="tparam_web">Interfață web prin RPC</string>
     <string name="tparam_inbound_length">Lungime intrare</string>
     <string name="tparam_inbound_quantity">Număr intrare</string>
     <string name="tparam_outbound_length">Lungime ieșire</string>
@@ -68,7 +79,23 @@
     <string name="tparam_outbound_variance">Variație lungime ieșire</string>
     <string name="tparam_leaseset_type">Tip lease set</string>
     <string name="tparam_leaseset_enc">Tipuri de criptare lease set</string>
-    <string name="tparam_dont_publish">Nu publica lease set-ul</string>
+    <string name="tunnels_more_params">Parametri suplimentari</string>
+    <string name="tunnels_expert_title">Parametri de reglaj fin</string>
+    <string name="tunnels_expert_text">Acești parametri sunt pentru utilizatori experimentați. Valorile greșite pot strica tunelul sau pot slăbi anonimatul. Modifică-i doar dacă știi ce fac.</string>
+    <string name="tunnels_expert_confirm">Știu ce fac</string>
+    <string name="tparam_signaturetype">Tipul de semnătură al cheilor noi</string>
+    <string name="tparam_cryptotype">Tipul de criptare al cheilor noi</string>
+    <string name="tparam_matchtunnels">Potrivește tunelurile cu destinația</string>
+    <string name="tparam_keepaliveinterval">Interval keep-alive, s (0 — oprit)</string>
+    <string name="tparam_connecttimeout">Timp de conectare, s (0 — implicit)</string>
+    <string name="tparam_closeidletime">Închide destinația inactivă, ms (0 — niciodată)</string>
+    <string name="tparam_newdestonresume">Destinație nouă la reluare</string>
+    <string name="tparam_gzip">Compresie gzip</string>
+    <string name="tparam_datagramversion">Versiunea datagramelor</string>
+    <string name="tparam_maxwindow">Maximum de datagrame neconfirmate</string>
+    <string name="tparam_enableuniquelocal">Adresă locală unică pentru fiecare client</string>
+    <string name="tparam_dhtfile">Fișier DHT</string>
+    <string name="tparam_rpcpath">Cale RPC</string>
     <string name="tissue_invalid_line">%1$s, rândul %2$d: nu este un rând cheie = valoare, i2pd poate omite fișierul</string>
     <string name="tissue_outside_section">%1$s: %2$s este în afara oricărui tunel</string>
     <string name="tissue_duplicate_section">%1$s: tunelul %2$s este definit de două ori</string>
@@ -78,4 +105,5 @@
     <string name="tissue_missing_param">%1$s: %2$s este obligatoriu</string>
     <string name="tissue_invalid_value">%1$s: %2$s = %3$s nu este valid</string>
     <string name="tissue_port_conflict">%1$s: portul %2$d este folosit și de %3$s</string>
+    <string name="tissue_unread_key">%1$s: i2pd nu citește %2$s pentru acest tip de tunel</string>
 </resources>

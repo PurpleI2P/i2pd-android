@@ -2,6 +2,10 @@
 <resources>
     <string name="tab_tunnels">Тунелі</string>
     <string name="tunnels_add">Додати тунель</string>
+    <string name="tunnels_add_file">Новий файл</string>
+    <string name="tunnels_append_to">Тунель додасться в кінець %1$s.</string>
+    <string name="tunnels_commented">Вимкнено (закоментовано)</string>
+    <string name="tunnels_disable_primary">%1$s задає адресу призначення й параметри I2CP для %2$s. Якщо його вимкнути, їх задаватиме наступний із них. Вимкнути?</string>
     <string name="tunnels_empty">Тунелів поки немає</string>
     <string name="tunnels_file_disabled">Вимкнено: i2pd пропускає цей файл</string>
     <string name="tunnels_edit_file">Редагувати файл</string>
@@ -30,6 +34,7 @@
     <string name="tunnels_copied">Скопійовано</string>
     <string name="tunnels_type_readonly">Тип не можна змінити; створіть новий тунель</string>
     <string name="tunnels_websocks_deprecated">Тунелі websocks застаріли, i2pd їх не запускає</string>
+    <string name="tunnels_torrents_hint">RPC-сервер сумісний із клієнтами Transmission. Веб-інтерфейс віддає файли з теки torrents/web каталогу даних.</string>
     <string name="tunnels_copy">Копіювати</string>
     <string name="proxy_name_httpproxy">HTTP-проксі (i2pd.conf)</string>
     <string name="proxy_name_socksproxy">SOCKS-проксі (i2pd.conf)</string>
@@ -60,6 +65,12 @@
     <string name="tparam_ssl">TLS до служби</string>
     <string name="tparam_torrentsdir">Каталог торентів</string>
     <string name="tparam_trackers">Трекери</string>
+    <string name="tparam_rpcport">Порт RPC (0 — вимкнено)</string>
+    <string name="tparam_rpcaddress">Адреса RPC</string>
+    <string name="tparam_rpcauth">Захист RPC паролем</string>
+    <string name="tparam_rpcuser">Користувач RPC</string>
+    <string name="tparam_rpcpass">Пароль RPC</string>
+    <string name="tparam_web">Веб-інтерфейс через RPC</string>
     <string name="tparam_inbound_length">Довжина вхідних</string>
     <string name="tparam_inbound_quantity">Кількість вхідних</string>
     <string name="tparam_outbound_length">Довжина вихідних</string>
@@ -68,7 +79,23 @@
     <string name="tparam_outbound_variance">Розкид довжини вихідних</string>
     <string name="tparam_leaseset_type">Тип lease set</string>
     <string name="tparam_leaseset_enc">Типи шифрування lease set</string>
-    <string name="tparam_dont_publish">Не публікувати lease set</string>
+    <string name="tunnels_more_params">Додаткові параметри</string>
+    <string name="tunnels_expert_title">Параметри тонкого налаштування</string>
+    <string name="tunnels_expert_text">Ці параметри — для досвідчених користувачів. Неправильні значення можуть зламати тунель або послабити анонімність. Змінюйте їх, лише якщо знаєте, що вони роблять.</string>
+    <string name="tunnels_expert_confirm">Я знаю, що роблю</string>
+    <string name="tparam_signaturetype">Тип підпису нових ключів</string>
+    <string name="tparam_cryptotype">Тип шифрування нових ключів</string>
+    <string name="tparam_matchtunnels">Узгоджувати тунелі з адресою призначення</string>
+    <string name="tparam_keepaliveinterval">Інтервал keep-alive, с (0 — вимк.)</string>
+    <string name="tparam_connecttimeout">Тайм-аут з\'єднання, с (0 — типовий)</string>
+    <string name="tparam_closeidletime">Закривати адресу під час простою, мс (0 — ніколи)</string>
+    <string name="tparam_newdestonresume">Нова адреса під час відновлення</string>
+    <string name="tparam_gzip">Стиснення gzip</string>
+    <string name="tparam_datagramversion">Версія датаграм</string>
+    <string name="tparam_maxwindow">Максимум непідтверджених датаграм</string>
+    <string name="tparam_enableuniquelocal">Унікальна локальна адреса для кожного клієнта</string>
+    <string name="tparam_dhtfile">Файл DHT</string>
+    <string name="tparam_rpcpath">Шлях RPC</string>
     <string name="tissue_invalid_line">%1$s, рядок %2$d: не рядок виду ключ = значення, i2pd може пропустити файл</string>
     <string name="tissue_outside_section">%1$s: %2$s поза будь-яким тунелем</string>
     <string name="tissue_duplicate_section">%1$s: тунель %2$s визначено двічі</string>
@@ -78,4 +105,5 @@
     <string name="tissue_missing_param">%1$s: потрібен %2$s</string>
     <string name="tissue_invalid_value">%1$s: %2$s = %3$s — недопустиме значення</string>
     <string name="tissue_port_conflict">%1$s: порт %2$d також використовує %3$s</string>
+    <string name="tissue_unread_key">%1$s: i2pd не читає %2$s для цього типу тунелю</string>
 </resources>

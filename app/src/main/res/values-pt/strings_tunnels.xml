@@ -2,6 +2,10 @@
 <resources>
     <string name="tab_tunnels">Túneis</string>
     <string name="tunnels_add">Adicionar túnel</string>
+    <string name="tunnels_add_file">Novo arquivo</string>
+    <string name="tunnels_append_to">O túnel será adicionado ao final de %1$s.</string>
+    <string name="tunnels_commented">Desativado (comentado)</string>
+    <string name="tunnels_disable_primary">%1$s define o destino e as opções I2CP de %2$s. Se for desativado, o próximo deles assume. Desativar?</string>
     <string name="tunnels_empty">Nenhum túnel ainda</string>
     <string name="tunnels_file_disabled">Desativado: o i2pd ignora este arquivo</string>
     <string name="tunnels_edit_file">Editar arquivo</string>
@@ -30,6 +34,7 @@
     <string name="tunnels_copied">Copiado</string>
     <string name="tunnels_type_readonly">O tipo não pode ser alterado; crie um novo túnel</string>
     <string name="tunnels_websocks_deprecated">Túneis websocks estão obsoletos, o i2pd não os inicia</string>
+    <string name="tunnels_torrents_hint">O servidor RPC é compatível com clientes Transmission. A interface web serve os arquivos da pasta torrents/web da pasta de dados.</string>
     <string name="tunnels_copy">Copiar</string>
     <string name="proxy_name_httpproxy">Proxy HTTP (i2pd.conf)</string>
     <string name="proxy_name_socksproxy">Proxy SOCKS (i2pd.conf)</string>
@@ -60,6 +65,12 @@
     <string name="tparam_ssl">TLS para o serviço</string>
     <string name="tparam_torrentsdir">Pasta de torrents</string>
     <string name="tparam_trackers">Trackers</string>
+    <string name="tparam_rpcport">Porta RPC (0 — desativada)</string>
+    <string name="tparam_rpcaddress">Endereço RPC</string>
+    <string name="tparam_rpcauth">Proteção RPC por senha</string>
+    <string name="tparam_rpcuser">Usuário RPC</string>
+    <string name="tparam_rpcpass">Senha RPC</string>
+    <string name="tparam_web">Interface web via RPC</string>
     <string name="tparam_inbound_length">Comprimento de entrada</string>
     <string name="tparam_inbound_quantity">Quantidade de entrada</string>
     <string name="tparam_outbound_length">Comprimento de saída</string>
@@ -68,7 +79,23 @@
     <string name="tparam_outbound_variance">Variação do comprimento de saída</string>
     <string name="tparam_leaseset_type">Tipo de lease set</string>
     <string name="tparam_leaseset_enc">Tipos de criptografia do lease set</string>
-    <string name="tparam_dont_publish">Não publicar o lease set</string>
+    <string name="tunnels_more_params">Parâmetros adicionais</string>
+    <string name="tunnels_expert_title">Parâmetros de ajuste fino</string>
+    <string name="tunnels_expert_text">Estes parâmetros são para usuários experientes. Valores errados podem quebrar o túnel ou enfraquecer seu anonimato. Altere-os somente se souber o que fazem.</string>
+    <string name="tunnels_expert_confirm">Eu sei o que estou fazendo</string>
+    <string name="tparam_signaturetype">Tipo de assinatura das novas chaves</string>
+    <string name="tparam_cryptotype">Tipo de criptografia das novas chaves</string>
+    <string name="tparam_matchtunnels">Combinar túneis com o destino</string>
+    <string name="tparam_keepaliveinterval">Intervalo de keep-alive, s (0 — desligado)</string>
+    <string name="tparam_connecttimeout">Tempo limite de conexão, s (0 — padrão)</string>
+    <string name="tparam_closeidletime">Fechar o destino ocioso, ms (0 — nunca)</string>
+    <string name="tparam_newdestonresume">Novo destino ao retomar</string>
+    <string name="tparam_gzip">Compressão gzip</string>
+    <string name="tparam_datagramversion">Versão dos datagramas</string>
+    <string name="tparam_maxwindow">Máximo de datagramas não confirmados</string>
+    <string name="tparam_enableuniquelocal">Endereço local único por cliente</string>
+    <string name="tparam_dhtfile">Arquivo DHT</string>
+    <string name="tparam_rpcpath">Caminho RPC</string>
     <string name="tissue_invalid_line">%1$s, linha %2$d: não é uma linha chave = valor, o i2pd pode ignorar o arquivo</string>
     <string name="tissue_outside_section">%1$s: %2$s está fora de qualquer túnel</string>
     <string name="tissue_duplicate_section">%1$s: o túnel %2$s está definido duas vezes</string>
@@ -78,4 +105,5 @@
     <string name="tissue_missing_param">%1$s: %2$s é obrigatório</string>
     <string name="tissue_invalid_value">%1$s: %2$s = %3$s não é válido</string>
     <string name="tissue_port_conflict">%1$s: a porta %2$d também é usada por %3$s</string>
+    <string name="tissue_unread_key">%1$s: o i2pd não lê %2$s para este tipo de túnel</string>
 </resources>

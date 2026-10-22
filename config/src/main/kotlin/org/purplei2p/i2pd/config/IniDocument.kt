@@ -47,6 +47,13 @@ class IniDocument private constructor(
     /** An entry together with the section it belongs to. */
     data class EntryRef(val section: String, val key: String, val value: String, val line: Int)
 
+    /**
+     * A section switched off by commenting out its lines: "#[name]" (or ";[name]") and the comment lines
+     * right after it, up to a blank line, a real section or entry, or the next commented header.
+     * [entries] are the commented "key = value" lines of the block, [lines] its line indexes.
+     */
+    data class CommentedSection(val name: String, val lines: IntRange, val entries: List<Pair<String, String>>)
+
     val entries: List<EntryRef>
         get() {
             val result = mutableListOf<EntryRef>()
@@ -151,6 +158,79 @@ class IniDocument private constructor(
         if (lines.isNotEmpty() && lines.last().raw.isNotBlank()) lines += Line.Other("")
         lines += Line.Section("[$section]", section)
         entries.forEach { (key, value) -> lines += Line.Entry("$key = $value", key, value, indent = "", comment = "") }
+    }
+
+    /** Sections switched off by comments (see [CommentedSection]); only blocks with at least one entry. */
+    val commentedSections: List<CommentedSection>
+        get() {
+            val result = mutableListOf<CommentedSection>()
+            var index = 0
+            while (index < lines.size) {
+                val header = uncommented(lines[index])
+                if (header !is Line.Section) {
+                    index++
+                    continue
+                }
+                var end = index
+                val entries = mutableListOf<Pair<String, String>>()
+                while (end + 1 < lines.size) {
+                    val line = lines[end + 1]
+                    if (line !is Line.Other || line.raw.isBlank()) break
+                    val inner = uncommented(line) ?: break
+                    if (inner is Line.Section) break
+                    if (inner is Line.Entry && isOptionName(inner.key)) entries += inner.key to inner.value
+                    end++
+                }
+                if (entries.isNotEmpty()) result += CommentedSection(header.name, index..end, entries)
+                index = end + 1
+            }
+            return result
+        }
+
+    /**
+     * Switches [section] off: every line of it gets a "#" in front (a blank one becomes "#", so the block
+     * stays in one piece), comments already in it become "##"; [uncommentSection] gives the same text back.
+     */
+    fun commentOutSection(section: String): Boolean {
+        val range = sectionRange(section) ?: return false
+        // Comments after the last entry are commented out too ("##"): left as they are, they would join
+        // the commented block and be switched on with it. Trailing blank lines stay.
+        val last = range.reversed().first { index -> lines[index].raw.isNotBlank() }
+        for (index in range.first..last) lines[index] = Line.Other(prefixComment(lines[index].raw))
+        return true
+    }
+
+    /**
+     * Switches a commented section on again: removes one "#" or ";" from the lines of [commented] that
+     * become a section, an entry or still a comment. Plain text lines stay comments, so the file never
+     * gets a line i2pd would reject.
+     */
+    fun uncommentSection(commented: CommentedSection) {
+        for (index in commented.lines) {
+            val inner = uncommented(lines[index]) ?: continue
+            // A plain text comment would become a line i2pd rejects, and text with "=" such as a link
+            // ("# https://t.me/proxy?server=...") a bogus entry: both stay comments
+            if (inner is Line.Other && inner.raw.isNotBlank() && !isComment(inner.raw.trim(), dialect)) continue
+            if (inner is Line.Entry && !isOptionName(inner.key)) continue
+            lines[index] = inner
+        }
+    }
+
+    /** [line] without one leading comment marker, parsed; null if it is not a comment. */
+    private fun uncommented(line: Line): Line? {
+        if (line !is Line.Other) return null
+        val trimmed = line.raw.trimStart()
+        if (!isComment(trimmed, dialect)) return null
+        val indent = line.raw.substring(0, line.raw.length - trimmed.length)
+        return parseLine(indent + trimmed.substring(1).trimStart(), dialect)
+    }
+
+    /** Option names of i2pd: letters, digits, ".", "_" and "-" ("inbound.length", "i2cp.leaseSetType"). */
+    private fun isOptionName(key: String) = key.all { it.isLetterOrDigit() || it == '.' || it == '_' || it == '-' }
+
+    private fun prefixComment(raw: String): String {
+        val trimmed = raw.trimStart()
+        return raw.substring(0, raw.length - trimmed.length) + "#" + trimmed
     }
 
     /** Indexes of lines the parser of [dialect] would reject: not blank, not a comment, not a section or an entry. */

@@ -9,6 +9,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -48,6 +49,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontFamily
@@ -57,6 +59,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import org.purplei2p.i2pd.config.CommentedTunnel
 import org.purplei2p.i2pd.config.TunnelFile
 import org.purplei2p.i2pd.config.TunnelInfo
 import org.purplei2p.i2pd.config.TunnelIssue
@@ -146,7 +149,12 @@ fun TunnelsScreen(modifier: Modifier = Modifier) {
                     TunnelForm(set, session, file, info, info.type ?: TunnelType.CLIENT, onClose = { page = TunnelsPage.LIST })
                 }
             }
-            TunnelsPage.Kind.NEW -> TunnelForm(set, session, null, null, TunnelType.of(page.type) ?: TunnelType.CLIENT, onClose = { page = TunnelsPage.LIST })
+            TunnelsPage.Kind.NEW -> TunnelForm(
+                set, session, null, null, TunnelType.of(page.type) ?: TunnelType.CLIENT,
+                onClose = { page = TunnelsPage.LIST },
+                // Empty path: a new file in tunnels.d
+                target = page.path.takeIf { it.isNotEmpty() }?.let { set.file(it) },
+            )
             TunnelsPage.Kind.RAW -> TunnelFileEditor(session, page.path, onClose = { page = TunnelsPage.LIST })
         }
     }
@@ -173,8 +181,11 @@ private fun ApplyBanner() {
 
 @Composable
 private fun TunnelList(set: TunnelSet, session: TunnelsSession, onOpen: (TunnelsPage) -> Unit) {
-    var choosingType by rememberSaveable { mutableStateOf(false) }
+    // Type dialog for a new tunnel: "" — new file in tunnels.d, otherwise the file to append it to
+    var choosingTypeFor by rememberSaveable { mutableStateOf<String?>(null) }
     var deleting by rememberSaveable { mutableStateOf<String?>(null) }
+    // First tunnel of a shared destination asked to be switched off: (file, tunnel)
+    var disablingPrimary by remember { mutableStateOf<Pair<String, TunnelInfo>?>(null) }
     val issues = set.issues
 
     // Banners stay outside the lazy list: an item growing from zero height would be scrolled out of view
@@ -206,30 +217,45 @@ private fun TunnelList(set: TunnelSet, session: TunnelsSession, onOpen: (Tunnels
                             )
                         }
                         fileIssues.filter { it.tunnel == null }.forEach { IssueText(it) }
-                        file.tunnels.forEach { info ->
+                        // Working and commented out tunnels in the order of the file
+                        val rows = file.tunnels.map { it.line to it } + file.commentedTunnels.map { it.line to it }
+                        rows.sortedBy { it.first }.forEach { (_, tunnel) ->
                             HorizontalDivider(Modifier.padding(vertical = 4.dp))
-                            TunnelRow(set, file, info, fileIssues.filter { it.tunnel == info.name }) {
-                                onOpen(TunnelsPage(TunnelsPage.Kind.EDIT, file.path, info.name))
+                            when (tunnel) {
+                                is TunnelInfo -> TunnelRow(
+                                    set, file, tunnel, fileIssues.filter { it.tunnel == tunnel.name },
+                                    onClick = { onOpen(TunnelsPage(TunnelsPage.Kind.EDIT, file.path, tunnel.name)) },
+                                    onDisable = {
+                                        if (tunnel.dependents.isNotEmpty()) disablingPrimary = file.path to tunnel
+                                        else session.run({ session.tunnels.setTunnelEnabled(file.path, tunnel.name, false) })
+                                    },
+                                )
+                                is CommentedTunnel -> CommentedTunnelRow(tunnel) {
+                                    session.run({ session.tunnels.setTunnelEnabled(file.path, tunnel.name, true) })
+                                }
                             }
                         }
-                        Row(Modifier.padding(horizontal = 8.dp)) {
+                        FlowRow(Modifier.padding(horizontal = 8.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                            Button(onClick = { choosingTypeFor = file.path }) { Text(stringResource(R.string.tunnels_add)) }
                             TextButton(onClick = { onOpen(TunnelsPage(TunnelsPage.Kind.RAW, file.path)) }) { Text(stringResource(R.string.tunnels_edit_file)) }
                             if (file.path.removeSuffix(RouterTunnels.DISABLED) != RouterTunnels.MAIN_FILE) {
-                                TextButton(onClick = { deleting = file.path }) { Text(stringResource(R.string.tunnels_delete_file)) }
+                                TextButton(onClick = { deleting = file.path }) {
+                                    Text(stringResource(R.string.tunnels_delete_file), color = MaterialTheme.colorScheme.error)
+                                }
                             }
                         }
                     }
                 }
             }
             item {
-                Button(onClick = { choosingType = true }, modifier = Modifier.padding(16.dp)) { Text(stringResource(R.string.tunnels_add)) }
+                Button(onClick = { choosingTypeFor = "" }, modifier = Modifier.padding(16.dp)) { Text(stringResource(R.string.tunnels_add_file)) }
             }
         }
     }
 
-    if (choosingType) {
+    choosingTypeFor?.let { target ->
         AlertDialog(
-            onDismissRequest = { choosingType = false },
+            onDismissRequest = { choosingTypeFor = null },
             title = { Text(stringResource(R.string.tunnels_choose_type)) },
             text = {
                 Column(Modifier.verticalScroll(rememberScrollState())) {
@@ -237,14 +263,27 @@ private fun TunnelList(set: TunnelSet, session: TunnelsSession, onOpen: (Tunnels
                         Text(
                             stringResource(tunnelTypeLabel(type)),
                             modifier = Modifier.fillMaxWidth().clickable {
-                                choosingType = false
-                                onOpen(TunnelsPage(TunnelsPage.Kind.NEW, type = type.id))
+                                choosingTypeFor = null
+                                onOpen(TunnelsPage(TunnelsPage.Kind.NEW, path = target, type = type.id))
                             }.padding(vertical = 12.dp),
                         )
                     }
                 }
             },
-            confirmButton = { TextButton(onClick = { choosingType = false }) { Text(stringResource(android.R.string.cancel)) } },
+            confirmButton = { TextButton(onClick = { choosingTypeFor = null }) { Text(stringResource(android.R.string.cancel)) } },
+        )
+    }
+    disablingPrimary?.let { (path, info) ->
+        AlertDialog(
+            onDismissRequest = { disablingPrimary = null },
+            text = { Text(stringResource(R.string.tunnels_disable_primary, info.name, info.dependents.joinToString(", "))) },
+            confirmButton = {
+                TextButton(onClick = {
+                    disablingPrimary = null
+                    session.run({ session.tunnels.setTunnelEnabled(path, info.name, false) })
+                }) { Text(stringResource(R.string.action_disable)) }
+            },
+            dismissButton = { TextButton(onClick = { disablingPrimary = null }) { Text(stringResource(android.R.string.cancel)) } },
         )
     }
     deleting?.let { path ->
@@ -262,10 +301,40 @@ private fun TunnelList(set: TunnelSet, session: TunnelsSession, onOpen: (Tunnels
     }
 }
 
+/** A tunnel commented out in its file: shown where it is, switched on by removing the comments. */
 @Composable
-private fun TunnelRow(set: TunnelSet, file: TunnelFile, info: TunnelInfo, issues: List<TunnelIssue>, onClick: () -> Unit) {
+private fun CommentedTunnelRow(tunnel: CommentedTunnel, onEnable: () -> Unit) {
+    Row(
+        Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Column(Modifier.weight(1f)) {
+            Text(tunnel.name, fontWeight = FontWeight.Medium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(
+                listOf(
+                    tunnel.type?.let { stringResource(tunnelTypeLabel(it)) } ?: tunnel.values["type"].orEmpty(),
+                    stringResource(R.string.tunnels_commented),
+                ).filter { it.isNotEmpty() }.joinToString(" · "),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+        Switch(checked = false, onCheckedChange = { onEnable() }, modifier = Modifier.semantics { contentDescription = tunnel.name })
+    }
+}
+
+@Composable
+private fun TunnelRow(set: TunnelSet, file: TunnelFile, info: TunnelInfo, issues: List<TunnelIssue>, onClick: () -> Unit, onDisable: () -> Unit) {
     Column(Modifier.fillMaxWidth().clickable(onClick = onClick).padding(horizontal = 16.dp, vertical = 4.dp)) {
-        Text(info.name, fontWeight = FontWeight.Medium)
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(info.name, fontWeight = FontWeight.Medium, modifier = Modifier.weight(1f))
+            // Switches only this tunnel off, by commenting out its section
+            Switch(
+                checked = true,
+                onCheckedChange = { onDisable() },
+                modifier = Modifier.semantics { contentDescription = info.name },
+            )
+        }
         Text(
             listOf(tunnelTypeText(info), tunnelSummary(info)).filter { it.isNotEmpty() }.joinToString(" · "),
             style = MaterialTheme.typography.bodySmall,
@@ -313,21 +382,31 @@ private fun TunnelForm(
     info: TunnelInfo?,
     type: TunnelType,
     onClose: () -> Unit,
+    /** File a new tunnel is appended to; null for a new file of its own. */
+    target: TunnelFile? = null,
 ) {
     val context = LocalContext.current
     val formKeys = remember(type) { TunnelParams.formKeys(type) }
     var name by rememberSaveable { mutableStateOf(info?.name ?: "") }
-    val values = remember { mutableStateMapOf<String, String>().apply { info?.values?.forEach { (k, v) -> if (k in formKeys) put(k, v) } } }
+    val values = remember {
+        mutableStateMapOf<String, String>().apply {
+            info?.values?.forEach { (k, v) -> if (k in formKeys) put(k, v) }
+            // A new torrents tunnel downloads into the private data directory: no storage permission needed
+            if (info == null && type == TunnelType.TORRENTS) put("torrentsdir", torrentsDirDefault(context))
+        }
+    }
     val others = remember { mutableStateListOf<Pair<String, String>>().apply { info?.values?.forEach { (k, v) -> if (k !in formKeys) add(k to v) } } }
     var confirmDelete by rememberSaveable { mutableStateOf(false) }
 
     val nameError = when {
         name.isBlank() || name.any { it == '[' || it == ']' || it == '\n' } -> R.string.tunnels_name_invalid
-        file != null && name != info?.name && file.tunnels.any { it.name == name } -> R.string.tunnels_name_taken
+        file != null && name != info?.name && name in file.allNames -> R.string.tunnels_name_taken
+        target != null && name in target.allNames -> R.string.tunnels_name_taken
         else -> null
     }
     val mainParams = TunnelParams.main(type)
-    val paramErrors = (mainParams + TunnelParams.i2cp).associate { param ->
+    val allParams = TunnelParams.params(type) + TunnelParams.i2cp
+    val paramErrors = allParams.associate { param ->
         val value = values[param.key].orEmpty()
         param.key to when {
             value.isEmpty() -> if (param.required) R.string.tissue_missing_param else null
@@ -349,7 +428,18 @@ private fun TunnelForm(
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
+        target?.let {
+            Text(
+                stringResource(R.string.tunnels_append_to, it.path.removeSuffix(RouterTunnels.DISABLED)) +
+                    if (it.enabled) "" else " " + stringResource(R.string.tunnels_file_disabled),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
         if (type == TunnelType.WEBSOCKS) Text(stringResource(R.string.tunnels_websocks_deprecated), color = MaterialTheme.colorScheme.error)
+        if (type == TunnelType.TORRENTS) {
+            Text(stringResource(R.string.tunnels_torrents_hint), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        }
         OutlinedTextField(
             value = name,
             onValueChange = { name = it },
@@ -371,12 +461,32 @@ private fun TunnelForm(
             set.sharedDestinations[keys]?.let { Text(stringResource(R.string.tunnels_shared_warning), style = MaterialTheme.typography.bodySmall) }
         }
 
-        Text(stringResource(R.string.tunnels_i2cp), style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary, modifier = Modifier.semantics { heading() })
+        // Fine-tuning: collapsed, opened after "I know what I'm doing" (once per form for both groups)
+        var expertConfirmed by rememberSaveable { mutableStateOf(false) }
+        var pendingOpen by remember { mutableStateOf<(() -> Unit)?>(null) }
+        val confirm: (() -> Unit) -> Unit = { open -> if (expertConfirmed) open() else pendingOpen = open }
+        ParamGroup(R.string.tunnels_more_params, TunnelParams.advanced(type), type, values, paramErrors, confirm)
         val i2cpFrom = info?.sharesDestinationWith
         if (i2cpFrom != null) {
+            Text(stringResource(R.string.tunnels_i2cp), style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary, modifier = Modifier.semantics { heading() })
             Text(stringResource(R.string.tunnels_i2cp_from, i2cpFrom), style = MaterialTheme.typography.bodySmall)
         } else {
-            TunnelParams.i2cp.forEach { param -> ParamField(type, param, values, paramErrors[param.key]) }
+            ParamGroup(R.string.tunnels_i2cp, TunnelParams.i2cp, type, values, paramErrors, confirm)
+        }
+        pendingOpen?.let { open ->
+            AlertDialog(
+                onDismissRequest = { pendingOpen = null },
+                title = { Text(stringResource(R.string.tunnels_expert_title)) },
+                text = { Text(stringResource(R.string.tunnels_expert_text)) },
+                confirmButton = {
+                    TextButton(onClick = {
+                        expertConfirmed = true
+                        pendingOpen = null
+                        open()
+                    }) { Text(stringResource(R.string.tunnels_expert_confirm)) }
+                },
+                dismissButton = { TextButton(onClick = { pendingOpen = null }) { Text(stringResource(android.R.string.cancel)) } },
+            )
         }
 
         Text(stringResource(R.string.tunnels_other), style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary, modifier = Modifier.semantics { heading() })
@@ -390,10 +500,14 @@ private fun TunnelForm(
 
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             Button(enabled = valid, onClick = {
-                val form = (mainParams + TunnelParams.i2cp).map { it.key to values[it.key].orEmpty() }
+                val form = allParams.map { it.key to values[it.key].orEmpty() }
                 session.run({
+                    // i2pd only reads .torrent files from the directory, it does not create it
+                    if (type == TunnelType.TORRENTS) createTorrentsDir(values["torrentsdir"].orEmpty())
                     if (file == null || info == null) {
-                        session.tunnels.create(name, listOf("type" to type.id) + form.filter { it.second.isNotEmpty() } + others)
+                        val newValues = listOf("type" to type.id) + form.filter { it.second.isNotEmpty() } + others
+                        if (target != null) session.tunnels.append(target.path, name, newValues)
+                        else session.tunnels.create(name, newValues)
                     } else {
                         saveTunnel(session.tunnels, file.path, info, name, form, others.toList(), formKeys)
                     }
@@ -448,11 +562,32 @@ private suspend fun saveTunnel(
     tunnels.save(file)
 }
 
+/**
+ * Collapsed part of the form with fine-tuning parameters. Opening goes through [confirm] ("I know what
+ * I'm doing"); it is open at once when one of its parameters is set or has an error, so nothing set stays hidden.
+ */
+@Composable
+private fun ParamGroup(
+    title: Int,
+    params: List<TunnelParam>,
+    type: TunnelType,
+    values: MutableMap<String, String>,
+    errors: Map<String, Int?>,
+    confirm: (open: () -> Unit) -> Unit,
+) {
+    if (params.isEmpty()) return
+    var open by rememberSaveable { mutableStateOf(params.any { !values[it.key].isNullOrEmpty() || errors[it.key] != null }) }
+    TextButton(onClick = { if (open) open = false else confirm { open = true } }) {
+        Text((if (open) "▾ " else "▸ ") + stringResource(title))
+    }
+    if (open) params.forEach { param -> ParamField(type, param, values, errors[param.key]) }
+}
+
 @Composable
 private fun ParamField(type: TunnelType, param: TunnelParam, values: MutableMap<String, String>, error: Int?) {
     val label = tunnelParamLabel(param.key, type)
     if (param.kind == TunnelParamKind.BOOL) {
-        val checked = (values[param.key] ?: param.default).let { it == "true" || it == "1" }
+        val checked = (values[param.key] ?: param.defaultFor(type)).let { it == "true" || it == "1" }
         Row(
             Modifier.fillMaxWidth().toggleable(checked, role = Role.Switch) { values[param.key] = it.toString() },
             verticalAlignment = Alignment.CenterVertically,
@@ -467,7 +602,7 @@ private fun ParamField(type: TunnelType, param: TunnelParam, values: MutableMap<
         value = values[param.key].orEmpty(),
         onValueChange = { values[param.key] = it.trim() },
         label = { Text(if (param.required) "$label *" else label) },
-        placeholder = { param.default?.takeIf { it.isNotEmpty() }?.let { Text(it) } },
+        placeholder = { param.defaultFor(type)?.takeIf { it.isNotEmpty() }?.let { Text(it) } },
         singleLine = true,
         isError = error != null,
         supportingText = { error?.let { if (it == R.string.tissue_missing_param) Text("*") else Text(stringResource(it)) } },
@@ -561,4 +696,13 @@ private fun TunnelFileEditor(session: TunnelsSession, path: String, onClose: () 
             dismissButton = { TextButton(onClick = { issues = emptyList() }) { Text(stringResource(android.R.string.cancel)) } },
         )
     }
+}
+
+/** Default download directory of a new torrents tunnel: torrents/downloads in the data directory, next to torrents/web. */
+private fun torrentsDirDefault(context: android.content.Context): String =
+    java.io.File(RouterController.data(context).root, "torrents/downloads").absolutePath
+
+private fun createTorrentsDir(path: String) {
+    val dir = java.io.File(path)
+    if (!dir.isDirectory && !dir.mkdirs()) throw java.io.IOException("Cannot create $path")
 }

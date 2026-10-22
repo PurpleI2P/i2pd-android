@@ -40,6 +40,26 @@ private val PARAM_LABELS = mapOf(
     "ssl" to R.string.tparam_ssl,
     "torrentsdir" to R.string.tparam_torrentsdir,
     "trackers" to R.string.tparam_trackers,
+    "dht" to R.string.tparam_dht,
+    "rpcport" to R.string.tparam_rpcport,
+    "rpcaddress" to R.string.tparam_rpcaddress,
+    "rpcauth" to R.string.tparam_rpcauth,
+    "rpcuser" to R.string.tparam_rpcuser,
+    "rpcpass" to R.string.tparam_rpcpass,
+    "web" to R.string.tparam_web,
+    "signaturetype" to R.string.tparam_signaturetype,
+    "cryptotype" to R.string.tparam_cryptotype,
+    "matchtunnels" to R.string.tparam_matchtunnels,
+    "keepaliveinterval" to R.string.tparam_keepaliveinterval,
+    "connecttimeout" to R.string.tparam_connecttimeout,
+    "i2cp.closeIdleTime" to R.string.tparam_closeidletime,
+    "i2cp.newDestOnResume" to R.string.tparam_newdestonresume,
+    "gzip" to R.string.tparam_gzip,
+    "datagramversion" to R.string.tparam_datagramversion,
+    "maxwindow" to R.string.tparam_maxwindow,
+    "enableuniquelocal" to R.string.tparam_enableuniquelocal,
+    "dhtfile" to R.string.tparam_dhtfile,
+    "rpcpath" to R.string.tparam_rpcpath,
     "inbound.length" to R.string.tparam_inbound_length,
     "inbound.quantity" to R.string.tparam_inbound_quantity,
     "outbound.length" to R.string.tparam_outbound_length,
@@ -48,7 +68,6 @@ private val PARAM_LABELS = mapOf(
     "outbound.lengthVariance" to R.string.tparam_outbound_variance,
     "i2cp.leaseSetType" to R.string.tparam_leaseset_type,
     "i2cp.leaseSetEncType" to R.string.tparam_leaseset_enc,
-    "i2cp.dontPublishLeaseSet" to R.string.tparam_dont_publish,
 )
 
 @Composable
@@ -93,6 +112,7 @@ fun tunnelIssueText(issue: TunnelIssue): String = when (issue) {
     is TunnelIssue.MissingParam -> stringResource(R.string.tissue_missing_param, issue.section, issue.key)
     is TunnelIssue.InvalidValue -> stringResource(R.string.tissue_invalid_value, issue.section, issue.key, issue.value)
     is TunnelIssue.PortConflict -> stringResource(R.string.tissue_port_conflict, issue.section, issue.port, issue.others.joinToString(", "))
+    is TunnelIssue.UnreadKey -> stringResource(R.string.tissue_unread_key, issue.section, issue.key)
 }
 
 /** The tunnel an issue is about, null for issues of the whole file. */
@@ -106,4 +126,5 @@ val TunnelIssue.tunnel: String?
         is TunnelIssue.MissingParam -> section
         is TunnelIssue.InvalidValue -> section
         is TunnelIssue.PortConflict -> section
+        is TunnelIssue.UnreadKey -> section
     }

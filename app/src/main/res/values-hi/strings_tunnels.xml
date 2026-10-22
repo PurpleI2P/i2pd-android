@@ -2,6 +2,10 @@
 <resources>
     <string name="tab_tunnels">टनल</string>
     <string name="tunnels_add">टनल जोड़ें</string>
+    <string name="tunnels_add_file">नई फ़ाइल</string>
+    <string name="tunnels_append_to">टनल %1$s के अंत में जोड़ी जाएगी।</string>
+    <string name="tunnels_commented">बंद (टिप्पणी बनाया गया)</string>
+    <string name="tunnels_disable_primary">%1$s, %2$s के लिए गंतव्य और I2CP विकल्प तय करता है। इसे बंद करने पर अगला यह काम संभालेगा। बंद करें?</string>
     <string name="tunnels_empty">अभी कोई टनल नहीं</string>
     <string name="tunnels_file_disabled">बंद: i2pd इस फ़ाइल को छोड़ देता है</string>
     <string name="tunnels_edit_file">फ़ाइल संपादित करें</string>
@@ -30,6 +34,7 @@
     <string name="tunnels_copied">कॉपी किया गया</string>
     <string name="tunnels_type_readonly">प्रकार नहीं बदला जा सकता; इसके बजाय नई टनल बनाएँ</string>
     <string name="tunnels_websocks_deprecated">websocks टनल अप्रचलित हैं, i2pd इन्हें शुरू नहीं करता</string>
+    <string name="tunnels_torrents_hint">RPC सर्वर Transmission क्लाइंट के साथ संगत है। वेब इंटरफ़ेस डेटा फ़ोल्डर के torrents/web फ़ोल्डर की फ़ाइलें देता है।</string>
     <string name="tunnels_copy">कॉपी करें</string>
     <string name="proxy_name_httpproxy">HTTP प्रॉक्सी (i2pd.conf)</string>
     <string name="proxy_name_socksproxy">SOCKS प्रॉक्सी (i2pd.conf)</string>
@@ -60,6 +65,12 @@
     <string name="tparam_ssl">सेवा तक TLS</string>
     <string name="tparam_torrentsdir">टोरेंट फ़ोल्डर</string>
     <string name="tparam_trackers">ट्रैकर</string>
+    <string name="tparam_rpcport">RPC पोर्ट (0 — बंद)</string>
+    <string name="tparam_rpcaddress">RPC पता</string>
+    <string name="tparam_rpcauth">RPC पासवर्ड सुरक्षा</string>
+    <string name="tparam_rpcuser">RPC उपयोगकर्ता</string>
+    <string name="tparam_rpcpass">RPC पासवर्ड</string>
+    <string name="tparam_web">RPC के माध्यम से वेब इंटरफ़ेस</string>
     <string name="tparam_inbound_length">आने वाली लंबाई</string>
     <string name="tparam_inbound_quantity">आने वाली संख्या</string>
     <string name="tparam_outbound_length">जाने वाली लंबाई</string>
@@ -68,7 +79,23 @@
     <string name="tparam_outbound_variance">जाने वाली लंबाई में भिन्नता</string>
     <string name="tparam_leaseset_type">Lease set प्रकार</string>
     <string name="tparam_leaseset_enc">Lease set एन्क्रिप्शन प्रकार</string>
-    <string name="tparam_dont_publish">Lease set प्रकाशित न करें</string>
+    <string name="tunnels_more_params">अतिरिक्त पैरामीटर</string>
+    <string name="tunnels_expert_title">सूक्ष्म समायोजन पैरामीटर</string>
+    <string name="tunnels_expert_text">ये पैरामीटर अनुभवी उपयोगकर्ताओं के लिए हैं। गलत मान टनल को खराब कर सकते हैं या आपकी गुमनामी कमज़ोर कर सकते हैं। इन्हें तभी बदलें जब आप जानते हों कि ये क्या करते हैं।</string>
+    <string name="tunnels_expert_confirm">मुझे पता है कि मैं क्या कर रहा हूँ</string>
+    <string name="tparam_signaturetype">नई कुंजियों का हस्ताक्षर प्रकार</string>
+    <string name="tparam_cryptotype">नई कुंजियों का एन्क्रिप्शन प्रकार</string>
+    <string name="tparam_matchtunnels">टनल को गंतव्य से मिलाएँ</string>
+    <string name="tparam_keepaliveinterval">Keep-alive अंतराल, से (0 — बंद)</string>
+    <string name="tparam_connecttimeout">कनेक्शन टाइमआउट, से (0 — डिफ़ॉल्ट)</string>
+    <string name="tparam_closeidletime">निष्क्रिय होने पर गंतव्य बंद करें, मिसे (0 — कभी नहीं)</string>
+    <string name="tparam_newdestonresume">फिर से शुरू होने पर नया गंतव्य</string>
+    <string name="tparam_gzip">Gzip संपीड़न</string>
+    <string name="tparam_datagramversion">डेटाग्राम संस्करण</string>
+    <string name="tparam_maxwindow">अधिकतम अपुष्ट डेटाग्राम</string>
+    <string name="tparam_enableuniquelocal">हर क्लाइंट के लिए अद्वितीय स्थानीय पता</string>
+    <string name="tparam_dhtfile">DHT फ़ाइल</string>
+    <string name="tparam_rpcpath">RPC पथ</string>
     <string name="tissue_invalid_line">%1$s, पंक्ति %2$d: कुंजी = मान पंक्ति नहीं, i2pd फ़ाइल छोड़ सकता है</string>
     <string name="tissue_outside_section">%1$s: %2$s किसी टनल के अंदर नहीं है</string>
     <string name="tissue_duplicate_section">%1$s: टनल %2$s दो बार परिभाषित है</string>
@@ -78,4 +105,5 @@
     <string name="tissue_missing_param">%1$s: %2$s आवश्यक है</string>
     <string name="tissue_invalid_value">%1$s: %2$s = %3$s मान्य नहीं है</string>
     <string name="tissue_port_conflict">%1$s: पोर्ट %2$d का उपयोग %3$s भी करता है</string>
+    <string name="tissue_unread_key">%1$s: i2pd इस टनल प्रकार के लिए %2$s नहीं पढ़ता</string>
 </resources>

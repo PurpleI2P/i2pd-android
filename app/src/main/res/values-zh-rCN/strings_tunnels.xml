@@ -2,6 +2,10 @@
 <resources>
     <string name="tab_tunnels">隧道</string>
     <string name="tunnels_add">添加隧道</string>
+    <string name="tunnels_add_file">新文件</string>
+    <string name="tunnels_append_to">隧道将添加到 %1$s 末尾。</string>
+    <string name="tunnels_commented">已停用（已注释）</string>
+    <string name="tunnels_disable_primary">%1$s 为 %2$s 设定目标和 I2CP 选项。停用后，由其中下一个接替。要停用吗？</string>
     <string name="tunnels_empty">还没有隧道</string>
     <string name="tunnels_file_disabled">已停用：i2pd 会跳过此文件</string>
     <string name="tunnels_edit_file">编辑文件</string>
@@ -30,6 +34,7 @@
     <string name="tunnels_copied">已复制</string>
     <string name="tunnels_type_readonly">无法更改类型；请创建新隧道</string>
     <string name="tunnels_websocks_deprecated">websocks 隧道已弃用，i2pd 不会启动它们</string>
+    <string name="tunnels_torrents_hint">RPC 服务器兼容 Transmission 客户端。网页界面提供数据目录中 torrents/web 文件夹的文件。</string>
     <string name="tunnels_copy">复制</string>
     <string name="proxy_name_httpproxy">HTTP 代理 (i2pd.conf)</string>
     <string name="proxy_name_socksproxy">SOCKS 代理 (i2pd.conf)</string>
@@ -60,6 +65,12 @@
     <string name="tparam_ssl">到服务的 TLS</string>
     <string name="tparam_torrentsdir">种子目录</string>
     <string name="tparam_trackers">Tracker</string>
+    <string name="tparam_rpcport">RPC 端口（0 — 关闭）</string>
+    <string name="tparam_rpcaddress">RPC 地址</string>
+    <string name="tparam_rpcauth">RPC 密码保护</string>
+    <string name="tparam_rpcuser">RPC 用户</string>
+    <string name="tparam_rpcpass">RPC 密码</string>
+    <string name="tparam_web">通过 RPC 的网页界面</string>
     <string name="tparam_inbound_length">入站长度</string>
     <string name="tparam_inbound_quantity">入站数量</string>
     <string name="tparam_outbound_length">出站长度</string>
@@ -68,7 +79,23 @@
     <string name="tparam_outbound_variance">出站长度浮动</string>
     <string name="tparam_leaseset_type">Lease set 类型</string>
     <string name="tparam_leaseset_enc">Lease set 加密类型</string>
-    <string name="tparam_dont_publish">不发布 lease set</string>
+    <string name="tunnels_more_params">附加参数</string>
+    <string name="tunnels_expert_title">精细调整参数</string>
+    <string name="tunnels_expert_text">这些参数适用于有经验的用户。错误的值可能导致隧道无法工作或削弱匿名性。只有在了解其作用时才修改。</string>
+    <string name="tunnels_expert_confirm">我知道自己在做什么</string>
+    <string name="tparam_signaturetype">新密钥的签名类型</string>
+    <string name="tparam_cryptotype">新密钥的加密类型</string>
+    <string name="tparam_matchtunnels">使隧道与目标匹配</string>
+    <string name="tparam_keepaliveinterval">保活间隔，秒（0 — 关闭）</string>
+    <string name="tparam_connecttimeout">连接超时，秒（0 — 默认）</string>
+    <string name="tparam_closeidletime">空闲时关闭目标，毫秒（0 — 从不）</string>
+    <string name="tparam_newdestonresume">恢复时使用新目标</string>
+    <string name="tparam_gzip">Gzip 压缩</string>
+    <string name="tparam_datagramversion">数据报版本</string>
+    <string name="tparam_maxwindow">最大未确认数据报数</string>
+    <string name="tparam_enableuniquelocal">为每个客户端使用唯一本地地址</string>
+    <string name="tparam_dhtfile">DHT 文件</string>
+    <string name="tparam_rpcpath">RPC 路径</string>
     <string name="tissue_invalid_line">%1$s，第 %2$d 行：不是“键 = 值”格式，i2pd 可能跳过该文件</string>
     <string name="tissue_outside_section">%1$s：%2$s 不在任何隧道内</string>
     <string name="tissue_duplicate_section">%1$s：隧道 %2$s 定义了两次</string>
@@ -78,4 +105,5 @@
     <string name="tissue_missing_param">%1$s：需要 %2$s</string>
     <string name="tissue_invalid_value">%1$s：%2$s = %3$s 无效</string>
     <string name="tissue_port_conflict">%1$s：端口 %2$d 也被 %3$s 使用</string>
+    <string name="tissue_unread_key">%1$s：i2pd 不会为此隧道类型读取 %2$s</string>
 </resources>

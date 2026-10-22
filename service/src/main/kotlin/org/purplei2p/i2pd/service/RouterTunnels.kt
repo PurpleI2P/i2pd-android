@@ -59,6 +59,14 @@ class RouterTunnels private constructor(context: Context) {
 
     private val changedSinceApply = MutableStateFlow(false)
 
+    /** Enabled tunnel files (path to text) as the router read them: at its start or the last apply. */
+    @Volatile
+    private var applied: Map<String, String>? = null
+
+    /** Enabled tunnel files as they are now, refreshed after every change. */
+    @Volatile
+    private var current: Map<String, String> = emptyMap()
+
     /** True while saved tunnel changes are not applied to the running router. */
     fun pendingApply(state: Flow<RouterState>): Flow<Boolean> =
         combine(state, changedSinceApply) { router, changed -> changed && router.lifecycle.hasRouterProcess }
@@ -101,6 +109,30 @@ class RouterTunnels private constructor(context: Context) {
         }
         changed()
         path
+    }
+
+    /** Appends tunnel [name] at the end of the file at [path]: earlier sections and their order stay as they are. */
+    suspend fun append(path: String, name: String, values: List<Pair<String, String>>) = mutex.withLock {
+        withContext(Dispatchers.IO) {
+            val target = resolve(path)
+            val file = TunnelFile.parse(path, target.readText())
+            if (name in file.allNames) throw IOException("$path already has a tunnel $name")
+            file.document.addSection(name, values)
+            write(target, file.document.toString())
+        }
+        changed()
+    }
+
+    /** Switches one tunnel on or off by commenting out its section; the rest of the file is not touched. */
+    suspend fun setTunnelEnabled(path: String, name: String, enabled: Boolean) = mutex.withLock {
+        withContext(Dispatchers.IO) {
+            val target = resolve(path)
+            val file = TunnelFile.parse(path, target.readText())
+            val changed = if (enabled) file.uncomment(name) else file.commentOut(name)
+            if (!changed) throw IOException("No tunnel $name in $path")
+            write(target, file.document.toString())
+        }
+        changed()
     }
 
     /** Switches a whole file on or off by its ".disabled" suffix. Returns the new path. */
@@ -153,23 +185,32 @@ class RouterTunnels private constructor(context: Context) {
 
     /** Applies saved changes to the running router without restarting it. */
     fun markApplied() {
+        applied = current
         changedSinceApply.value = false
     }
 
-    /** The router reads tunnels anew when it starts. */
+    /** The router reads tunnels anew when it starts. Called on the IO thread. */
     internal fun onRouterStarting() {
+        current = enabledFiles()
+        applied = current
         changedSinceApply.value = false
     }
 
     /** Files were changed outside of this class (import, reset): screens reload. */
-    fun refresh() {
+    suspend fun refresh() = changed()
+
+    /**
+     * Compares the enabled files with what the router read, so that undoing a change (deleting a
+     * tunnel just added, switching a file off and on again) clears the apply banner.
+     */
+    private suspend fun changed() {
+        current = withContext(Dispatchers.IO) { enabledFiles() }
+        changedSinceApply.value = applied?.let { it != current } ?: false
         _revision.value++
     }
 
-    private fun changed() {
-        changedSinceApply.value = true
-        _revision.value++
-    }
+    /** What i2pd reads: tunnels.conf and the enabled files of tunnels.d. */
+    private fun enabledFiles(): Map<String, String> = readFiles().filter { it.enabled }.associate { it.path to it.document.toString() }
 
     private fun readFiles(): List<TunnelFile> {
         val result = mutableListOf<TunnelFile>()
