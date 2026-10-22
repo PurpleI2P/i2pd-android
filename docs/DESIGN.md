@@ -504,6 +504,12 @@ DI — вручную: `AppContainer` в `Application`. Hilt для такого
 - **`binary/jni/deps.mk`** — общие определения модулей и списка исходников i2pd для приложения (`native/jni/Android.mk`) и standalone-бинарника (`binary/jni/Android.mk`).
 - **Флаги:** `-Wl,-z,max-page-size=16384` явно (на r28+ уже по умолчанию), `APP_STL := c++_static`, `-fvisibility=hidden` плюс экспорт только `JNI_OnLoad`.
 - **Подпись:** конфиг release-подписи берётся из `keystore.properties` или переменных окружения, а не из `build.gradle`.
+- **Размер релиза:** R8 и удаление неиспользуемых ресурсов, `localeFilters` по языкам приложения (иначе в APK попадают переводы всего AndroidX), `.so` в APK сжаты (`useLegacyPackaging`, распаковываются при установке, как в старом приложении). APK arm64 — 6,9 МБ (было 21,9 МБ, у 2.61.0 — 7,2 МБ). Проверено, но не включено: `-Oz`/ThinLTO/ICF (`libi2pd.so` 12,7 → 10,1 МБ) и OpenSSL без неиспользуемых алгоритмов и протоколов (→ 8,4 МБ).
+- **Воспроизводимость:** APK одинаковы байт в байт при сборке из другого каталога, с NDK в другом месте и с зависимостями, собранными с нуля. Для этого:
+  - `dependenciesInfo` выключен — блок зависимостей для Google Play шифруется случайным ключом;
+  - `-ffile-prefix-map` (корень репозитория → `.`, NDK → `/ndk`) и `-fdebug-compilation-dir=.` в обоих `Application.mk` и в `CMAKE_C_FLAGS` miniupnpc: Boost.Asio вкомпилирует пути исходников, а пути в отладочной информации меняют build ID даже после strip;
+  - OpenSSL: `--prefix=/` с установкой через `DESTDIR` (иначе абсолютный путь сборки попадает в `OPENSSLDIR` и другие каталоги) и `SOURCE_DATE_EPOCH` из `RELEASE_DATE` в `VERSION.dat` (строка «built on»);
+  - в `META-INF/version-control-info.textproto` попадает ревизия git, поэтому одинаковый результат даёт сборка из того же коммита.
 - **CI:**
   - исправить переключение JDK: `actions/setup-java` вместо `export` в отдельном шаге;
   - кешировать собранные библиотеки (`binary/jni/*/out`) по хешу сабмодулей;

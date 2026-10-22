@@ -8,7 +8,8 @@ API=23
 HOST_OS=`uname -a`
 
 function build_one {
-	local stamp="$NDK_REVISION android-$API"
+	# "reproducible": built with a fixed prefix and build date, see below
+	local stamp="$NDK_REVISION android-$API reproducible"
 	if [ -f "out/$CPU/lib/libcrypto.a" ] && [ "$(cat "out/$CPU/.stamp" 2>/dev/null)" == "$stamp" ]; then
 		echo "OpenSSL for $CPU is up to date"
 		return
@@ -18,8 +19,11 @@ function build_one {
 	mkdir -p out/$CPU
 
 	echo "Configuring OpenSSL for $CPU..."
+	# Reproducible builds: a fixed prefix (installed through DESTDIR) instead of the absolute build path,
+	# which ends up in OPENSSLDIR and friends, and the release date instead of the build time ("built on")
+	export SOURCE_DATE_EPOCH=$(date -u -d "$(grep RELEASE_DATE VERSION.dat | cut -d'"' -f2)" +%s)
 	./Configure \
-	--prefix="$PWD/out/$CPU" \
+	--prefix=/ \
 	$TARGET \
 	no-shared \
 	no-tests \
@@ -30,7 +34,7 @@ function build_one {
 	echo "Building OpenSSL for $CPU..."
 	make -j $(nproc) > out/build.log
 
-	make install_sw >> out/build.log
+	make install_sw DESTDIR="$PWD/out/$CPU" >> out/build.log
 
 	make clean
 

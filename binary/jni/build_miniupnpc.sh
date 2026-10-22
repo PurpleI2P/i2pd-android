@@ -5,9 +5,12 @@ set -e
 cd "$( dirname "${BASH_SOURCE[0]}" )"
 
 API=23
+# Repository root, for the reproducible paths below
+ROOT=$(cd ../.. && pwd)
 
 function build_one {
-	local stamp="$NDK_REVISION android-$API"
+	# "reproducible": built with the source and NDK paths mapped, see below
+	local stamp="$NDK_REVISION android-$API reproducible-paths"
 	if [ -f "out/$CPU/lib/libminiupnpc.a" ] && [ "$(cat "out/$CPU/.stamp" 2>/dev/null)" == "$stamp" ]; then
 		echo "miniupnpc for $CPU is up to date"
 		return
@@ -17,6 +20,9 @@ function build_one {
 	mkdir -p build out/$CPU
 	cd build
 
+	# Reproducible builds: the NDK toolchain compiles with -g, and the absolute paths in the debug info
+	# change the build ID of libi2pd.so even after stripping. The toolchain ignores CFLAGS from the
+	# environment, CMAKE_C_FLAGS is added to its own flags.
 	cmake \
 	-G "Unix Makefiles" \
 	-DUPNPC_BUILD_SHARED=False \
@@ -28,6 +34,7 @@ function build_one {
 	-DANDROID_NDK=$ANDROID_NDK_HOME \
 	-DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake \
 	-DCMAKE_INSTALL_PREFIX=../out/$CPU \
+	-DCMAKE_C_FLAGS="-ffile-prefix-map=$ROOT=. -ffile-prefix-map=$ANDROID_NDK_HOME=/ndk -fdebug-compilation-dir=." \
 	..
 
 	echo "Building..."

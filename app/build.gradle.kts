@@ -49,6 +49,10 @@ android {
     buildTypes {
         release {
             signingConfig = signingConfigs.findByName("release")
+            // R8 and resource shrinking: dex 23.6 -> 2.6 MB. JNI names are kept by native/consumer-rules.pro
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"))
         }
     }
 
@@ -62,9 +66,24 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
+    // Native libraries compressed in the APK (extracted on install, as in the old app): arm64 APK
+    // 14.6 -> 6.9 MB at the cost of the extracted copy on the device
+    packaging {
+        jniLibs { useLegacyPackaging = true }
+    }
+
+    // The dependency block is encrypted for Google Play with a random key: without it the APK
+    // is byte-for-byte reproducible (and F-Droid asks to leave it out anyway)
+    dependenciesInfo {
+        includeInApk = false
+        includeInBundle = false
+    }
+
     androidResources {
         // Per-app language picker of Android 13+; the locales are taken from res/values-*
         generateLocaleConfig = true
+        // Only the languages of the app; without it every AndroidX translation is packaged
+        localeFilters += listOf("en", "cs", "eo", "es", "fa", "fil", "fr", "hi", "it", "pl", "pt", "ro", "ru", "tr", "uk", "uz", "zh-rCN")
     }
 }
 
