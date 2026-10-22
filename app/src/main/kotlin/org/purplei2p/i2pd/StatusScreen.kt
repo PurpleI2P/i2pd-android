@@ -9,7 +9,6 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -24,30 +23,29 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.RichTooltip
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TooltipAnchorPosition
-import androidx.compose.material3.TooltipBox
-import androidx.compose.material3.TooltipDefaults
-import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.layout.boundsInWindow
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.painterResource
@@ -179,7 +177,6 @@ private enum class MainAction(val icon: Int, val label: Int) {
  * Start/Stop, Restart and Web console in one row. Stop is graceful; touching and holding it stops at
  * once, which is explained by a hint the first time Stop shows up.
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun Controls(state: RouterState, onStart: () -> Unit, onWebConsole: (() -> Unit)?) {
     val context = LocalContext.current
@@ -207,44 +204,21 @@ private fun Controls(state: RouterState, onStart: () -> Unit, onWebConsole: (() 
     }
     val holdToStop = main != MainAction.START
 
-    val hint = rememberTooltipState(isPersistent = true)
-    LaunchedEffect(main, settings.stopHintShown) {
-        if (main == MainAction.STOP && lifecycle == Lifecycle.Running && !settings.stopHintShown) hint.show()
-    }
+    // Stop shows up while the router is still starting, the hint waits for Running
+    val showHint = main == MainAction.STOP && lifecycle == Lifecycle.Running && !settings.stopHintShown
+    var mainBounds by remember { mutableStateOf<Rect?>(null) }
 
     Card(Modifier.fillMaxWidth()) {
         Row(Modifier.fillMaxWidth().padding(4.dp)) {
-            // weight() on the tooltip box itself does not reach the row, so the box gets its own cell
-            Box(Modifier.weight(1f)) {
-                TooltipBox(
-                    positionProvider = TooltipDefaults.rememberTooltipPositionProvider(TooltipAnchorPosition.Below),
-                    tooltip = {
-                        RichTooltip(
-                            action = {
-                                TextButton(onClick = {
-                                    hint.dismiss()
-                                    store.update { it.copy(stopHintShown = true) }
-                                }) { Text(stringResource(R.string.hint_got_it)) }
-                            },
-                        ) { Text(stringResource(R.string.hint_stop_now, stringResource(ServiceR.string.action_stop))) }
-                    },
-                    state = hint,
-                    // The long press of the anchor is "stop now", not "show the tooltip"
-                    enableUserInput = false,
-                    modifier = Modifier.fillMaxWidth(),
-                ) {
-                    ControlItem(
-                        icon = main.icon,
-                        label = stringResource(main.label),
-                        highlighted = true,
-                        onClick = onMain,
-                        onLongClick = if (holdToStop) stopNow else null,
-                        onLongClickLabel = stringResource(ServiceR.string.action_stop_now),
-                        // The tooltip box does not stretch its content: fill the third of the row like the others
-                        modifier = Modifier.fillMaxWidth(),
-                    )
-                }
-            }
+            ControlItem(
+                icon = main.icon,
+                label = stringResource(main.label),
+                highlighted = true,
+                onClick = onMain,
+                onLongClick = if (holdToStop) stopNow else null,
+                onLongClickLabel = stringResource(ServiceR.string.action_stop_now),
+                modifier = Modifier.weight(1f).onGloballyPositioned { mainBounds = it.boundsInWindow() },
+            )
             ControlItem(
                 icon = R.drawable.ic_action_restart,
                 label = stringResource(ServiceR.string.action_restart),
@@ -260,6 +234,15 @@ private fun Controls(state: RouterState, onStart: () -> Unit, onWebConsole: (() 
                 modifier = Modifier.weight(1f),
             )
         }
+    }
+    val bounds = mainBounds
+    if (showHint && bounds != null) {
+        CoachMark(
+            target = bounds,
+            text = stringResource(R.string.hint_stop_now, stringResource(ServiceR.string.action_stop)),
+            action = stringResource(R.string.hint_got_it),
+            onDismiss = { store.update { it.copy(stopHintShown = true) } },
+        )
     }
 }
 
