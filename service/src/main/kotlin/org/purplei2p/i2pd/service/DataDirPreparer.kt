@@ -14,8 +14,9 @@ import java.util.Locale
  * Prepares the private data directory (filesDir/i2pd) and builds i2pd start parameters.
  *
  * Bundled assets: on the first start of an installation all of them are copied; an app update
- * only replaces the certificates. Configuration and the address book belong to the user from then
- * on, files deleted or switched off by the user do not come back.
+ * only replaces the certificates and the web interface of torrents tunnels (torrents/web, from
+ * i2pd contrib). Configuration and the address book belong to the user from then on, files deleted
+ * or switched off by the user do not come back; downloads in torrents/ are not touched.
  */
 class DataDirPreparer(private val context: Context) {
 
@@ -35,11 +36,16 @@ class DataDirPreparer(private val context: Context) {
                 stamp.writeText(version)
             }
             else -> {
-                Log.i(TAG, "App updated, replacing certificates in $root")
+                Log.i(TAG, "App updated, replacing certificates and torrents web interface in $root")
                 replaceCertificates()
+                replaceAsset(TORRENTS_WEB)
                 stamp.writeText(version)
             }
         }
+
+        // Missing files of the torrents web interface are put back on every start: installations made
+        // before it was bundled get it without a version change, and it is not user data
+        copyAsset(context.assets, TORRENTS_WEB, root)
 
         return StartParams(
             dataDir = root.absolutePath,
@@ -89,9 +95,11 @@ class DataDirPreparer(private val context: Context) {
     }
 
     /** Deletes the certificates and copies the bundled ones. */
-    fun replaceCertificates() {
-        File(dataDir, CERTIFICATES).deleteRecursively()
-        copyAsset(context.assets, CERTIFICATES, dataDir)
+    fun replaceCertificates() = replaceAsset(CERTIFICATES)
+
+    private fun replaceAsset(path: String) {
+        File(dataDir, path).deleteRecursively()
+        copyAsset(context.assets, path, dataDir)
     }
 
     private companion object {
@@ -101,6 +109,8 @@ class DataDirPreparer(private val context: Context) {
         const val CERTIFICATES = "certificates"
         const val DISABLED_SUFFIX = ".disabled"
         val CONFIG_ASSETS = listOf("i2pd.conf", "tunnels.conf", "tunnels.d")
-        val ASSETS = CONFIG_ASSETS + listOf("addressbook", CERTIFICATES)
+        /** Web interface the torrents RPC server serves when "web" is on (TorrentsRPCSession::HandleWeb). */
+        const val TORRENTS_WEB = "torrents/web"
+        val ASSETS = CONFIG_ASSETS + listOf("addressbook", CERTIFICATES, TORRENTS_WEB)
     }
 }
