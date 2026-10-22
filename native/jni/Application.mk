@@ -12,4 +12,8 @@ endif
 # Export only JNI_OnLoad, let the linker drop unused code
 APP_CFLAGS += -fvisibility=hidden -ffunction-sections -fdata-sections
 APP_CPPFLAGS += -fvisibility-inlines-hidden
+# Reproducible builds: source paths compiled in (Boost.Asio error locations) and the paths in the debug info,
+# which change the build ID even after stripping, do not depend on where the repository and the NDK are
+APP_CFLAGS += -ffile-prefix-map=$(abspath $(I2PD_DEPS_ROOT)/../..)=. -ffile-prefix-map=$(NDK_ROOT)=/ndk -fdebug-compilation-dir=.
+
 APP_LDFLAGS += -Wl,--gc-sections -Wl,--exclude-libs,ALL -Wl,-z,max-page-size=16384

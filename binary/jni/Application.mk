@@ -12,4 +12,8 @@ ifeq ($(TARGET_ARCH_ABI),armeabi-v7a)
 APP_CPPFLAGS += -DANDROID_ARM7A
 endif
 
+# Reproducible builds: source paths compiled in (Boost.Asio error locations) and the paths in the debug info,
+# which change the build ID even after stripping, do not depend on where the repository and the NDK are
+APP_CFLAGS += -ffile-prefix-map=$(abspath $(NDK_PROJECT_PATH)/..)=. -ffile-prefix-map=$(NDK_ROOT)=/ndk -fdebug-compilation-dir=.
+
 APP_LDFLAGS += -fPIE -Wl,-z,max-page-size=16384
