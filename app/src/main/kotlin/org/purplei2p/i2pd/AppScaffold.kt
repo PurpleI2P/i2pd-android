@@ -62,6 +62,13 @@ fun AppScaffold() {
         tab = Tab.SETTINGS
     }
     val settingsOpened = { settingsTarget = null }
+    // Where the tunnels tab should open next, see TunnelsTarget
+    var tunnelsTarget by rememberSaveable { mutableStateOf<String?>(null) }
+    val openTunnels = { target: String ->
+        tunnelsTarget = target
+        tab = Tab.TUNNELS
+    }
+    val tunnelsOpened = { tunnelsTarget = null }
     val checks = rememberSystemChecks()
     val context = LocalContext.current
     val settingsStore = RouterController.settings(context)
@@ -99,7 +106,7 @@ fun AppScaffold() {
                 Scaffold(
                     modifier = Modifier.weight(1f),
                     contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Vertical + WindowInsetsSides.End),
-                ) { padding -> TabContent(tab, checks, { webConsoleUrl = it }, openSettings, settingsTarget, settingsOpened, padding) }
+                ) { padding -> TabContent(tab, checks, { webConsoleUrl = it }, openSettings, settingsTarget, settingsOpened, openTunnels, tunnelsTarget, tunnelsOpened, padding) }
             }
         } else {
             Scaffold(
@@ -115,7 +122,7 @@ fun AppScaffold() {
                         }
                     }
                 },
-            ) { padding -> TabContent(tab, checks, { webConsoleUrl = it }, openSettings, settingsTarget, settingsOpened, padding) }
+            ) { padding -> TabContent(tab, checks, { webConsoleUrl = it }, openSettings, settingsTarget, settingsOpened, openTunnels, tunnelsTarget, tunnelsOpened, padding) }
         }
     }
 }
@@ -133,13 +140,16 @@ private fun TabContent(
     onOpenSettings: (String) -> Unit,
     settingsTarget: String?,
     onSettingsOpened: () -> Unit,
+    onOpenTunnels: (String) -> Unit,
+    tunnelsTarget: String?,
+    onTunnelsOpened: () -> Unit,
     padding: PaddingValues,
 ) {
     Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.TopCenter) {
         val modifier = if (tab == Tab.LOGS) Modifier else Modifier.widthIn(max = CONTENT_MAX_WIDTH)
         when (tab) {
-            Tab.STATUS -> StatusScreen(checks = checks, onOpenWebConsole = onOpenWebConsole, onOpenSettings = onOpenSettings, modifier = modifier)
-            Tab.TUNNELS -> TunnelsScreen(modifier = modifier)
+            Tab.STATUS -> StatusScreen(checks = checks, onOpenWebConsole = onOpenWebConsole, onOpenSettings = onOpenSettings, onOpenTunnels = onOpenTunnels, modifier = modifier)
+            Tab.TUNNELS -> TunnelsScreen(target = tunnelsTarget, onTargetOpened = onTunnelsOpened, modifier = modifier)
             Tab.LOGS -> LogsScreen(modifier = modifier)
             Tab.SETTINGS -> SettingsScreen(checks = checks, target = settingsTarget, onTargetOpened = onSettingsOpened, modifier = modifier)
         }
