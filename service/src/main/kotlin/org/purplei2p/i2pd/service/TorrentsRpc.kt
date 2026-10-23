@@ -40,6 +40,9 @@ data class TorrentItem(
     val error: String?,
 )
 
+/** A file of a torrent: [name] relative to the download folder of the tunnel, [length] in bytes. */
+data class TorrentFile(val name: String, val length: Long)
+
 data class TorrentsStats(val torrentCount: Int, val activeCount: Int, val downloadSpeed: Long, val uploadSpeed: Long)
 
 /** Result of torrent-add: the torrent was added, or the same one is already there. */
@@ -69,6 +72,13 @@ class TorrentsRpc(private val post: suspend (String) -> String) {
         val arguments = call("torrent-get", JSONObject().put("fields", JSONArray(FIELDS)))
         val list = arguments.optJSONArray("torrents") ?: return emptyList()
         return (0 until list.length()).map { parseTorrent(list.getJSONObject(it)) }
+    }
+
+    /** Files of a torrent, empty until the metadata of a magnet link is received. */
+    suspend fun files(id: Int): List<TorrentFile> {
+        val arguments = call("torrent-get", ids(listOf(id)).put("fields", JSONArray(listOf("id", "files"))))
+        val files = arguments.optJSONArray("torrents")?.optJSONObject(0)?.optJSONArray("files") ?: return emptyList()
+        return (0 until files.length()).map { files.getJSONObject(it).let { f -> TorrentFile(f.optString("name"), f.optLong("length")) } }
     }
 
     /** Adds a magnet link. */

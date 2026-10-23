@@ -61,11 +61,13 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.delay
 import org.purplei2p.i2pd.config.OptionGroup
+import org.purplei2p.i2pd.config.TunnelType
 import org.purplei2p.i2pd.daemon.api.ClientService
 import org.purplei2p.i2pd.service.Lifecycle
 import org.purplei2p.i2pd.service.RouterController
 import org.purplei2p.i2pd.service.RouterState
 import org.purplei2p.i2pd.service.RouterStateText
+import org.purplei2p.i2pd.service.TorrentsRpc
 import org.purplei2p.i2pd.service.R as ServiceR
 import org.purplei2p.i2pd.service.HistorySample
 
@@ -74,6 +76,7 @@ fun StatusScreen(
     checks: SystemChecks,
     onOpenWebConsole: (String) -> Unit,
     onOpenSettings: (String) -> Unit,
+    onOpenTunnels: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
@@ -125,7 +128,7 @@ fun StatusScreen(
             onWebConsole = state.status?.webConsoleUrl?.takeIf(::isLoopbackUrl)?.let { url -> { onOpenWebConsole(url) } },
         )
         StatusDetails(state, now)
-        state.status?.let { ServiceChips(it.services, onOpenSettings) }
+        state.status?.let { ServiceChips(it.services, torrentsTunnels(), onOpenSettings, onOpenTunnels) }
         val history by RouterController.history(context).collectAsStateWithLifecycle()
         if (state.status != null) {
             SpeedGraph(history)
@@ -347,8 +350,32 @@ private fun StatusDetails(state: RouterState, now: Long) {
 }
 
 /** Client services of the running router; a chip opens the settings of its service. */
+/** Torrents tunnel [name] of an enabled tunnel file [path]; [rpc] is false without an RPC port. */
+private class TorrentsTunnel(val path: String, val name: String, val rpc: Boolean)
+
+/** Torrents tunnels of the enabled tunnel files, reloaded after every tunnels save. */
 @Composable
-private fun ServiceChips(services: Set<ClientService>, onOpenSettings: (String) -> Unit) {
+private fun torrentsTunnels(): List<TorrentsTunnel> {
+    val tunnels = RouterController.tunnels(LocalContext.current)
+    val revision by tunnels.revision.collectAsStateWithLifecycle()
+    val list by produceState(emptyList<TorrentsTunnel>(), revision) {
+        value = runCatching { tunnels.load() }.getOrNull()?.files.orEmpty()
+            .filter { it.enabled }
+            .flatMap { file ->
+                file.tunnels.filter { it.type == TunnelType.TORRENTS }
+                    .map { TorrentsTunnel(file.path, it.name, TorrentsRpc.forTunnel(it) != null) }
+            }
+    }
+    return list
+}
+
+@Composable
+private fun ServiceChips(
+    services: Set<ClientService>,
+    torrents: List<TorrentsTunnel>,
+    onOpenSettings: (String) -> Unit,
+    onOpenTunnels: (String) -> Unit,
+) {
     Column(Modifier.fillMaxWidth()) {
         Text(
             stringResource(R.string.status_services),
@@ -356,17 +383,31 @@ private fun ServiceChips(services: Set<ClientService>, onOpenSettings: (String) 
             color = MaterialTheme.colorScheme.primary,
             modifier = Modifier.semantics { heading() },
         )
-        if (services.isEmpty()) {
+        if (services.isEmpty() && torrents.isEmpty()) {
             Text(stringResource(R.string.status_services_none), style = MaterialTheme.typography.bodyMedium)
             return@Column
         }
+        val chips: List<Pair<String, () -> Unit>> =
+            ClientService.entries.filter { it in services }.map { service ->
+                stringResource(service.label()) to { onOpenSettings(service.settingsTarget()) }
+            } + torrents.map { tunnel ->
+                // The client needs the RPC port, without it the tunnel form shows where to set it
+                val label = if (torrents.size == 1) stringResource(R.string.torrents_open)
+                else stringResource(R.string.torrents_open_named, tunnel.name)
+                label to {
+                    onOpenTunnels(
+                        if (tunnel.rpc) TunnelsTarget.torrents(tunnel.path, tunnel.name)
+                        else TunnelsTarget.edit(tunnel.path, tunnel.name),
+                    )
+                }
+            }
         // Two equal columns; an odd last chip takes the whole row, so the grid has no gaps
-        ClientService.entries.filter { it in services }.chunked(2).forEach { row ->
+        chips.chunked(2).forEach { row ->
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                row.forEach { service ->
+                row.forEach { (label, onClick) ->
                     AssistChip(
-                        onClick = { onOpenSettings(service.settingsTarget()) },
-                        label = { Text(stringResource(service.label()), textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth()) },
+                        onClick = onClick,
+                        label = { Text(label, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth()) },
                         modifier = Modifier.weight(1f),
                     )
                 }

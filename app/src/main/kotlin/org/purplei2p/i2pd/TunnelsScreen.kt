@@ -75,7 +75,7 @@ import org.purplei2p.i2pd.service.RouterTunnels
 import org.purplei2p.i2pd.service.TunnelSet
 
 /** Where the tunnels tab is: the list, a tunnel form (existing or new) or a raw file editor. */
-private data class TunnelsPage(val kind: Kind, val path: String = "", val name: String = "", val type: String = "") {
+internal data class TunnelsPage(val kind: Kind, val path: String = "", val name: String = "", val type: String = "") {
     enum class Kind { LIST, EDIT, NEW, RAW, TORRENTS }
 
     companion object {
@@ -84,6 +84,22 @@ private data class TunnelsPage(val kind: Kind, val path: String = "", val name: 
             save = { listOf(it.kind.name, it.path, it.name, it.type) },
             restore = { TunnelsPage(Kind.valueOf(it[0]), it[1], it[2], it[3]) },
         )
+    }
+}
+
+/** Pages of the tunnels tab that other tabs open, see TunnelsScreen. */
+object TunnelsTarget {
+    /** The torrents client of a tunnel. */
+    fun torrents(path: String, name: String) = listOf(TunnelsPage.Kind.TORRENTS.name, path, name).joinToString("\n")
+
+    /** The form of a tunnel. */
+    fun edit(path: String, name: String) = listOf(TunnelsPage.Kind.EDIT.name, path, name).joinToString("\n")
+
+    internal fun pageOf(target: String): TunnelsPage? {
+        val parts = target.split('\n')
+        if (parts.size != 3) return null
+        val kind = TunnelsPage.Kind.entries.firstOrNull { it.name == parts[0] } ?: return null
+        return TunnelsPage(kind, parts[1], parts[2])
     }
 }
 
@@ -116,7 +132,7 @@ private class TunnelsSession(val tunnels: RouterTunnels, private val scope: Coro
 }
 
 @Composable
-fun TunnelsScreen(modifier: Modifier = Modifier) {
+fun TunnelsScreen(target: String?, onTargetOpened: () -> Unit, modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val tunnels = RouterController.tunnels(context)
@@ -124,6 +140,10 @@ fun TunnelsScreen(modifier: Modifier = Modifier) {
     val revision by tunnels.revision.collectAsStateWithLifecycle()
     LaunchedEffect(revision) { session.reload() }
     var page by rememberSaveable(stateSaver = TunnelsPage.Saver) { mutableStateOf(TunnelsPage.LIST) }
+    LaunchedEffect(target) {
+        target?.let(TunnelsTarget::pageOf)?.let { page = it }
+        if (target != null) onTargetOpened()
+    }
 
     if (page.kind != TunnelsPage.Kind.LIST) BackHandler { page = TunnelsPage.LIST }
 
@@ -363,7 +383,7 @@ private fun TunnelRow(
         issues.forEach { IssueText(it, padding = false) }
         // The client needs the RPC server: only with a port
         if (info.type == TunnelType.TORRENTS && (info.values["rpcport"]?.toIntOrNull() ?: 0) > 0) {
-            OutlinedButton(onClick = onTorrents) { Text(stringResource(R.string.torrents_open)) }
+            Button(onClick = onTorrents, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.torrents_open)) }
         }
     }
 }
@@ -411,9 +431,9 @@ private fun TunnelForm(
     val values = remember {
         mutableStateMapOf<String, String>().apply {
             info?.values?.forEach { (k, v) -> if (k in formKeys) put(k, v) }
-            // A new torrents tunnel downloads into the private data directory: no storage permission needed
+            // A new torrents tunnel downloads into the media folder of the app, on a memory card if there is one
             if (info == null && type == TunnelType.TORRENTS) {
-                put("torrentsdir", torrentsDirDefault(context))
+                put("torrentsdir", TorrentsStorage.defaultDir(context))
                 // Without a leading "/": i2pd prepends one itself, the RPC is then at /transmission/rpc
                 put("rpcpath", "transmission")
             }
@@ -475,6 +495,7 @@ private fun TunnelForm(
         )
         mainParams.forEach { param ->
             ParamField(type, param, values, paramErrors[param.key])
+            if (type == TunnelType.TORRENTS && param.key == "torrentsdir") TorrentsDirControls(values)
             if (type == TunnelType.TORRENTS && param.key == "trackers") TrackerButtons(values)
             if (type == TunnelType.TORRENTS && param.key == "rpcport") RpcPortHint(values)
         }
@@ -754,10 +775,6 @@ private fun TunnelFileEditor(session: TunnelsSession, path: String, onClose: () 
         )
     }
 }
-
-/** Default download directory of a new torrents tunnel: torrents/downloads in the data directory, next to torrents/web. */
-private fun torrentsDirDefault(context: android.content.Context): String =
-    java.io.File(RouterController.data(context).root, "torrents/downloads").absolutePath
 
 private fun createTorrentsDir(path: String) {
     val dir = java.io.File(path)

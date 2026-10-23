@@ -86,6 +86,8 @@ fun TorrentsScreen(tunnel: TunnelInfo, onBack: () -> Unit) {
     var message by remember { mutableStateOf<Pair<Int, String>?>(null) }
     var magnet by rememberSaveable { mutableStateOf("") }
     var removing by remember { mutableStateOf<TorrentItem?>(null) }
+    var exporting by remember { mutableStateOf<TorrentItem?>(null) }
+    val exports by TorrentExports.state.collectAsStateWithLifecycle()
 
     suspend fun refresh() {
         val client = rpc ?: return
@@ -123,6 +125,19 @@ fun TorrentsScreen(tunnel: TunnelInfo, onBack: () -> Unit) {
         action { client ->
             val content = readTorrentFile(context, uri) ?: throw TorrentFileTooLarge()
             reportAdded(client.addTorrentFile(content))
+        }
+    }
+
+    // "Save to…": the torrent is copied into the picked folder and keeps seeding where it is
+    val pickTarget = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocumentTree()) { tree ->
+        val torrent = exporting ?: return@rememberLauncherForActivityResult
+        exporting = null
+        tree ?: return@rememberLauncherForActivityResult
+        val dir = java.io.File(tunnel.values["torrentsdir"].orEmpty())
+        action { client ->
+            val files = client.files(torrent.id)
+            if (files.isEmpty()) throw IOException(torrent.name)
+            TorrentExports.start(context, TorrentExports.key(tunnel.name, torrent.name), dir, files, tree)
         }
     }
 
@@ -188,6 +203,13 @@ fun TorrentsScreen(tunnel: TunnelInfo, onBack: () -> Unit) {
                         onStop = { action { it.stop(listOf(torrent.id)) } },
                         onReannounce = { action { it.reannounce(listOf(torrent.id)) } },
                         onRemove = { removing = torrent },
+                        onSave = {
+                            exporting = torrent
+                            pickTarget.launch(null)
+                        },
+                        export = exports[TorrentExports.key(tunnel.name, torrent.name)],
+                        onCancelExport = { TorrentExports.cancel(TorrentExports.key(tunnel.name, torrent.name)) },
+                        onDismissExport = { TorrentExports.dismiss(TorrentExports.key(tunnel.name, torrent.name)) },
                     )
                 }
             }
@@ -242,7 +264,17 @@ fun TorrentsScreen(tunnel: TunnelInfo, onBack: () -> Unit) {
 }
 
 @Composable
-private fun TorrentCard(torrent: TorrentItem, onStart: () -> Unit, onStop: () -> Unit, onReannounce: () -> Unit, onRemove: () -> Unit) {
+private fun TorrentCard(
+    torrent: TorrentItem,
+    onStart: () -> Unit,
+    onStop: () -> Unit,
+    onReannounce: () -> Unit,
+    onRemove: () -> Unit,
+    onSave: () -> Unit,
+    export: TorrentExports.Progress?,
+    onCancelExport: () -> Unit,
+    onDismissExport: () -> Unit,
+) {
     val context = LocalContext.current
     val gettingMetadata = torrent.metadataPercent < 1.0
     Card(Modifier.fillMaxWidth().padding(vertical = 6.dp)) {
@@ -268,6 +300,7 @@ private fun TorrentCard(torrent: TorrentItem, onStart: () -> Unit, onStop: () ->
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
             torrent.error?.let { Text(it, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.error) }
+            export?.let { ExportProgress(it, onCancelExport, onDismissExport) }
             FlowRow(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                 if (torrent.status == TorrentStatus.STOPPED) {
                     TextButton(onClick = onStart) { Text(stringResource(ServiceR.string.action_start)) }
@@ -275,7 +308,37 @@ private fun TorrentCard(torrent: TorrentItem, onStart: () -> Unit, onStop: () ->
                     TextButton(onClick = onStop) { Text(stringResource(ServiceR.string.action_stop)) }
                 }
                 TextButton(onClick = onReannounce) { Text(stringResource(R.string.torrents_reannounce)) }
+                val finished = !gettingMetadata && torrent.sizeWhenDone > 0 && torrent.leftUntilDone == 0L
+                if (finished && (export == null || export.done || export.error != null)) {
+                    TextButton(onClick = onSave) { Text(stringResource(R.string.torrents_save_to)) }
+                }
                 TextButton(onClick = onRemove) { Text(stringResource(R.string.action_remove), color = MaterialTheme.colorScheme.error) }
+            }
+        }
+    }
+}
+
+@Composable
+private fun ExportProgress(export: TorrentExports.Progress, onCancel: () -> Unit, onDismiss: () -> Unit) {
+    val context = LocalContext.current
+    val sizes = "${RouterStateText.bytes(context, export.copied)} / ${RouterStateText.bytes(context, export.total)}"
+    when {
+        export.error != null -> Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(stringResource(R.string.torrents_save_failed, export.error), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.error, modifier = Modifier.weight(1f))
+            TextButton(onClick = onDismiss) { Text(stringResource(R.string.action_dismiss)) }
+        }
+        export.done -> Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(stringResource(R.string.torrents_saved), style = MaterialTheme.typography.bodySmall, modifier = Modifier.weight(1f))
+            TextButton(onClick = onDismiss) { Text(stringResource(R.string.action_dismiss)) }
+        }
+        else -> {
+            LinearProgressIndicator(
+                progress = { if (export.total > 0) (export.copied.toFloat() / export.total).coerceIn(0f, 1f) else 0f },
+                modifier = Modifier.fillMaxWidth(),
+            )
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(stringResource(R.string.torrents_saving, sizes), style = MaterialTheme.typography.bodySmall, modifier = Modifier.weight(1f))
+                TextButton(onClick = onCancel) { Text(stringResource(android.R.string.cancel)) }
             }
         }
     }
