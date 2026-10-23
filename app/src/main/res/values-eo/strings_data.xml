@@ -38,6 +38,9 @@
     <string name="files_save">Konservi en la aparato</string>
     <string name="files_delete">Forigi</string>
     <string name="files_confirm_delete">Ĉu forigi %1$s?</string>
+    <string name="files_actions">Agoj</string>
+    <string name="files_confirm_delete_folder">Ĉu forigi la dosierujon %1$s kun ĉio en ĝi?</string>
+    <string name="files_folder_hint">Longe premu dosierujon por forigi ĝin</string>
     <string name="files_up">.. (supren)</string>
     <string name="files_empty">Malplena dosierujo</string>
     <string name="onboarding_title">Bonvenon al i2pd</string>

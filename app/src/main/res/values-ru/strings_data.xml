@@ -42,6 +42,9 @@
     <string name="files_save">Сохранить на устройство</string>
     <string name="files_delete">Удалить</string>
     <string name="files_confirm_delete">Удалить %1$s?</string>
+    <string name="files_actions">Действия</string>
+    <string name="files_confirm_delete_folder">Удалить папку %1$s со всем содержимым?</string>
+    <string name="files_folder_hint">Долгое нажатие на папку — удалить её</string>
     <string name="files_up">.. (вверх)</string>
     <string name="files_empty">Папка пуста</string>
 

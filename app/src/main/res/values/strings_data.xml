@@ -42,6 +42,9 @@
     <string name="files_save">Save to device</string>
     <string name="files_delete">Delete</string>
     <string name="files_confirm_delete">Delete %1$s?</string>
+    <string name="files_actions">Actions</string>
+    <string name="files_confirm_delete_folder">Delete the folder %1$s with all its contents?</string>
+    <string name="files_folder_hint">Long press a folder to delete it</string>
     <string name="files_up">.. (up)</string>
     <string name="files_empty">Empty folder</string>
 

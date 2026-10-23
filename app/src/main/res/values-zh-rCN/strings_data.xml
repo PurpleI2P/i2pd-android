@@ -38,6 +38,9 @@
     <string name="files_save">保存到设备</string>
     <string name="files_delete">删除</string>
     <string name="files_confirm_delete">删除 %1$s 吗？</string>
+    <string name="files_actions">操作</string>
+    <string name="files_confirm_delete_folder">删除文件夹 %1$s 及其全部内容？</string>
+    <string name="files_folder_hint">长按文件夹可将其删除</string>
     <string name="files_up">..（上级）</string>
     <string name="files_empty">空文件夹</string>
     <string name="onboarding_title">欢迎使用 i2pd</string>

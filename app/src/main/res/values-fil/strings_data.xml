@@ -38,6 +38,9 @@
     <string name="files_save">I-save sa device</string>
     <string name="files_delete">Burahin</string>
     <string name="files_confirm_delete">Burahin ang %1$s?</string>
+    <string name="files_actions">Mga aksyon</string>
+    <string name="files_confirm_delete_folder">Burahin ang folder na %1$s kasama ang lahat ng laman nito?</string>
+    <string name="files_folder_hint">Pindutin nang matagal ang folder para burahin ito</string>
     <string name="files_up">.. (pataas)</string>
     <string name="files_empty">Walang laman ang folder</string>
     <string name="onboarding_title">Maligayang pagdating sa i2pd</string>

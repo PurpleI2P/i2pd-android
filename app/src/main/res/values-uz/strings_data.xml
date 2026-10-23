@@ -38,6 +38,9 @@
     <string name="files_save">Qurilmaga saqlash</string>
     <string name="files_delete">O‘chirish</string>
     <string name="files_confirm_delete">%1$s o‘chirilsinmi?</string>
+    <string name="files_actions">Amallar</string>
+    <string name="files_confirm_delete_folder">%1$s jildi butun tarkibi bilan o\'chirilsinmi?</string>
+    <string name="files_folder_hint">Jildni o\'chirish uchun uni bosib turing</string>
     <string name="files_up">.. (yuqoriga)</string>
     <string name="files_empty">Bo‘sh jild</string>
     <string name="onboarding_title">i2pd ga xush kelibsiz</string>

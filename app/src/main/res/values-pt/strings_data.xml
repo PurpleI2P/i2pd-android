@@ -38,6 +38,9 @@
     <string name="files_save">Salvar no dispositivo</string>
     <string name="files_delete">Excluir</string>
     <string name="files_confirm_delete">Excluir %1$s?</string>
+    <string name="files_actions">Ações</string>
+    <string name="files_confirm_delete_folder">Excluir a pasta %1$s com todo o conteúdo?</string>
+    <string name="files_folder_hint">Toque e segure uma pasta para excluí-la</string>
     <string name="files_up">.. (acima)</string>
     <string name="files_empty">Pasta vazia</string>
     <string name="onboarding_title">Boas-vindas ao i2pd</string>
