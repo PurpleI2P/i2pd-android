@@ -123,6 +123,8 @@
     <string name="torrents_eta">zbývá %1$s</string>
     <string name="torrents_ratio">poměr %1$.2f</string>
     <string name="torrents_reannounce">Znovu ohlásit</string>
+    <string name="torrents_start_all">Spustit vše</string>
+    <string name="torrents_stop_all">Zastavit vše</string>
     <string name="torrents_remove_confirm">Odstranit %1$s?</string>
     <string name="torrents_remove_data">Smazat i stažené soubory</string>
     <string name="torrents_stats">Torrenty: %1$d, aktivní: %2$d · ↓ %3$s ↑ %4$s</string>

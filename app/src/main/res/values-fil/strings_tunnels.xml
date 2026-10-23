@@ -123,6 +123,8 @@
     <string name="torrents_eta">%1$s na lang</string>
     <string name="torrents_ratio">ratio %1$.2f</string>
     <string name="torrents_reannounce">I-announce muli</string>
+    <string name="torrents_start_all">Simulan lahat</string>
+    <string name="torrents_stop_all">Ihinto lahat</string>
     <string name="torrents_remove_confirm">Alisin ang %1$s?</string>
     <string name="torrents_remove_data">Burahin din ang mga na-download na file</string>
     <string name="torrents_stats">Mga torrent: %1$d, aktibo: %2$d · ↓ %3$s ↑ %4$s</string>

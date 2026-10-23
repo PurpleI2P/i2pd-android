@@ -92,6 +92,12 @@ class TorrentsRpc(private val post: suspend (String) -> String) {
 
     suspend fun stop(ids: List<Int>) = call("torrent-stop", ids(ids)).let { }
 
+    /** Starts every torrent of the tunnel: i2pd takes a request without "ids" as all of them. */
+    suspend fun startAll() = call("torrent-start").let { }
+
+    /** Stops every torrent of the tunnel. */
+    suspend fun stopAll() = call("torrent-stop").let { }
+
     suspend fun reannounce(ids: List<Int>) = call("torrent-reannounce", ids(ids)).let { }
 
     /** Removes torrents, with their downloaded files when [deleteData]. */
@@ -100,11 +106,14 @@ class TorrentsRpc(private val post: suspend (String) -> String) {
 
     suspend fun stats(): TorrentsStats {
         val arguments = call("session-stats")
+        // Transmission has the speeds at the top level, i2pd only in "current-stats"
+        val current = arguments.optJSONObject("current-stats")
+        fun speed(key: String) = if (arguments.has(key)) arguments.optLong(key) else current?.optLong(key) ?: 0
         return TorrentsStats(
             torrentCount = arguments.optInt("torrentCount"),
             activeCount = arguments.optInt("activeTorrentCount"),
-            downloadSpeed = arguments.optLong("downloadSpeed"),
-            uploadSpeed = arguments.optLong("uploadSpeed"),
+            downloadSpeed = speed("downloadSpeed"),
+            uploadSpeed = speed("uploadSpeed"),
         )
     }
 

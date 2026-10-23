@@ -129,6 +129,8 @@
     <string name="torrents_eta">%1$s left</string>
     <string name="torrents_ratio">ratio %1$.2f</string>
     <string name="torrents_reannounce">Reannounce</string>
+    <string name="torrents_start_all">Start all</string>
+    <string name="torrents_stop_all">Stop all</string>
     <string name="torrents_remove_confirm">Remove %1$s?</string>
     <string name="torrents_remove_data">Also delete downloaded files</string>
     <string name="torrents_stats">Torrents: %1$d, active: %2$d · ↓ %3$s ↑ %4$s</string>

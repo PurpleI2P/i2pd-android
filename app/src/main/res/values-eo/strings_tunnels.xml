@@ -123,6 +123,8 @@
     <string name="torrents_eta">restas %1$s</string>
     <string name="torrents_ratio">proporcio %1$.2f</string>
     <string name="torrents_reannounce">Reanonci</string>
+    <string name="torrents_start_all">Startigi ĉiujn</string>
+    <string name="torrents_stop_all">Haltigi ĉiujn</string>
     <string name="torrents_remove_confirm">Ĉu forigi %1$s?</string>
     <string name="torrents_remove_data">Forigi ankaŭ la elŝutitajn dosierojn</string>
     <string name="torrents_stats">Torentoj: %1$d, aktivaj: %2$d · ↓ %3$s ↑ %4$s</string>

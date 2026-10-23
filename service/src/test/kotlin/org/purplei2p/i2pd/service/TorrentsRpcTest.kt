@@ -76,4 +76,42 @@ class TorrentsRpcTest {
         assertNull(TorrentsRpc.forTunnel(tunnel("rpcport" to "0")))
         assertTrue(TorrentsRpc.forTunnel(tunnel("rpcport" to "9091")) != null)
     }
+
+    @Test
+    fun `total speeds are read from current-stats of i2pd`() = runTest {
+        // As HandleSessionStats of TorrentsRPC.cpp answers: the speeds only inside the stats objects
+        val stats = """{"downloadedBytes":5000,"uploadedBytes":700,"downloadSpeed":3072,"uploadSpeed":512,
+            "sessionCount":1,"filesAdded":0,"secondsActive":0}"""
+        val server = FakeServer(
+            """{"result":"success","arguments":{"torrentCount":3,"pausedTorrentCount":1,"activeTorrentCount":2,
+               "current-stats":$stats,"cumulative-stats":$stats},"tag":1}""",
+        )
+        val s = TorrentsRpc(server.post).stats()
+        assertEquals("session-stats", server.requests.single().getString("method"))
+        assertEquals(3, s.torrentCount)
+        assertEquals(2, s.activeCount)
+        assertEquals(3072L, s.downloadSpeed)
+        assertEquals(512L, s.uploadSpeed)
+    }
+
+    @Test
+    fun `total speeds at the top level as in Transmission`() = runTest {
+        val server = FakeServer(
+            """{"result":"success","arguments":{"torrentCount":1,"activeTorrentCount":1,"downloadSpeed":100,"uploadSpeed":20,
+               "current-stats":{"downloadSpeed":0,"uploadSpeed":0}},"tag":1}""",
+        )
+        val s = TorrentsRpc(server.post).stats()
+        assertEquals(100L, s.downloadSpeed)
+        assertEquals(20L, s.uploadSpeed)
+    }
+
+    @Test
+    fun `start and stop all send no ids`() = runTest {
+        val server = FakeServer("""{"result":"success","arguments":{},"tag":1}""", """{"result":"success","arguments":{},"tag":2}""")
+        val rpc = TorrentsRpc(server.post)
+        rpc.startAll()
+        rpc.stopAll()
+        assertEquals(listOf("torrent-start", "torrent-stop"), server.requests.map { it.getString("method") })
+        assertTrue(server.requests.none { it.getJSONObject("arguments").has("ids") })
+    }
 }
