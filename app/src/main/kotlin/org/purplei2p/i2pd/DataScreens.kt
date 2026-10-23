@@ -69,13 +69,13 @@ fun categoryTitle(category: DataCategory): Int = when (category) {
 /** Outcome of a data operation, turned into text when shown. */
 private sealed interface OperationMessage {
     data class Text(val id: Int, val args: List<Any> = emptyList()) : OperationMessage
-    data class Failed(val error: String) : OperationMessage
+    data class Failed(val error: Throwable) : OperationMessage
 }
 
 @Composable
 private fun OperationMessage.text(): String = when (this) {
     is OperationMessage.Text -> stringResource(id, *args.toTypedArray())
-    is OperationMessage.Failed -> stringResource(R.string.data_failed, error)
+    is OperationMessage.Failed -> stringResource(R.string.data_failed, errorText(error))
 }
 
 private fun done(id: Int = R.string.data_done, vararg args: Any) = OperationMessage.Text(id, args.toList())
@@ -95,7 +95,7 @@ private class DataOperation(private val context: Context, private val scope: Cor
             message = try {
                 RouterController.data(context).block()
             } catch (e: Exception) {
-                OperationMessage.Failed(e.message ?: e.toString())
+                OperationMessage.Failed(e)
             }
             running = false
             revision++

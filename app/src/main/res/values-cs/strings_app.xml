@@ -46,4 +46,11 @@
     <string name="settings_secure_screen">Blokovat snímky obrazovky</string>
     <string name="settings_secure_screen_summary">Adresy, klíče a protokoly nelze zachytit a aplikace je skrytá v nedávných aplikacích</string>
     <string name="settings_section_about">O aplikaci</string>
+    <string name="error_with_detail">%1$s (%2$s)</string>
+    <string name="error_no_space">Nedostatek volného místa</string>
+    <string name="error_no_access">Žádný přístup k souboru nebo složce</string>
+    <string name="error_not_found">Soubor nebo složka nenalezeny</string>
+    <string name="error_network">Nelze se připojit</string>
+    <string name="error_timeout">Bez odpovědi v čas</string>
+    <string name="error_refused">Router požadavek odmítl</string>
 </resources>

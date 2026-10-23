@@ -46,4 +46,11 @@
     <string name="settings_secure_screen">Ekran görüntüsünü engelle</string>
     <string name="settings_secure_screen_summary">Adresler, anahtarlar ve günlükler ekrandan alınamaz, uygulama son uygulamalarda gizlenir</string>
     <string name="settings_section_about">Hakkında</string>
+    <string name="error_with_detail">%1$s (%2$s)</string>
+    <string name="error_no_space">Yeterli boş alan yok</string>
+    <string name="error_no_access">Dosyaya veya klasöre erişim yok</string>
+    <string name="error_not_found">Dosya veya klasör bulunamadı</string>
+    <string name="error_network">Bağlanılamadı</string>
+    <string name="error_timeout">Zamanında yanıt yok</string>
+    <string name="error_refused">Yönlendirici isteği reddetti</string>
 </resources>

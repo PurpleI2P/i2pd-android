@@ -46,4 +46,11 @@
     <string name="settings_secure_screen">Bloquear capturas de pantalla</string>
     <string name="settings_secure_screen_summary">No se pueden capturar direcciones, claves ni registros, y la app se oculta en las aplicaciones recientes</string>
     <string name="settings_section_about">Acerca de</string>
+    <string name="error_with_detail">%1$s (%2$s)</string>
+    <string name="error_no_space">No hay suficiente espacio libre</string>
+    <string name="error_no_access">Sin acceso al archivo o carpeta</string>
+    <string name="error_not_found">Archivo o carpeta no encontrados</string>
+    <string name="error_network">No se pudo conectar</string>
+    <string name="error_timeout">Sin respuesta a tiempo</string>
+    <string name="error_refused">El router rechazó la solicitud</string>
 </resources>

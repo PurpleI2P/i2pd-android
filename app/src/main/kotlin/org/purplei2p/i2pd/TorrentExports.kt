@@ -26,7 +26,7 @@ import java.io.IOException
  */
 object TorrentExports {
 
-    data class Progress(val copied: Long, val total: Long, val error: String? = null, val done: Boolean = false)
+    data class Progress(val copied: Long, val total: Long, val error: Throwable? = null, val done: Boolean = false)
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private val jobs = mutableMapOf<String, Job>()
@@ -84,7 +84,7 @@ object TorrentExports {
                 throw e
             } catch (e: Exception) {
                 current?.delete()
-                _state.update { it + (key to Progress(copied, total, error = e.message ?: e.toString())) }
+                _state.update { it + (key to Progress(copied, total, error = e)) }
             }
         }
     }

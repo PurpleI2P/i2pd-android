@@ -46,4 +46,11 @@
     <string name="settings_secure_screen">Blochează capturile de ecran</string>
     <string name="settings_secure_screen_summary">Adresele, cheile și jurnalul nu pot fi capturate, iar aplicația este ascunsă în aplicațiile recente</string>
     <string name="settings_section_about">Despre</string>
+    <string name="error_with_detail">%1$s (%2$s)</string>
+    <string name="error_no_space">Spațiu liber insuficient</string>
+    <string name="error_no_access">Fără acces la fișier sau dosar</string>
+    <string name="error_not_found">Fișierul sau dosarul nu a fost găsit</string>
+    <string name="error_network">Conectarea a eșuat</string>
+    <string name="error_timeout">Niciun răspuns la timp</string>
+    <string name="error_refused">Routerul a refuzat cererea</string>
 </resources>

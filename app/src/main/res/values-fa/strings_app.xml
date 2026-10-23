@@ -46,4 +46,11 @@
     <string name="settings_secure_screen">جلوگیری از عکس صفحه</string>
     <string name="settings_secure_screen_summary">از نشانی‌ها، کلیدها و گزارش‌ها نمی‌توان عکس گرفت و برنامه در برنامه‌های اخیر پنهان است</string>
     <string name="settings_section_about">درباره</string>
+    <string name="error_with_detail">%1$s (%2$s)</string>
+    <string name="error_no_space">فضای خالی کافی نیست</string>
+    <string name="error_no_access">دسترسی به فایل یا پوشه وجود ندارد</string>
+    <string name="error_not_found">فایل یا پوشه پیدا نشد</string>
+    <string name="error_network">اتصال برقرار نشد</string>
+    <string name="error_timeout">پاسخی به‌موقع دریافت نشد</string>
+    <string name="error_refused">روتر درخواست را رد کرد</string>
 </resources>

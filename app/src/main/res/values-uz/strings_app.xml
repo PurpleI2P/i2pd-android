@@ -46,4 +46,11 @@
     <string name="settings_secure_screen">Skrinshotlarni taqiqlash</string>
     <string name="settings_secure_screen_summary">Manzillar, kalitlar va jurnalni ekrandan olib bo‘lmaydi, ilova so‘nggi ilovalarda yashiriladi</string>
     <string name="settings_section_about">Ilova haqida</string>
+    <string name="error_with_detail">%1$s (%2$s)</string>
+    <string name="error_no_space">Bo\'sh joy yetarli emas</string>
+    <string name="error_no_access">Fayl yoki jildga kirish yo\'q</string>
+    <string name="error_not_found">Fayl yoki jild topilmadi</string>
+    <string name="error_network">Ulanib bo\'lmadi</string>
+    <string name="error_timeout">O\'z vaqtida javob yo\'q</string>
+    <string name="error_refused">Router so\'rovni rad etdi</string>
 </resources>
