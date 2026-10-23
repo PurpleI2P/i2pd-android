@@ -160,6 +160,22 @@ fun TorrentsScreen(tunnel: TunnelInfo, onBack: () -> Unit) {
         LazyColumn(Modifier.fillMaxWidth().weight(1f), contentPadding = androidx.compose.foundation.layout.PaddingValues(16.dp)) {
             item {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    // All downloads of the tunnel at once; each button only when it changes something
+                    val all = torrents.orEmpty()
+                    if (running && all.isNotEmpty()) {
+                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            Button(
+                                enabled = all.any { it.status == TorrentStatus.STOPPED },
+                                onClick = { action { it.startAll() } },
+                                modifier = Modifier.weight(1f),
+                            ) { Text(stringResource(R.string.torrents_start_all)) }
+                            OutlinedButton(
+                                enabled = all.any { it.status != TorrentStatus.STOPPED },
+                                onClick = { action { it.stopAll() } },
+                                modifier = Modifier.weight(1f),
+                            ) { Text(stringResource(R.string.torrents_stop_all)) }
+                        }
+                    }
                     OutlinedTextField(
                         value = magnet,
                         onValueChange = { magnet = it.trim() },

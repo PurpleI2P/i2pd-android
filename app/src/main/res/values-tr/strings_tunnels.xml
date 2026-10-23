@@ -123,6 +123,8 @@
     <string name="torrents_eta">kalan %1$s</string>
     <string name="torrents_ratio">oran %1$.2f</string>
     <string name="torrents_reannounce">Yeniden duyur</string>
+    <string name="torrents_start_all">Tümünü başlat</string>
+    <string name="torrents_stop_all">Tümünü durdur</string>
     <string name="torrents_remove_confirm">%1$s kaldırılsın mı?</string>
     <string name="torrents_remove_data">İndirilen dosyaları da sil</string>
     <string name="torrents_stats">Torrentler: %1$d, etkin: %2$d · ↓ %3$s ↑ %4$s</string>

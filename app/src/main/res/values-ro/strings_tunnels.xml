@@ -123,6 +123,8 @@
     <string name="torrents_eta">au rămas %1$s</string>
     <string name="torrents_ratio">raport %1$.2f</string>
     <string name="torrents_reannounce">Reanunță</string>
+    <string name="torrents_start_all">Pornește toate</string>
+    <string name="torrents_stop_all">Oprește toate</string>
     <string name="torrents_remove_confirm">Elimini %1$s?</string>
     <string name="torrents_remove_data">Șterge și fișierele descărcate</string>
     <string name="torrents_stats">Torrente: %1$d, active: %2$d · ↓ %3$s ↑ %4$s</string>

@@ -123,6 +123,8 @@
     <string name="torrents_eta">%1$s مانده</string>
     <string name="torrents_ratio">نسبت %1$.2f</string>
     <string name="torrents_reannounce">اعلام دوباره</string>
+    <string name="torrents_start_all">شروع همه</string>
+    <string name="torrents_stop_all">توقف همه</string>
     <string name="torrents_remove_confirm">%1$s حذف شود؟</string>
     <string name="torrents_remove_data">پرونده‌های بارگیری‌شده هم حذف شوند</string>
     <string name="torrents_stats">تورنت‌ها: %1$d، فعال: %2$d · ↓ %3$s ↑ %4$s</string>

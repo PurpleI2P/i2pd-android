@@ -123,6 +123,8 @@
     <string name="torrents_eta">剩余 %1$s</string>
     <string name="torrents_ratio">分享率 %1$.2f</string>
     <string name="torrents_reannounce">重新汇报</string>
+    <string name="torrents_start_all">全部开始</string>
+    <string name="torrents_stop_all">全部停止</string>
     <string name="torrents_remove_confirm">删除 %1$s？</string>
     <string name="torrents_remove_data">同时删除已下载的文件</string>
     <string name="torrents_stats">种子：%1$d，活动：%2$d · ↓ %3$s ↑ %4$s</string>

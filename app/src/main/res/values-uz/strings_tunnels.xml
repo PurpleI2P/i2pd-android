@@ -123,6 +123,8 @@
     <string name="torrents_eta">%1$s qoldi</string>
     <string name="torrents_ratio">nisbat %1$.2f</string>
     <string name="torrents_reannounce">Qayta eʼlon qilish</string>
+    <string name="torrents_start_all">Hammasini boshlash</string>
+    <string name="torrents_stop_all">Hammasini to\'xtatish</string>
     <string name="torrents_remove_confirm">%1$s o‘chirilsinmi?</string>
     <string name="torrents_remove_data">Yuklab olingan fayllarni ham o‘chirish</string>
     <string name="torrents_stats">Torrentlar: %1$d, faol: %2$d · ↓ %3$s ↑ %4$s</string>

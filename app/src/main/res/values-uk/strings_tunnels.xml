@@ -123,6 +123,8 @@
     <string name="torrents_eta">залишилось %1$s</string>
     <string name="torrents_ratio">рейтинг %1$.2f</string>
     <string name="torrents_reannounce">Переанонсувати</string>
+    <string name="torrents_start_all">Запустити всі</string>
+    <string name="torrents_stop_all">Зупинити всі</string>
     <string name="torrents_remove_confirm">Видалити %1$s?</string>
     <string name="torrents_remove_data">Видалити й завантажені файли</string>
     <string name="torrents_stats">Торентів: %1$d, активних: %2$d · ↓ %3$s ↑ %4$s</string>
