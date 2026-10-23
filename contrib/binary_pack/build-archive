@@ -6,7 +6,8 @@
 #
 # See full license text in LICENSE file at top of project tree
 
-GITDESC=$(git describe --tags)
+# Needs the tags: a shallow clone has none (CI checks out with fetch-depth 0)
+GITDESC=$(git describe --tags --always)
 
 declare -A ABILIST=(
   ["armeabi-v7a"]="armv7l"
@@ -20,9 +21,7 @@ if [ -d "archive" ]; then
   rm -r archive
 fi
 
-if [ -f "../i2pd_*_android_binary.zip" ]; then
-  rm i2pd_*_android_binary.zip
-fi
+rm -f i2pd_*_android_binary.zip
 
 # Prepare files for package
 mkdir archive
@@ -41,6 +40,8 @@ done
 cp i2pd archive/i2pd
 cp -rH ../../app/src/main/assets/certificates archive/
 cp -rH ../../app/src/main/assets/tunnels.d archive/
+# Web interface of torrents tunnels: <datadir>/torrents/web
+cp -rH ../../app/src/main/assets/torrents archive/
 cp -H ../../app/src/main/assets/i2pd.conf archive/
 cp -H ../../app/src/main/assets/tunnels.conf archive/
 
