@@ -1,1 +1,9 @@
-* Updated codebase to 3.0.0
+The app is rewritten from scratch, i2pd 3.0.0
+* New interface: status, speed graphs, logs, settings
+* Router settings editor with every i2pd option
+* Tunnel editor: all parameters, enable/disable, copy address
+* Torrents tunnels with a built-in client
+* Data: backup, import, migration from the old app, file browser
+* Start on boot, restart after a crash, Quick Settings tile
+* Smaller APK, reproducible builds
+* Requires Android 6.0 or newer
