@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.only
@@ -145,7 +147,9 @@ private fun TabContent(
     onTunnelsOpened: () -> Unit,
     padding: PaddingValues,
 ) {
-    Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.TopCenter) {
+    // Edge to edge the window does not shrink for the keyboard: the content does, so fields and the
+    // last rows of forms can be scrolled to while typing (the bottom bar is already in [padding])
+    Box(Modifier.fillMaxSize().padding(padding).consumeWindowInsets(padding).imePadding(), contentAlignment = Alignment.TopCenter) {
         val modifier = if (tab == Tab.LOGS) Modifier else Modifier.widthIn(max = CONTENT_MAX_WIDTH)
         when (tab) {
             Tab.STATUS -> StatusScreen(checks = checks, onOpenWebConsole = onOpenWebConsole, onOpenSettings = onOpenSettings, onOpenTunnels = onOpenTunnels, modifier = modifier)

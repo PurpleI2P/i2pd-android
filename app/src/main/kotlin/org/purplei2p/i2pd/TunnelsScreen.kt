@@ -434,8 +434,6 @@ private fun TunnelForm(
             // A new torrents tunnel downloads into the media folder of the app, on a memory card if there is one
             if (info == null && type == TunnelType.TORRENTS) {
                 put("torrentsdir", TorrentsStorage.defaultDir(context))
-                // Without a leading "/": i2pd prepends one itself, the RPC is then at /transmission/rpc
-                put("rpcpath", "transmission")
             }
         }
     }
