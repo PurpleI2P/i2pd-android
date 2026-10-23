@@ -7,10 +7,10 @@ ifeq ($(I2PD_DEPS_ROOT),)
 $(error I2PD_DEPS_ROOT is not set)
 endif
 
-IFADDRS_PATH  := $(I2PD_DEPS_ROOT)/android-ifaddrs
+IFADDRS_PATH  := $(I2PD_DEPS_ROOT)/ifaddrs
 BOOST_PATH    := $(I2PD_DEPS_ROOT)/deps/boost
-MINIUPNP_PATH := $(I2PD_DEPS_ROOT)/miniupnp
-OPENSSL_PATH  := $(I2PD_DEPS_ROOT)/openssl
+MINIUPNP_PATH := $(I2PD_DEPS_ROOT)/deps/miniupnpc
+OPENSSL_PATH  := $(I2PD_DEPS_ROOT)/deps/openssl
 I2PD_SRC_PATH := $(I2PD_DEPS_ROOT)/i2pd
 
 LIB_SRC_PATH        := $(I2PD_SRC_PATH)/libi2pd
@@ -21,11 +21,11 @@ DAEMON_SRC_PATH     := $(I2PD_SRC_PATH)/daemon
 ifeq ($(wildcard $(BOOST_PATH)/.version),)
 $(error Boost sources not found in $(BOOST_PATH). Run binary/jni/build.sh first)
 endif
+ifeq ($(wildcard $(MINIUPNP_PATH)/.version),)
+$(error miniupnpc sources not found in $(MINIUPNP_PATH). Run binary/jni/build.sh first)
+endif
 ifeq ($(wildcard $(OPENSSL_PATH)/out/$(TARGET_ARCH_ABI)/lib/libcrypto.a),)
 $(error OpenSSL for $(TARGET_ARCH_ABI) not found. Run binary/jni/build.sh first)
-endif
-ifeq ($(wildcard $(MINIUPNP_PATH)/miniupnpc/out/$(TARGET_ARCH_ABI)/lib/libminiupnpc.a),)
-$(error miniupnpc for $(TARGET_ARCH_ABI) not found. Run binary/jni/build.sh first)
 endif
 
 # Common sources and includes of i2pd, shared by the binary and the library
@@ -97,6 +97,13 @@ include $(PREBUILT_STATIC_LIBRARY)
 include $(CLEAR_VARS)
 LOCAL_PATH := $(DEPS_LOCAL_PATH)
 LOCAL_MODULE := miniupnpc
-LOCAL_SRC_FILES := $(MINIUPNP_PATH)/miniupnpc/out/$(TARGET_ARCH_ABI)/lib/libminiupnpc.a
-LOCAL_EXPORT_C_INCLUDES := $(MINIUPNP_PATH)/miniupnpc/out/$(TARGET_ARCH_ABI)/include
-include $(PREBUILT_STATIC_LIBRARY)
+# The library sources and definitions of its CMakeLists.txt (Linux-like, static)
+LOCAL_SRC_FILES := $(addprefix $(MINIUPNP_PATH)/src/, \
+	igd_desc_parse.c miniupnpc.c minixml.c minisoap.c minissdpc.c miniwget.c upnpcommands.c upnpdev.c \
+	upnpreplyparse.c upnperrors.c connecthostport.c portlistingparse.c receivedata.c addr_is_reserved.c)
+LOCAL_C_INCLUDES := $(MINIUPNP_PATH)/include $(MINIUPNP_PATH)/generated
+LOCAL_CFLAGS := -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE \
+	-D_XOPEN_SOURCE=600 -DMINIUPNP_STATICLIB
+LOCAL_EXPORT_C_INCLUDES := $(MINIUPNP_PATH)/export
+LOCAL_EXPORT_CFLAGS := -DMINIUPNP_STATICLIB
+include $(BUILD_STATIC_LIBRARY)

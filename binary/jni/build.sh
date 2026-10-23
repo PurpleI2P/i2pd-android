@@ -68,16 +68,12 @@ done
 
 # Building
 if [ -z "$_SKIP_LIBS" ]; then
-	echo "Building boost..."
-	"$DIR/build_boost.sh"
+	echo "Fetching dependencies..."
+	"$DIR/fetch_deps.sh"
 	[ $? -ne 0 ] && _failed
 
 	echo "Building openssl..."
 	"$DIR/build_openssl.sh"
-	[ $? -ne 0 ] && _failed
-
-	echo "Building miniupnpc..."
-	"$DIR/build_miniupnpc.sh"
 	[ $? -ne 0 ] && _failed
 fi
 

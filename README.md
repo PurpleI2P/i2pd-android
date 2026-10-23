@@ -55,7 +55,7 @@ cd i2pd-android
 
 ### Build native dependencies
 
-OpenSSL and miniupnpc are built from submodules, Boost sources are downloaded from boost.io (checksum is verified). Results are cached, so the script only rebuilds what changed:
+Release archives of Boost, OpenSSL and miniupnpc are downloaded into `binary/jni/deps` and checked against sha256 sums from `binary/jni/fetch_deps.sh` (for an offline build put the archives there beforehand). OpenSSL is built with its own `Configure`, Boost libraries and miniupnpc are compiled by ndk-build together with i2pd. Results are cached, so the script only rebuilds what changed:
 
 ```bash
 export ANDROID_HOME=/opt/android-sdk

@@ -1,13 +1,4 @@
-[submodule "android-ifaddrs"]
-	path = binary/jni/android-ifaddrs
-	url = https://github.com/PurpleI2P/android-ifaddrs.git
 [submodule "i2pd"]
 	path = binary/jni/i2pd
 	url = https://github.com/PurpleI2P/i2pd.git
 	branch = 3.0.0-1
-[submodule "miniupnp"]
-	path = binary/jni/miniupnp
-	url = https://github.com/miniupnp/miniupnp.git
-[submodule "openssl"]
-	path = binary/jni/openssl
-	url = https://github.com/openssl/openssl.git

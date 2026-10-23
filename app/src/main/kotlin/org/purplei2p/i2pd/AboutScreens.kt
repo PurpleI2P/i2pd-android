@@ -39,6 +39,8 @@ private val COMPONENTS = listOf(
     Component("OpenSSL", APACHE_2, "apache-2.0.txt"),
     Component("Boost", "Boost Software License 1.0", "boost.txt"),
     Component("MiniUPnPc", BSD_3, "miniupnpc.txt"),
+    // getifaddrs() of bionic for Android 6.0, binary/jni/ifaddrs
+    Component("Android bionic: getifaddrs", "BSD 2-Clause License, $APACHE_2", "ifaddrs.txt"),
     Component("Kotlin, kotlinx.coroutines", APACHE_2, "apache-2.0.txt"),
     Component("AndroidX, Jetpack Compose", APACHE_2, "apache-2.0.txt"),
 )

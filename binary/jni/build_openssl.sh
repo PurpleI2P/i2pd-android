@@ -43,9 +43,9 @@ function build_one {
 
 function checkPreRequisites {
 
-	if ! [ -d "openssl" ] || ! [ "$(ls -A openssl)" ]; then
-		echo -e "\033[31mFailed! Submodule 'openssl' not found!\033[0m"
-		echo -e "\033[31mTry to run: 'git submodule update --init'\033[0m"
+	if ! [ -f "deps/openssl/.version" ]; then
+		echo -e "\033[31mFailed! OpenSSL sources not found in deps/openssl!\033[0m"
+		echo -e "\033[31mTry to run: 'fetch_deps.sh'\033[0m"
 		exit 1
 	fi
 
@@ -88,7 +88,7 @@ function build {
 
 checkPreRequisites
 
-cd openssl
+cd deps/openssl
 
 if [[ "$HOST_OS" == *"_NT-"* ]]; then
   PATH=$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/windows-x86_64/bin:$PATH
