@@ -38,6 +38,9 @@
     <string name="files_save">Uložit do zařízení</string>
     <string name="files_delete">Smazat</string>
     <string name="files_confirm_delete">Smazat %1$s?</string>
+    <string name="files_actions">Akce</string>
+    <string name="files_confirm_delete_folder">Smazat složku %1$s se vším obsahem?</string>
+    <string name="files_folder_hint">Dlouhým stisknutím složky ji smažete</string>
     <string name="files_up">.. (nahoru)</string>
     <string name="files_empty">Prázdná složka</string>
     <string name="onboarding_title">Vítejte v i2pd</string>

@@ -38,6 +38,9 @@
     <string name="files_save">Enregistrer sur l\'appareil</string>
     <string name="files_delete">Supprimer</string>
     <string name="files_confirm_delete">Supprimer %1$s ?</string>
+    <string name="files_actions">Actions</string>
+    <string name="files_confirm_delete_folder">Supprimer le dossier %1$s avec tout son contenu ?</string>
+    <string name="files_folder_hint">Appui long sur un dossier pour le supprimer</string>
     <string name="files_up">.. (dossier parent)</string>
     <string name="files_empty">Dossier vide</string>
     <string name="onboarding_title">Bienvenue dans i2pd</string>

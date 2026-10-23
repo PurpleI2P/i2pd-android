@@ -38,6 +38,9 @@
     <string name="files_save">Cihaza kaydet</string>
     <string name="files_delete">Sil</string>
     <string name="files_confirm_delete">%1$s silinsin mi?</string>
+    <string name="files_actions">İşlemler</string>
+    <string name="files_confirm_delete_folder">%1$s klasörü tüm içeriğiyle silinsin mi?</string>
+    <string name="files_folder_hint">Silmek için bir klasöre uzun basın</string>
     <string name="files_up">.. (yukarı)</string>
     <string name="files_empty">Boş klasör</string>
     <string name="onboarding_title">i2pd\'ye hoş geldiniz</string>

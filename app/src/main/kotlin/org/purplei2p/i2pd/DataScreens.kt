@@ -8,6 +8,7 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -321,11 +322,24 @@ fun FilesScreen() {
                 )
             }
             if (entries.isEmpty()) Text(stringResource(R.string.files_empty), Modifier.padding(16.dp), color = MaterialTheme.colorScheme.onSurfaceVariant)
+            if (entries.any { it.isDirectory }) {
+                Text(
+                    stringResource(R.string.files_folder_hint),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                )
+            }
         }
         items(entries, key = { it.path }) { entry ->
             Column(
                 Modifier.fillMaxWidth()
-                    .clickable { if (entry.isDirectory) dir = entry.path else selected = entry }
+                    // Long press: the actions of a folder (delete); a file opens them with a tap too
+                    .combinedClickable(
+                        onLongClickLabel = stringResource(R.string.files_actions),
+                        onLongClick = { selected = entry },
+                        onClick = { if (entry.isDirectory) dir = entry.path else selected = entry },
+                    )
                     .padding(horizontal = 16.dp, vertical = 8.dp),
             ) {
                 Text(if (entry.isDirectory) "${entry.name}/" else entry.name, fontFamily = FontFamily.Monospace)
@@ -335,18 +349,26 @@ fun FilesScreen() {
     }
 
     selected?.let { entry ->
+        val deleteButton = @Composable {
+            TextButton(onClick = {
+                deleting = entry
+                selected = null
+            }) { Text(stringResource(R.string.files_delete)) }
+        }
+        val cancelButton = @Composable { TextButton(onClick = { selected = null }) { Text(stringResource(android.R.string.cancel)) } }
         AlertDialog(
             onDismissRequest = { selected = null },
-            title = { Text(entry.name, fontFamily = FontFamily.Monospace) },
+            title = { Text(if (entry.isDirectory) "${entry.name}/" else entry.name, fontFamily = FontFamily.Monospace) },
             text = { Text(RouterStateText.bytes(context, entry.size)) },
-            confirmButton = { TextButton(onClick = { save.launch(entry.name) }) { Text(stringResource(R.string.files_save)) } },
+            // A folder cannot be saved as one file
+            confirmButton = {
+                if (entry.isDirectory) deleteButton()
+                else TextButton(onClick = { save.launch(entry.name) }) { Text(stringResource(R.string.files_save)) }
+            },
             dismissButton = {
                 Row {
-                    TextButton(onClick = {
-                        deleting = entry
-                        selected = null
-                    }) { Text(stringResource(R.string.files_delete)) }
-                    TextButton(onClick = { selected = null }) { Text(stringResource(android.R.string.cancel)) }
+                    if (!entry.isDirectory) deleteButton()
+                    cancelButton()
                 }
             },
         )
@@ -356,7 +378,7 @@ fun FilesScreen() {
             onDismissRequest = { deleting = null },
             text = {
                 Column {
-                    Text(stringResource(R.string.files_confirm_delete, entry.path))
+                    Text(stringResource(if (entry.isDirectory) R.string.files_confirm_delete_folder else R.string.files_confirm_delete, entry.path))
                     Text(stringResource(R.string.data_router_restarts), style = MaterialTheme.typography.bodySmall)
                 }
             },

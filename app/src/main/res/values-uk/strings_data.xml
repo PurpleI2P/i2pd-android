@@ -38,6 +38,9 @@
     <string name="files_save">Зберегти на пристрій</string>
     <string name="files_delete">Видалити</string>
     <string name="files_confirm_delete">Видалити %1$s?</string>
+    <string name="files_actions">Дії</string>
+    <string name="files_confirm_delete_folder">Видалити теку %1$s з усім вмістом?</string>
+    <string name="files_folder_hint">Довге натискання на теку — видалити її</string>
     <string name="files_up">.. (вгору)</string>
     <string name="files_empty">Порожня тека</string>
     <string name="onboarding_title">Ласкаво просимо до i2pd</string>

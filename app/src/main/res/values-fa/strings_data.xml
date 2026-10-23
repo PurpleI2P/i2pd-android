@@ -38,6 +38,9 @@
     <string name="files_save">ذخیره در دستگاه</string>
     <string name="files_delete">حذف</string>
     <string name="files_confirm_delete">%1$s حذف شود؟</string>
+    <string name="files_actions">کارها</string>
+    <string name="files_confirm_delete_folder">پوشهٔ %1$s با همهٔ محتوایش حذف شود؟</string>
+    <string name="files_folder_hint">برای حذف پوشه، آن را لمس کرده و نگه دارید</string>
     <string name="files_up">.. (بالا)</string>
     <string name="files_empty">پوشهٔ خالی</string>
     <string name="onboarding_title">به i2pd خوش آمدید</string>

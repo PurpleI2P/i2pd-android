@@ -38,6 +38,9 @@
     <string name="files_save">Guardar en el dispositivo</string>
     <string name="files_delete">Eliminar</string>
     <string name="files_confirm_delete">¿Eliminar %1$s?</string>
+    <string name="files_actions">Acciones</string>
+    <string name="files_confirm_delete_folder">¿Eliminar la carpeta %1$s con todo su contenido?</string>
+    <string name="files_folder_hint">Mantén pulsada una carpeta para eliminarla</string>
     <string name="files_up">.. (subir)</string>
     <string name="files_empty">Carpeta vacía</string>
     <string name="onboarding_title">Te damos la bienvenida a i2pd</string>

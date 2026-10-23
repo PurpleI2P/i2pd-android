@@ -38,6 +38,9 @@
     <string name="files_save">डिवाइस पर सहेजें</string>
     <string name="files_delete">हटाएँ</string>
     <string name="files_confirm_delete">%1$s हटाएँ?</string>
+    <string name="files_actions">कार्रवाइयाँ</string>
+    <string name="files_confirm_delete_folder">फ़ोल्डर %1$s को उसकी सारी सामग्री सहित हटाएँ?</string>
+    <string name="files_folder_hint">फ़ोल्डर हटाने के लिए उसे देर तक दबाएँ</string>
     <string name="files_up">.. (ऊपर)</string>
     <string name="files_empty">खाली फ़ोल्डर</string>
     <string name="onboarding_title">i2pd में आपका स्वागत है</string>

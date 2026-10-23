@@ -38,6 +38,9 @@
     <string name="files_save">Zapisz na urządzeniu</string>
     <string name="files_delete">Usuń</string>
     <string name="files_confirm_delete">Usunąć %1$s?</string>
+    <string name="files_actions">Akcje</string>
+    <string name="files_confirm_delete_folder">Usunąć folder %1$s z całą zawartością?</string>
+    <string name="files_folder_hint">Przytrzymaj folder, aby go usunąć</string>
     <string name="files_up">.. (w górę)</string>
     <string name="files_empty">Pusty folder</string>
     <string name="onboarding_title">Witaj w i2pd</string>

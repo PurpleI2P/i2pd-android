@@ -38,6 +38,9 @@
     <string name="files_save">Salvează pe dispozitiv</string>
     <string name="files_delete">Șterge</string>
     <string name="files_confirm_delete">Ștergi %1$s?</string>
+    <string name="files_actions">Acțiuni</string>
+    <string name="files_confirm_delete_folder">Ștergi dosarul %1$s cu tot conținutul?</string>
+    <string name="files_folder_hint">Apasă lung pe un dosar pentru a-l șterge</string>
     <string name="files_up">.. (sus)</string>
     <string name="files_empty">Dosar gol</string>
     <string name="onboarding_title">Bun venit în i2pd</string>
