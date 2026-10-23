@@ -2,7 +2,7 @@ gen
 tests
 bin
 libs
-log*
+*.log
 obj
 .cxx
 .gradle
