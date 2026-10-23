@@ -25,18 +25,12 @@ jobs:
         echo "ANDROID_NDK_HOME=$ANDROID_HOME/ndk/$NDK_VERSION" >> $GITHUB_ENV
         echo "version=$NDK_VERSION" >> $GITHUB_OUTPUT
 
-    - name: Compute native dependencies cache key
-      id: deps-key
-      run: echo "key=${{ steps.ndk.outputs.version }}-$(git submodule status | sha256sum | cut -c1-16)" >> $GITHUB_OUTPUT
-
     - name: Cache native dependencies
       uses: actions/cache@v4
       with:
-        path: |
-          binary/jni/deps
-          binary/jni/openssl/out
-          binary/jni/miniupnp/miniupnpc/out
-        key: native-deps-${{ steps.deps-key.outputs.key }}-${{ hashFiles('binary/jni/build_*.sh') }}
+        # Archives, unpacked sources and OpenSSL builds; versions and checksums are in the scripts
+        path: binary/jni/deps
+        key: native-deps-${{ steps.ndk.outputs.version }}-${{ hashFiles('binary/jni/fetch_deps.sh', 'binary/jni/build_openssl.sh') }}
 
     - name: Build native dependencies
       run: binary/jni/build.sh
@@ -68,18 +62,12 @@ jobs:
         echo "ANDROID_NDK_HOME=$ANDROID_HOME/ndk/$NDK_VERSION" >> $GITHUB_ENV
         echo "version=$NDK_VERSION" >> $GITHUB_OUTPUT
 
-    - name: Compute native dependencies cache key
-      id: deps-key
-      run: echo "key=${{ steps.ndk.outputs.version }}-$(git submodule status | sha256sum | cut -c1-16)" >> $GITHUB_OUTPUT
-
     - name: Cache native dependencies
       uses: actions/cache@v4
       with:
-        path: |
-          binary/jni/deps
-          binary/jni/openssl/out
-          binary/jni/miniupnp/miniupnpc/out
-        key: native-deps-${{ steps.deps-key.outputs.key }}-${{ hashFiles('binary/jni/build_*.sh') }}
+        # Archives, unpacked sources and OpenSSL builds; versions and checksums are in the scripts
+        path: binary/jni/deps
+        key: native-deps-${{ steps.ndk.outputs.version }}-${{ hashFiles('binary/jni/fetch_deps.sh', 'binary/jni/build_openssl.sh') }}
 
     - name: Build binary with NDK
       run: binary/jni/build.sh -b
