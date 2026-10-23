@@ -81,9 +81,11 @@ fun TorrentsScreen(tunnel: TunnelInfo, onBack: () -> Unit) {
     var torrents by remember { mutableStateOf<List<TorrentItem>?>(null) }
     var stats by remember { mutableStateOf<TorrentsStats?>(null) }
     var dhtNodes by remember { mutableStateOf<Int?>(null) }
-    var unreachable by remember { mutableStateOf<String?>(null) }
+    var unreachable by remember { mutableStateOf<Throwable?>(null) }
     // Resource and its argument, turned into text when drawn (follows configuration changes)
     var message by remember { mutableStateOf<Pair<Int, String>?>(null) }
+    // The last failed action, shown instead of a message
+    var failure by remember { mutableStateOf<Throwable?>(null) }
     var magnet by rememberSaveable { mutableStateOf("") }
     var removing by remember { mutableStateOf<TorrentItem?>(null) }
     var exporting by remember { mutableStateOf<TorrentItem?>(null) }
@@ -97,7 +99,7 @@ fun TorrentsScreen(tunnel: TunnelInfo, onBack: () -> Unit) {
             dhtNodes = runCatching { client.dhtNodes() }.getOrNull()
             unreachable = null
         } catch (e: IOException) {
-            unreachable = e.message ?: e.toString()
+            unreachable = e
         }
     }
 
@@ -106,11 +108,13 @@ fun TorrentsScreen(tunnel: TunnelInfo, onBack: () -> Unit) {
         val client = rpc ?: return
         scope.launch {
             try {
+                failure = null
                 block(client)
             } catch (e: TorrentFileTooLarge) {
                 message = R.string.torrents_file_too_large to ""
             } catch (e: IOException) {
-                message = R.string.torrents_failed to (e.message ?: e.toString())
+                message = null
+                failure = e
             }
             refresh()
         }
@@ -199,9 +203,10 @@ fun TorrentsScreen(tunnel: TunnelInfo, onBack: () -> Unit) {
                         }
                     }
                     message?.let { (text, argument) -> Text(stringResource(text, argument), style = MaterialTheme.typography.bodyMedium) }
+                    failure?.let { Text(stringResource(R.string.torrents_failed, errorText(it)), color = MaterialTheme.colorScheme.error) }
                     when {
                         !running -> Text(stringResource(R.string.torrents_router_stopped), color = MaterialTheme.colorScheme.error)
-                        unreachable != null -> Text(stringResource(R.string.torrents_unreachable, unreachable!!), color = MaterialTheme.colorScheme.error)
+                        unreachable != null -> Text(stringResource(R.string.torrents_unreachable, errorText(unreachable!!)), color = MaterialTheme.colorScheme.error)
                     }
                 }
             }
@@ -340,7 +345,7 @@ private fun ExportProgress(export: TorrentExports.Progress, onCancel: () -> Unit
     val sizes = "${RouterStateText.bytes(context, export.copied)} / ${RouterStateText.bytes(context, export.total)}"
     when {
         export.error != null -> Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(stringResource(R.string.torrents_save_failed, export.error), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.error, modifier = Modifier.weight(1f))
+            Text(stringResource(R.string.torrents_save_failed, errorText(export.error)), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.error, modifier = Modifier.weight(1f))
             TextButton(onClick = onDismiss) { Text(stringResource(R.string.action_dismiss)) }
         }
         export.done -> Row(verticalAlignment = Alignment.CenterVertically) {

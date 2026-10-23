@@ -46,4 +46,11 @@
     <string name="settings_secure_screen">Blokuj zrzuty ekranu</string>
     <string name="settings_secure_screen_summary">Adresów, kluczy i logów nie da się przechwycić z ekranu, a aplikacja jest ukryta w ostatnich aplikacjach</string>
     <string name="settings_section_about">O aplikacji</string>
+    <string name="error_with_detail">%1$s (%2$s)</string>
+    <string name="error_no_space">Za mało wolnego miejsca</string>
+    <string name="error_no_access">Brak dostępu do pliku lub folderu</string>
+    <string name="error_not_found">Nie znaleziono pliku lub folderu</string>
+    <string name="error_network">Nie udało się połączyć</string>
+    <string name="error_timeout">Brak odpowiedzi na czas</string>
+    <string name="error_refused">Router odrzucił żądanie</string>
 </resources>

@@ -46,4 +46,11 @@
     <string name="settings_secure_screen">स्क्रीनशॉट रोकें</string>
     <string name="settings_secure_screen_summary">पते, कुंजियाँ और लॉग कैप्चर नहीं किए जा सकते, और ऐप हाल के ऐप्स में छिपा रहता है</string>
     <string name="settings_section_about">जानकारी</string>
+    <string name="error_with_detail">%1$s (%2$s)</string>
+    <string name="error_no_space">पर्याप्त खाली जगह नहीं है</string>
+    <string name="error_no_access">फ़ाइल या फ़ोल्डर तक पहुँच नहीं है</string>
+    <string name="error_not_found">फ़ाइल या फ़ोल्डर नहीं मिला</string>
+    <string name="error_network">कनेक्ट नहीं हो सका</string>
+    <string name="error_timeout">समय पर कोई जवाब नहीं</string>
+    <string name="error_refused">राउटर ने अनुरोध अस्वीकार किया</string>
 </resources>

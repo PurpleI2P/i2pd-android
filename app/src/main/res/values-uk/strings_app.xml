@@ -46,4 +46,11 @@
     <string name="settings_secure_screen">Заборонити знімки екрана</string>
     <string name="settings_secure_screen_summary">Адреси, ключі та журнал не можна зняти з екрана, у недавніх застосунках вміст приховано</string>
     <string name="settings_section_about">Про застосунок</string>
+    <string name="error_with_detail">%1$s (%2$s)</string>
+    <string name="error_no_space">Недостатньо вільного місця</string>
+    <string name="error_no_access">Немає доступу до файлу або теки</string>
+    <string name="error_not_found">Файл або теку не знайдено</string>
+    <string name="error_network">Не вдалося підключитися</string>
+    <string name="error_timeout">Немає відповіді вчасно</string>
+    <string name="error_refused">Роутер відхилив запит</string>
 </resources>

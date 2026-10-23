@@ -50,4 +50,11 @@
     <string name="settings_secure_screen">Block screenshots</string>
     <string name="settings_secure_screen_summary">Addresses, keys and logs cannot be captured, and the app is hidden in recent apps</string>
     <string name="settings_section_about">About</string>
+    <string name="error_with_detail">%1$s (%2$s)</string>
+    <string name="error_no_space">Not enough free space</string>
+    <string name="error_no_access">No access to the file or folder</string>
+    <string name="error_not_found">File or folder not found</string>
+    <string name="error_network">Could not connect</string>
+    <string name="error_timeout">No answer in time</string>
+    <string name="error_refused">The router refused the request</string>
 </resources>

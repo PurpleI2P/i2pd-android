@@ -46,4 +46,11 @@
     <string name="settings_secure_screen">Bloki ekrankopiojn</string>
     <string name="settings_secure_screen_summary">Adresoj, ŝlosiloj kaj protokoloj ne kapteblas, kaj la aplikaĵo estas kaŝita inter lastatempaj aplikaĵoj</string>
     <string name="settings_section_about">Pri</string>
+    <string name="error_with_detail">%1$s (%2$s)</string>
+    <string name="error_no_space">Ne sufiĉe da libera spaco</string>
+    <string name="error_no_access">Neniu aliro al la dosiero aŭ dosierujo</string>
+    <string name="error_not_found">Dosiero aŭ dosierujo ne trovita</string>
+    <string name="error_network">Ne eblis konektiĝi</string>
+    <string name="error_timeout">Neniu respondo ĝustatempe</string>
+    <string name="error_refused">La enkursigilo rifuzis la peton</string>
 </resources>

@@ -46,4 +46,11 @@
     <string name="settings_secure_screen">I-block ang mga screenshot</string>
     <string name="settings_secure_screen_summary">Hindi makukuhanan ang mga address, key at log, at nakatago ang app sa mga kamakailang app</string>
     <string name="settings_section_about">Tungkol dito</string>
+    <string name="error_with_detail">%1$s (%2$s)</string>
+    <string name="error_no_space">Kulang ang libreng espasyo</string>
+    <string name="error_no_access">Walang access sa file o folder</string>
+    <string name="error_not_found">Hindi nakita ang file o folder</string>
+    <string name="error_network">Hindi makakonekta</string>
+    <string name="error_timeout">Walang sagot sa takdang oras</string>
+    <string name="error_refused">Tinanggihan ng router ang request</string>
 </resources>

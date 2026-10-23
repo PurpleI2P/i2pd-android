@@ -50,4 +50,11 @@
     <string name="settings_secure_screen">Запретить скриншоты</string>
     <string name="settings_secure_screen_summary">Адреса, ключи и логи нельзя снять с экрана, в недавних приложениях содержимое скрыто</string>
     <string name="settings_section_about">О приложении</string>
+    <string name="error_with_detail">%1$s (%2$s)</string>
+    <string name="error_no_space">Недостаточно свободного места</string>
+    <string name="error_no_access">Нет доступа к файлу или папке</string>
+    <string name="error_not_found">Файл или папка не найдены</string>
+    <string name="error_network">Не удалось подключиться</string>
+    <string name="error_timeout">Нет ответа вовремя</string>
+    <string name="error_refused">Роутер отклонил запрос</string>
 </resources>

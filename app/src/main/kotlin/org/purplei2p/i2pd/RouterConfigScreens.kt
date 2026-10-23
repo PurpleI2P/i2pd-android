@@ -70,7 +70,7 @@ import org.purplei2p.i2pd.service.RouterController
 class ConfigSession(private val config: RouterConfig, private val scope: CoroutineScope) {
     var editor by mutableStateOf<ConfigEditor?>(null)
         private set
-    var error by mutableStateOf<String?>(null)
+    var error by mutableStateOf<Throwable?>(null)
         private set
 
     fun reload() = run { config.load() }
@@ -88,7 +88,7 @@ class ConfigSession(private val config: RouterConfig, private val scope: Corouti
                 editor = block()
                 error = null
             } catch (e: Exception) {
-                error = e.message ?: e.toString()
+                error = e
             }
         }
     }
@@ -111,7 +111,7 @@ private fun WithEditor(session: ConfigSession, content: @Composable (ConfigEdito
     val editor = session.editor
     when {
         editor != null -> content(editor)
-        session.error != null -> CenteredText(stringResource(R.string.config_load_failed, session.error!!))
+        session.error != null -> CenteredText(stringResource(R.string.config_load_failed, errorText(session.error!!)))
         else -> CenteredText(stringResource(R.string.config_loading))
     }
 }
@@ -444,13 +444,13 @@ fun RawConfigScreen() {
     val scope = rememberCoroutineScope()
     var text by rememberSaveable { mutableStateOf<String?>(null) }
     var issues by remember { mutableStateOf<List<ConfigIssue>>(emptyList()) }
-    var error by remember { mutableStateOf<String?>(null) }
+    var error by remember { mutableStateOf<Throwable?>(null) }
 
     suspend fun load() {
         try {
             text = config.loadText()
         } catch (e: Exception) {
-            error = e.message ?: e.toString()
+            error = e
         }
     }
     LaunchedEffect(Unit) {
@@ -461,7 +461,7 @@ fun RawConfigScreen() {
 
     val current = text
     if (current == null) {
-        CenteredText(error?.let { stringResource(R.string.config_load_failed, it) } ?: stringResource(R.string.config_loading))
+        CenteredText(error?.let { stringResource(R.string.config_load_failed, errorText(it)) } ?: stringResource(R.string.config_loading))
         return
     }
     Column(Modifier.fillMaxSize()) {
@@ -473,11 +473,20 @@ fun RawConfigScreen() {
                         val found = ConfigEditor(IniDocument.parse(current), config.schema()).validate()
                         if (found.isEmpty()) config.save(current) else issues = found
                     } catch (e: Exception) {
-                        error = e.message ?: e.toString()
+                        error = e
                     }
                 }
             }) { Text(stringResource(R.string.action_save)) }
             TextButton(onClick = { scope.launch { load() } }) { Text(stringResource(R.string.action_revert)) }
+        }
+        // A failed save: before, the error only showed while the file was not loaded yet
+        error?.let { failure ->
+            Text(
+                errorText(failure),
+                color = MaterialTheme.colorScheme.error,
+                modifier = Modifier.fillMaxWidth().clickable(onClickLabel = stringResource(R.string.action_dismiss)) { error = null }
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+            )
         }
         OutlinedTextField(
             value = current,
@@ -503,7 +512,7 @@ fun RawConfigScreen() {
                         try {
                             config.save(current)
                         } catch (e: Exception) {
-                            error = e.message ?: e.toString()
+                            error = e
                         }
                     }
                     issues = emptyList()

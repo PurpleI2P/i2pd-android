@@ -1,4 +1,3 @@
 [submodule "i2pd"]
 	path = binary/jni/i2pd
 	url = https://github.com/PurpleI2P/i2pd.git
-	branch = 3.0.0-1

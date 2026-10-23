@@ -46,4 +46,11 @@
     <string name="settings_secure_screen">禁止截屏</string>
     <string name="settings_secure_screen_summary">地址、密钥和日志无法被截取，应用在最近任务中隐藏内容</string>
     <string name="settings_section_about">关于</string>
+    <string name="error_with_detail">%1$s（%2$s）</string>
+    <string name="error_no_space">可用空间不足</string>
+    <string name="error_no_access">无法访问文件或文件夹</string>
+    <string name="error_not_found">未找到文件或文件夹</string>
+    <string name="error_network">无法连接</string>
+    <string name="error_timeout">未及时响应</string>
+    <string name="error_refused">路由器拒绝了请求</string>
 </resources>

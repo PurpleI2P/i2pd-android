@@ -46,4 +46,11 @@
     <string name="settings_secure_screen">Bloquer les captures d\'écran</string>
     <string name="settings_secure_screen_summary">Les adresses, clés et journaux ne peuvent pas être capturés, et l\'application est masquée dans les applications récentes</string>
     <string name="settings_section_about">À propos</string>
+    <string name="error_with_detail">%1$s (%2$s)</string>
+    <string name="error_no_space">Espace libre insuffisant</string>
+    <string name="error_no_access">Pas d\'accès au fichier ou au dossier</string>
+    <string name="error_not_found">Fichier ou dossier introuvable</string>
+    <string name="error_network">Connexion impossible</string>
+    <string name="error_timeout">Pas de réponse à temps</string>
+    <string name="error_refused">Le routeur a refusé la requête</string>
 </resources>
