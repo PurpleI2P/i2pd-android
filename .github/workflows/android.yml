@@ -1,6 +1,17 @@
 name: Android CI
 
-on: [push, pull_request]
+# Changes of documentation and store texts alone build nothing
+on:
+  push:
+    paths-ignore:
+      - 'docs/**'
+      - '**.md'
+      - 'fastlane/**'
+  pull_request:
+    paths-ignore:
+      - 'docs/**'
+      - '**.md'
+      - 'fastlane/**'
 
 # Builds and checks only, nothing is published from here
 permissions:
